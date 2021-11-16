@@ -3,10 +3,22 @@ import {deserialize, serialize} from "class-transformer";
 import {reject} from "lodash";
 import {ClassConstructor} from "class-transformer/types/interfaces";
 
+
+// export abstract class nearFunctionHolder<A,R> {
+//     contract: string;
+//     methodName: string;
+//     arg: A;
+//     clz: ClassConstructor<R>;
+//
+//     build(a: A) {
+//         this.arg = a
+//     }
+//     abstract call(): Promise<R|R[]>;
+// }
+
 export function wrapNearViewCall<A, R>(contractId: string, methodName: string, arg: A, clz: ClassConstructor<R>):
-    (arg: A) => Promise<R> {
-    return (arg) =>
-        Promise.resolve(() => {
+     Promise<R|R[]> {
+    return Promise.resolve(() => {
             let desArg;
             try {
                 desArg = serialize(arg)
