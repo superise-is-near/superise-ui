@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 
-function Card({ children }) {
+function Card(props) {
   return <div className="bg-white rounded-lg px-4 py-5">
-    {children}
+    {props.children}
     </div>
 }
 

@@ -2,18 +2,8 @@ import React, { useState } from 'react';
 import Card from '~/components/Card'
 import { toPrecision, toReadableNumber } from '~/utils/numbers';
 import { toRealSymbol } from '~/utils/token';
-
-
-export interface TokenMetadata {
-  id: string;
-  name: string;
-  symbol: string;
-  decimals: number;
-  icon: string;
-  ref?: number;
-  near?: number;
-  total?: number;
-}
+import { TokenBalancesView, TokenMetadata } from '~domain/near/ft/models';
+import { PrimaryButton } from '~components/button/Button';
 
 export function Token(props: TokenMetadata & { amount: string; totalAmount: string }) {
   const { symbol, icon, amount, totalAmount } = props;
@@ -40,10 +30,9 @@ export function Token(props: TokenMetadata & { amount: string; totalAmount: stri
 }
 
 function TokenList(props: {
-  // TODO: add type information
-  tokens: [],
-  balances: any,
-  hideEmpty?: boolean
+  tokens: TokenMetadata[];
+  balances: TokenBalancesView;
+  hideEmpty?: boolean;
 }) {
   const { tokens, balances, hideEmpty } = props;
   return(
@@ -63,12 +52,17 @@ function TokenList(props: {
           totalAmount={toReadableNumber(token.decimals, balance)}
         />
         })}
+      {tokens.length === 0 ? (
+        <div className="text-center text-gray-600 text-xs font-semibold pt-2 pb-2">
+          No tokens deposited
+        </div>
+      ) : null}
     </div>
   )
 }
 export function Balance(props: {
-  tokens: [],
-  balances: any,
+  tokens: TokenMetadata[];
+  balances:TokenBalancesView;
 }) {
   const { tokens, balances } = props;
   const [isOpen, setIsOpen] = useState(false);
@@ -79,16 +73,7 @@ export function Balance(props: {
       <TokenList hideEmpty={true} tokens={tokens} balances={balances} />
       {tokens.length > 0 ? (
         <div className="flex items-center justify-center pt-5">
-          <button
-            className={`flex flex-row w-full justify-center px-5 py-2 mt-6 text-white disabled:cursor-not-allowed mx-auto`}
-            style={{
-              background: 'linear-gradient(180deg, #00C6A2 0%, #008B72 100%)',
-                borderRadius: '5px',
-            }}
-            onClick={() => setIsOpen(true)}
-          >
-          Withdraw 
-          </button>
+          <PrimaryButton isFull>Withdraw</PrimaryButton>
         </div>
       ) : null}
     </Card>
