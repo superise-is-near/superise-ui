@@ -1,10 +1,12 @@
-// import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import TextLogo from './TextLogo';
+import { Near } from '~/components/icons/Near'
 // import { matchPath } from 'react-router';
 // import { Context } from '~components/wrapper';
 //
 //
-// import { Link, useLocation } from 'react-router-dom';
-// import { wallet } from '~services/near';
+import { Link, useLocation } from 'react-router-dom';
+import {REF_FARM_CONTRACT_ID, wallet} from "~services/near";
 // import { useHistory } from 'react-router';
 // import { FaExternalLinkAlt } from 'react-icons/fa';
 // import { HiMenu, HiOutlineExternalLink } from 'react-icons/hi';
@@ -431,31 +433,67 @@
 // //   );
 // // }
 // //
-// // function NavigationBar() {
-// //   return (
-// //     <>
-// //       <div className="nav-wrap md:hidden xs:hidden text-center relative">
-// //         <nav className="flex items-center justify-between px-9 pt-6 col-span-8">
-// //           <div className="relative -top-0.5">
-// //             <Logo />
-// //           </div>
-// //           <div className="flex items-center">
-// //             <Quiz />
-// //             <Anchor to="/deposit" pattern="/deposit/:id?" name="Deposit" />
-// //             <Anchor to="/" pattern="/" name="Swap" />
-// //             <PoolsMenu />
-// //             <Anchor to="/farms" pattern="/farms" name="Farms" />
-// //           </div>
-// //           <div className="flex items-center w-44 justify-end">
-// //             <AccountEntry />
-// //             <MoreMenu />
-// //           </div>
-// //         </nav>
-// //       </div>
-// //       <MobileNavBar />
-// //     </>
-// //   );
-// // }
-// // export default NavigationBar;
+// function NavigationBar() {
+//   return (
+//     <>
+//       <div className="nav-wrap md:hidden xs:hidden text-center relative">
+//         <nav className="flex items-center justify-between px-9 pt-6 col-span-8">
+//           <div className="relative -top-0.5">
+//             <Logo />
+//           </div>
+//           <div className="flex items-center">
+//             <Quiz />
+//             <Anchor to="/deposit" pattern="/deposit/:id?" name="Deposit" />
+//             <Anchor to="/" pattern="/" name="Swap" />
+//             <PoolsMenu />
+//             <Anchor to="/farms" pattern="/farms" name="Farms" />
+//           </div>
+//           <div className="flex items-center w-44 justify-end">
+//             <AccountEntry />
+//             <MoreMenu />
+//           </div>
+//         </nav>
+//       </div>
+//       <MobileNavBar />
+//     </>
+//   );
+// }
+//
+
+function AccountEntry() {
+  const [account, network] = wallet.getAccountId().split('.');
+  const niceAccountId = `${account.slice(0, 10)}...${network || ''}`;
+
+  const accountName =
+    account.length > 10 ? niceAccountId : wallet.getAccountId();
+
+  return (
+    <div className="bg-gray-700 text-white py-1 px-5 rounded-full">
+      <div className="flex items-center text-xs cursor-pointer font-bold">
+        <div className="pr-2">
+          <Near />
+        </div>
+        {wallet.isSignedIn() ? (<Link to="/account">{accountName}</Link>) : <button onClick={() => wallet.requestSignIn(REF_FARM_CONTRACT_ID)}>
+          <span className="text-xs">Conect to NEAR</span>
+        </button>
+            </div>
+            </div>)
+      }
+
+
+function NavigationBar() {
+  return (
+      <nav className="flex items-center justify-between px-9  col-span-8" style={{ height: '100px' }}>
+        <Link to="/">
+          <TextLogo />
+        </Link>
+        <div className="justify-end">
+          <AccountEntry />
+        </div>
+      </nav>
+  )
+}
+
+export default NavigationBar;
 //
 // export default {}

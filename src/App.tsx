@@ -2,20 +2,21 @@ import React from 'react';
 import {REF_FARM_CONTRACT_ID, wallet} from "~services/near";
 import 'reflect-metadata';
 import 'es6-shim';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { AccountPage } from './pages/AccountPage';
 import {FT} from "~domain/superise/model/PrizeToken";
 import {serialize} from "class-transformer";
-import {viewMethodsOfSuperise} from "~domain/superise/methods";
+import {viewMethodsOfSuperise} from "~domain/superise/contract/contract";
+import NavigationBar from './components/layout/NavigationBar';
 
 function App() {
-    const [account, network] = wallet.getAccountId().split('.');
-    let log = () => console.log(wallet.getAccountId());
     return (
-        <div>
-            <button onClick={() => wallet.requestSignIn(REF_FARM_CONTRACT_ID)}>sign in</button>
-            <button onClick={() => wallet.signOut()}>sign out</button>
-            <button onClick={log}>log</button>
-            <p>{account}</p>
-        </div>
+        <Router>
+          <NavigationBar />
+          <Switch>
+            <Route path="/account" component={AccountPage} />
+          </Switch>
+        </Router>
     );
 }
 
