@@ -3996,6 +3996,11 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
+es6-shim@^0.35.6:
+  version "0.35.6"
+  resolved "https://registry.npm.taobao.org/es6-shim/download/es6-shim-0.35.6.tgz?cache=0&sync_timestamp=1602746028085&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fes6-shim%2Fdownload%2Fes6-shim-0.35.6.tgz#d10578301a83af2de58b9eadb7c2c9945f7388a0"
+  integrity sha1-0QV4MBqDry3li56tt8LJlF9ziKA=
+
 escalade@^3.1.1:
   version "3.1.1"
   resolved "https://registry.npm.taobao.org/escalade/download/escalade-3.1.1.tgz#d8cfdc7000965c5a0174b4a82eaa5c0552742e40"
@@ -7932,6 +7937,11 @@ reduce-css-calc@^2.1.8:
   dependencies:
     css-unit-converter "^1.1.1"
     postcss-value-parser "^3.3.0"
+
+reflect-metadata@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.npm.taobao.org/reflect-metadata/download/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
+  integrity sha1-Z648pXyXKiqhZCsQ/jY/4y1J3Ag=
 
 regenerate-unicode-properties@^9.0.0:
   version "9.0.0"

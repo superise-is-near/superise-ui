@@ -1,5 +1,4 @@
-import {PrizeToken} from "~domain/superise/model/PrizeToken";
-import {Prize} from "~domain/superise/model/Prize";
+import {FT, NFT, PrizeToken} from "~domain/superise/model/PrizeToken";
 import {wrapNearViewCall} from "~utils/near-function";
 import {ClassConstructor} from "class-transformer/types/interfaces";
 
@@ -20,13 +19,17 @@ const contractName = "123"
 //     }
 //
 // }
-namespace viewMethodsOfSuperise{
-    function view_prizes(): Promise<Prize[]> {
-        return wrapNearViewCall<void,Prize[]>(contractName,"view_prizes",this.arg,this.clz);
-    }
+export namespace viewMethodsOfSuperise{
+    // export function view_prizes(): Promise<Prize[]> {
+    //     return wrapNearViewCall<void,Prize>(contractName,"view_prizes",this.arg,this.clz,true) as Promise<Prize[]>;
+    // }
 }
-namespace changeMethodsOfSuperise {
-    function add_prize(prize: PrizeToken): Promise<void> {
+export namespace changeMethodsOfSuperise {
+    export function add_ft_prize(prize: FT): Promise<void> {
+        return null
+    }
+
+    function add_nft_prize(prize: NFT): Promise<void> {
         return null
     }
     function delete_prize(index: number): Promise<void> {
