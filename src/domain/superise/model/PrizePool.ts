@@ -3,6 +3,7 @@ import {Type} from "class-transformer";
 import {string} from "mathjs";
 
 class PrizePool {
+    id: number;
     owner_id: string;
     name: string;
     describe: string;
@@ -17,5 +18,5 @@ class PrizePool {
     publish: boolean;
     begin_time: number;
     end_time: number;
-    is_end: boolean;
+    winner_list: Map<string,number>;
 }

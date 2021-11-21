@@ -2,6 +2,8 @@ import {wallet} from "~services/near";
 import {deserialize, deserializeArray, serialize} from "class-transformer";
 import {reject} from "lodash";
 import {ClassConstructor} from "class-transformer/types/interfaces";
+import BN from "bn.js";
+import {utils} from "near-api-js";
 
 
 // export abstract class nearFunctionHolder<A,R> {
@@ -43,3 +45,8 @@ export function wrapNearViewCall<A, R>(contractId: string, methodName: string, a
         }
     });
 }
+
+export const getGas = (gas: string) =>
+    gas ? new BN(gas) : new BN('100000000000000');
+export const getAmount = (amount: string) =>
+    amount ? new BN(utils.format.parseNearAmount(amount)) : new BN('0');

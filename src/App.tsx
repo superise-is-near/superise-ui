@@ -4,7 +4,7 @@ import 'reflect-metadata';
 import 'es6-shim';
 import {FT} from "~domain/superise/model/PrizeToken";
 import {serialize} from "class-transformer";
-import {viewMethodsOfSuperise} from "~domain/superise/contract/contract";
+import {viewMethodsOfSuperise} from "~domain/superise/methods";
 
 function App() {
     const [account, network] = wallet.getAccountId().split('.');
