@@ -4,6 +4,7 @@ import 'reflect-metadata';
 import 'es6-shim';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { AccountPage } from './pages/AccountPage';
+import BoxPage from '~pages/box-page';
 import {FT} from "~domain/superise/model/PrizeToken";
 import {serialize} from "class-transformer";
 import {viewMethodsOfSuperise} from "~domain/superise/contract/contract";
@@ -15,6 +16,7 @@ function App() {
           <NavigationBar />
           <Switch>
             <Route path="/account" component={AccountPage} />
+            <Route path="/box/:id" component={BoxPage} />
           </Switch>
         </Router>
     );

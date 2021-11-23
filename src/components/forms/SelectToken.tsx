@@ -87,22 +87,10 @@ export default function SelectToken({
     setSortBy(params);
   };
 
-  const onSearch = (value: string) => {
-    const result = tokensData.filter(({ symbol }) =>
-      toRealSymbol(symbol)
-        .toLocaleUpperCase()
-        .includes(value.toLocaleUpperCase())
-    );
-    setListData(result);
-  };
-
   const handleClose = () => {
-    const sortedData = [...tokensData].sort(sortTypes[currentSort].fn);
-    setListData(sortedData);
     setVisible(false);
   };
 
-  console.log({ selected })
   return (
     <MicroModal
       open={visible}
