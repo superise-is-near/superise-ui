@@ -34,8 +34,7 @@ export function AccountPage() {
   return <CenterWrap>
     <Balance tokens={wallet.isSignedIn() ? fakedata.tokens : []} balances={fakedata.balances} />
     <div className="mt-8" />
-    <Card>
-      <h2 className="text-lg font-bold">Deposit</h2>
+    <Card title="Deposit">
         <TokenAmount
           amount={amount}
           max={max}

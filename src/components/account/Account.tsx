@@ -68,8 +68,7 @@ export function Balance(props: {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Card>
-      <h2 className="text-lg font-bold">Balance</h2>
+    <Card title="Balance">
       <TokenList hideEmpty={true} tokens={tokens} balances={balances} />
       {tokens.length > 0 ? (
         <div className="flex items-center justify-center pt-5">
