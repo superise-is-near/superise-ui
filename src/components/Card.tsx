@@ -4,7 +4,7 @@ function Card(props : {
   title?: String;
   children: any;
 }) {
-  return <div className="bg-white rounded-lg px-4 py-5">
+  return <div className="bg-white rounded-lg px-4 py-5" {...props}>
     {props.title && <h2 className="text-lg font-bold">{props.title}</h2>}
     {props.children}
     </div>

@@ -9,6 +9,31 @@ import {FT} from "~domain/superise/model/PrizeToken";
 import {serialize} from "class-transformer";
 import {viewMethodsOfSuperise} from "~domain/superise/contract/contract";
 import NavigationBar from './components/layout/NavigationBar';
+import Modal from 'react-modal';
+
+Modal.defaultStyles = {
+  overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(17, 24, 39, 0.8)',
+    backdropFilter: 'blur(4px)',
+    zIndex: 30,
+  },
+  content: {
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -65%)',
+  },
+};
+
+Modal.setAppElement('#root');
 
 function App() {
     return (

@@ -11,20 +11,23 @@ import TokenAmount from '~components/forms/TokenAmount';
 import { nearMetadata, TokenMetadata } from '~domain/near/ft/models';
 import PrizePoolGallary from '~components/prize/prize-pool-gallery'
 import CenterWrap from '~components/layout/center-wrap';
+import { toReadableNumber } from '~utils/numbers';
 
 export function AccountPage() {
   // TODO: replace fakedata with realdata
   const { id } = useParams< { id: string }>();
 
   const [amount, setAmount] = useState<string>('');
-  const max = '0.327717045710573699999993';
 
   const tokens = fakedata.whiteListTokens;
   const mypools = fakedata_pool.pools;
   const [selectedToken, setSelectedToken] = useState<TokenMetadata>(
     id && tokens ? tokens.find((tok) => tok.id === id) : nearMetadata
   );
-  const history = useHistory();
+  // max should get from the balance from when switching tokens, now just get
+  // it from the fakedata.tokenListData
+  const selectedTokenBlanceOnNear = fakedata.tokenListData.find((item) => item.id === selectedToken.id).near;
+  const max = `${selectedTokenBlanceOnNear}`
 
   const handleDeposit = () => {
     // TODO: call API with amount and selectedToken;
