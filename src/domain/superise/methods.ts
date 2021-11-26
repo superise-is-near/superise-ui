@@ -1,33 +1,14 @@
-import {FT, NFT, PrizeToken} from "~domain/superise/model/PrizeToken";
-import {getAmount, getGas, wrapNearViewCall} from "~utils/near";
-import {ClassConstructor} from "class-transformer/types/interfaces";
+import {getAmount, getGas} from "~utils/near";
 import {TokenMetadata} from "~domain/near/ft/models";
 import {ONE_YOCTO_NEAR, REF_FI_CONTRACT_ID, wallet} from "~services/near";
 import {toNonDivisibleNumber} from "~utils/numbers";
 import {FinalExecutionOutcome} from "near-api-js/lib/providers";
+import getConfig from "~domain/near/config";
+import {FunctionCallOptions} from "~domain/near/models";
+import {wrapNearViewCall} from "~domain/near/global";
+import {FtPrize, NftPrize, PrizePool, PrizePoolDisplay} from "~domain/superise/models";
 
-// let superiseViewMethodCaller = wrapNearViewCall()
-// todo 修改合约名
-const contractName = "123"
-
-// class superiseMethodCaller<A,R> extends nearFunctionHolder<A, R>{
-//
-//     constructor(methodName: string, clz: ClassConstructor<R>) {
-//         super();
-//         this.contract = contractName
-//         this.methodName = methodName
-//         this.clz = clz
-//     }
-//     call(): Promise<R|R[]> {
-//         return wrapNearViewCall<A,R>(this.contract,this.methodName,this.arg,this.clz);
-//     }
-//
-// }
-export namespace viewMethodsOfSuperise {
-    // export function view_prizes(): Promise<Prize[]> {
-    //     return wrapNearViewCall<void,Prize>(contractName,"view_prizes",this.arg,this.clz,true) as Promise<Prize[]>;
-    // }
-}
+let config = getConfig()
 
 interface DepositOptions {
     token: TokenMetadata;
@@ -35,46 +16,62 @@ interface DepositOptions {
     msg?: string;
 }
 
+
+export function deposit_ft({token, amount, msg = ''}: DepositOptions): Promise<FinalExecutionOutcome> {
+    return wallet.account().functionCall(
+        token.id,
+        'ft_transfer_call',
+        {
+            receiver_id: config.SUPERISE_CONTRACT_ID,
+            amount: toNonDivisibleNumber(token.decimals, amount),
+            msg
+        },
+        getGas('300000000000000'), getAmount(ONE_YOCTO_NEAR))
+}
+
 interface WithdrawOptions {
     token: TokenMetadata;
     amount: string;
-    unregister?: boolean;
+    // unregister?: boolean;
 }
 
-export namespace changeMethodsOfSuperise {
-
-    export function deposit_ft({token, amount, msg = ''}: DepositOptions): Promise<FinalExecutionOutcome> {
-        return wallet.account().functionCall(
-            token.id,
-            'ft_transfer_call',
-            {
-                receiver_id: REF_FI_CONTRACT_ID,
-                amount: toNonDivisibleNumber(token.decimals, amount),
-                msg
-            },
-            getGas(ONE_YOCTO_NEAR), getAmount('100000000000000'))
-    }
-
-    export function withdraw_ft({token, amount, unregister = false,}: WithdrawOptions) {
-        return wallet.account().functionCall(
-            REF_FI_CONTRACT_ID,
-            'withdraw_ft',
-            {
-                receiver_id: REF_FI_CONTRACT_ID,
-                amount: toNonDivisibleNumber(token.decimals, amount),
-            },
-            getGas(ONE_YOCTO_NEAR), getAmount('100000000000000'))
-    }
-
-    // export function add_ft_prize(prize: FT): Promise<void> {
-    //     return null
-    // }
-    //
-    // function add_nft_prize(prize: NFT): Promise<void> {
-    //     return null
-    // }
-    // function delete_prize(index: number): Promise<void> {
-    //     return null
-    // }
+export function withdraw_ft({token, amount}: WithdrawOptions) {
+    return wallet.account().functionCall(
+        config.SUPERISE_CONTRACT_ID,
+        'withdraw_ft',
+        {
+            receiver_id: REF_FI_CONTRACT_ID,
+            amount: toNonDivisibleNumber(token.decimals, amount),
+        },
+        getGas(ONE_YOCTO_NEAR), getAmount('100000000000000'))
 }
 
+type CreatePrizePoolParam =  {
+    id: number,
+    name: string,
+    describe: string,
+    cover: string,
+    begin_time: number,
+    end_time: number,
+    fts?: FtPrize[],
+    nfs?: NftPrize[]
+}
+export function create_prize_pool(param: CreatePrizePoolParam, option: FunctionCallOptions): Promise<FinalExecutionOutcome> {
+    return wallet.account().functionCall(config.SUPERISE_CONTRACT_ID,
+            'create_prize_pool',
+        param,getGas(option.gas),getAmount(option.amount))
+}
+
+export function view_prize_pool(id: number): Promise<PrizePool> {
+    return wrapNearViewCall<number,PrizePool>(
+        config.SUPERISE_CONTRACT_ID,
+        'view_prize_pool',id,PrizePool,false) as Promise<PrizePool>;
+}
+
+export function get_id(): Promise<number> {
+    return wallet.account().viewFunction(config.SUPERISE_CONTRACT_ID,'get_id');
+}
+
+export function view_prize_pool_list(): Promise<PrizePoolDisplay[]> {
+    return null;
+}

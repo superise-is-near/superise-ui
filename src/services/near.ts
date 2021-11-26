@@ -1,7 +1,7 @@
 import { Near, keyStores, utils } from 'near-api-js';
 import { functionCall } from 'near-api-js/lib/transaction';
 import BN from 'bn.js';
-import getConfig from './config';
+import getConfig from '../domain/near/config';
 import SpecialWallet from './SpecialWallet';
 
 const config = getConfig();

@@ -32,6 +32,7 @@ export default function getConfig(env: string = process.env.NEAR_ENV) {
         explorerUrl: 'https://explorer.testnet.near.org',
         indexerUrl: 'https://testnet-indexer.ref-finance.com',
         sodakiApiUrl: 'https://sodaki.com/api',
+        SUPERISE_CONTRACT_ID: process.env.SUPERISE_CONTRACT_ID || 'contract.superise.testnet',
         REF_FI_CONTRACT_ID:
           process.env.REF_FI_CONTRACT_ID || 'ref-finance-101.testnet',
         WRAP_NEAR_CONTRACT_ID:

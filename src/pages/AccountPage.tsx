@@ -1,10 +1,9 @@
 import React, { Fragment, useState } from 'react';
-import {wallet} from "~services/near";
 import Card from "~/components/Card"
 import { useHistory, useParams } from 'react-router-dom';
 import { Balance } from '~/components/account/Account';
-import fakedata from '~/fakedata/account';
-import fakedata_pool from '~/fakedata/pool';
+import fakedata from '~/fakedata/account.json';
+import fakedata_pool from '~/fakedata/pool.json';
 import {REF_FARM_CONTRACT_ID, wallet} from "~services/near";
 import { PrimaryButton } from '~/components/button/Button'
 import TokenAmount from '~components/forms/TokenAmount';
@@ -22,7 +21,7 @@ export function AccountPage() {
   const tokens = fakedata.whiteListTokens;
   const mypools = fakedata_pool.pools;
   const [selectedToken, setSelectedToken] = useState<TokenMetadata>(
-    id && tokens ? tokens.find((tok) => tok.id === id) : nearMetadata
+    id && tokens ? tokens.find((tok: any) => tok.id === id) : nearMetadata
   );
   const history = useHistory();
 
