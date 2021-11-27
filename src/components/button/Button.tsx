@@ -5,12 +5,17 @@ import {IconType, IconBase} from 'react-icons';
 export function PrimaryButton(
   props: HTMLAttributes<HTMLButtonElement> & {
     isFull?: boolean;
+    suffixIcon?: JSX.Element;
+    icon?: JSX.Element;
   }
 ) {
   const { isFull } = props;
-  let classes = "text-lg bg-gray-900 text-white px-5 py-2 rounded-full".split(" ");
+  let classes = "flex items-center justify-center text-lg bg-gray-900 text-white px-5 py-2 rounded-full".split(" ");
   if (isFull) classes.push("w-full");
-  return <button className={classes.join(" ")} {...props}>{props.children}</button>
+  return <button className={classes.join(" ")} {...props}>
+      <span className={`${props.icon && "ml-2"} ${props.suffixIcon && "mr-2"}`}>{props.children}</span>
+      {props.suffixIcon && props.suffixIcon}
+    </button>
 }
 
 export function TextButton(props: HTMLAttributes<HTMLButtonElement> & {
