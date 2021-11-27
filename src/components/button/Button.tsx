@@ -1,5 +1,6 @@
 import {REF_FARM_CONTRACT_ID, wallet} from "~services/near";
-import React, { HTMLAttributes, useState } from 'react';
+import React, { HTMLAttributes, Suspense, useState } from 'react';
+import {IconType, IconBase} from 'react-icons';
 
 export function PrimaryButton(
   props: HTMLAttributes<HTMLButtonElement> & {
@@ -12,3 +13,13 @@ export function PrimaryButton(
   return <button className={classes.join(" ")} {...props}>{props.children}</button>
 }
 
+export function TextButton(props: HTMLAttributes<HTMLButtonElement> & {
+  icon?: JSX.Element;
+}) {
+  return (
+    <button className="flex items-center">
+      {props.icon && props.icon}
+      <span className={`${props.icon && "ml-2"} text-gray-700`}>{props.children}</span>
+    </button>
+  )
+}

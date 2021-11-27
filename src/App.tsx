@@ -3,8 +3,9 @@ import {REF_FARM_CONTRACT_ID, wallet} from "~services/near";
 import 'reflect-metadata';
 import 'es6-shim';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { AccountPage } from './pages/AccountPage';
+import { AccountPage } from './pages/account';
 import BoxPage from '~pages/box-page';
+import CreateBoxPage from '~pages/create-box';
 import NavigationBar from './components/layout/NavigationBar';
 import Modal from 'react-modal';
 
@@ -38,6 +39,7 @@ function App() {
           <NavigationBar />
           <Switch>
             <Route path="/account" component={AccountPage} />
+            <Route path="/box/create" component={CreateBoxPage} />
             <Route path="/box/:id" component={BoxPage} />
           </Switch>
         </Router>
