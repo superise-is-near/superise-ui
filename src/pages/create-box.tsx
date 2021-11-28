@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '~components/Card';
 import CenterWrap from '~components/layout/center-wrap'
 import { Form, Field } from 'react-final-form';
 import { Flex } from '~components/layout/flex';
 import {PrimaryButton} from '~components/button/Button';
 import PrizeSelector from '~components/forms/PrizeSelector';
+import { nanoid } from 'nanoid';
 
 export default function CreateBox() {
-  const onSubmit = () => {
 
+  const onSubmit = (values) => {
+    console.log({ values }) 
   }
-
   return (
     <CenterWrap>
       <Card title="Create a box">
@@ -67,7 +68,7 @@ export default function CreateBox() {
                   Prize
                 </span>
                 <div className="mt-1">
-                <PrizeSelector /> 
+                  <Field name="prizes" component={PrizeSelector} />
                 </div>
               </label>
               <PrimaryButton>Create</PrimaryButton>

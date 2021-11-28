@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Modal from 'react-modal';
+import Modal from '~components/modal/modal';
 import Card from '~/components/Card'
 import { toPrecision, toReadableNumber } from '~/utils/numbers';
 import { toRealSymbol } from '~/utils/token';
@@ -24,10 +24,7 @@ export default function WithdrawModal(props: ReactModal.Props) {
     console.log({ selectedToken, amount });
   }
 
-  return (<Modal {...props}>
-    <div style={{ width: '25vw', minWidth: '24rem' }}>
-      <Card title="Withdraw Token">
-        <div className="mt-8">
+  return (<Modal {...props} title="Withdraw tokens">
           <TokenAmount
           amount={amount}
           max={max}
@@ -42,8 +39,5 @@ export default function WithdrawModal(props: ReactModal.Props) {
           <div className="mt-6">
             <PrimaryButton isFull onClick={handleWithdraw}>Withdraw</PrimaryButton>
           </div>
-        </div>
-      </Card>
-    </div>
     </Modal>)
 }
