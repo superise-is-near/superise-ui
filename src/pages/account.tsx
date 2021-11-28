@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import Card from "~/components/Card"
 import { useHistory, useParams } from 'react-router-dom';
-import { Balance } from '~/components/account/Account';
+import Assets from '~/components/account/assets';
 import fakedata from '~/fakedata/account.json';
 import fakedata_pool from '~/fakedata/pool.json';
 import {REF_FARM_CONTRACT_ID, wallet} from "~services/near";
@@ -34,7 +34,7 @@ export function AccountPage() {
   }
 
   return <CenterWrap>
-    <Balance tokens={wallet.isSignedIn() ? fakedata.tokens : []} balances={fakedata.balances} />
+    <Assets tokens={wallet.isSignedIn() ? fakedata.tokens : []} balances={fakedata.balances} />
     <div className="mt-8" />
     <Card title="Deposit">
         <TokenAmount
