@@ -42,8 +42,8 @@ export class NftPrize {
 }
 
 export class FtPrize {
-    contract: string;
-    sum: number
+    token_id: string;
+    amount: number
 }
 
 type TokenId = string

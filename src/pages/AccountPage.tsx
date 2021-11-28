@@ -25,7 +25,7 @@ export function AccountPage() {
   );
   // max should get from the balance from when switching tokens, now just get
   // it from the fakedata.tokenListData
-  const selectedTokenBlanceOnNear = fakedata.tokenListData.find((item) => item.id === selectedToken.id).near;
+  const selectedTokenBlanceOnNear = fakedata.tokenListData.find((item:any) => item.id === selectedToken.id).near;
   const max = `${selectedTokenBlanceOnNear}`
 
   const handleDeposit = () => {
