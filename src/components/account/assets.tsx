@@ -67,6 +67,8 @@ export default function Assets(props: {
   balances:TokenBalancesView;
 }) {
   const { tokens, balances } = props;
+  console.log("tokens",tokens);
+  console.log("balance", balances);
   const [isOpen, setIsOpen] = useState(false);
 
   return (

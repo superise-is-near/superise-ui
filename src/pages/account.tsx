@@ -11,6 +11,9 @@ import { nearMetadata, TokenMetadata } from '~domain/near/ft/models';
 import PrizePoolGallary from '~components/prize/prize-pool-gallery'
 import CenterWrap from '~components/layout/center-wrap';
 import { toReadableNumber } from '~utils/numbers';
+import {useTokenBalances, useUserRegisteredTokens} from "~state/token";
+
+
 
 export function AccountPage() {
   // TODO: replace fakedata with realdata
@@ -19,6 +22,7 @@ export function AccountPage() {
   const [amount, setAmount] = useState<string>('');
 
   const tokens = fakedata.whiteListTokens;
+  const balances = useTokenBalances();
   const mypools = fakedata_pool.pools;
   const [selectedToken, setSelectedToken] = useState<TokenMetadata>(
     id && tokens ? tokens.find((tok: any) => tok.id === id) : nearMetadata
@@ -28,25 +32,28 @@ export function AccountPage() {
   const selectedTokenBlanceOnNear = fakedata.tokenListData.find((item:any) => item.id === selectedToken.id).near;
   const max = `${selectedTokenBlanceOnNear}`
 
+  const userTokens = useUserRegisteredTokens();
+
+
   const handleDeposit = () => {
     // TODO: call API with amount and selectedToken;
     console.log({ amount, selectedToken });
   }
 
   return <CenterWrap>
-    <Assets tokens={wallet.isSignedIn() ? fakedata.tokens : []} balances={fakedata.balances} />
+    <Assets tokens={userTokens} balances={balances} />
     <div className="mt-8" />
     <Card title="Deposit">
         <TokenAmount
           amount={amount}
           max={max}
           total={max}
-          tokens={[nearMetadata, ...tokens]}
+          tokens={[nearMetadata, ...userTokens]}
           selectedToken={selectedToken}
           onSelectToken={setSelectedToken}
           onChangeAmount={setAmount}
           text={selectedToken.symbol}
-          balances={fakedata.balances}
+          balances={balances}
         />
       {wallet.isSignedIn() ? (
           <PrimaryButton isFull onClick={handleDeposit}>Deposit</PrimaryButton>
