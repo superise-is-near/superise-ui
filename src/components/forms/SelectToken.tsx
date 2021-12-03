@@ -11,7 +11,8 @@ import Table from '~components/table/Table';
 // import { useTokensData } from '~state/token';
 import { toRealSymbol } from '~utils/token';
 import { FaSearch } from 'react-icons/fa';
-import fakedata from '~fakedata/account'
+// import fakedata from '~fakedata/account'
+import {useTokensData} from "~state/token";
 
 function sort(a: any, b: any) {
   if (typeof a === 'string' && typeof b === 'string') {
@@ -42,9 +43,10 @@ export default function SelectToken({
   balances?: TokenBalancesView;
 }) {
   const [visible, setVisible] = useState(false);
-  const tokensData = fakedata.tokens;
+  const [listData, setListData] = useState<TokenMetadata[]>([]);
   const [currentSort, setSort] = useState<string>('down');
   const [sortBy, setSortBy] = useState<string>('near');
+
 
   if (!onSelect) {
     return (
@@ -58,7 +60,30 @@ export default function SelectToken({
   const dialogHidth = isMobile() ? '95%' : '57%';
   const intl = useIntl();
   // TODO: use useTokensData to fetch realtime data
-  const [listData, setListData] = useState<TokenMetadata[]>(fakedata.tokenListData);
+  // first time , tokens = [near]
+  // second time, tokens = [...]
+  const {
+    tokensData,
+    loading: loadingTokensData,
+    trigger,
+  } = useTokensData(tokens, balances);
+  useEffect(() => {
+    trigger();
+  }, [trigger]);
+
+  useEffect(() => {
+    if (!loadingTokensData) {
+      const sortedData = [...tokensData].sort(sortTypes[currentSort].fn);
+      setListData(sortedData);
+    }
+  }, [loadingTokensData, tokensData]);
+
+  useEffect(() => {
+    if (!!tokensData) {
+      const sortedData = [...tokensData].sort(sortTypes[currentSort].fn);
+      setListData(sortedData);
+    }
+  }, [currentSort, sortBy]);
 
   const sortTypes: { [key: string]: any } = {
     up: {
@@ -98,7 +123,9 @@ export default function SelectToken({
       trigger={() => (
         <div
           className={`focus:outline-none  ${standalone ? 'w-full' : 'w-2/5'}`}
-          onClick={() => setVisible(true)}
+          onClick={() => {
+            setVisible(true)
+          }}
         >
           {selected || (
             <section

@@ -5,6 +5,38 @@ import BN from "bn.js";
 import {ClassConstructor} from "class-transformer/types/interfaces";
 import {deserialize, deserializeArray, serialize} from "class-transformer";
 import {reject} from "lodash";
+import {functionCall} from "near-api-js/lib/transaction";
+import {RefFiFunctionCallOptions} from "~domain/ref/methods";
+
+export const ONE_YOCTO_NEAR = '0.000000000000000000000001';
+
+export interface Transaction {
+    receiverId: string;
+    functionCalls: RefFiFunctionCallOptions[];
+}
+export const executeMultipleTransactions = async (
+    transactions: Transaction[],
+    callbackUrl?: string
+) => {
+    const nearTransactions = await Promise.all(
+        transactions.map((t, i) => {
+            return wallet.createTransaction({
+                receiverId: t.receiverId,
+                nonceOffset: i + 1,
+                actions: t.functionCalls.map((fc) =>
+                    functionCall(
+                        fc.methodName,
+                        fc.args,
+                        getGas(fc.gas),
+                        getAmount(fc.amount)
+                    )
+                ),
+            });
+        })
+    );
+
+    return wallet.requestSignTransactions(nearTransactions, callbackUrl);
+};
 
 const config = getConfig();
 export const near = new Near({
@@ -27,7 +59,7 @@ export const getAmount = (amount: string) =>
  * @param clz 返回值反序列化的类型信息
  * @param isArray 返回值是否是数组
  */
-export function wrapNearViewCall<A, R>(contractId: string, methodName: string, arg: A, clz: ClassConstructor<R>, isArray: boolean):
+export function nearViewCall<A, R>(contractId: string, methodName: string, arg: A, clz: ClassConstructor<R>, isArray: boolean):
     Promise<R | R[]> {
     return Promise.resolve(() => {
         try {
@@ -55,7 +87,7 @@ export function wrapNearViewCall<A, R>(contractId: string, methodName: string, a
  * @param clz 返回值反序列化的类型信息
  * @param isArray 返回值是否是数组
  */
-export function wrapNearFunctionCall<A, R>(contractId: string, methodName: string, arg: A, clz: ClassConstructor<R>, isArray: boolean):
+export function nearFunctionCall<A, R>(contractId: string, methodName: string, arg: A, clz: ClassConstructor<R>, isArray: boolean):
     Promise<R | R[]> {
     return Promise.resolve(() => {
         try {

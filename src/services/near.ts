@@ -20,7 +20,6 @@ export const REF_TOKEN_ID = config.REF_TOKEN_ID;
 
 export const LP_STORAGE_AMOUNT = '0.00144';
 
-export const ONE_YOCTO_NEAR = '0.000000000000000000000001';
 
 export const near = new Near({
   keyStore: new keyStores.BrowserLocalStorageKeyStore(),
@@ -84,29 +83,6 @@ export interface Transaction {
   functionCalls: RefFiFunctionCallOptions[];
 }
 
-export const executeMultipleTransactions = async (
-  transactions: Transaction[],
-  callbackUrl?: string
-) => {
-  const nearTransactions = await Promise.all(
-    transactions.map((t, i) => {
-      return wallet.createTransaction({
-        receiverId: t.receiverId,
-        nonceOffset: i + 1,
-        actions: t.functionCalls.map((fc) =>
-          functionCall(
-            fc.methodName,
-            fc.args,
-            getGas(fc.gas),
-            getAmount(fc.amount)
-          )
-        ),
-      });
-    })
-  );
-
-  return wallet.requestSignTransactions(nearTransactions, callbackUrl);
-};
 
 export const refFarmFunctionCall = ({
   methodName,

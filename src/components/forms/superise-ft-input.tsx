@@ -29,7 +29,6 @@ export default function SuperiseFtInput(props : {
 
   const handleInputChange = (e) => {
     const { value } = e.target;
-    console.log({ value })
     props.onChange({...props.value, amount: value, token })
   }
 

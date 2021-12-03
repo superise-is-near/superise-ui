@@ -14,16 +14,13 @@ export interface RefFiFunctionCallOptions extends RefFiViewFunctionOptions {
 }
 export const refFiViewFunction = ({methodName, args}: RefFiViewFunctionOptions) => {
     return wallet.account()
-        .viewFunction(REF_FI_CONTRACT_ID, methodName, args)
-        .then((e)=>{
-            console.log(`refFiviewFuntion: call ${methodName} with ${args},result is ${e}`);
-            return e});
+        .viewFunction(REF_FI_CONTRACT_ID, methodName, args);
 };
 
 /**
  * 获取ref白名单token
  */
-export const getRefWhitelistedTokens = async (): Promise<string[]> => {
+export const getWhitelistedTokens = async (): Promise<string[]> => {
     return refFiViewFunction({ methodName: 'get_whitelisted_tokens' });
 };
 

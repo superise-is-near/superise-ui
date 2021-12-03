@@ -1,10 +1,33 @@
 import {TokenMetadata} from "~domain/near/ft/models";
 import {wallet} from "~domain/near/global";
 import {toReadableNumber} from "~utils/numbers";
+import {RefFiViewFunctionOptions} from "~domain/ref/methods";
 
+export const ftViewFunction = (
+    tokenId: string,
+    { methodName, args }: RefFiViewFunctionOptions
+) => {
+    return wallet.account().viewFunction(tokenId, methodName, args);
+};
+
+export interface FTStorageBalance {
+    total: string;
+    available: string;
+}
+export const ftGetStorageBalance = (
+    tokenId: string,
+    accountId = wallet.getAccountId()
+): Promise<FTStorageBalance | null> => {
+    return ftViewFunction(tokenId, {
+        methodName: 'storage_balance_of',
+        args: { account_id: accountId },
+    });
+};
 
 export const ftGetTokenMetadata = async (id: string): Promise<TokenMetadata> => {
-    return wallet.account().viewFunction(id, 'ft_metadata');
+    let metaData = wallet.account().viewFunction(id, 'ft_metadata');
+    console.log("ftGetTokenMetadata", metaData);
+    return metaData;
 }
 
 /**

@@ -39,6 +39,7 @@ function TokenList(props: {
   return(
     <div className="divide-y divide-gray-600">
       {tokens.map((token) => {
+        console.log("assets token:", token)
         const balance = balances[token.id] || '0';
         if (balance === '0' && hideEmpty) return null;
         const amount = toPrecision(
@@ -64,11 +65,11 @@ function TokenList(props: {
 
 export default function Assets(props: {
   tokens: TokenMetadata[];
-  balances:TokenBalancesView;
+  balances: TokenBalancesView;
 }) {
   const { tokens, balances } = props;
-  console.log("tokens",tokens);
-  console.log("balance", balances);
+  console.log("assets tokens",tokens);
+  console.log("assets balance", balances);
   const [isOpen, setIsOpen] = useState(false);
 
   return (

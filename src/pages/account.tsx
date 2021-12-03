@@ -11,7 +11,16 @@ import { nearMetadata, TokenMetadata } from '~domain/near/ft/models';
 import PrizePoolGallary from '~components/prize/prize-pool-gallery'
 import CenterWrap from '~components/layout/center-wrap';
 import { toReadableNumber } from '~utils/numbers';
-import {useTokenBalances, useUserRegisteredTokens} from "~state/token";
+import {
+  useDepositableBalance,
+  useFtAssets,
+  useTokenBalances,
+  useUserRegisteredTokens,
+  useWhitelistTokens
+} from "~state/token";
+import {nearViewCall} from "~domain/near/global";
+import {wrapNear} from "~domain/near/wrap-near";
+import {deposit_ft} from "~domain/superise/methods";
 
 
 
@@ -21,34 +30,39 @@ export function AccountPage() {
 
   const [amount, setAmount] = useState<string>('');
 
-  const tokens = fakedata.whiteListTokens;
   const balances = useTokenBalances();
+  const ftAssets = useFtAssets();
   const mypools = fakedata_pool.pools;
-  const [selectedToken, setSelectedToken] = useState<TokenMetadata>(
-    id && tokens ? tokens.find((tok: any) => tok.id === id) : nearMetadata
-  );
+
   // max should get from the balance from when switching tokens, now just get
   // it from the fakedata.tokenListData
-  const selectedTokenBlanceOnNear = fakedata.tokenListData.find((item:any) => item.id === selectedToken.id).near;
-  const max = `${selectedTokenBlanceOnNear}`
+  // const selectedTokenBlanceOnNear = fakedata.tokenListData.find((item:any) => item.id === selectedToken.id).near;
+  // const max = `${selectedTokenBlanceOnNear}`
 
   const userTokens = useUserRegisteredTokens();
-
+  const tokens = useWhitelistTokens();
+  const [selectedToken, setSelectedToken] = useState<TokenMetadata>(
+      id && tokens ? tokens.find((tok: any) => tok.id === id) : nearMetadata
+  );
+  const max = useDepositableBalance(selectedToken?.id, selectedToken?.decimals);
 
   const handleDeposit = () => {
     // TODO: call API with amount and selectedToken;
-    console.log({ amount, selectedToken });
+    if(selectedToken.id === nearMetadata.id) {
+      return wrapNear(amount);
+    }
+    deposit_ft({token: selectedToken,amount})
   }
 
   return <CenterWrap>
-    <Assets tokens={userTokens} balances={balances} />
+    <Assets tokens={tokens} balances={ftAssets} />
     <div className="mt-8" />
     <Card title="Deposit">
         <TokenAmount
           amount={amount}
           max={max}
           total={max}
-          tokens={[nearMetadata, ...userTokens]}
+          tokens={[nearMetadata, ...tokens]}
           selectedToken={selectedToken}
           onSelectToken={setSelectedToken}
           onChangeAmount={setAmount}
