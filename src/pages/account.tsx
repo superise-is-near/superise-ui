@@ -32,7 +32,7 @@ export function AccountPage() {
 
   const balances = useTokenBalances();
   const ftAssets = useFtAssets();
-  const mypools = fakedata_pool.pools;
+  const mypools = fakedata_pool.display_pools;
 
   // max should get from the balance from when switching tokens, now just get
   // it from the fakedata.tokenListData

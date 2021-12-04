@@ -1,12 +1,14 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import dayjs from 'dayjs';
 import { PrizePoolDisplay } from "~domain/superise/models";
 import { fancyTimeFormat } from '~utils/time';
 
 function PrizePoolItem(props: {
   pool: PrizePoolDisplay,
+  onClick?: (event: React.MouseEvent) => void;
 }) {
-  const { pool } = props;
+  const timerRef: { current: NodeJS.Timeout | null } = useRef();
+  const { pool, onClick } = props;
   const { end_time } = pool;
 
   let timeLabel = 'Opening in';
@@ -29,12 +31,15 @@ function PrizePoolItem(props: {
 
   useEffect(() => {
     calculateTime();
-    setInterval(calculateTime, 1000);
+    timerRef.current = setInterval(calculateTime, 1000);
+    return () => {
+      clearInterval(timerRef.current);
+    }
   }, [])
   
   const priceText = pool.ticket_price > 0 ? `${pool.ticket_price} NEAR` : 'FREE'
 
-  return <div className="transform duration-200 hover:scale-105 rounded border-gray-900 border bg-white p-8 cursor-pointer">
+  return <div className="transform duration-200 hover:scale-105 rounded border-transparent overflow-hidden border bg-white p-8 cursor-pointer" onClick={onClick}>
     <img src={pool.cover} className="w-4/12 m-auto"/>
     <div className="mt-8">
       <h2 className="text-base font-bold leading-6">{pool.name}</h2>
@@ -53,10 +58,10 @@ function PrizePoolItem(props: {
     </div>
 }
 
-function PrizePoolList(props: { pools: PrizePoolDisplay[] }) {
-  const { pools } = props;
+function PrizePoolList(props: { pools: PrizePoolDisplay[], onClickPool: (id: number) => void }) {
+  const { pools, onClickPool } = props;
   return <div className="grid grid-col-1 gap-8">
-    {pools.map(pool => <PrizePoolItem pool={pool} key={pool.id}/>)}
+    {pools.map(pool => <PrizePoolItem pool={pool} key={pool.id} onClick={() => onClickPool(pool.id)}/>)}
     </div>
 }
 
