@@ -2,6 +2,14 @@ import { TokenMetadata } from "~domain/near/ft/models";
 import { wallet } from "~domain/near/global";
 import { toReadableNumber } from "~utils/numbers";
 import { RefFiViewFunctionOptions } from "~domain/ref/methods";
+import {
+  BANANA_ID,
+  CHEDDAR_ID,
+  CUCUMBER_ID,
+  HAPI_ID,
+  icons as metadataDefaults,
+  NEAR_ICON
+} from "~domain/near/ft/metadata";
 
 export const ftViewFunction = (
   tokenId: string,
@@ -27,8 +35,20 @@ export const ftGetStorageBalance = (
 export const ftGetTokenMetadata = async (
   id: string
 ): Promise<TokenMetadata> => {
-  let metaData = await wallet.account().viewFunction(id, "ft_metadata");
-  return { id, ...metaData };
+  let metadata = await wallet.account().viewFunction(id, "ft_metadata");
+  if (
+      !metadata.icon ||
+      metadata.icon === NEAR_ICON ||
+      metadata.id === BANANA_ID ||
+      metadata.id === CHEDDAR_ID ||
+      metadata.id === CUCUMBER_ID ||
+      metadata.id === HAPI_ID
+  ) {
+    let transferId: string[] = id.split(".");
+    transferId[transferId.length-1] = "near"
+    metadata.icon = metadataDefaults[transferId.join(".")];
+  }
+  return { id, ...metadata };
 };
 
 /**
