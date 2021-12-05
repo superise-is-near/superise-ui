@@ -6,7 +6,7 @@ import {PrimaryButton} from '~components/button/Button';
 import Modal from '~components/modal/modal';
 import SuperiseFtInput from '~components/forms/superise-ft-input';
 import fakedata from '~/fakedata/account';
-import { nearMetadata, TokenMetadata } from '~domain/near/ft/models';
+import { nearMetadata, TokenBalancesView, TokenMetadata } from '~domain/near/ft/models';
 import { SuperiseFtInputValue } from './superise-ft-input'
 import Icon from '~components/tokens/Icon';
 import {nanoid} from 'nanoid';
@@ -27,11 +27,15 @@ export function InputValueDisplay({ value, onClick }: { value: SuperiseFtInputVa
 
 function PrizeSelector({
   input,
+  balances,
+  tokens,
 }: {
   input: {
     value?: (SuperiseFtInputValue)[];
     onChange?: Function;
-  }
+  };
+  balances: TokenBalancesView;
+  tokens: TokenMetadata[];
 }) {
 
   const EMPTY_INPUT_VALUE = { amount: '', token: nearMetadata };
@@ -71,7 +75,8 @@ function PrizeSelector({
         <label className="block">
           <div className="block mt-1">
             <SuperiseFtInput
-              balances={fakedata.balances}
+              tokens={tokens}
+              balances={balances}
               value={ftInputValue}
               onChange={(value) => {
                 setFtInputValue(value)

@@ -11,7 +11,7 @@ export class PrizePoolDisplay {
   publish: boolean;
   begin_time: number;
   end_time: number;
-  ticket_price: number;
+  ticket_price: { [tokenId: string]: string };
 }
 
 export class PrizePool {
@@ -31,7 +31,7 @@ export class PrizePool {
   begin_time: number;
   end_time: number;
 
-  ticket_price: number;
+  ticket_price: { [tokenId: string]: string };
 
   @Type(() => number)
   winner_list: Map<string, number>;

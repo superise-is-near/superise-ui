@@ -78,7 +78,7 @@ export function AccountPage() {
       )}
     </Card>
     <div className="mt-8" />
-    <Card title="My boxes">
+    <Card title="History">
       <PrizePoolGallary pools={mypools}/>
     </Card>
     <div className="mt-8">

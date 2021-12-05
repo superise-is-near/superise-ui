@@ -6,9 +6,14 @@ import { Flex } from '~components/layout/flex';
 import {PrimaryButton} from '~components/button/Button';
 import PrizeSelector from '~components/forms/PrizeSelector';
 import { nanoid } from 'nanoid';
+import SuperiseFtInput from '~components/forms/superise-ft-input';
+import {nearMetadata} from '~domain/near/ft/models';
+import {useFtAssets, useTokenBalances, useWhitelistTokens} from '~state/token';
 
 export default function CreateBox() {
-
+  const balances = useTokenBalances()
+  const tokens = useWhitelistTokens();
+  const ftAssets = useFtAssets();
   const onSubmit = (values) => {
     console.log({ values }) 
   }
@@ -42,9 +47,16 @@ export default function CreateBox() {
 
               <label className="block mt">
                 <span className="text-gray-700">
-                  Ticket price (in NEAR)
+                  Ticket price
                 </span>
-                <Field name="ticket_price" component="input" type="number" placeholder="" className="mt-1 block w-full rounded"/>
+                <Field name="ticket_price"> 
+                  {props => (
+                    <div className="mt-1">
+                      <SuperiseFtInput {...props.input} balances={balances} tokens={tokens} />
+                    </div>
+                  )}
+                </Field>
+                {/*<Field name="ticket_price" component="input" type="number" placeholder="" className="mt-1 block w-full rounded"/> */}
               </label>
 
               <label className="block mt">
@@ -68,10 +80,14 @@ export default function CreateBox() {
                   Prize
                 </span>
                 <div className="mt-1">
-                  <Field name="prizes" component={PrizeSelector} />
+                  <Field name="prizes">
+                    {props => <PrizeSelector {...props} balances={ftAssets} tokens={tokens}/>}
+                  </Field>
                 </div>
               </label>
-              <PrimaryButton>Create</PrimaryButton>
+              <PrimaryButton onClick={() => {
+                console.log({ values })
+              }}>Create</PrimaryButton>
             </div>
           )}
           /> 
