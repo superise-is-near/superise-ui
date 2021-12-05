@@ -12,13 +12,16 @@ import Icon from '~components/tokens/Icon';
 import {nanoid} from 'nanoid';
 
 
-function InputValueDisplay({ value, onClick }: { value: SuperiseFtInputValue; onClick: any;} ){
+export function InputValueDisplay({ value, onClick }: { value: SuperiseFtInputValue; onClick?: any;} ){
   const { token, amount } = value;
 
-  return (<div className="cursor-pointer border-2 rounded flex items-center justify-between p-1 pr-4 hover:border-gray-700 transition" onClick={onClick}>
-    <img src={token.icon} className="w-12" />
+  let className = "border-2 rounded flex items-center justify-between p-1 pr-4 transition";
+  if (onClick) className += ' cursor-pointer hover:border-gray-700'
+
+  return (<div className={className} onClick={onClick}>
+    <img src={token.icon} className="w-12 h-12" />
     <span className="text-gray-700 text-sm">{amount} {token.symbol}</span>
-    </div>) 
+    </div>)
 }
 
 
