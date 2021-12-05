@@ -54,6 +54,7 @@
     "bn.js": "^5.2.0",
     "borsh": "^0.6.0",
     "class-transformer": "^0.4.0",
+    "dayjs": "^1.10.7",
     "dexie": "^3.0.3",
     "es6-shim": "^0.35.6",
     "final-form": "4.20.4",
