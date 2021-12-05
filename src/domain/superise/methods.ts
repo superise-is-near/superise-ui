@@ -52,7 +52,7 @@ type CreatePrizePoolParam =  {
     name: string,
     describe: string,
     cover: string,
-    begin_time: number,
+    ticket_prize: number,
     end_time: number,
     fts?: FtPrize[],
     nfs?: NftPrize[]
@@ -80,4 +80,18 @@ export function view_prize_pool_list(): Promise<PrizePoolDisplay[]> {
 export function view_account_balance(id: string): Promise<TokenBalancesView> {
     return wallet.account()
         .viewFunction(config.SUPERISE_CONTRACT_ID, 'view_account_balance', {account_id: id});
+}
+
+export function join_pool(pool_id: number) {
+    return wallet.account()
+        .functionCall(config.SUPERISE_CONTRACT_ID,
+            'join_pool',
+            {pool_id})
+}
+
+export function unjoin_pool(pool_id: number) {
+    return wallet.account()
+        .functionCall(config.SUPERISE_CONTRACT_ID,
+            'unjoin_pool',
+            {pool_id})
 }
