@@ -9,8 +9,10 @@ export class PrizePoolDisplay {
   cover: string;
 
   publish: boolean;
-  begin_time: number;
-  end_time: number;
+  begin_time: string;
+  end_time: string;
+  // "begin_time": "2021-12-03T15:10:41.190Z",
+  // "end_time": "2021-12-05T15:10:41.190Z",
   ticket_price: { [tokenId: string]: string };
 }
 
@@ -28,8 +30,10 @@ export class PrizePool {
   @Type(() => string)
   join_accounts: string[];
   publish: boolean;
-  begin_time: number;
-  end_time: number;
+  begin_time: string;
+  end_time: string;
+  // "begin_time": "2021-12-03T15:10:41.190Z",
+  // "end_time": "2021-12-05T15:10:41.190Z",
 
   ticket_price: { [tokenId: string]: string };
 
