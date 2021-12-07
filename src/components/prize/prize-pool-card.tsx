@@ -3,30 +3,25 @@ import dayjs from 'dayjs';
 import { PrizePoolDisplay } from "~domain/superise/models";
 import { fancyTimeFormat } from '~utils/time';
 
-export default function PrizePoolCard(props: {
-  pool: PrizePoolDisplay,
-  onClick?: (event: React.MouseEvent) => void;
-}) {
+export const useEndtimer = (
+  end_time: string
+): { timeLabel: string; timeText: string, fontClass: string } => {
   const timerRef: { current: NodeJS.Timeout | null } = useRef();
-  const { pool, onClick } = props;
-  const { end_time } = pool;
-
-  let timeLabel = 'Opening in';
-  let fontClass = 'font-mono';
-  const [timeText, setTimeText] = useState<String>('');
+  const [timeLabel, setTimeLabel] = useState<string>('Opening in');
+  const [timeText, setTimeText] = useState<string>('');
+  const [fontClass, setFontClass] = useState<string>('');
 
   const calculateTime = () => {
     if (dayjs() <= dayjs(end_time)) {
       const difference = dayjs(end_time).diff(dayjs());
       setTimeText(fancyTimeFormat(difference/1000));
+      setTimeLabel('Opening in');
+      setFontClass('font-mono');
     } else {
       setTimeText(dayjs(end_time).format('MMM D, YYYY'))
+      setTimeLabel('Opened at')
+      setFontClass('');
     }
-  }
-
-  if (dayjs() >= dayjs(end_time)) {
-    timeLabel = 'Opened at';
-    fontClass = '';
   }
 
   useEffect(() => {
@@ -36,6 +31,18 @@ export default function PrizePoolCard(props: {
       clearInterval(timerRef.current);
     }
   }, [])
+
+  return {timeLabel, timeText, fontClass};
+};
+
+export default function PrizePoolCard(props: {
+  pool: PrizePoolDisplay,
+  onClick?: (event: React.MouseEvent) => void;
+}) {
+  const timerRef: { current: NodeJS.Timeout | null } = useRef();
+  const { pool, onClick } = props;
+  const { end_time } = pool;
+  const { timeLabel, timeText, fontClass } = useEndtimer(end_time);
   
   const priceText = pool.ticket_price > 0 ? `${pool.ticket_price} NEAR` : 'FREE'
 
