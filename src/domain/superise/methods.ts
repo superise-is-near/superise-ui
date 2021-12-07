@@ -6,8 +6,6 @@ import getConfig from "~domain/near/config";
 import {FunctionCallOptions} from "~domain/near/models";
 import {nearViewCall, ONE_YOCTO_NEAR, wallet} from "~domain/near/global";
 import {FtPrize, NftPrize, PrizePool, PrizePoolDisplay} from "~domain/superise/models";
-import {REF_FI_CONTRACT_ID} from "~domain/ref/constants";
-import {exp} from "mathjs";
 
 let config = getConfig()
 
@@ -47,17 +45,20 @@ export function withdraw_ft({token, amount}: WithdrawOptions) {
         getGas(ONE_YOCTO_NEAR), getAmount('100000000000000'))
 }
 
-type CreatePrizePoolParam =  {
-    id: number,
+export type CreatePrizePoolParam =  {
     name: string,
     describe: string,
     cover: string,
-    ticket_prize: number,
+    ticket_prize: string,
+    ticket_token_id: string,
     end_time: number,
     fts?: FtPrize[],
     nfs?: NftPrize[]
 }
-export function create_prize_pool(param: CreatePrizePoolParam, option: FunctionCallOptions): Promise<FinalExecutionOutcome> {
+const defaultGas: FunctionCallOptions = {
+    gas: '300000000000000', amount: ONE_YOCTO_NEAR
+}
+export function create_prize_pool(param: CreatePrizePoolParam, option: FunctionCallOptions=defaultGas): Promise<FinalExecutionOutcome> {
     return wallet.account().functionCall(config.SUPERISE_CONTRACT_ID,
             'create_prize_pool',
         param,getGas(option.gas),getAmount(option.amount))
@@ -67,10 +68,6 @@ export function view_prize_pool(id: number): Promise<PrizePool> {
     return nearViewCall<number,PrizePool>(
         config.SUPERISE_CONTRACT_ID,
         'view_prize_pool',id,PrizePool,false) as Promise<PrizePool>;
-}
-
-export function get_id(): Promise<number> {
-    return wallet.account().viewFunction(config.SUPERISE_CONTRACT_ID,'get_id');
 }
 
 export function view_prize_pool_list(): Promise<PrizePoolDisplay[]> {

@@ -5,7 +5,6 @@ import {TextButton} from '~components/button/Button';
 import {PrimaryButton} from '~components/button/Button';
 import Modal from '~components/modal/modal';
 import SuperiseFtInput from '~components/forms/superise-ft-input';
-import fakedata from '~/fakedata/account';
 import { nearMetadata, TokenBalancesView, TokenMetadata } from '~domain/near/ft/models';
 import { SuperiseFtInputValue } from './superise-ft-input'
 import Icon from '~components/tokens/Icon';

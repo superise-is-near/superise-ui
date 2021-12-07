@@ -16,20 +16,22 @@ export class PrizePoolDisplay {
 
 export class PrizePool {
   id: number;
-  owner_id: string;
+  creator_id: string;
   name: string;
   describe: string;
   cover: string;
   @Type(() => FtPrize)
-  ft_prizes: Map<number, FtPrize>;
+  ft_prizes: FtPrize[];
   @Type(() => NftPrize)
-  nft_prizes: Map<number, NftPrize>;
+  nft_prizes: NftPrize[];
 
   @Type(() => string)
   join_accounts: string[];
   publish: boolean;
-  begin_time: number;
   end_time: number;
+  @Type(() => string)
+  records: Record[]
+
 
   ticket_price: { [tokenId: string]: string };
 
@@ -44,23 +46,26 @@ export class NftPrize {
 
 export class FtPrize {
   token_id: string;
-  amount: number;
+  amount: string;
+  constructor(toke_id: string,amount: string) {
+    this.token_id = toke_id;
+    this.amount = amount;
+  }
 }
 
 type TokenId = string;
 type Balance = number;
 type PoolId = number;
+type AccountId = string;
 
 class Account {
   fts: Map<TokenId, Balance>;
   // nfts: UnorderedSet<PrizeToken::NFT>,
   pools: Set<PoolId>;
-  // poolId: 参加的场次  todo PoolId 多余,修改Record
-  history: Set<Record>;
 }
 
 export class Record {
-  id: PoolId;
-  end_time: Date;
-  ft_prize?: FtPrize;
+  time: number;
+  ft_prize: FtPrize;
+  receiver: AccountId
 }
