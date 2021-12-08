@@ -2,6 +2,10 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import dayjs from 'dayjs';
 import { PrizePoolDisplay } from "~domain/superise/models";
 import { fancyTimeFormat } from '~utils/time';
+import {getWhitelistedTokens} from "~domain/ref/methods";
+import {getAmount} from "~domain/near/global";
+import {toReadableNumber} from "~utils/numbers";
+import {convertAmountToNumber} from "~domain/near/ft/methods";
 
 export const useEndtimer = (
   end_time: string
@@ -42,9 +46,10 @@ export default function PrizePoolCard(props: {
   const timerRef: { current: NodeJS.Timeout | null } = useRef();
   const { pool, onClick } = props;
   const { end_time } = pool;
-  const { timeLabel, timeText, fontClass } = useEndtimer(end_time);
-  
-  const priceText = pool.ticket_price > 0 ? `${pool.ticket_price} NEAR` : 'FREE'
+  const { timeLabel, timeText, fontClass } = useEndtimer(String(end_time));
+
+  let priceNumber = convertAmountToNumber(pool.ticket_price);
+  const priceText = priceNumber > 0 ? `${priceNumber} ${pool.ticket_price.token_id}` : 'FREE'
 
   return <div className="transform duration-200 hover:scale-105 rounded border-transparent overflow-hidden border bg-white p-8 cursor-pointer" onClick={onClick}>
     <img src={pool.cover} className="w-4/12 m-auto"/>

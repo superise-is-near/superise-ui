@@ -3,15 +3,14 @@ import { Type } from "class-transformer";
 
 export class PrizePoolDisplay {
   id: number;
-  owner_id: string;
+  creator_id: string;
   name: string;
   describe: string;
   cover: string;
 
-  publish: boolean;
-  begin_time: number;
   end_time: number;
-  ticket_price: { [tokenId: string]: string };
+  ticket_price: FtPrize;
+  joiner_sum: number;
 }
 
 export class PrizePool {
@@ -29,11 +28,11 @@ export class PrizePool {
   join_accounts: string[];
   publish: boolean;
   end_time: number;
-  @Type(() => string)
+  @Type(() => Record)
   records: Record[]
 
 
-  ticket_price: { [tokenId: string]: string };
+  ticket_price: FtPrize;
 
   @Type(() => number)
   winner_list: Map<string, number>;

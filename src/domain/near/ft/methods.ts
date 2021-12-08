@@ -1,7 +1,7 @@
 import { TokenMetadata } from "~domain/near/ft/models";
 import { wallet } from "~domain/near/global";
 import { toReadableNumber } from "~utils/numbers";
-import { RefFiViewFunctionOptions } from "~domain/ref/methods";
+import {getWhitelistedTokens, RefFiViewFunctionOptions} from "~domain/ref/methods";
 import {
   BANANA_ID,
   CHEDDAR_ID,
@@ -10,6 +10,8 @@ import {
   icons as metadataDefaults,
   NEAR_ICON
 } from "~domain/near/ft/metadata";
+import {useWhitelistTokens} from "~state/token";
+import {FtPrize} from "~domain/superise/models";
 
 export const ftViewFunction = (
   tokenId: string,
@@ -99,3 +101,7 @@ export const getDepositableBalance = async (
     return "";
   }
 };
+
+export function  convertAmountToNumber(token: FtPrize): number {
+  return Number( toReadableNumber(24,token.amount))
+}

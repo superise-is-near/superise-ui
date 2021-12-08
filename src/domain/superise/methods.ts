@@ -71,7 +71,10 @@ export function view_prize_pool(id: number): Promise<PrizePool> {
 }
 
 export function view_prize_pool_list(): Promise<PrizePoolDisplay[]> {
-    return null;
+    return wallet.account()
+        .viewFunction(config.SUPERISE_CONTRACT_ID, 'view_prize_pool_list' )
+        .then(e=>{
+            console.log(e);return e});
 }
 
 export function view_account_balance(id: string): Promise<TokenBalancesView> {
