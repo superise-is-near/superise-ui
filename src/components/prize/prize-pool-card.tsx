@@ -8,7 +8,7 @@ import {toReadableNumber} from "~utils/numbers";
 import {convertAmountToNumber} from "~domain/near/ft/methods";
 
 export const useEndtimer = (
-  end_time: string
+  end_time: number
 ): { timeLabel: string; timeText: string, fontClass: string } => {
   const timerRef: { current: NodeJS.Timeout | null } = useRef();
   const [timeLabel, setTimeLabel] = useState<string>('Opening in');
@@ -46,7 +46,7 @@ export default function PrizePoolCard(props: {
   const timerRef: { current: NodeJS.Timeout | null } = useRef();
   const { pool, onClick } = props;
   const { end_time } = pool;
-  const { timeLabel, timeText, fontClass } = useEndtimer(String(end_time));
+  const { timeLabel, timeText, fontClass } = useEndtimer(end_time);
 
   let priceNumber = convertAmountToNumber(pool.ticket_price);
   const priceText = priceNumber > 0 ? `${priceNumber} ${pool.ticket_price.token_id}` : 'FREE'
