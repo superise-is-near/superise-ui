@@ -14,28 +14,24 @@ export class PrizePoolDisplay {
 }
 
 export class PrizePool {
-  id: number;
-  creator_id: string;
-  name: string;
-  describe: string;
-  cover: string;
+  id: number = 0;
+  creator_id: string='';
+  name: string='';
+  describe: string='';
+  cover: string='';
   @Type(() => FtPrize)
-  ft_prizes: FtPrize[];
+  ft_prizes: FtPrize[] =[];
   @Type(() => NftPrize)
-  nft_prizes: NftPrize[];
+  nft_prizes: NftPrize[] =[];
 
   @Type(() => string)
-  join_accounts: string[];
-  publish: boolean;
-  end_time: number;
+  join_accounts: string[] = [];
+  end_time: number=0;
   @Type(() => Record)
-  records: Record[]
+  records: Record[]=[];
+  ticket_price: string='1';
+  ticket_token_id: TokenId='';
 
-
-  ticket_price: FtPrize;
-
-  @Type(() => number)
-  winner_list: Map<string, number>;
 }
 
 export class NftPrize {

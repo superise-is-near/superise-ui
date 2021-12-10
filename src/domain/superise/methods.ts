@@ -65,16 +65,15 @@ export function create_prize_pool(param: CreatePrizePoolParam, option: FunctionC
 }
 
 export function view_prize_pool(id: number): Promise<PrizePool> {
-    return nearViewCall<number,PrizePool>(
-        config.SUPERISE_CONTRACT_ID,
-        'view_prize_pool',id,PrizePool,false) as Promise<PrizePool>;
+    // return nearViewCall<number,PrizePool>(
+    //     config.SUPERISE_CONTRACT_ID,
+    //     'view_prize_pool',id,PrizePool,false) as Promise<PrizePool>;
+    return wallet.account().viewFunction(config.SUPERISE_CONTRACT_ID, 'view_prize_pool',{pool_id: id})
 }
 
 export function view_prize_pool_list(): Promise<PrizePoolDisplay[]> {
     return wallet.account()
         .viewFunction(config.SUPERISE_CONTRACT_ID, 'view_prize_pool_list' )
-        .then(e=>{
-            console.log(e);return e});
 }
 
 export function view_account_balance(id: string): Promise<TokenBalancesView> {

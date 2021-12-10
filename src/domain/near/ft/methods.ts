@@ -102,6 +102,6 @@ export const getDepositableBalance = async (
   }
 };
 
-export function  convertAmountToNumber(token: FtPrize): number {
-  return Number( toReadableNumber(24,token.amount))
+export function  convertAmountToNumber(amount: string ): number {
+  return Number( toReadableNumber(24,amount))
 }

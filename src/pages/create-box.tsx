@@ -9,7 +9,7 @@ import {nanoid} from 'nanoid';
 import SuperiseFtInput from '~components/forms/superise-ft-input';
 import {nearMetadata} from '~domain/near/ft/models';
 import {useFtAssets, useTokenBalances, useWhitelistTokens} from '~state/token';
-import {create_prize_pool, CreatePrizePoolParam, } from "~domain/superise/methods";
+import {create_prize_pool, CreatePrizePoolParam,} from "~domain/superise/methods";
 import moment from "moment";
 import {FtPrize} from "~domain/superise/models";
 import getConfig from "~domain/near/config";
@@ -27,11 +27,14 @@ export default function CreateBox() {
             cover: values.cover_url,
             describe: values.description,
             end_time: moment(values.end_day + " " + values.end_hour).valueOf(),
-            fts: values.prizes.map(({amount, token} ) => new FtPrize(token.id===nearMetadata.id?config.WRAP_NEAR_CONTRACT_ID:token.id, toNonDivisibleNumber(24,amount))),
+            fts: values.prizes.map(({
+                                        amount,
+                                        token
+                                    }) => new FtPrize(token.id === nearMetadata.id ? config.WRAP_NEAR_CONTRACT_ID : token.id, toNonDivisibleNumber(24, amount))),
             name: values.name,
             nfs: [],
-            ticket_prize: toNonDivisibleNumber(24,values.ticket_price.amount),
-            ticket_token_id: values.ticket_price.token.id
+            ticket_prize: toNonDivisibleNumber(24, values.ticket_price.amount),
+            ticket_token_id: values.ticket_price.token.id === nearMetadata.id ? config.WRAP_NEAR_CONTRACT_ID : values.ticket_price.token.id
         }
         console.log({p});
         create_prize_pool(p).then(e=>console.log(e))
@@ -97,20 +100,20 @@ export default function CreateBox() {
                 <span className="text-gray-700">
                   Prize
                 </span>
-                <div className="mt-1">
-                  <Field name="prizes">
-                    {props => <PrizeSelector {...props} balances={ftAssets} tokens={tokens}/>}
-                  </Field>
-                </div>
-              </label>
-              <PrimaryButton onClick={() => {
-                // console.log({ values })
-                  onSubmit(values)
-              }}>Create</PrimaryButton>
-            </div>
-          )}
-          /> 
-      </Card>
-    </CenterWrap>
-  )
+                                <div className="mt-1">
+                                    <Field name="prizes">
+                                        {props => <PrizeSelector {...props} balances={ftAssets} tokens={tokens}/>}
+                                    </Field>
+                                </div>
+                            </label>
+                            <PrimaryButton onClick={() => {
+                                // console.log({ values })
+                                onSubmit(values)
+                            }}>Create</PrimaryButton>
+                        </div>
+                    )}
+                />
+            </Card>
+        </CenterWrap>
+    )
 }

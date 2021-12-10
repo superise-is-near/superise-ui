@@ -4,7 +4,9 @@ import fakedata from '~/fakedata/account';
 import { nearMetadata, TokenBalancesView, TokenMetadata } from '~domain/near/ft/models';
 import SelectToken from './SelectToken';
 import Icon from '~/components/tokens/Icon'
+import getConfig from "~domain/near/config";
 
+let config = getConfig();
 export type SuperiseFtInputValue = {
   id?: string|number;
   amount: string;

@@ -6,6 +6,8 @@ import {TokenMetadata} from "~domain/near/ft/models";
 import {InputValueDisplay} from "~components/forms/PrizeSelector";
 import {PrimaryButton} from "~components/button/Button";
 import {useEndtimer} from "./prize-pool-card";
+import {convertAmountToNumber} from "~domain/near/ft/methods";
+import {join_pool} from "~domain/superise/methods";
 
 export default function PrizepoolDetail(props: {
   pool: PrizePool,
@@ -18,8 +20,9 @@ export default function PrizepoolDetail(props: {
 
   const tokens = useWhitelistTokens();
 
-  const { timeLabel, timeText, fontClass } = useEndtimer(pool.end_time);
-  const priceText = pool.ticket_price > 0 ? `${pool.ticket_price} NEAR` : 'FREE'
+  const { timeLabel, timeText, fontClass } = useEndtimer(String(pool.end_time));
+  let prize = convertAmountToNumber(pool.ticket_price);
+  const priceText = prize > 0 ? `${prize} ${pool.ticket_token_id}` : 'FREE'
 
   return (
     <Card>
@@ -31,11 +34,12 @@ export default function PrizepoolDetail(props: {
       <div className="mt-6">
         <h2 className="text-base font-bold leading-6">What's inside</h2>
         <div className="mt-1 grid grid-col-1 gap-1">
-        {ftPrizes.map((item,idx) => {
-          const { id, amount } = item;
-          const token:TokenMetadata = tokens.find(item => item.id === id);
+        {pool.ft_prizes.map((item,idx) => {
+          const { token_id, amount } = item;
+          const token:TokenMetadata = tokens.find(item => item.id === token_id);
           if (!token) return null;
-          return <InputValueDisplay value={{token, amount}} key={idx} />
+          let tmp = String(convertAmountToNumber(amount))
+          return <InputValueDisplay value={{token,amount: tmp }} key={idx} />
         })}
         </div>
       </div>
@@ -58,7 +62,7 @@ export default function PrizepoolDetail(props: {
         </div>  
       </div>
       <div className="mt-6">
-        <PrimaryButton isFull>Join</PrimaryButton>
+        <PrimaryButton onClick={()=>join_pool(pool.id)} isFull>Join</PrimaryButton>
       </div>
     </Card>)
 }

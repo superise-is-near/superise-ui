@@ -48,7 +48,7 @@ export default function PrizePoolCard(props: {
   const { end_time } = pool;
   const { timeLabel, timeText, fontClass } = useEndtimer(String(end_time));
 
-  let priceNumber = convertAmountToNumber(pool.ticket_price);
+  let priceNumber = convertAmountToNumber(pool.ticket_price.amount);
   const priceText = priceNumber > 0 ? `${priceNumber} ${pool.ticket_price.token_id}` : 'FREE'
 
   return <div className="transform duration-200 hover:scale-105 rounded border-transparent overflow-hidden border bg-white p-8 cursor-pointer" onClick={onClick}>
