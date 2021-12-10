@@ -12,9 +12,10 @@ export default function Index() {
   const handleClickPool = (id: number) => {
     history.push(`/box/${id}`);
   }
-    let prizePoolDisplays = usePrizePoolDisplayLists();
+  let prizePoolDisplays = usePrizePoolDisplayLists();
+  console.log({ prizePoolDisplays })
 
-    return (
+  return (
     <CenterWrap>
       <PrizePoolList pools={prizePoolDisplays} onClickPool={handleClickPool}/>
       <div className="mt-8"/>
