@@ -2,9 +2,9 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import dayjs from 'dayjs';
 import { PrizePoolDisplay } from "~domain/superise/models";
 import { fancyTimeFormat } from '~utils/time';
-import {getWhitelistedTokens} from "~domain/ref/methods";
-import {getAmount} from "~domain/near/global";
-import {toReadableNumber} from "~utils/numbers";
+import { getWhitelistedTokens } from "~domain/ref/methods";
+import { getAmount } from "~domain/near/global";
+import { ftoReadableNumber } from "~utils/numbers";
 import {convertAmountToNumber} from "~domain/near/ft/methods";
 
 export const useEndtimer = (
@@ -51,19 +51,19 @@ export default function PrizePoolCard(props: {
   let priceNumber = convertAmountToNumber(pool.ticket_price.amount);
   const priceText = priceNumber > 0 ? `${priceNumber} ${pool.ticket_price.token_id}` : 'FREE'
 
-  return <div className="transform duration-200 hover:scale-105 rounded border-transparent overflow-hidden border bg-white p-8 cursor-pointer" onClick={onClick}>
+  return <div className="p-8 overflow-hidden bg-white border border-transparent rounded cursor-pointer transform duration-200 hover:scale-105" onClick={onClick}>
     <img src={pool.cover} className="w-4/12 m-auto"/>
     <div className="mt-8">
       <h2 className="text-base font-bold leading-6">{pool.name}</h2>
-      <span className="text-sm leading-5 font-normal">{pool.describe}</span>
+      <span className="text-sm font-normal leading-5">{pool.describe}</span>
     </div>
-    <div className="bg-gray-900 -mx-8 -mb-8 mt-8 p-4 flex justify-between">
+    <div className="flex justify-between p-4 mt-8 -mx-8 -mb-8 bg-gray-900">
       <div className="flex flex-col">
-        <span className="text-base leading-6 font-semibold text-gray-400">Ticket price</span>
-        <span className="text-base leading-6 font-semibold text-white mt-2">{priceText}</span>
+        <span className="text-base font-semibold text-gray-400 leading-6">Ticket price</span>
+        <span className="mt-2 text-base font-semibold text-white leading-6">{priceText}</span>
       </div>  
       <div className="flex flex-col items-end">
-        <span className="text-base leading-6 font-semibold text-gray-400">{timeLabel}</span>
+        <span className="text-base font-semibold text-gray-400 leading-6">{timeLabel}</span>
         <span className={`text-lg leading-6 font-semibold text-white mt-2 ${fontClass}`}>{timeText}</span>
       </div>  
     </div>

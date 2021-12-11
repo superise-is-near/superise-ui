@@ -20,16 +20,21 @@ export default function PrizepoolDetail(props: {
 
   const tokens = useWhitelistTokens();
 
-  const { timeLabel, timeText, fontClass } = useEndtimer(String(pool.end_time));
+  const { timeLabel, timeText, fontClass } = useEndtimer(pool.end_time);
   let prize = convertAmountToNumber(pool.ticket_price);
   const priceText = prize > 0 ? `${prize} ${pool.ticket_token_id}` : 'FREE'
+
+  // TODO: use the `finished` property from the pool instead of comparing the end_time
+  const finished = false;
+
+  console.log({ pool });
 
   return (
     <Card>
       <img src={pool.cover} className="w-4/12 m-auto"/>
       <div className="mt-8">
         <h2 className="text-base font-bold leading-6">{pool.name}</h2>
-        <span className="text-sm leading-5 font-normal">{pool.describe}</span>
+        <span className="text-sm font-normal leading-5">{pool.describe}</span>
       </div>
       <div className="mt-6">
         <h2 className="text-base font-bold leading-6">What's inside</h2>
@@ -51,13 +56,13 @@ export default function PrizepoolDetail(props: {
           })}
         </div>
       </div>
-      <div className="mt-6  flex justify-between">
+      <div className="flex justify-between mt-6">
         <div className="flex flex-col">
-          <span className="text-base leading-6 font-semibold text-gray-400">Ticket price</span>
-          <span className="text-base leading-6 font-semibold text-gray-900 mt-2">{priceText}</span>
+          <span className="text-base font-semibold text-gray-400 leading-6">Ticket price</span>
+          <span className="mt-2 text-base font-semibold text-gray-900 leading-6">{priceText}</span>
         </div>  
         <div className="flex flex-col items-end">
-          <span className="text-base leading-6 font-semibold text-gray-400">{timeLabel}</span>
+          <span className="text-base font-semibold text-gray-400 leading-6">{timeLabel}</span>
           <span className={`text-lg leading-6 font-semibold text-gray-900 mt-2 ${fontClass}`}>{timeText}</span>
         </div>  
       </div>
