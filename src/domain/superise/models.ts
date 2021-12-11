@@ -1,5 +1,10 @@
 import { number, string } from "mathjs";
 import { Type } from "class-transformer";
+type TokenId = string;
+type Balance = number;
+type PoolId = number;
+type AccountId = string;
+type TimeStamp = number;
 
 export class PrizePoolDisplay {
   id: number;
@@ -48,10 +53,6 @@ export class FtPrize {
   }
 }
 
-type TokenId = string;
-type Balance = number;
-type PoolId = number;
-type AccountId = string;
 
 class Account {
   fts: Map<TokenId, Balance>;

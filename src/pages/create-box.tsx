@@ -37,7 +37,7 @@ export default function CreateBox() {
             ticket_token_id: values.ticket_price.token.id === nearMetadata.id ? config.WRAP_NEAR_CONTRACT_ID : values.ticket_price.token.id
         }
         console.log({p});
-        create_prize_pool(p).then(e=>console.log(e))
+        create_prize_pool(p).then(e => console.log(e))
         // create_prize_pool()
     }
     return (
