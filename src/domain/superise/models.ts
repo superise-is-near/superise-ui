@@ -20,23 +20,22 @@ export class PrizePoolDisplay {
 
 export class PrizePool {
   id: number = 0;
-  creator_id: string='';
-  name: string='';
-  describe: string='';
-  cover: string='';
+  creator_id: string = "";
+  name: string = "";
+  describe: string = "";
+  cover: string = "";
   @Type(() => FtPrize)
-  ft_prizes: FtPrize[] =[];
+  ft_prizes: FtPrize[] = [];
   @Type(() => NftPrize)
-  nft_prizes: NftPrize[] =[];
+  nft_prizes: NftPrize[] = [];
 
   @Type(() => string)
   join_accounts: string[] = [];
-  end_time: number=0;
+  end_time: number = 0;
   @Type(() => Record)
-  records: Record[]=[];
-  ticket_price: string='1';
-  ticket_token_id: TokenId='';
-
+  records: Record[] = [];
+  ticket_price: string = "1";
+  ticket_token_id: TokenId = "";
 }
 
 export class NftPrize {
@@ -47,7 +46,7 @@ export class NftPrize {
 export class FtPrize {
   token_id: string;
   amount: string;
-  constructor(toke_id: string,amount: string) {
+  constructor(toke_id: string, amount: string) {
     this.token_id = toke_id;
     this.amount = amount;
   }
@@ -63,5 +62,5 @@ class Account {
 export class Record {
   time: number;
   ft_prize: FtPrize;
-  receiver: AccountId
+  receiver: AccountId;
 }

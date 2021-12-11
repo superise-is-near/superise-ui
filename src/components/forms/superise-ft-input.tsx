@@ -7,6 +7,7 @@ import Icon from '~/components/tokens/Icon'
 import getConfig from "~domain/near/config";
 
 let config = getConfig();
+
 export type SuperiseFtInputValue = {
   id?: string|number;
   amount: string;
@@ -33,7 +34,7 @@ export default function SuperiseFtInput(props : {
 
   return (
     <div className="flex items-center justify-between">
-     <input type="number" onChange={handleInputChange} value={amount} className="mr-2 block rounded" />
+     <input type="number" onChange={handleInputChange} value={amount} className="block mr-2 rounded" />
     <SelectToken
       tokens={props.tokens}
       selected={

@@ -14,12 +14,12 @@ import {nanoid} from 'nanoid';
 export function InputValueDisplay({ value, onClick }: { value: SuperiseFtInputValue; onClick?: any;} ){
   const { token, amount } = value;
 
-  let className = "border-2 rounded flex items-center justify-between p-1 pr-4 transition";
+  let className = "flex items-center justify-between p-1 pr-4 border-2 rounded transition";
   if (onClick) className += ' cursor-pointer hover:border-gray-700'
 
   return (<div className={className} onClick={onClick}>
     <img src={token.icon} className="w-12 h-12" />
-    <span className="text-gray-700 text-sm">{amount} {token.symbol}</span>
+    <span className="text-sm text-gray-700">{amount} {token.symbol}</span>
     </div>)
 }
 
@@ -47,7 +47,7 @@ function PrizeSelector({
     {input.value.length === 0 && (
     <TextButton
       icon={<FaPlusSquare />}
-      onClick={() =>{ setIsAddModalOpen(true)}}
+      onClick={(e) =>{ e.preventDefault(); setIsAddModalOpen(true)}}
     >Add the first prize</TextButton>)}
     {
       input.value.length > 0 && (
@@ -60,7 +60,7 @@ function PrizeSelector({
           })}
           <TextButton
             icon={<FaPlusSquare />}
-            onClick={() =>{ setIsAddModalOpen(true)}}
+            onClick={(e) =>{ e.preventDefault(); setIsAddModalOpen(true)}}
           >Add another prize</TextButton>
         </div>
       )
@@ -70,7 +70,7 @@ function PrizeSelector({
       onRequestClose={()=> setIsAddModalOpen(false)}
       title={ftInputValue.id ? 'Update prize' : `Add ${input.value.length > 0 ? 'another' : 'the first'} prize`}
     >
-      <div className="grid grid-cols-1 gap-6 mt-4">
+      <div className="mt-4 grid grid-cols-1 gap-6">
         <label className="block">
           <div className="block mt-1">
             <SuperiseFtInput

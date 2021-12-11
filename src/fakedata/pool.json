@@ -86,5 +86,17 @@
       },
       "join_accounts": ["liaa", "xsb"]
     }
+  ],
+  "records": [
+    {
+      "time": 1639192500000,
+      "receiver": "xsb.testnet",
+      "ft_prize": { "token_id": "wrap.testnet", "amount": "10000000000000000000000000" }
+    },
+    {
+      "time": 1639192500000,
+      "receiver": "liaa.testnet",
+      "ft_prize": { "token_id": "wrap.testnet", "amount": "100000000000000000000000000" }
+    }
   ]
 }
