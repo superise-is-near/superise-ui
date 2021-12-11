@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT OR Apache-2.0",
   "scripts": {
-    "build": "parcel build --out-dir public src/index.html",
+    "build": "NEAR_ENV=testnet parcel build --out-dir public src/index.html",
     "start": "parcel src/index.html",
     "start:mainnet": "NEAR_ENV=mainnet parcel src/index.html",
     "start:testnet": "NEAR_ENV=testnet parcel src/index.html",
