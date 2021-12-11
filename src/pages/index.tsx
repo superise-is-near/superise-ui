@@ -5,6 +5,7 @@ import { ArrowRight } from 'react-feather';
 import PrizePoolList from '~components/prize/prize-pool-list';
 import {useHistory} from 'react-router-dom';
 import {usePrizePoolDisplayLists} from "~state/prize";
+import PageLoading from '~components/page-loading';
 
 export default function Index() {
   let history = useHistory();
@@ -12,8 +13,10 @@ export default function Index() {
   const handleClickPool = (id: number) => {
     history.push(`/box/${id}`);
   }
+
   let prizePoolDisplays = usePrizePoolDisplayLists();
-  console.log({ prizePoolDisplays })
+
+  if (!prizePoolDisplays) return <PageLoading />
 
   return (
     <CenterWrap>
