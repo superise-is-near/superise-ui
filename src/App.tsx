@@ -1,8 +1,7 @@
 import React from 'react';
-import {REF_FARM_CONTRACT_ID, wallet} from "~services/near";
 import 'reflect-metadata';
 import 'es6-shim';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import { AccountPage } from './pages/account';
 import IndexPage from './pages/index';
 import BoxPage from '~pages/box-page';
@@ -54,7 +53,7 @@ function App() {
 function AutoHeight(Comp: any) {
     return (props: any) => {
         return (
-            <div className="xs:flex xs:flex-col md:flex md:flex-col justify-center h-4/5 lg:mt-12 relative">
+            <div className="relative justify-center xs:flex xs:flex-col md:flex md:flex-col h-4/5 lg:mt-12">
                 <Comp {...props} />
             </div>
         );

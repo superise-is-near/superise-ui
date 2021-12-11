@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Card from "~/components/Card"
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Assets from '~/components/account/assets';
 import fakedata from '~/fakedata/account.json';
 import {REF_FARM_CONTRACT_ID, wallet} from "~services/near";
@@ -24,6 +24,7 @@ import RequestSigninModal from '~components/modal/request-signin-modal';
 
 
 export function AccountPage() {
+  let history = useHistory();
   const isSignedIn = wallet.isSignedIn();
   if (!isSignedIn) return <RequestSigninModal text="Connect to NEAR wallet first before visiting the account page." />
 
@@ -84,7 +85,7 @@ export function AccountPage() {
     <div className="mt-8">
       <PrimaryButton onClick={async () => {
         wallet.signOut();
-        window.location.assign('/');
+        history.push('/')
       }}>Sign out</PrimaryButton>
     </div>
   </CenterWrap>

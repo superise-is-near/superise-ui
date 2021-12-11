@@ -26,7 +26,7 @@ export default function Index() {
       <PrizePoolList pools={prizePoolDisplays} onClickPool={handleClickPool}/>
       <div className="mt-8"/>
       <PrimaryButton suffixIcon={<ArrowRight />} onClick={() => {
-        window.location.assign('/box/create');
+        history.push('/box/create');
       }}>Create a Box</PrimaryButton>
     </CenterWrap>
   )
