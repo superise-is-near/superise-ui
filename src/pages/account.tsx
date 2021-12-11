@@ -1,16 +1,14 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import Card from "~/components/Card"
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Assets from '~/components/account/assets';
 import fakedata from '~/fakedata/account.json';
-import fakedata_pool from '~/fakedata/pool.json';
 import {REF_FARM_CONTRACT_ID, wallet} from "~services/near";
 import { PrimaryButton } from '~/components/button/Button'
 import TokenAmount from '~components/forms/TokenAmount';
 import { nearMetadata, TokenMetadata } from '~domain/near/ft/models';
 import PrizePoolGallary from '~components/prize/prize-pool-gallery'
 import CenterWrap from '~components/layout/center-wrap';
-import { toReadableNumber } from '~utils/numbers';
 import {
   useDepositableBalance,
   useFtAssets,
@@ -18,9 +16,9 @@ import {
   useUserRegisteredTokens,
   useWhitelistTokens
 } from "~state/token";
-import {nearViewCall} from "~domain/near/global";
 import {wrapNear} from "~domain/near/wrap-near";
 import {deposit_ft} from "~domain/superise/methods";
+import {useAccountHistory} from '~state/prize';
 
 
 
@@ -32,7 +30,8 @@ export function AccountPage() {
 
   const balances = useTokenBalances();
   const ftAssets = useFtAssets();
-  const mypools = fakedata_pool.display_pools;
+  const historyPools = useAccountHistory();
+  console.log({ historyPools })
 
   // max should get from the balance from when switching tokens, now just get
   // it from the fakedata.tokenListData
@@ -79,7 +78,7 @@ export function AccountPage() {
     </Card>
     <div className="mt-8" />
     <Card title="History">
-      <PrizePoolGallary pools={mypools}/>
+      <PrizePoolGallary pools={historyPools} />
     </Card>
     <div className="mt-8">
       <PrimaryButton onClick={async () => {

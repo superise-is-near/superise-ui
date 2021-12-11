@@ -36,6 +36,7 @@ export class PrizePool {
   records: Record[] = [];
   ticket_price: string = "1";
   ticket_token_id: TokenId = "";
+  finish: boolean = false;
 }
 
 export class NftPrize {

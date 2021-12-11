@@ -6,7 +6,9 @@ import { PrizePool, PrizePoolDisplay } from "~domain/superise/models";
 import {
   view_prize_pool,
   view_prize_pool_list,
+  view_user_pool,
 } from "~domain/superise/methods";
+import { wallet } from "~domain/near/global";
 
 export const usePrizePoolDisplayLists = (): PrizePoolDisplay[] => {
   const [prizePoolDisplay, setPrizePoolDisplay] =
@@ -27,4 +29,16 @@ export const usePrizePool = (pool_id: number): PrizePool => {
   }, []);
 
   return prizePool;
+};
+
+export const useAccountHistory = () => {
+  const [history, setHistory] = useState<PrizePoolDisplay[]>();
+  useEffect(() => {
+    view_user_pool(wallet.getAccountId())
+      .then(setHistory)
+      .catch((e) => {
+        setHistory([]);
+      });
+  }, []);
+  return history;
 };
