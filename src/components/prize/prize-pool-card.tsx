@@ -22,7 +22,7 @@ export const useEndtimer = (
       setTimeLabel('Opening in');
       setFontClass('font-mono');
     } else {
-      setTimeText(dayjs(end_time).format('MMM D, YYYY'))
+      setTimeText(dayjs(end_time).format('MMM D, YYYY h:mma '))
       setTimeLabel('Opened at')
       setFontClass('');
     }

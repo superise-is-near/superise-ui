@@ -99,6 +99,7 @@ export default function CreateBox() {
                   Cover url 
                 </span>
                 <Field name="cover_url" component="input" type="text"
+                  defaultValue="https://justplayproducts.com/wp-content/uploads/2020/06/78550_78551-Ryans-Mystery-Playdate-Mini-Mystery-Boxes-Call-Out-2-scaled-470x470.jpg"
                   placeholder="eg: https://example.com/picture.png"
                   className="block w-full mt-1 rounded-md"/>
                 <FormErrorLabel errors={errors} touched={touched} name="cover_url" />
