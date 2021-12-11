@@ -1,11 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Card from '~components/Card';
 import CenterWrap from '~components/layout/center-wrap'
 import {Form, Field} from 'react-final-form';
-import {Flex} from '~components/layout/flex';
 import {PrimaryButton} from '~components/button/Button';
 import PrizeSelector from '~components/forms/PrizeSelector';
-import {nanoid} from 'nanoid';
 import SuperiseFtInput from '~components/forms/superise-ft-input';
 import {nearMetadata} from '~domain/near/ft/models';
 import {useFtAssets, useTokenBalances, useWhitelistTokens} from '~state/token';
@@ -13,9 +11,10 @@ import {create_prize_pool, CreatePrizePoolParam,} from "~domain/superise/methods
 import moment from "moment";
 import {FtPrize} from "~domain/superise/models";
 import getConfig from "~domain/near/config";
-import {utils} from "near-api-js";
 import {toNonDivisibleNumber} from "~utils/numbers";
 import dayjs from 'dayjs';
+import RequestSigninModal from '~components/modal/request-signin-modal';
+
 
 let config = getConfig()
 
@@ -54,6 +53,9 @@ export default function CreateBox() {
 
   return (
     <CenterWrap>
+      <RequestSigninModal
+        text="Please connect to NEAR wallet before creating a mysteray box."
+      />
       <Card title="Create a box">
         <Form
           onSubmit={onSubmit}

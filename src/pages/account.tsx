@@ -19,15 +19,16 @@ import {
 import {wrapNear} from "~domain/near/wrap-near";
 import {deposit_ft} from "~domain/superise/methods";
 import {useAccountHistory} from '~state/prize';
+import RequestSigninModal from '~components/modal/request-signin-modal';
 
 
 
 export function AccountPage() {
-  // TODO: replace fakedata with realdata
+  const isSignedIn = wallet.isSignedIn();
+  if (!isSignedIn) return <RequestSigninModal text="Connect to NEAR wallet first before visiting the account page." />
+
   const { id } = useParams< { id: string }>();
-
   const [amount, setAmount] = useState<string>('');
-
   const balances = useTokenBalances();
   const ftAssets = useFtAssets();
   const historyPools = useAccountHistory();
