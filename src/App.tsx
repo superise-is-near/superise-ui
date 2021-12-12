@@ -8,6 +8,8 @@ import BoxPage from '~pages/box-page';
 import CreateBoxPage from '~pages/create-box';
 import NavigationBar from './components/layout/NavigationBar';
 import Modal from 'react-modal';
+import Footer from '~components/layout/footer'
+import CenterWrap from '~/components/layout/center-wrap'
 
 Modal.defaultStyles = {
   overlay: {
@@ -43,6 +45,9 @@ function App() {
             <Route path="/box/:id" component={BoxPage} />
             <Route path="/" component={IndexPage} />
           </Switch>
+          <CenterWrap>
+            <Footer />
+          </CenterWrap>
         </Router>
     );
 }
