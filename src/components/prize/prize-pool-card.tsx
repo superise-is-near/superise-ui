@@ -9,20 +9,26 @@ import {convertAmountToNumber} from "~domain/near/ft/methods";
 
 export const useEndtimer = (
   end_time: number
-): { timeLabel: string; timeText: string, fontClass: string } => {
+): { timeLabel: string; countdownText: string; dateText: string, timeText: string, fontClass: string } => {
   const timerRef: { current: NodeJS.Timeout | null } = useRef();
   const [timeLabel, setTimeLabel] = useState<string>('Opening in');
+  const [dateText, setDataText] = useState<string>('');
   const [timeText, setTimeText] = useState<string>('');
+  const [countdownText, setCountdownText] = useState<string>('');
   const [fontClass, setFontClass] = useState<string>('');
 
   const calculateTime = () => {
     if (dayjs() <= dayjs(end_time)) {
       const difference = dayjs(end_time).diff(dayjs());
-      setTimeText(fancyTimeFormat(difference/1000));
+      setCountdownText(fancyTimeFormat(difference/1000));
+      setDataText('');
+      setTimeText('');
       setTimeLabel('Opening in');
       setFontClass('font-mono');
     } else {
-      setTimeText(dayjs(end_time).format('MMM D, YYYY h:mma '))
+      setCountdownText('');
+      setDataText(dayjs(end_time).format('MMM D, YYYY'));
+      setTimeText(dayjs(end_time).format('h:mma '));
       setTimeLabel('Opened at')
       setFontClass('');
     }
@@ -36,7 +42,7 @@ export const useEndtimer = (
     }
   }, [])
 
-  return {timeLabel, timeText, fontClass};
+  return { timeLabel, countdownText, dateText, timeText, fontClass};
 };
 
 export default function PrizePoolCard(props: {
@@ -46,7 +52,7 @@ export default function PrizePoolCard(props: {
   const timerRef: { current: NodeJS.Timeout | null } = useRef();
   const { pool, onClick } = props;
   const { end_time } = pool;
-  const { timeLabel, timeText, fontClass } = useEndtimer(end_time);
+  const { timeLabel, countdownText, dateText, timeText, fontClass } = useEndtimer(end_time);
 
   let priceNumber = convertAmountToNumber(pool.ticket_price.amount);
   const priceText = priceNumber > 0 ? `${priceNumber} ${pool.ticket_price.token_id}` : 'FREE'
@@ -64,7 +70,9 @@ export default function PrizePoolCard(props: {
       </div>  
       <div className="flex flex-col items-end">
         <span className="text-base font-semibold text-gray-400 leading-6">{timeLabel}</span>
-        <span className={`text-lg leading-6 font-semibold text-white mt-2 ${fontClass}`}>{timeText}</span>
+        {countdownText && <span className={`text-right align text-lg leading-6 font-semibold text-white mt-2 ${fontClass}`}>{countdownText}</span>}
+        {dateText && <span className={`text-right align text-lg leading-6 font-semibold text-white mt-2 ${fontClass}`}>{dateText}</span>}
+        {timeText && <span className={`text-right align text-lg leading-6 font-semibold text-white mt-2 ${fontClass}`}>{timeText}</span>}
       </div>  
     </div>
     </div>

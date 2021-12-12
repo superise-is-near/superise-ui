@@ -14,6 +14,7 @@ import getConfig from "~domain/near/config";
 import {toNonDivisibleNumber} from "~utils/numbers";
 import dayjs from 'dayjs';
 import RequestSigninModal from '~components/modal/request-signin-modal';
+import {wallet} from '~services/near';
 
 
 let config = getConfig()
@@ -54,6 +55,7 @@ export default function CreateBox() {
   return (
     <CenterWrap>
       <RequestSigninModal
+        isOpen={!wallet.isSignedIn()}
         text="Please connect to NEAR wallet before creating a mysteray box."
       />
       <Card title="Create a box">

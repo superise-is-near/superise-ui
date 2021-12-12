@@ -13,7 +13,7 @@ function Gallery(props: {
       ) : null}
       {props.pools.map(pool => {
         return (
-          <a href={`/box/${pool.id}`} className="inline-block p-4 rounded hover:bg-gray-100" key={pool.id}>
+          <a href={`/#/box/${pool.id}`} className="inline-block p-4 rounded hover:bg-gray-100" key={pool.id}>
           <div className="flex flex-col items-center inline-block">
             <div
               className="w-24 h-24 bg-black bg-center bg-cover"

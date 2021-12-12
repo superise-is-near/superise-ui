@@ -14,11 +14,13 @@ export default function Modal(props: ReactModal.Props & {
     }}
   >
     <div className="m-auto w-96">
-      {<Card title={title}>
-        <div className="mt-4">
-          {props.children}
-        </div>
-      </Card>}
+      <div className="mx-4">
+        <Card title={title}>
+          <div className="mt-4">
+            {props.children}
+          </div>
+        </Card>
+      </div>
     </div>
   </ReactModal>
 }

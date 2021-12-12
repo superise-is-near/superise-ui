@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { FtPrize, PrizePool, Record } from "~domain/superise/models";
 import Card from "~components/Card";
 import {useWhitelistTokens} from "~state/token";
@@ -10,6 +10,9 @@ import {convertAmountToNumber} from "~domain/near/ft/methods";
 import {join_pool} from "~domain/superise/methods";
 import dayjs from 'dayjs';
 import isSameOrAfter from'dayjs/plugin/isSameOrAfter';
+import RequestSigninModal from "~components/modal/request-signin-modal";
+import { wallet } from "~domain/near/global";
+
 dayjs.extend(isSameOrAfter)
 
 export default function PrizepoolDetail(props: {
@@ -23,13 +26,19 @@ export default function PrizepoolDetail(props: {
 
   const tokens = useWhitelistTokens();
 
-  const { timeLabel, timeText, fontClass } = useEndtimer(pool.end_time);
+  const { timeLabel, countdownText, dateText, timeText, fontClass } = useEndtimer(pool.end_time);
   let prize = convertAmountToNumber(pool.ticket_price);
   const priceText = prize > 0 ? `${prize} ${pool.ticket_token_id}` : 'FREE'
 
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   return (
     <>
       <Card>
+        <RequestSigninModal
+          isOpen={showLoginModal}
+          onRequestClose={()=>setShowLoginModal(false)}
+          text="Please connect to NEAR wallet before joining this box."
+        />
         <img src={pool.cover} className="w-4/12 m-auto"/>
         <div className="mt-8">
           <h2 className="text-base font-bold leading-6">{pool.name}</h2>
@@ -62,12 +71,21 @@ export default function PrizepoolDetail(props: {
           </div>  
           <div className="flex flex-col items-end">
             <span className="text-base font-semibold text-gray-400 leading-6">{timeLabel}</span>
-            <span className={`text-lg leading-6 font-semibold text-gray-900 mt-2 ${fontClass}`}>{timeText}</span>
+            {countdownText && <span className={`text-lg leading-6 font-semibold text-gray-900 mt-2 ${fontClass}`}>{countdownText}</span>}
+            {dateText && <span className={`text-lg leading-6 font-semibold text-gray-900 mt-2 ${fontClass}`}>{dateText}</span>}
+            {timeText && <span className={`text-lg leading-6 font-semibold text-gray-900 mt-2 ${fontClass}`}>{timeText}</span>}
           </div>  
         </div>
         { !pool.finish && (
           <div className="mt-6">
-            <PrimaryButton onClick={()=>join_pool(pool.id)} isFull>Join</PrimaryButton>
+            <PrimaryButton onClick={()=>{
+              const isSignedIn = wallet.isSignedIn();
+              if (!isSignedIn) {
+                setShowLoginModal(true);
+                return;
+              }
+              join_pool(pool.id);
+              }} isFull>Join</PrimaryButton>
           </div>)
         }
       </Card>
