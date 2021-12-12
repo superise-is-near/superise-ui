@@ -20,7 +20,12 @@ export const useEndtimer = (
   const [fontClass, setFontClass] = useState<string>('');
 
   const calculateTime = () => {
-    if (!finish) {
+    if (!finish && dayjs(end_time) <= dayjs()) {
+      setCountdownText('');
+      setDataText('Wait for opening');
+      setTimeLabel('Time\'s up');
+      setFontClass('');
+    } else if (!finish) {
       const difference = dayjs(end_time).diff(dayjs());
       setCountdownText(fancyTimeFormat(difference/1000));
       setDataText('');
