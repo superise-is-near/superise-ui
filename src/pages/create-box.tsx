@@ -33,7 +33,6 @@ export default function CreateBox() {
   const tokens = useWhitelistTokens() || [];
   const ftAssets = useFtAssets();
   const onSubmit = async (values: any) => {
-    console.log("onSubmit", {values})
     let p: CreatePrizePoolParam = {
       cover: values.cover_url,
       describe: values.description,
@@ -47,7 +46,6 @@ export default function CreateBox() {
       ticket_prize: toNonDivisibleNumber(24, values.ticket_price.amount),
       ticket_token_id: values.ticket_price.token.id === nearMetadata.id ? config.WRAP_NEAR_CONTRACT_ID : values.ticket_price.token.id
     }
-    console.log({p});
     create_prize_pool(p).then(e=>console.log(e))
     // create_prize_pool()
   }

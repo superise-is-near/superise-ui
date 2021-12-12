@@ -36,7 +36,12 @@ export default function PrizepoolDetail(props: {
     return `${prize} ${text}`;
   }, [tokens])
 
+  const { join_accounts } = pool;
+  const loginAccountName = wallet.getAccountId();
+  const isAlreadyJoined = join_accounts.indexOf(loginAccountName) !== -1;
+
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+  const [joining, setJoining] = useState<boolean>(false);
   return (
     <>
       <Card>
@@ -66,7 +71,8 @@ export default function PrizepoolDetail(props: {
           <h2 className="text-base font-bold leading-6">Participants</h2>
           <div className="mt-1 grid grid-col-1 gap-1">
             {pool.join_accounts.map((name,idx) => {
-              return <span key={idx} className="text-gray-800">{name}</span>
+              const joinedText = pool.join_accounts.indexOf(loginAccountName) !== -1 ? '(You have joined!)' : ''
+              return <span key={idx} className="text-gray-800">{name} {joinedText}</span>
             })}
           </div>
         </div>
@@ -82,16 +88,29 @@ export default function PrizepoolDetail(props: {
             {timeText && <span className={`text-lg leading-6 font-semibold text-gray-900 mt-2 ${fontClass}`}>{timeText}</span>}
           </div>  
         </div>
-        { !pool.finish && (
+        { !pool.finish && !isAlreadyJoined && (
           <div className="mt-6">
-            <PrimaryButton onClick={()=>{
+            <PrimaryButton onClick={async ()=>{
               const isSignedIn = wallet.isSignedIn();
               if (!isSignedIn) {
                 setShowLoginModal(true);
                 return;
               }
-              join_pool(pool.id);
-              }} isFull>Join</PrimaryButton>
+              setJoining(true);
+
+              try {
+                await join_pool(pool.id);
+              } catch (e) {
+              // TODO: read the join_pool return value to determine if it's successfully joined
+                setJoining(false)
+                return;
+              }
+              setJoining(false)
+              // TODO: find a good way to refresh the data
+              location.reload();
+              }} isFull
+              loading={joining}
+            >Join</PrimaryButton>
           </div>)
         }
       </Card>
