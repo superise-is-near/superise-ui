@@ -20,14 +20,23 @@ export default function Index() {
 
   return (
     <CenterWrap>
-      <div className="my-8 text-4xl font-black leading-10">
+      <div className="my-8">
+      <div className="mb-4 text-4xl font-black leading-10">
         <span className="text-purple-900">Create mystery box</span> <span className="text-blue-500">on NEAR protocol</span> <span className="text-green-400">with 100% transparency</span>
       </div>
-      <PrizePoolList pools={prizePoolDisplays} onClickPool={handleClickPool}/>
-      <div className="mt-8"/>
       <PrimaryButton suffixIcon={<ArrowRight />} onClick={() => {
         history.push('/box/create');
       }}>Create a Box</PrimaryButton>
+      </div>
+      <PrizePoolList pools={prizePoolDisplays} onClickPool={handleClickPool}/>
+      {prizePoolDisplays && prizePoolDisplays.length > 5 && (
+        <>
+          <div className="mt-8"/>
+          <PrimaryButton suffixIcon={<ArrowRight />} onClick={() => {
+            history.push('/box/create');
+          }}>Create a Box</PrimaryButton>
+        </>
+      )}
     </CenterWrap>
   )
 }

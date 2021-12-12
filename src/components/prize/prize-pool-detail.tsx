@@ -26,7 +26,7 @@ export default function PrizepoolDetail(props: {
 
   const tokens = useWhitelistTokens();
 
-  const { timeLabel, countdownText, dateText, timeText, fontClass } = useEndtimer(pool.end_time);
+  const { timeLabel, countdownText, dateText, timeText, fontClass } = useEndtimer(pool.end_time, pool.finish);
   let prize = convertAmountToNumber(pool.ticket_price);
   const priceText = prize > 0 ? `${prize} ${pool.ticket_token_id}` : 'FREE'
 
