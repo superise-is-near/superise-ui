@@ -6,6 +6,7 @@ import PrizePoolList from '~components/prize/prize-pool-list';
 import {useHistory} from 'react-router-dom';
 import {usePrizePoolDisplayLists} from "~state/prize";
 import PageLoading from '~components/page-loading';
+import {useWhitelistTokens} from '~state/token';
 
 export default function Index() {
   let history = useHistory();
@@ -15,8 +16,9 @@ export default function Index() {
   }
 
   let prizePoolDisplays = usePrizePoolDisplayLists();
+  const tokens = useWhitelistTokens();
 
-  if (!prizePoolDisplays) return <PageLoading />
+  if (!prizePoolDisplays || !tokens) return <PageLoading />
 
   return (
     <CenterWrap>
@@ -28,7 +30,7 @@ export default function Index() {
         history.push('/box/create');
       }}>Create a Box</PrimaryButton>
       </div>
-      <PrizePoolList pools={prizePoolDisplays} onClickPool={handleClickPool}/>
+      <PrizePoolList pools={prizePoolDisplays} onClickPool={handleClickPool} tokens={tokens} />
       {prizePoolDisplays && prizePoolDisplays.length > 5 && (
         <>
           <div className="mt-8"/>

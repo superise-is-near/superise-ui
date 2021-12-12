@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState, useMemo } from "react";
 import dayjs from 'dayjs';
 import { PrizePoolDisplay } from "~domain/superise/models";
 import { fancyTimeFormat } from '~utils/time';
@@ -6,6 +6,7 @@ import { getWhitelistedTokens } from "~domain/ref/methods";
 import { getAmount } from "~domain/near/global";
 import { ftoReadableNumber } from "~utils/numbers";
 import {convertAmountToNumber} from "~domain/near/ft/methods";
+import {TokenMetadata} from "~domain/near/ft/models";
 
 export const useEndtimer = (
   end_time: number,
@@ -48,15 +49,22 @@ export const useEndtimer = (
 
 export default function PrizePoolCard(props: {
   pool: PrizePoolDisplay,
+  tokens: TokenMetadata[],
   onClick?: (event: React.MouseEvent) => void;
 }) {
   const timerRef: { current: NodeJS.Timeout | null } = useRef();
-  const { pool, onClick } = props;
+  const { pool, onClick, tokens } = props;
   const { end_time, finish } = pool;
   const { timeLabel, countdownText, dateText, timeText, fontClass } = useEndtimer(end_time, finish);
 
-  let priceNumber = convertAmountToNumber(pool.ticket_price.amount);
-  const priceText = priceNumber > 0 ? `${priceNumber} ${pool.ticket_price.token_id}` : 'FREE'
+  let price = convertAmountToNumber(pool.ticket_price.amount);
+  const priceText = useMemo(() => {
+    if (price <= 0) return 'Free';
+    let text = pool.ticket_price.token_id;
+    const foundToken = tokens.find(item => item.id === pool.ticket_price.token_id);
+    if (foundToken) text = foundToken.symbol;
+    return `${price} ${text}`;
+  }, [tokens])
 
   return <div className="p-8 overflow-hidden bg-white border border-transparent rounded cursor-pointer transform duration-200 hover:scale-105" onClick={onClick}>
     <img src={pool.cover} className="w-4/12 m-auto"/>

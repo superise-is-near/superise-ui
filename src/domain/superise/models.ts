@@ -16,6 +16,7 @@ export class PrizePoolDisplay {
   end_time: number;
   ticket_price: FtPrize;
   joiner_sum: number;
+  finish: boolean;
 }
 
 export class PrizePool {
@@ -52,7 +53,6 @@ export class FtPrize {
     this.amount = amount;
   }
 }
-
 
 class Account {
   fts: Map<TokenId, Balance>;
