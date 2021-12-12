@@ -1,7 +1,6 @@
-import React, { Fragment, useState } from "react";
-import { FtPrize, PrizePool, Record } from "~domain/superise/models";
+import React, { Fragment, useState, useMemo } from "react";
+import { PrizePool, Record } from "~domain/superise/models";
 import Card from "~components/Card";
-import {useWhitelistTokens} from "~state/token";
 import {TokenMetadata} from "~domain/near/ft/models";
 import {InputValueDisplay} from "~components/forms/PrizeSelector";
 import {PrimaryButton} from "~components/button/Button";
@@ -12,23 +11,30 @@ import dayjs from 'dayjs';
 import isSameOrAfter from'dayjs/plugin/isSameOrAfter';
 import RequestSigninModal from "~components/modal/request-signin-modal";
 import { wallet } from "~domain/near/global";
-
+import Confetti from 'react-confetti';
 dayjs.extend(isSameOrAfter)
+
+const getTokenSymbol = (tokens:TokenMetadata[] = [], id:string = "") => {
+  let symbolText = id;
+  const foundToken = tokens.find(item => item.id === id);
+  if (foundToken) symbolText = foundToken.symbol;
+  return symbolText;
+}
 
 export default function PrizepoolDetail(props: {
   pool: PrizePool,
+  tokens: TokenMetadata[],
 }) {
-  const { pool } = props;
-  const ftPrizes = Object.keys(pool.ft_prizes)
-    .reduce((acc, key) => {
-      return [...acc, pool.ft_prizes[key]]
-    }, []);
-
-  const tokens = useWhitelistTokens();
-
+  const { pool, tokens } = props;
   const { timeLabel, countdownText, dateText, timeText, fontClass } = useEndtimer(pool.end_time, pool.finish);
   let prize = convertAmountToNumber(pool.ticket_price);
-  const priceText = prize > 0 ? `${prize} ${pool.ticket_token_id}` : 'FREE'
+  const priceText = useMemo(() => {
+    if (prize <= 0) return 'Free';
+    let text = pool.ticket_token_id;
+    const foundToken = tokens.find(item => item.id === pool.ticket_token_id);
+    if (foundToken) text = foundToken.symbol;
+    return `${prize} ${text}`;
+  }, [tokens])
 
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   return (
@@ -92,15 +98,21 @@ export default function PrizepoolDetail(props: {
       {
         pool.finish && (
           <>
+            <Confetti recycle={false} numberOfPieces={300} />
             <div className="mt-8" />
-            <Card title="Result">
-              <div className="mt-4 grid grid-cols-1 gap-2">
-                {pool.records.map((item:Record, idx:number) => {
-                  const ftAmount = convertAmountToNumber(item.ft_prize.amount)
-                  return <div key={idx}>{item.receiver} - {ftAmount} {item.ft_prize.token_id}</div>
-                })}
-              </div>
-            </Card>
+              <Card title="Result">
+                <div className="mt-4 grid grid-cols-1 gap-2">
+                  {pool.records.map((item:Record, idx:number) => {
+                    const ftAmount = convertAmountToNumber(item.ft_prize.amount);
+                    return (
+                      <div className="flex justify-between p-2 rounded-sm shadow-sm shadow-cyan-500/50 bg-gray-50" key={idx}>
+                        <div className="text-gray-900">{item.receiver}</div>
+                        <div className="text-sm font-semibold text-gray-900">{ftAmount} {getTokenSymbol(tokens ,item.ft_prize.token_id)}</div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </Card>
           </>
         )
       }

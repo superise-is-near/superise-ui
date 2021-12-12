@@ -154,7 +154,7 @@ export const useUserRegisteredTokens = () => {
 export const useWhitelistTokens = (
   extraTokenIds: string[] = []
 ): TokenMetadata[] => {
-  const [tokens, setTokens] = useState<TokenMetadata[]>([]);
+  const [tokens, setTokens] = useState<TokenMetadata[]>();
 
   useEffect(() => {
     getWhitelistedTokens()

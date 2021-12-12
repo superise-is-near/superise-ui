@@ -30,7 +30,7 @@ function FormErrorLabel({ name, errors, touched }: {
 
 export default function CreateBox() {
   const balances = useTokenBalances()
-  const tokens = useWhitelistTokens();
+  const tokens = useWhitelistTokens() || [];
   const ftAssets = useFtAssets();
   const onSubmit = async (values: any) => {
     console.log("onSubmit", {values})

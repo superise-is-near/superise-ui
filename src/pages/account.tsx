@@ -21,7 +21,7 @@ export function AccountPage() {
   if (!isSignedIn) return <RequestSigninModal isOpen text="Connect to NEAR wallet first before visiting the account page." />
   const ftAssets = useFtAssets();
   const historyPools = useAccountHistory();
-  const tokens = useWhitelistTokens();
+  const tokens = useWhitelistTokens() || [];
 
   return <CenterWrap>
     <Assets
