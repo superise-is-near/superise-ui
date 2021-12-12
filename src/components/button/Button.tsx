@@ -5,16 +5,18 @@ import ReactLoading from 'react-loading'
 
 export function PrimaryButton(
   props: HTMLAttributes<HTMLButtonElement> & {
+    disabled?: boolean;
     isFull?: boolean;
     loading?: boolean;
     suffixIcon?: JSX.Element;
     icon?: JSX.Element;
   }
 ) {
-  const { isFull, suffixIcon, icon, loading, ...resetProps } = props;
+  const { isFull, suffixIcon, icon, loading, disabled, ...resetProps } = props;
   let classes = "flex items-center justify-center text-lg bg-gray-900 text-white px-5 py-2 rounded-full".split(" ");
   if (isFull) classes.push("w-full");
-  return <button className={classes.join(" ")} {...resetProps} disabled={loading}>
+  if (disabled) classes.push("cursor-not-allowed")
+  return <button className={classes.join(" ")} {...resetProps} disabled={loading || disabled}>
     {!loading && (
       <span className={`${props.icon && "ml-2"} ${props.suffixIcon && "mr-2"}`}>{props.children}</span>
     )}

@@ -71,7 +71,7 @@ export default function PrizepoolDetail(props: {
           <h2 className="text-base font-bold leading-6">Participants</h2>
           <div className="mt-1 grid grid-col-1 gap-1">
             {pool.join_accounts.map((name,idx) => {
-              const joinedText = name === loginAccountName ? '(You have joined!)' : ''
+              const joinedText = name === loginAccountName ? <span className="inline-block px-2 ml-1 text-sm text-white bg-gray-900 rounded">You</span> : ''
               return <span key={idx} className="text-gray-800">{name} {joinedText}</span>
             })}
           </div>
@@ -113,6 +113,33 @@ export default function PrizepoolDetail(props: {
             >Join</PrimaryButton>
           </div>)
         }
+        { !pool.finish && isAlreadyJoined && (
+          <div className="mt-6">
+            <PrimaryButton
+              disabled
+          onClick={async ()=>{
+              const isSignedIn = wallet.isSignedIn();
+              if (!isSignedIn) {
+                setShowLoginModal(true);
+                return;
+              }
+              setJoining(true);
+
+              try {
+                await join_pool(pool.id);
+              } catch (e) {
+              // TODO: read the join_pool return value to determine if it's successfully joined
+                setJoining(false)
+                return;
+              }
+              setJoining(false)
+              // TODO: find a good way to refresh the data
+              location.reload();
+              }} isFull
+              loading={joining}
+            >You have joined</PrimaryButton>
+          </div>)
+        }
       </Card>
       {
         pool.finish && (
@@ -123,9 +150,10 @@ export default function PrizepoolDetail(props: {
                 <div className="mt-4 grid grid-cols-1 gap-2">
                   {pool.records.map((item:Record, idx:number) => {
                     const ftAmount = convertAmountToNumber(item.ft_prize.amount);
+                    const joinedText = item.receiver === loginAccountName ? <span className="inline-block px-2 ml-1 text-sm text-white bg-gray-900 rounded">You</span> : ''
                     return (
                       <div className="flex justify-between p-2 rounded-sm shadow-sm shadow-cyan-500/50 bg-gray-50" key={idx}>
-                        <div className="text-gray-900">{item.receiver}</div>
+                        <div className="text-gray-900">{item.receiver} {joinedText}</div>
                         <div className="text-sm font-semibold text-gray-900">{ftAmount} {getTokenSymbol(tokens ,item.ft_prize.token_id)}</div>
                       </div>
                     )
