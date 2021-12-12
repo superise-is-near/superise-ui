@@ -26,7 +26,7 @@ export default function getConfig(env: string = process.env.NEAR_ENV) {
     case 'testnet':
       return {
         networkId: 'testnet',
-        nodeUrl: 'https://public-rpc.blockpi.io/http/near-testnet', //https://public-rpc.blockpi.io/http/near-testnet
+        nodeUrl: 'https://rpc.testnet.near.org', //https://public-rpc.blockpi.io/http/near-testnet
         walletUrl: 'https://wallet.testnet.near.org',
         helperUrl: 'https://helper.testnet.near.org',
         explorerUrl: 'https://explorer.testnet.near.org',

@@ -7,6 +7,7 @@ import { Near } from '~/components/icons/Near'
 //
 import { Link, useLocation } from 'react-router-dom';
 import {REF_FARM_CONTRACT_ID, wallet} from "~services/near";
+import getConfig from "~domain/near/config";
 // import { useHistory } from 'react-router';
 // import { FaExternalLinkAlt } from 'react-icons/fa';
 // import { HiMenu, HiOutlineExternalLink } from 'react-icons/hi';
@@ -473,7 +474,7 @@ function AccountEntry() {
         <div className="pr-2">
           <Near />
         </div>
-        {wallet.isSignedIn() ? (<Link to="/account">{accountName}</Link>) : <button onClick={() => wallet.requestSignIn(REF_FARM_CONTRACT_ID)}>
+        {wallet.isSignedIn() ? (<Link to="/account">{accountName}</Link>) : <button onClick={() => wallet.requestSignIn(getConfig().SUPERISE_CONTRACT_ID)}>
           <span className="text-xs">Conect to NEAR</span>
         </button>
             </div>

@@ -43,7 +43,7 @@ export const near = new Near({
     keyStore: new keyStores.BrowserLocalStorageKeyStore(),
     ...config,
 });
-export const wallet = new SpecialWallet(near, getConfig().REF_FI_CONTRACT_ID);
+export const wallet = new SpecialWallet(near, getConfig().SUPERISE_CONTRACT_ID);
 
 export const getGas = (gas: string) =>
     gas ? new BN(gas) : new BN('100000000000000');

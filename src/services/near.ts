@@ -25,7 +25,7 @@ export const near = new Near({
   keyStore: new keyStores.BrowserLocalStorageKeyStore(),
   ...config,
 });
-export const wallet = new SpecialWallet(near, config.REF_FI_CONTRACT_ID);
+export const wallet = new SpecialWallet(near, config.SUPERISE_CONTRACT_ID);
 
 export const getGas = (gas: string) =>
   gas ? new BN(gas) : new BN('100000000000000');
@@ -84,41 +84,6 @@ export interface Transaction {
 }
 
 
-export const refFarmFunctionCall = ({
-  methodName,
-  args,
-  gas,
-  amount,
-}: RefFiFunctionCallOptions) => {
-  return wallet
-    .account()
-    .functionCall(
-      REF_FARM_CONTRACT_ID,
-      methodName,
-      args,
-      getGas(gas),
-      getAmount(amount)
-    );
-};
-
-export const refFarmViewFunction = ({
-  methodName,
-  args,
-}: RefFiViewFunctionOptions) => {
-  return wallet.account().viewFunction(REF_FARM_CONTRACT_ID, methodName, args);
-};
-
-export const refFarmManyFunctionCalls = (
-  functionCalls: RefFiFunctionCallOptions[]
-) => {
-  const actions = functionCalls.map((fc) =>
-    functionCall(fc.methodName, fc.args, getGas(fc.gas), getAmount(fc.amount))
-  );
-
-  return wallet
-    .account()
-    .sendTransactionWithActions(REF_FARM_CONTRACT_ID, actions);
-};
 
 export const executeFarmMultipleTransactions = async (
   transactions: Transaction[],
