@@ -71,7 +71,7 @@ export default function PrizepoolDetail(props: {
           <h2 className="text-base font-bold leading-6">Participants</h2>
           <div className="mt-1 grid grid-col-1 gap-1">
             {pool.join_accounts.map((name,idx) => {
-              const joinedText = pool.join_accounts.indexOf(loginAccountName) !== -1 ? '(You have joined!)' : ''
+              const joinedText = name === loginAccountName ? '(You have joined!)' : ''
               return <span key={idx} className="text-gray-800">{name} {joinedText}</span>
             })}
           </div>
