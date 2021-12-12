@@ -8,7 +8,8 @@ import { ftoReadableNumber } from "~utils/numbers";
 import {convertAmountToNumber} from "~domain/near/ft/methods";
 
 export const useEndtimer = (
-  end_time: number
+  end_time: number,
+  finish: boolean
 ): { timeLabel: string; countdownText: string; dateText: string, timeText: string, fontClass: string } => {
   const timerRef: { current: NodeJS.Timeout | null } = useRef();
   const [timeLabel, setTimeLabel] = useState<string>('Opening in');
@@ -18,7 +19,7 @@ export const useEndtimer = (
   const [fontClass, setFontClass] = useState<string>('');
 
   const calculateTime = () => {
-    if (dayjs() <= dayjs(end_time)) {
+    if (!finish) {
       const difference = dayjs(end_time).diff(dayjs());
       setCountdownText(fancyTimeFormat(difference/1000));
       setDataText('');
@@ -51,8 +52,8 @@ export default function PrizePoolCard(props: {
 }) {
   const timerRef: { current: NodeJS.Timeout | null } = useRef();
   const { pool, onClick } = props;
-  const { end_time } = pool;
-  const { timeLabel, countdownText, dateText, timeText, fontClass } = useEndtimer(end_time);
+  const { end_time, finish } = pool;
+  const { timeLabel, countdownText, dateText, timeText, fontClass } = useEndtimer(end_time, finish);
 
   let priceNumber = convertAmountToNumber(pool.ticket_price.amount);
   const priceText = priceNumber > 0 ? `${priceNumber} ${pool.ticket_price.token_id}` : 'FREE'
