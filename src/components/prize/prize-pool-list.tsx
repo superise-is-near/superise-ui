@@ -10,17 +10,21 @@ function PrizePoolList(props: { pools: PrizePoolDisplay[], onClickPool: (id: num
   const finishedPools = pools.filter(item => item.finish);
   return (
     <>
-      <div className="grid grid-col-1 gap-8">
-        {unFinishedPools.map(pool => <PrizePoolCard tokens={tokens} pool={pool} key={pool.id} onClick={() => onClickPool(pool.id)}/>)}
-      </div>
-
+      {unFinishedPools.length > 0 && (
+        <>
+          <h1 className="my-8 mb-4 text-lg font-bold text-gray-900">Wait opening boxes <FaArrowDown style={{ display: 'inline' }}/></h1>
+          <div className="lg:grid lg:grid-cols-2 lg:gap-6 xl:grid-cols-3">
+            {unFinishedPools.map(pool => <PrizePoolCard tokens={tokens} pool={pool} key={pool.id} onClick={() => onClickPool(pool.id)}/>)}
+          </div>
+        </>
+      )}
       {finishedPools.length > 0 && (
-        <div>
+        <>
           <h1 className="my-8 mb-4 text-lg font-bold text-gray-900">Opened boxes <FaArrowDown style={{ display: 'inline' }}/></h1>
-          <div className="grid grid-col-1 gap-8">
+          <div className="lg:grid lg:grid-cols-2 lg:gap-6 xl:grid-cols-3">
             {finishedPools.map(pool => <PrizePoolCard tokens={tokens} pool={pool} key={pool.id} onClick={() => onClickPool(pool.id)}/>)}
           </div>
-        </div>
+        </>
       )}
     </>
   )

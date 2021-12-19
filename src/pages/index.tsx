@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { PrimaryButton } from '~/components/button/Button'
 import CenterWrap from '~/components/layout/center-wrap'
 import { ArrowRight } from 'react-feather';
@@ -7,6 +7,7 @@ import {useHistory} from 'react-router-dom';
 import {usePrizePoolDisplayLists} from "~state/prize";
 import PageLoading from '~components/page-loading';
 import {useWhitelistTokens} from '~state/token';
+import PrizePoolCard from '~components/prize/prize-pool-card';
 
 export default function Index() {
   let history = useHistory();
@@ -20,25 +21,38 @@ export default function Index() {
 
   if (!prizePoolDisplays || !tokens) return <PageLoading />
 
+
+  const featuredPool = prizePoolDisplays?.[0];
   return (
-    <CenterWrap>
-      <div className="my-8">
-      <div className="mb-4 text-4xl font-black leading-10">
-        <span className="text-purple-900">Create mystery box</span> <span className="text-blue-500">on NEAR protocol</span> <span className="text-green-400">with 100% transparency</span>
-      </div>
-      <PrimaryButton suffixIcon={<ArrowRight />} onClick={() => {
-        history.push('/box/create');
-      }}>Create a Box</PrimaryButton>
-      </div>
-      <PrizePoolList pools={prizePoolDisplays} onClickPool={handleClickPool} tokens={tokens} />
-      {prizePoolDisplays && prizePoolDisplays.length > 5 && (
-        <>
-          <div className="mt-8"/>
+    <>
+      <div className="px-8 m-auto lg:mt-10 lg:grid lg:grid-cols-2 lg:gap-8 lg-max-1280px lg: md:w-5/6 xs:w-full">
+        <div className="">
+          <div className="mb-4 text-4xl font-black leading-10">
+            <span className="text-purple-900">Create mystery box</span> <span className="text-blue-500">on NEAR protocol</span> <span className="text-green-400">with 100% transparency</span>
+          </div>
           <PrimaryButton suffixIcon={<ArrowRight />} onClick={() => {
             history.push('/box/create');
-          }}>Create a Box</PrimaryButton>
-        </>
-      )}
-    </CenterWrap>
+            }}>Create a Box</PrimaryButton>
+        </div>
+
+        <div className="mt-8 lg:mt-auto">
+          <PrizePoolCard tokens={tokens} pool={featuredPool}  onClick={() => handleClickPool(featuredPool.id)} />
+        </div>
+
+      </div>
+
+
+      <div className="px-8 m-auto lg-max-1280px md:w-5/6 xs:w-full">
+        <PrizePoolList pools={prizePoolDisplays} onClickPool={handleClickPool} tokens={tokens} />
+        {prizePoolDisplays && prizePoolDisplays.length > 5 && (
+          <>
+            <div className="mt-8"/>
+            <PrimaryButton suffixIcon={<ArrowRight />} onClick={() => {
+              history.push('/box/create');
+              }}>Create a Box</PrimaryButton>
+          </>
+        )}
+      </div>
+    </>
   )
 }

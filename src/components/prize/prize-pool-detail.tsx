@@ -36,7 +36,7 @@ export default function PrizepoolDetail(props: {
     return `${prize} ${text}`;
   }, [tokens])
 
-  const { join_accounts } = pool;
+  const { join_accounts, creator_id } = pool;
   const loginAccountName = wallet.getAccountId();
   const isAlreadyJoined = join_accounts.indexOf(loginAccountName) !== -1;
 
@@ -57,14 +57,18 @@ export default function PrizepoolDetail(props: {
         </div>
         <div className="mt-6">
           <h2 className="text-base font-bold leading-6">What's inside</h2>
-          <div className="mt-1 grid grid-col-1 gap-1">
+          <div className="mt-1 grid grid-col-1 gap-2">
             {pool.ft_prizes.map((item,idx) => {
               const { token_id, amount } = item;
             const token:TokenMetadata = tokens.find(item => item.id === token_id);
             if (!token) return null;
             let tmp = String(convertAmountToNumber(amount))
-            return <InputValueDisplay value={{token,amount: tmp }} key={idx} />
-            })}
+            return <div className="flex items-center justify-between p-2 border border-gray-100 rounded-sm shadow-sm" key={idx}>
+              <img src={token.icon} className="w-10 h-10" />
+              <span className="text-sm text-gray-700">{tmp} {token.symbol}</span>
+            </div>
+            }
+            )}
           </div>
         </div>
         <div className="mt-6">
@@ -74,6 +78,12 @@ export default function PrizepoolDetail(props: {
               const joinedText = name === loginAccountName ? <span className="inline-block px-2 ml-1 text-sm text-white bg-gray-900 rounded">You</span> : ''
               return <span key={idx} className="text-gray-800">{name} {joinedText}</span>
             })}
+          </div>
+        </div>
+        <div className="mt-6">
+          <h2 className="text-base font-bold leading-6">Created by</h2>
+          <div className="mt-1 grid grid-col-1 gap-1">
+              <span className="text-gray-800">{creator_id}</span>
           </div>
         </div>
         <div className="flex justify-between mt-6">
