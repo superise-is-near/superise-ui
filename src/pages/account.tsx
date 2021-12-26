@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Card from "~/components/Card"
 import { useHistory } from 'react-router-dom';
 import Assets from '~/components/account/assets';
@@ -12,6 +12,7 @@ import {
 } from "~state/token";
 import {useAccountHistory} from '~state/prize';
 import RequestSigninModal from '~components/modal/request-signin-modal';
+import {getImgUrlFromCid, nft_tokens_for_owner_in_paras} from "~domain/paras/methods";
 
 
 
@@ -23,7 +24,17 @@ export function AccountPage() {
   const historyPools = useAccountHistory();
   const tokens = useWhitelistTokens() || [];
 
+
+  const [nfts,setNfts] = useState<Nft[]>([])
+
+  nft_tokens_for_owner_in_paras("xsb.testnet",null)
+    .then(nfts=>{
+      setNfts(nfts);
+    })
   return <CenterWrap>
+    {nfts.map(e=>{
+      console.log("url", getImgUrlFromCid(e.metadata.media));
+      return <img src={getImgUrlFromCid(e.metadata.media)}/>})}
     <Assets
       tokens={tokens}
       balances={ftAssets}

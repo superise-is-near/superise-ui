@@ -10,6 +10,7 @@ export default function getConfig(env: string = process.env.NEAR_ENV) {
         explorerUrl: 'https://explorer.mainnet.near.org',
         indexerUrl: 'https://indexer.ref-finance.net',
         sodakiApiUrl: 'https://sodaki.com/api',
+        PARAS_NFT_CONTRACT_ID:process.env.PARAS_NFT_CONTRACT_ID || 'x.paras.near',
         REF_FI_CONTRACT_ID:
           process.env.REF_FI_CONTRACT_ID || 'v2.ref-finance.near',
         WRAP_NEAR_CONTRACT_ID: process.env.WRAP_NEAR_CONTRACT_ID || 'wrap.near',
@@ -32,7 +33,9 @@ export default function getConfig(env: string = process.env.NEAR_ENV) {
         explorerUrl: 'https://explorer.testnet.near.org',
         indexerUrl: 'https://testnet-indexer.ref-finance.com',
         sodakiApiUrl: 'https://sodaki.com/api',
+        parasApiHttpUrl: 'https://mainnet-api.paras.id/tokens',
         SUPERISE_CONTRACT_ID: process.env.SUPERISE_CONTRACT_ID || 'prizepool.superise.testnet',
+        PARAS_NFT_CONTRACT_ID:process.env.PARAS_NFT_CONTRACT_ID || 'paras-token-v2.testnet',
         REF_FI_CONTRACT_ID:
           process.env.REF_FI_CONTRACT_ID || 'ref-finance-101.testnet',
         WRAP_NEAR_CONTRACT_ID:

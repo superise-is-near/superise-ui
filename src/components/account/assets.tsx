@@ -56,7 +56,7 @@ function TokenList(props: {
           3,
           true
         );
-        console.log("tokenList map token", token);
+        // console.log("tokenList map token", token);
         return <Token
           key={token.id}
           {...token}

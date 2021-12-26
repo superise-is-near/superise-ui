@@ -1,7 +1,7 @@
 import { TokenMetadata } from "~domain/near/ft/models";
 import { wallet } from "~domain/near/global";
 import { toReadableNumber } from "~utils/numbers";
-import {getWhitelistedTokens, RefFiViewFunctionOptions} from "~domain/ref/methods";
+import {RefFiViewFunctionOptions} from "~domain/ref/methods";
 import {
   BANANA_ID,
   CHEDDAR_ID,
@@ -10,8 +10,6 @@ import {
   icons as metadataDefaults,
   NEAR_ICON
 } from "~domain/near/ft/metadata";
-import {useWhitelistTokens} from "~state/token";
-import {FtPrize} from "~domain/superise/models";
 
 export const ftViewFunction = (
   tokenId: string,
