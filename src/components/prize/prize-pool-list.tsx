@@ -13,7 +13,7 @@ function PrizePoolList(props: { pools: PrizePoolDisplay[], onClickPool: (id: num
       {unFinishedPools.length > 0 && (
         <>
           <h1 className="my-8 mb-4 text-lg font-bold text-gray-900">Wait opening boxes <FaArrowDown style={{ display: 'inline' }}/></h1>
-          <div className="lg:grid lg:grid-cols-2 lg:gap-6 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 lg:grid lg:grid-cols-2 lg:gap-6 xl:grid-cols-3">
             {unFinishedPools.map(pool => <PrizePoolCard tokens={tokens} pool={pool} key={pool.id} onClick={() => onClickPool(pool.id)}/>)}
           </div>
         </>
@@ -21,7 +21,7 @@ function PrizePoolList(props: { pools: PrizePoolDisplay[], onClickPool: (id: num
       {finishedPools.length > 0 && (
         <>
           <h1 className="my-8 mb-4 text-lg font-bold text-gray-900">Opened boxes <FaArrowDown style={{ display: 'inline' }}/></h1>
-          <div className="lg:grid lg:grid-cols-2 lg:gap-6 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 lg:grid lg:grid-cols-2 lg:gap-6 xl:grid-cols-3">
             {finishedPools.map(pool => <PrizePoolCard tokens={tokens} pool={pool} key={pool.id} onClick={() => onClickPool(pool.id)}/>)}
           </div>
         </>
