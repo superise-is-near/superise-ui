@@ -11,7 +11,8 @@
     "prettier": "prettier --check src",
     "prettier:fix": "prettier --write src",
     "test": "jest test --runInBand",
-    "test:watch": "yarn test --watch"
+    "test:watch": "yarn test --watch",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -35,6 +36,7 @@
     "@types/react-toastify": "^4.1.0",
     "autoprefixer": "^10.2.5",
     "babel-jest": "~26.6.2",
+    "husky": "^7.0.4",
     "jest": "^26.6.3",
     "jest-environment-node": "~26.6.2",
     "parcel-bundler": "1.12.3",
