@@ -2,9 +2,6 @@ import React, { Fragment, useEffect, useRef, useState, useMemo } from "react";
 import dayjs from "dayjs";
 import { PrizePoolDisplay } from "~domain/superise/models";
 import { fancyTimeFormat } from "~utils/time";
-import { getWhitelistedTokens } from "~domain/ref/methods";
-import { getAmount } from "~domain/near/global";
-import { ftoReadableNumber } from "~utils/numbers";
 import { convertAmountToNumber } from "~domain/near/ft/methods";
 import { TokenMetadata } from "~domain/near/ft/models";
 

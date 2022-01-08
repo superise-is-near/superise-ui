@@ -11,7 +11,7 @@ import {
 import { PrimaryButton } from "~components/button/Button";
 import InputAmount from "~components/forms/InputAmount";
 import TokenAmount from "~components/forms/TokenAmount";
-import fakedata from "~/fakedata/account";
+import fakedata from "~/fakedata/account.json";
 
 export default function WithdrawModal(props: ReactModal.Props) {
   const [amount, setAmount] = useState<string>("");
@@ -22,7 +22,7 @@ export default function WithdrawModal(props: ReactModal.Props) {
   // max should get from the balance from when switching tokens in ref, now just get
   // it from the fakedata.tokenListData
   const selectedTokenBlanceOnNear = fakedata.tokenListData.find(
-    (item) => item.id === selectedToken.id
+    (item: { id: string }) => item.id === selectedToken.id
   ).ref;
   const max = `${selectedTokenBlanceOnNear}`;
 

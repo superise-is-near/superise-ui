@@ -12,7 +12,8 @@
     "prettier:fix": "prettier --write src",
     "test": "jest test --runInBand",
     "test:watch": "yarn test --watch",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "check-type": "tsc src/*.ts"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -45,7 +46,7 @@
     "prettier": "2.3.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "ts-jest": "^26.5.4",
-    "typescript": "^4.2"
+    "typescript": "^4.6.0-dev.20220108"
   },
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",

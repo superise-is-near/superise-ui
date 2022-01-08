@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TokenAmount from "./TokenAmount";
-import fakedata from "~/fakedata/account";
+import fakedata from "~/fakedata/account.json";
 import {
   nearMetadata,
   TokenBalancesView,
@@ -30,7 +30,7 @@ export default function SuperiseFtInput(props: {
     props.onChange({ ...props.value, amount: "", token });
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { value: string } }) => {
     const { value } = e.target;
     props.onChange({ ...props.value, amount: value, token });
   };

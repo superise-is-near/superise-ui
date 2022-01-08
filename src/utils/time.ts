@@ -1,4 +1,4 @@
-export function fancyTimeFormat(duration) {
+export function fancyTimeFormat(duration: number) {
   // Hours, minutes and seconds
   var hrs = ~~(duration / 3600);
   var mins = ~~((duration % 3600) / 60);

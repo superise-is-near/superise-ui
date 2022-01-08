@@ -2,7 +2,7 @@ import { nft_tokens_for_owner } from "~domain/near/nft/methods";
 import getConfig from "~domain/near/config";
 
 let config = getConfig();
-export function get_nft_tokens_for_owner_in_paras(
+export function nft_tokens_for_owner_in_paras(
   account_id: string,
   limit: number | null,
   from_index: string = "0"

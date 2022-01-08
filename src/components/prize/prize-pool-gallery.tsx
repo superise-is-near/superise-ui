@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { PrizePool } from "~domains/superise/model/PrizePool";
+import { PrizePool } from "~domain/superise/models";
 
 function Gallery(props: { pools: PrizePool[] }) {
   return (
