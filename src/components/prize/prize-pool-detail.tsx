@@ -2,7 +2,7 @@ import React, { Fragment, useState, useMemo } from "react";
 import { PrizePool, Record } from "~domain/superise/models";
 import Card from "~components/Card";
 import { TokenMetadata } from "~domain/near/ft/models";
-import { InputValueDisplay } from "~components/forms/PrizeSelector";
+import { InputValueDisplay } from "~components/forms/PrizeSelect";
 import { PrimaryButton } from "~components/button/Button";
 import { useEndtimer } from "./prize-pool-card";
 import { convertAmountToNumber } from "~domain/near/ft/methods";

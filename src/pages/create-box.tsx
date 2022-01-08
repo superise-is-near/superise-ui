@@ -22,6 +22,7 @@ import { toNonDivisibleNumber } from "~utils/numbers";
 import dayjs from "dayjs";
 import RequestSigninModal from "~components/modal/request-signin-modal";
 import { wallet } from "~services/near";
+import PrizeSelectType from "~components/forms/PrizeSelector";
 
 let config = getConfig();
 
@@ -49,7 +50,7 @@ export default function CreateBox() {
       describe: values.description,
       end_time: moment(values.end_day + " " + values.end_hour).valueOf(),
       fts: values.prizes.map(
-        ({ amount, token }) =>
+        ({ amount, token }: any) =>
           new FtPrize(
             token.id === nearMetadata.id
               ? config.WRAP_NEAR_CONTRACT_ID

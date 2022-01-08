@@ -10,6 +10,7 @@ export function PrimaryButton(
     loading?: boolean;
     suffixIcon?: JSX.Element;
     icon?: JSX.Element;
+    type?: "button" | "submit" | "reset";
   }
 ) {
   const { isFull, suffixIcon, icon, loading, disabled, ...resetProps } = props;
