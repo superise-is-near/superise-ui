@@ -1,8 +1,8 @@
-import { Near, keyStores, utils } from 'near-api-js';
-import { functionCall } from 'near-api-js/lib/transaction';
-import BN from 'bn.js';
-import getConfig from '../domain/near/config';
-import SpecialWallet from './SpecialWallet';
+import { Near, keyStores, utils } from "near-api-js";
+import { functionCall } from "near-api-js/lib/transaction";
+import BN from "bn.js";
+import getConfig from "../domain/near/config";
+import SpecialWallet from "./SpecialWallet";
 
 const config = getConfig();
 
@@ -18,8 +18,7 @@ export const REF_AIRDRAOP_CONTRACT_ID = config.REF_AIRDROP_CONTRACT_ID;
 
 export const REF_TOKEN_ID = config.REF_TOKEN_ID;
 
-export const LP_STORAGE_AMOUNT = '0.00144';
-
+export const LP_STORAGE_AMOUNT = "0.00144";
 
 export const near = new Near({
   keyStore: new keyStores.BrowserLocalStorageKeyStore(),
@@ -28,9 +27,9 @@ export const near = new Near({
 export const wallet = new SpecialWallet(near, config.SUPERISE_CONTRACT_ID);
 
 export const getGas = (gas: string) =>
-  gas ? new BN(gas) : new BN('100000000000000');
+  gas ? new BN(gas) : new BN("100000000000000");
 export const getAmount = (amount: string) =>
-  amount ? new BN(utils.format.parseNearAmount(amount)) : new BN('0');
+  amount ? new BN(utils.format.parseNearAmount(amount)) : new BN("0");
 
 export interface RefFiViewFunctionOptions {
   methodName: string;
@@ -82,8 +81,6 @@ export interface Transaction {
   receiverId: string;
   functionCalls: RefFiFunctionCallOptions[];
 }
-
-
 
 export const executeFarmMultipleTransactions = async (
   transactions: Transaction[],

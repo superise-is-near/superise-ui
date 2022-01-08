@@ -1,6 +1,11 @@
-import React from 'react';
+import React from "react";
 
-export const Flex = ({inline, column, children, className}: {
+export const Flex = ({
+  inline,
+  column,
+  children,
+  className,
+}: {
   inline: Boolean;
   column: Boolean;
   children: Element[];
@@ -8,9 +13,9 @@ export const Flex = ({inline, column, children, className}: {
 }) => {
   const classNames = [
     ...(inline ? ["inline-flex"] : ["flex"]),
-    ...(column ? ['flex-col'] : ['flex-row']),
+    ...(column ? ["flex-col"] : ["flex-row"]),
   ];
-  return (<div className={`${classNames.join(" ")} ${className}`}>
-    {children}
-    </div>)
-}
+  return (
+    <div className={`${classNames.join(" ")} ${className}`}>{children}</div>
+  );
+};

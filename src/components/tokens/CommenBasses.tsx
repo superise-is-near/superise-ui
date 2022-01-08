@@ -1,24 +1,24 @@
-import React from 'react';
-import { toRealSymbol } from '~utils/token';
-import { TokenMetadata } from '~domain/near/ft/models';
-import { FormattedMessage } from 'react-intl';
+import React from "react";
+import { toRealSymbol } from "~utils/token";
+import { TokenMetadata } from "~domain/near/ft/models";
+import { FormattedMessage } from "react-intl";
 
 interface CommenBassesProps {
   tokens: TokenMetadata[];
   onClick: (token: TokenMetadata) => void;
 }
 const COMMEN_BASSES = [
-  'REF',
-  'wNEAR',
-  'SKYWARD',
-  'OCT',
-  'DAI',
-  'PARAS',
-  'STNEAR',
-  'wETH',
-  'USDT',
-  'HAPI',
-  'PULSE',
+  "REF",
+  "wNEAR",
+  "SKYWARD",
+  "OCT",
+  "DAI",
+  "PARAS",
+  "STNEAR",
+  "wETH",
+  "USDT",
+  "HAPI",
+  "PULSE",
 ];
 
 export default function CommenBasses({ tokens, onClick }: CommenBassesProps) {

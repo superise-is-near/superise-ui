@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 
 interface InputAmountProps extends React.InputHTMLAttributes<HTMLInputElement> {
   max?: string;
@@ -17,7 +17,7 @@ export default function InputAmount({
 }: InputAmountProps) {
   const ref = useRef<HTMLInputElement>();
   const field = useRef<HTMLFieldSetElement>();
-  const [symbolsArr] = useState(['e', 'E', '+', '-']);
+  const [symbolsArr] = useState(["e", "E", "+", "-"]);
 
   const handleChange = (amount: string) => {
     if (onChangeAmount) onChangeAmount(amount);
@@ -26,12 +26,12 @@ export default function InputAmount({
 
   const handleFocus = () => {
     field.current.className =
-      className + ' px-1 border border-greenLight rounded';
+      className + " px-1 border border-greenLight rounded";
   };
 
   const handleFocusOut = () => {
     field.current.className =
-      className + ' px-1 border border-transparent rounded';
+      className + " px-1 border border-transparent rounded";
   };
 
   return (
@@ -48,7 +48,7 @@ export default function InputAmount({
             {...rest}
             step="any"
             className={`border-none xs:text-sm text-lg font-bold w-full p-2 ${
-              disabled ? 'text-gray-200 placeholder-gray-200' : 'text-gray-800'
+              disabled ? "text-gray-200 placeholder-gray-200" : "text-gray-800"
             }`}
             type="number"
             placeholder="0.0"
@@ -62,10 +62,10 @@ export default function InputAmount({
             <a
               className={`rounded border  items-center px-1 mr-2 m-auto focus:outline-none text-xs ${
                 disabled || max === rest.value
-                  ? 'text-gray-400 hover:text-gray-400 border-gray-400'
-                  : 'text-greenLight border-greenLight'
+                  ? "text-gray-400 hover:text-gray-400 border-gray-400"
+                  : "text-greenLight border-greenLight"
               }`}
-              style={{ lineHeight: 'unset', cursor: 'pointer' }}
+              style={{ lineHeight: "unset", cursor: "pointer" }}
               onClick={() => handleChange(max)}
             >
               MAX

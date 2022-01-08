@@ -1,7 +1,7 @@
-import { baseDecode } from 'borsh';
-import { ConnectedWalletAccount, WalletConnection } from 'near-api-js';
-import { Action, createTransaction } from 'near-api-js/lib/transaction';
-import { PublicKey } from 'near-api-js/lib/utils';
+import { baseDecode } from "borsh";
+import { ConnectedWalletAccount, WalletConnection } from "near-api-js";
+import { Action, createTransaction } from "near-api-js/lib/transaction";
+import { PublicKey } from "near-api-js/lib/utils";
 
 export default class SpecialWallet extends WalletConnection {
   _connectedAccount: SpecialWalletAccount;
@@ -64,7 +64,7 @@ class SpecialWalletAccount extends ConnectedWalletAccount {
       );
     }
 
-    const block = await this.connection.provider.block({ finality: 'final' });
+    const block = await this.connection.provider.block({ finality: "final" });
     const blockHash = baseDecode(block.header.hash);
 
     const publicKey = PublicKey.from(accessKey.public_key);

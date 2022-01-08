@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import TextLogo from './TextLogo';
-import { Near } from '~/components/icons/Near'
+import React, { useContext, useEffect, useRef, useState } from "react";
+import TextLogo from "./TextLogo";
+import { Near } from "~/components/icons/Near";
 // import { matchPath } from 'react-router';
 // import { Context } from '~components/wrapper';
 //
 //
-import { Link, useLocation } from 'react-router-dom';
-import {REF_FARM_CONTRACT_ID, wallet} from "~services/near";
+import { Link, useLocation } from "react-router-dom";
+import { REF_FARM_CONTRACT_ID, wallet } from "~services/near";
 import getConfig from "~domain/near/config";
 // import { useHistory } from 'react-router';
 // import { FaExternalLinkAlt } from 'react-icons/fa';
@@ -462,8 +462,8 @@ import getConfig from "~domain/near/config";
 //
 
 function AccountEntry() {
-  const [account, network] = wallet.getAccountId().split('.');
-  const niceAccountId = `${account.slice(0, 10)}...${network || ''}`;
+  const [account, network] = wallet.getAccountId().split(".");
+  const niceAccountId = `${account.slice(0, 10)}...${network || ""}`;
 
   const accountName =
     account.length > 10 ? niceAccountId : wallet.getAccountId();
@@ -474,25 +474,36 @@ function AccountEntry() {
         <div className="pr-2">
           <Near />
         </div>
-        {wallet.isSignedIn() ? (<Link to="/account">{accountName}</Link>) : <button onClick={() => wallet.requestSignIn(getConfig().SUPERISE_CONTRACT_ID)}>
-          <span className="text-xs">Conect to NEAR</span>
-        </button>
-            </div>
-            </div>)
-      }
-
+        {wallet.isSignedIn() ? (
+          <Link to="/account">{accountName}</Link>
+        ) : (
+          <button
+            onClick={() =>
+              wallet.requestSignIn(getConfig().SUPERISE_CONTRACT_ID)
+            }
+          >
+            <span className="text-xs">Conect to NEAR</span>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
 
 function NavigationBar() {
   return (
-      <nav className="flex items-center justify-between px-9  col-span-8" style={{ height: '100px' }}>
-        <Link to="/">
-          <TextLogo />
-        </Link>
-        <div className="justify-end">
-          <AccountEntry />
-        </div>
-      </nav>
-  )
+    <nav
+      className="flex items-center justify-between px-9  col-span-8"
+      style={{ height: "100px" }}
+    >
+      <Link to="/">
+        <TextLogo />
+      </Link>
+      <div className="justify-end">
+        <AccountEntry />
+      </div>
+    </nav>
+  );
 }
 
 export default NavigationBar;

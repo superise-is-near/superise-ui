@@ -21,4 +21,3 @@ export function getImgUrlFromCid(cid: string): string {
   }
   return `https://paras-cdn.imgix.net/${cid}`;
 }
-

@@ -1,7 +1,7 @@
-import React from 'react';
-import { toRealSymbol } from '~utils/token';
-import { TokenMetadata } from '~domain/near/ft/models';
-import { ArrowDownBlack } from '~components/icons';
+import React from "react";
+import { toRealSymbol } from "~utils/token";
+import { TokenMetadata } from "~domain/near/ft/models";
+import { ArrowDownBlack } from "~components/icons";
 
 interface TokenProps {
   token: TokenMetadata;
@@ -11,7 +11,7 @@ interface TokenProps {
 }
 
 export default function Icon({
-  className = '',
+  className = "",
   token,
   label = true,
   size = 6,
@@ -22,10 +22,7 @@ export default function Icon({
   size?: number | string;
 }) {
   return (
-    <div
-      className="flex items-center text-lg"
-      style={{ lineHeight: 'unset' }}
-    >
+    <div className="flex items-center text-lg" style={{ lineHeight: "unset" }}>
       {label && <p className="block text-sm">{toRealSymbol(token.symbol)}</p>}
       <div className="pl-2 xs:pl-1 text-xs">
         <ArrowDownBlack />

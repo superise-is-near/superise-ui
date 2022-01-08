@@ -1,7 +1,7 @@
 module.exports = {
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
-    '^.+\\.jsx?$': 'babel-jest',
+    "^.+\\.tsx?$": "ts-jest",
+    "^.+\\.jsx?$": "babel-jest",
   },
-  setupFilesAfterEnv: ['./src/setupTests.js'],
+  setupFilesAfterEnv: ["./src/setupTests.js"],
 };

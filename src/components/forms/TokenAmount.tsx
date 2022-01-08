@@ -1,12 +1,12 @@
-import React from 'react';
-import { wallet } from '../../services/near';
-import { toRoundedReadableNumber } from '../../utils/numbers';
-import { TokenMetadata, TokenBalancesView } from '~domain/near/ft/models';
-import Icon from '~components/tokens/Icon';
-import InputAmount from './InputAmount';
-import SelectToken from './SelectToken';
-import { toPrecision } from '~utils/numbers';
-import { FormattedMessage } from 'react-intl';
+import React from "react";
+import { wallet } from "../../services/near";
+import { toRoundedReadableNumber } from "../../utils/numbers";
+import { TokenMetadata, TokenBalancesView } from "~domain/near/ft/models";
+import Icon from "~components/tokens/Icon";
+import InputAmount from "./InputAmount";
+import SelectToken from "./SelectToken";
+import { toPrecision } from "~utils/numbers";
+import { FormattedMessage } from "react-intl";
 
 interface TokenAmountProps {
   amount?: string;
@@ -39,7 +39,7 @@ export default function TokenAmount({
   const render = (token: TokenMetadata) =>
     toRoundedReadableNumber({
       decimals: token.decimals,
-      number: balances ? balances[token.id] : '0',
+      number: balances ? balances[token.id] : "0",
     });
 
   const isSignedIn = wallet.isSignedIn();

@@ -1,14 +1,14 @@
 import { TokenMetadata } from "~domain/near/ft/models";
 import { wallet } from "~domain/near/global";
 import { toReadableNumber } from "~utils/numbers";
-import {RefFiViewFunctionOptions} from "~domain/ref/methods";
+import { RefFiViewFunctionOptions } from "~domain/ref/methods";
 import {
   BANANA_ID,
   CHEDDAR_ID,
   CUCUMBER_ID,
   HAPI_ID,
   icons as metadataDefaults,
-  NEAR_ICON
+  NEAR_ICON,
 } from "~domain/near/ft/metadata";
 
 export const ftViewFunction = (
@@ -37,15 +37,15 @@ export const ftGetTokenMetadata = async (
 ): Promise<TokenMetadata> => {
   let metadata = await wallet.account().viewFunction(id, "ft_metadata");
   if (
-      !metadata.icon ||
-      metadata.icon === NEAR_ICON ||
-      metadata.id === BANANA_ID ||
-      metadata.id === CHEDDAR_ID ||
-      metadata.id === CUCUMBER_ID ||
-      metadata.id === HAPI_ID
+    !metadata.icon ||
+    metadata.icon === NEAR_ICON ||
+    metadata.id === BANANA_ID ||
+    metadata.id === CHEDDAR_ID ||
+    metadata.id === CUCUMBER_ID ||
+    metadata.id === HAPI_ID
   ) {
     let transferId: string[] = id.split(".");
-    transferId[transferId.length-1] = "near"
+    transferId[transferId.length - 1] = "near";
     metadata.icon = metadataDefaults[transferId.join(".")];
   }
   return { id, ...metadata };
@@ -100,6 +100,6 @@ export const getDepositableBalance = async (
   }
 };
 
-export function  convertAmountToNumber(amount: string ): number {
-  return Number( toReadableNumber(24,amount))
+export function convertAmountToNumber(amount: string): number {
+  return Number(toReadableNumber(24, amount));
 }

@@ -46,9 +46,9 @@
       "end_time": "2021-12-08T15:10:41.190Z",
       "ticket_price": "1",
       "ft_prizes": {
-        1: { "id": "wrap.testnet", "amount": "100" },
-        2: { "id": "wrap.testnet", "amount": "10" },
-        3: { "id": "oct.fakes.testnet", "amount": "10" }
+        "1": { "id": "wrap.testnet", "amount": "100" },
+        "2": { "id": "wrap.testnet", "amount": "10" },
+        "3": { "id": "oct.fakes.testnet", "amount": "10" }
       },
       "join_accounts": ["liaa", "xsb"]
     },
@@ -63,9 +63,9 @@
       "end_time": "2021-12-04T15:10:41.190Z",
       "ticket_price": "0",
       "ft_prizes": {
-        1: { "id": "wrap.testnet", "amount": "100" },
-        2: { "id": "wrap.testnet", "amount": "10" },
-        3: { "id": "oct.fakes.testnet", "amount": "10" }
+        "1": { "id": "wrap.testnet", "amount": "100" },
+        "2": { "id": "wrap.testnet", "amount": "10" },
+        "3": { "id": "oct.fakes.testnet", "amount": "10" }
       },
       "join_accounts": ["liaa", "xsb"]
     },
@@ -80,9 +80,9 @@
       "end_time": "2021-12-02T15:10:41.190Z",
       "ticket_price": "0",
       "ft_prizes": {
-        1: { "id": "wrap.testnet", "amount": "100" },
-        2: { "id": "wrap.testnet", "amount": "10" },
-        3: { "id": "oct.fakes.testnet", "amount": "10" }
+        "1": { "id": "wrap.testnet", "amount": "100" },
+        "2": { "id": "wrap.testnet", "amount": "10" },
+        "3": { "id": "oct.fakes.testnet", "amount": "10" }
       },
       "join_accounts": ["liaa", "xsb"]
     }
@@ -91,12 +91,18 @@
     {
       "time": 1639192500000,
       "receiver": "xsb.testnet",
-      "ft_prize": { "token_id": "wrap.testnet", "amount": "10000000000000000000000000" }
+      "ft_prize": {
+        "token_id": "wrap.testnet",
+        "amount": "10000000000000000000000000"
+      }
     },
     {
       "time": 1639192500000,
       "receiver": "liaa.testnet",
-      "ft_prize": { "token_id": "wrap.testnet", "amount": "100000000000000000000000000" }
+      "ft_prize": {
+        "token_id": "wrap.testnet",
+        "amount": "100000000000000000000000000"
+      }
     }
   ]
 }

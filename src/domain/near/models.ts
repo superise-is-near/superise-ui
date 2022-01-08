@@ -1,5 +1,4 @@
-
 export interface FunctionCallOptions {
-    gas?: string;
-    amount?: string;
+  gas?: string;
+  amount?: string;
 }

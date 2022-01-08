@@ -1,28 +1,33 @@
-import { utils } from 'near-api-js';
-import getConfig from './config';
-import {TokenMetadata} from "~domain/near/ft/models";
-import {REF_FI_CONTRACT_ID} from "~domain/ref/constants";
-import {executeMultipleTransactions, ONE_YOCTO_NEAR, Transaction, wallet} from "~domain/near/global";
-import {RefFiFunctionCallOptions} from "~domain/ref/methods";
-import {ftGetStorageBalance} from "~domain/near/ft/methods";
+import { utils } from "near-api-js";
+import getConfig from "./config";
+import { TokenMetadata } from "~domain/near/ft/models";
+import { REF_FI_CONTRACT_ID } from "~domain/ref/constants";
+import {
+  executeMultipleTransactions,
+  ONE_YOCTO_NEAR,
+  Transaction,
+  wallet,
+} from "~domain/near/global";
+import { RefFiFunctionCallOptions } from "~domain/ref/methods";
+import { ftGetStorageBalance } from "~domain/near/ft/methods";
 
-export const { WRAP_NEAR_CONTRACT_ID,SUPERISE_CONTRACT_ID } = getConfig();
-export const NEW_ACCOUNT_STORAGE_COST = '0.00125';
+export const { WRAP_NEAR_CONTRACT_ID, SUPERISE_CONTRACT_ID } = getConfig();
+export const NEW_ACCOUNT_STORAGE_COST = "0.00125";
 
 export const wnearMetadata: TokenMetadata = {
-  id: 'wNEAR',
-  name: 'wNEAR',
-  symbol: 'wNEAR',
+  id: "wNEAR",
+  name: "wNEAR",
+  symbol: "wNEAR",
   decimals: 24,
-  icon: 'https://i.postimg.cc/4xx2KRxt/wNEAR.png',
+  icon: "https://i.postimg.cc/4xx2KRxt/wNEAR.png",
 };
 
 export const nearMetadata: TokenMetadata = {
-  id: 'NEAR',
-  name: 'NEAR',
-  symbol: 'NEAR',
+  id: "NEAR",
+  name: "NEAR",
+  symbol: "NEAR",
   decimals: 24,
-  icon: 'https://near.org/wp-content/themes/near-19/assets/img/brand-icon.png',
+  icon: "https://near.org/wp-content/themes/near-19/assets/img/brand-icon.png",
 };
 
 export const wrapNear = async (amount: string) => {
@@ -50,30 +55,30 @@ export const wrapNear = async (amount: string) => {
   const actions: RefFiFunctionCallOptions[] = [];
   const balance = await ftGetStorageBalance(WRAP_NEAR_CONTRACT_ID);
 
-  if (!balance || balance.total === '0') {
+  if (!balance || balance.total === "0") {
     actions.push({
-      methodName: 'storage_deposit',
+      methodName: "storage_deposit",
       args: {},
-      gas: '30000000000000',
+      gas: "30000000000000",
       amount: NEW_ACCOUNT_STORAGE_COST,
     });
   }
 
   actions.push({
-    methodName: 'near_deposit',
+    methodName: "near_deposit",
     args: {},
-    gas: '50000000000000',
+    gas: "50000000000000",
     amount,
   });
 
   actions.push({
-    methodName: 'ft_transfer_call',
+    methodName: "ft_transfer_call",
     args: {
       receiver_id: SUPERISE_CONTRACT_ID,
       amount: utils.format.parseNearAmount(amount),
-      msg: '',
+      msg: "",
     },
-    gas: '50000000000000',
+    gas: "50000000000000",
     amount: ONE_YOCTO_NEAR,
   });
 

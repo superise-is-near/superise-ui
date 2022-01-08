@@ -1,9 +1,7 @@
-import React, { Fragment } from 'react';
-import { PrizePool } from '~domains/superise/model/PrizePool'
+import React, { Fragment } from "react";
+import { PrizePool } from "~domains/superise/model/PrizePool";
 
-function Gallery(props: {
-  pools: PrizePool[];
-}) {
+function Gallery(props: { pools: PrizePool[] }) {
   return (
     <div className="mt-8">
       {props.pools.length === 0 ? (
@@ -11,28 +9,30 @@ function Gallery(props: {
           No boxes
         </div>
       ) : null}
-      {props.pools.map(pool => {
+      {props.pools.map((pool) => {
         return (
-          <a href={`/#/box/${pool.id}`} className="inline-block p-4 rounded hover:bg-gray-100" key={pool.id}>
-          <div className="flex flex-col items-center inline-block">
-            <div
-              className="w-24 h-24 bg-black bg-center bg-cover"
-              key={pool.id}
-              style={{ backgroundImage: `url(${pool.cover})` }}
-            />
-            <span className="mt-2 text-sm text-gray-700">
-              {pool.name}
-            </span>
-          </div>
+          <a
+            href={`/#/box/${pool.id}`}
+            className="inline-block p-4 rounded hover:bg-gray-100"
+            key={pool.id}
+          >
+            <div className="flex flex-col items-center inline-block">
+              <div
+                className="w-24 h-24 bg-black bg-center bg-cover"
+                key={pool.id}
+                style={{ backgroundImage: `url(${pool.cover})` }}
+              />
+              <span className="mt-2 text-sm text-gray-700">{pool.name}</span>
+            </div>
           </a>
-            )
+        );
       })}
     </div>
-  )
+  );
 }
 
 Gallery.defaultProps = {
   pools: [],
-}
+};
 
 export default Gallery;

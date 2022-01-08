@@ -1,7 +1,7 @@
-import React from 'react';
-import { toRealSymbol } from '~utils/token';
-import { TokenMetadata } from '~domain/near/ft/models';
-import { toInternationalCurrencySystem } from '~utils/numbers';
+import React from "react";
+import { toRealSymbol } from "~utils/token";
+import { TokenMetadata } from "~domain/near/ft/models";
+import { toInternationalCurrencySystem } from "~utils/numbers";
 
 interface TokenProps {
   token: TokenMetadata;
@@ -32,7 +32,7 @@ export default function Token({ token, onClick, sortBy }: TokenProps) {
       </td>
       <td
         className={`pr-6 xs:text-xs text-sm py-4 w-1/5 ${
-          sortBy === 'total' ? 'text-white' : ''
+          sortBy === "total" ? "text-white" : ""
         }`}
       >
         {toInternationalCurrencySystem(String(total))}
@@ -40,4 +40,3 @@ export default function Token({ token, onClick, sortBy }: TokenProps) {
     </tr>
   );
 }
-

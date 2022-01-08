@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { TiArrowSortedUp } from 'react-icons/ti';
-import { TokenMetadata, TokenBalancesView } from '~domain/near/ft/models';
-import { toReadableNumber } from '~utils/numbers';
-import Token from '~components/tokens/Token';
-import { FormattedMessage } from 'react-intl';
+import React, { useState } from "react";
+import { TiArrowSortedUp } from "react-icons/ti";
+import { TokenMetadata, TokenBalancesView } from "~domain/near/ft/models";
+import { toReadableNumber } from "~utils/numbers";
+import Token from "~components/tokens/Token";
+import { FormattedMessage } from "react-intl";
 
 interface TokenListProps {
   tokens: TokenMetadata[];
@@ -27,36 +27,36 @@ export default function Table({
       <table className="text-left w-full text-sm text-gray-400 mt-10 table-auto">
         <thead
           className="sticky -top-6 z-30"
-          style={{ background: 'rgb(29, 41, 50)' }}
+          style={{ background: "rgb(29, 41, 50)" }}
         >
           <tr className="font-normal border-b border-gray-500 border-opacity-30">
             <th
               className={`font-normal w-2/5 pb-2 pl-6  ${
-                sortBy === 'asset' ? 'text-greenLight' : ''
+                sortBy === "asset" ? "text-greenLight" : ""
               }`}
             >
               <FormattedMessage id="asset_label" defaultMessage="Asset" />
               <TiArrowSortedUp
-                onClick={() => onSortChange('asset')}
+                onClick={() => onSortChange("asset")}
                 className={`inline-block cursor-pointer ${
-                  sortBy === 'asset' && currentSort === 'down'
-                    ? 'transform rotate-180'
-                    : ''
+                  sortBy === "asset" && currentSort === "down"
+                    ? "transform rotate-180"
+                    : ""
                 }`}
               />
             </th>
             <th
               className={`font-normal pb-2 pr-3 w-1/5 ${
-                sortBy === 'total' ? 'text-greenLight' : ''
+                sortBy === "total" ? "text-greenLight" : ""
               }`}
             >
               <FormattedMessage id="total_label" defaultMessage="Total" />
               <TiArrowSortedUp
-                onClick={() => onSortChange('total')}
+                onClick={() => onSortChange("total")}
                 className={`inline-block cursor-pointer ${
-                  sortBy === 'total' && currentSort === 'down'
-                    ? 'transform rotate-180'
-                    : ''
+                  sortBy === "total" && currentSort === "down"
+                    ? "transform rotate-180"
+                    : ""
                 }`}
               />
             </th>
@@ -73,7 +73,7 @@ export default function Table({
               totalAmount={
                 balances
                   ? toReadableNumber(token.decimals, balances[token.id])
-                  : ''
+                  : ""
               }
             />
           ))}
