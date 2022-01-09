@@ -21,6 +21,8 @@ interface IPrizeSelectType {
 
 const PrizeSelector: FC<IPrizeSelectType> = ({ input }) => {
   const [isPrizeSelectTypeOpen, setIsPrizeSelectTypeOpen] = useState(false);
+
+  const [selectPrizeType, setSelectPrizeType] = useState<"FT" | "NFT">("FT");
   return (
     <>
       {input.value.length === 0 && (
@@ -34,7 +36,12 @@ const PrizeSelector: FC<IPrizeSelectType> = ({ input }) => {
           Add the first prize
         </TextButton>
       )}
-      <PrizeSelectType isOpen={isPrizeSelectTypeOpen} />
+      <PrizeSelectType
+        isOpen={isPrizeSelectTypeOpen}
+        onRequestClose={() => setIsPrizeSelectTypeOpen(false)}
+        selectPrizeType={selectPrizeType}
+        setSelectPrizeType={setSelectPrizeType}
+      />
     </>
   );
 };
