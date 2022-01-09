@@ -2,6 +2,7 @@ import React, { FC, useState } from "react";
 import { PrimaryButton } from "~components/button/Button";
 import Modal from "~components/modal/modal";
 import clsx from "classnames";
+import { nft_tokens_for_owner_in_paras } from "~domain/paras/methods";
 
 interface INFTPrizeSelector {
   isOpen: boolean;

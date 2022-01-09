@@ -1,6 +1,6 @@
 import { getImgUrlFromCid } from "~domain/paras/methods";
 
-class ParasNft implements INft {
+export class ParasNft implements INft {
   nft: Nft;
   img_url: string;
   constructor(nft: Nft, img_url: string) {
