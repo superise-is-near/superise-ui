@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "~/components/Card";
 import { useHistory } from "react-router-dom";
 import Assets from "~/components/account/assets";
@@ -13,6 +13,7 @@ import {
   getImgUrlFromCid,
   nft_tokens_for_owner_in_paras,
 } from "~domain/paras/methods";
+import { ParasNft } from "~domain/paras/models";
 
 export function AccountPage() {
   let history = useHistory();
@@ -28,16 +29,20 @@ export function AccountPage() {
   const historyPools = useAccountHistory();
   const tokens = useWhitelistTokens() || [];
 
-  const [nfts, setNfts] = useState<Nft[]>([]);
+  const [nfts, setNfts] = useState<ParasNft[]>([]);
 
-  nft_tokens_for_owner_in_paras("xsb.testnet", null).then((nfts) => {
-    setNfts(nfts);
+  useEffect(() => {
+    nft_tokens_for_owner_in_paras("xsb.testnet", null).then(
+      (nfts: ParasNft[]) => {
+        setNfts(nfts);
+      }
+    );
   });
   return (
     <CenterWrap>
       {nfts.map((e) => {
-        console.log("url", getImgUrlFromCid(e.metadata.media));
-        return <img src={getImgUrlFromCid(e.metadata.media)} />;
+        console.log("url", getImgUrlFromCid(e.nft.metadata.media));
+        return <img src={getImgUrlFromCid(e.nft.metadata.media)} />;
       })}
       <Assets tokens={tokens} balances={ftAssets} />
       <div className="mt-8" />

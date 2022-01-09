@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
-import { PrizePool } from "~domain/superise/models";
+import { PrizePool, PrizePoolDisplay } from "~domain/superise/models";
 
-function Gallery(props: { pools: PrizePool[] }) {
+function Gallery(props: { pools: PrizePoolDisplay[] }) {
   return (
     <div className="mt-8">
       {props.pools.length === 0 ? (

@@ -14,7 +14,7 @@ type TokenMetadata = {
 };
 
 type Nft = {
-  id: string;
+  token_id: string;
   owner_id: string;
   metadata: TokenMetadata;
 };

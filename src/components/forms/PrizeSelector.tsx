@@ -43,7 +43,8 @@ interface IPrizeSelectType {
   tokens: TokenMetadata[];
 }
 
-const PrizeSelector: FC<IPrizeSelectType> = ({ input, balances, tokens }) => {
+const PrizeSelector: FC<IPrizeSelectType> = (props) => {
+  const { input, balances, tokens } = props;
   const [showPrizeSelectType, setShowPrizeSelectType] = useState(false);
   const [showFTPrizeSelector, setShowFTPrizeSelector] = useState(false);
   const [showNFTPrizeSelector, setShowNFTPrizeSelector] = useState(false);
@@ -109,7 +110,10 @@ const PrizeSelector: FC<IPrizeSelectType> = ({ input, balances, tokens }) => {
         ftInputValue={ftInputValue}
         setFtInputValue={setFtInputValue}
       />
-      <NFTPrizeSelector isOpen={showNFTPrizeSelector} />
+      <NFTPrizeSelector
+        isOpen={showNFTPrizeSelector}
+        onRequestClose={() => setShowNFTPrizeSelector(false)}
+      />
     </section>
   );
 };
