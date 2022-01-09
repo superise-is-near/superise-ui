@@ -1,7 +1,6 @@
-import { REF_FARM_CONTRACT_ID, wallet } from "~services/near";
-import React, { HTMLAttributes, Suspense, useState } from "react";
-import { IconType, IconBase } from "react-icons";
+import React, { HTMLAttributes } from "react";
 import ReactLoading from "react-loading";
+import clsx from "classnames";
 
 export function PrimaryButton(
   props: HTMLAttributes<HTMLButtonElement> & {
@@ -22,7 +21,7 @@ export function PrimaryButton(
   if (disabled) classes.push("cursor-not-allowed");
   return (
     <button
-      className={classes.join(" ")}
+      className={clsx(classes.join(" "), "hover:shadow")}
       {...resetProps}
       disabled={loading || disabled}
     >
