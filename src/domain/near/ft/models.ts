@@ -20,3 +20,6 @@ export const nearMetadata: TokenMetadata = {
 export interface TokenBalancesView {
   [tokenId: string]: string;
 }
+
+// need to extract to const folder
+export const EMPTY_INPUT_VALUE = { amount: "", token: nearMetadata };

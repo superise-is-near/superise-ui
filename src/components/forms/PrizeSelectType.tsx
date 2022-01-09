@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction } from "react";
+import React, { FC, useState, Dispatch, SetStateAction } from "react";
 import { PrimaryButton } from "~components/button/Button";
 import Modal from "~components/modal/modal";
 import clsx from "classnames";
@@ -6,16 +6,17 @@ import clsx from "classnames";
 interface IPriceSelectType {
   isOpen: boolean;
   onRequestClose: () => void;
-  selectPrizeType: "FT" | "NFT";
-  setSelectPrizeType: Dispatch<SetStateAction<"FT" | "NFT">>;
+  showFTPrizeSelector: () => void;
+  showNFTPrizeSelector: () => void;
 }
 
 const PriceSelectType: FC<IPriceSelectType> = ({
   isOpen,
   onRequestClose,
-  selectPrizeType,
-  setSelectPrizeType,
+  showFTPrizeSelector,
+  showNFTPrizeSelector,
 }) => {
+  const [selectPrizeType, setSelectPrizeType] = useState<"FT" | "NFT">("FT");
   return (
     <Modal
       isOpen={isOpen}
@@ -25,23 +26,18 @@ const PriceSelectType: FC<IPriceSelectType> = ({
       <section className="flex mb-4">
         <div
           className={clsx(
-            "w-24 h-24 grid place-items-center mr-5 rounded-lg cursor-pointer",
+            "w-24 h-24 grid place-items-center mr-5 rounded-lg cursor-pointer bg-superise-gray",
             selectPrizeType === "FT" && "border-2 border-black"
           )}
-          style={{ background: "#E5E7EB" }}
           onClick={() => setSelectPrizeType("FT")}
         >
           FT
         </div>
         <div
           className={clsx(
-            "w-24 h-24 grid place-items-center bg-nft-color rounded-lg cursor-pointer",
+            "w-24 h-24 grid place-items-center bg-nft-color rounded-lg cursor-pointer bg-superise-gradient",
             selectPrizeType === "NFT" && "border-2 border-black"
           )}
-          style={{
-            background:
-              "linear-gradient(225.34deg, #FFFFFF 0%, #FFFF7F 101.17%)",
-          }}
           onClick={() => setSelectPrizeType("NFT")}
         >
           NFT
@@ -50,7 +46,16 @@ const PriceSelectType: FC<IPriceSelectType> = ({
       <p className="mb-8">
         None fungible token, an item from Paras or Mintbase
       </p>
-      <PrimaryButton isFull>Next</PrimaryButton>
+      <PrimaryButton
+        isFull
+        onClick={() =>
+          selectPrizeType === "FT"
+            ? showFTPrizeSelector()
+            : showNFTPrizeSelector()
+        }
+      >
+        Next
+      </PrimaryButton>
     </Modal>
   );
 };
