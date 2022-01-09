@@ -10,24 +10,34 @@ export function PrimaryButton(
     suffixIcon?: JSX.Element;
     icon?: JSX.Element;
     type?: "button" | "submit" | "reset";
+    variant?: "primary";
   }
 ) {
-  const { isFull, suffixIcon, icon, loading, disabled, ...resetProps } = props;
-  let classes =
-    "flex items-center justify-center text-lg bg-gray-900 text-white px-5 py-2 rounded-full".split(
-      " "
-    );
-  if (isFull) classes.push("w-full");
-  if (disabled) classes.push("cursor-not-allowed");
+  const {
+    isFull,
+    suffixIcon,
+    icon,
+    loading,
+    disabled,
+    variant,
+    ...resetProps
+  } = props;
   return (
     <button
-      className={clsx(classes.join(" "), "hover:shadow")}
+      className={clsx(
+        "flex items-center justify-center font-semibold text-lg text-white px-5 py-2 rounded-full hover:shadow transition ease-in-out duration-300",
+        isFull && "w-full",
+        disabled && "cursor-not-allowed",
+        variant === "primary"
+          ? "bg-primary hover-bg-primary-dark active-outline"
+          : "bg-gray-900 hover:bg-gray-600"
+      )}
       {...resetProps}
       disabled={loading || disabled}
     >
       {!loading && (
         <span
-          className={`${props.icon && "ml-2"} ${props.suffixIcon && "mr-2"}`}
+          className={clsx(props.icon && "ml-2", props.suffixIcon && "mr-2")}
         >
           {props.children}
         </span>
