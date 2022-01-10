@@ -49,13 +49,22 @@ function NavigationBar() {
         </Link>
         <div className="flex font-medium">
           <Link
-            to="/"
+            to="/#home"
             className={clsx(
               "mr-4 rounded hover:text-gray-500 transition ease-in-out delay-50",
               "underline underline-offset"
             )}
           >
-            Product
+            Home
+          </Link>
+          <Link
+            to="/#collections"
+            className={clsx(
+              "mr-4 rounded hover:text-gray-500 transition ease-in-out delay-50",
+              false && "underline underline-offset"
+            )}
+          >
+            Collections
           </Link>
           <a
             href="https://sixth-motion-b7e.notion.site/Surprise-Roadmap-813c17e1bd994f5c811eb5d5d076f00f"

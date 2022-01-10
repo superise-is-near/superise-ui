@@ -16,9 +16,10 @@ function PrizePoolList(props: {
     <>
       {unFinishedPools.length > 0 && (
         <>
-          <h1 className="my-8 mb-4 text-lg font-bold text-gray-900">
-            Wait opening boxes <FaArrowDown style={{ display: "inline" }} />
-          </h1>
+          <h2 className="mb-4 text-3xl font-bold text-gray-900">
+            Collections <FaArrowDown style={{ display: "inline" }} />
+          </h2>
+          <hr className="mb-16" />
           <div className="grid grid-cols-1 gap-6 lg:grid lg:grid-cols-2 lg:gap-6 xl:grid-cols-3">
             {unFinishedPools.map((pool) => (
               <PrizePoolCard

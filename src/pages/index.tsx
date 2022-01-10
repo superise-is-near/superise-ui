@@ -24,7 +24,8 @@ export default function Index() {
   const featuredPool = prizePoolDisplays?.[0];
   return (
     <>
-      <section className="w-full bg-primary-light">
+      {/* home hero section */}
+      <section id="home" className="w-full bg-primary-light">
         <div
           className="grid text-dark place-items-center px-8 m-auto lg:mt-10 lg:grid lg:grid-cols-2 lg:gap-8 lg-max-1280px lg: md:w-5/6 xs:w-full"
           style={{ height: "80vh" }}
@@ -53,33 +54,11 @@ export default function Index() {
           </div>
         </div>
       </section>
-      <div className="px-8 m-auto lg:mt-10 lg:grid lg:grid-cols-2 lg:gap-8 lg-max-1280px lg: md:w-5/6 xs:w-full">
-        <div className="">
-          <div className="mb-4 text-4xl font-black leading-10">
-            <span className="text-purple-900">Create mystery box</span>{" "}
-            <span className="text-blue-500">on NEAR protocol</span>{" "}
-            <span className="text-green-400">with 100% transparency</span>
-          </div>
-          <PrimaryButton
-            suffixIcon={<ArrowRight />}
-            onClick={() => {
-              history.push("/box/create");
-            }}
-          >
-            Create a Box
-          </PrimaryButton>
-        </div>
-
-        <div className="mt-8 lg:mt-auto">
-          <PrizePoolCard
-            tokens={tokens}
-            pool={featuredPool}
-            onClick={() => handleClickPool(featuredPool.id)}
-          />
-        </div>
-      </div>
-
-      <div className="px-8 m-auto lg-max-1280px md:w-5/6 xs:w-full">
+      {/* gallery collection */}
+      <section
+        id="collections"
+        className="px-8 py-16 m-auto lg-max-1280px md:w-5/6 xs:w-full"
+      >
         <PrizePoolList
           pools={prizePoolDisplays}
           onClickPool={handleClickPool}
@@ -98,7 +77,7 @@ export default function Index() {
             </PrimaryButton>
           </>
         )}
-      </div>
+      </section>
     </>
   );
 }
