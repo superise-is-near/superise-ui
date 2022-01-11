@@ -23,6 +23,7 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
   const selectCount = 0;
 
   useEffect(() => {
+    setLoading(true);
     if (selectDataSource === "Paras") {
       nft_tokens_for_owner_in_paras(wallet.getAccountId(), 100).then(
         (data: ParasNft[]) => {
@@ -30,6 +31,10 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
           setLoading(false);
         }
       );
+    }
+    if (selectDataSource === "Mintbase") {
+      // TODO support
+      setLoading(false);
     }
   }, [selectDataSource]);
   return (
@@ -62,48 +67,72 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
           Mintbase
         </div>
       </section>
-      <section
-        className="overflow-auto "
-        style={{ maxHeight: "50vh", height: "50vh" }}
-      >
-        {loading &&
-          new Array(3)
-            .fill(0)
-            .map((_, index) => (
-              <div
-                className="w-full h-32 mx-2 bg-gray-100 mb-4 rounded-lg"
-                key={index}
-              />
-            ))}
-        {!loading &&
-          nfts.length > 0 &&
-          nfts.map(({ nft, img_url, select }) => (
+      {loading && (
+        <section
+          className="overflow-hidden"
+          style={{ maxHeight: "50vh", height: "50vh" }}
+        >
+          {new Array(3).fill(0).map((_, index) => (
             <div
-              key={nft.token_id}
-              className={clsx(
-                select ? "border-black" : "border-white",
-                "flex mb-4 px-2 py-3 rounded-lg shadow cursor-pointer border-2"
-              )}
-              onClick={() => {
-                setNfts(
-                  nfts.map((nftTmp) =>
-                    nftTmp.nft.token_id === nft.token_id
-                      ? { ...nftTmp, select: !nftTmp.select }
-                      : nftTmp
-                  )
-                );
-              }}
-            >
-              <div>
-                <img src={img_url} width={76} height={107} alt={img_url} />
-              </div>
-              <div className="ml-2">
-                <h3>{nft.metadata.title}</h3>
-                <p>{nft.metadata.title}</p>
-              </div>
-            </div>
+              className="w-full h-32 mx-2 bg-gray-100 mb-4 rounded-lg"
+              key={index}
+            />
           ))}
-      </section>
+        </section>
+      )}
+      {selectDataSource === "Mintbase" && (
+        <div
+          className="grid place-items-center"
+          style={{ maxHeight: "50vh", height: "50vh" }}
+        >
+          We will support Mintbase later.
+        </div>
+      )}
+      {selectDataSource === "Paras" && (
+        <>
+          {!loading && nfts.length === 0 && (
+            <div
+              className="grid place-items-center"
+              style={{ maxHeight: "50vh", height: "50vh" }}
+            >
+              You don’t have NFT in Paras, check other markeplace or go back.
+            </div>
+          )}
+          {!loading && nfts.length > 0 && (
+            <section
+              className="overflow-auto "
+              style={{ maxHeight: "50vh", height: "50vh" }}
+            >
+              {nfts.map(({ nft, img_url, select }) => (
+                <div
+                  key={nft.token_id}
+                  className={clsx(
+                    select ? "border-black" : "border-white",
+                    "flex mb-4 px-2 py-3 rounded-lg shadow cursor-pointer border-2"
+                  )}
+                  onClick={() => {
+                    setNfts(
+                      nfts.map((nftTmp) =>
+                        nftTmp.nft.token_id === nft.token_id
+                          ? { ...nftTmp, select: !nftTmp.select }
+                          : nftTmp
+                      )
+                    );
+                  }}
+                >
+                  <div>
+                    <img src={img_url} width={76} height={107} alt={img_url} />
+                  </div>
+                  <div className="ml-2">
+                    <h3>{nft.metadata.title}</h3>
+                    <p>{nft.metadata.title}</p>
+                  </div>
+                </div>
+              ))}
+            </section>
+          )}
+        </>
+      )}
       <section>
         <PrimaryButton
           isFull
