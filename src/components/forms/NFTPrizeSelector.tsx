@@ -16,6 +16,7 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
   onRequestClose,
 }) => {
   const [nfts, setNfts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectDataSource, setSelectDataSource] = useState<
     "Paras" | "Mintbase"
   >("Paras");
@@ -23,7 +24,10 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
 
   useEffect(() => {
     nft_tokens_for_owner_in_paras(wallet.getAccountId(), 100).then(
-      (data: ParasNft[]) => setNfts(data)
+      (data: ParasNft[]) => {
+        setNfts(data);
+        setLoading(false);
+      }
     );
   }, []);
   return (
@@ -56,32 +60,43 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
         className="overflow-auto "
         style={{ maxHeight: "50vh", height: "50vh" }}
       >
-        {nfts.map(({ nft, img_url, select }) => (
-          <div
-            key={nft.token_id}
-            className={clsx(
-              select ? "border-black" : "border-white",
-              "flex mb-4 px-2 py-3 rounded-lg shadow cursor-pointer border-2"
-            )}
-            onClick={() => {
-              setNfts(
-                nfts.map((nftTmp) =>
-                  nftTmp.nft.token_id === nft.token_id
-                    ? { ...nftTmp, select: !nftTmp.select }
-                    : nftTmp
-                )
-              );
-            }}
-          >
-            <div>
-              <img src={img_url} width={76} height={107} alt={img_url} />
+        {loading &&
+          new Array(3)
+            .fill(0)
+            .map((_, index) => (
+              <div
+                className="w-full h-32 mx-2 bg-gray-100 mb-4 rounded-lg"
+                key={index}
+              />
+            ))}
+        {!loading &&
+          nfts.length > 0 &&
+          nfts.map(({ nft, img_url, select }) => (
+            <div
+              key={nft.token_id}
+              className={clsx(
+                select ? "border-black" : "border-white",
+                "flex mb-4 px-2 py-3 rounded-lg shadow cursor-pointer border-2"
+              )}
+              onClick={() => {
+                setNfts(
+                  nfts.map((nftTmp) =>
+                    nftTmp.nft.token_id === nft.token_id
+                      ? { ...nftTmp, select: !nftTmp.select }
+                      : nftTmp
+                  )
+                );
+              }}
+            >
+              <div>
+                <img src={img_url} width={76} height={107} alt={img_url} />
+              </div>
+              <div className="ml-2">
+                <h3>{nft.metadata.title}</h3>
+                <p>{nft.metadata.title}</p>
+              </div>
             </div>
-            <div className="ml-2">
-              <h3>{nft.metadata.title}</h3>
-              <p>{nft.metadata.title}</p>
-            </div>
-          </div>
-        ))}
+          ))}
       </section>
       <section>
         <PrimaryButton
