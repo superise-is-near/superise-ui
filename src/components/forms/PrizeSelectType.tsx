@@ -26,8 +26,9 @@ const PriceSelectType: FC<IPriceSelectType> = ({
       <section className="flex mb-4">
         <div
           className={clsx(
-            "w-24 h-24 grid place-items-center mr-5 rounded-lg cursor-pointer bg-superise-gray",
-            selectPrizeType === "FT" && "border-2 border-black"
+            "w-24 h-24 grid place-items-center mr-5 rounded-lg cursor-pointer bg-gray-200",
+            selectPrizeType === "FT" &&
+              "border-2 border-black bg-superise-gradient"
           )}
           onClick={() => setSelectPrizeType("FT")}
         >
@@ -35,15 +36,16 @@ const PriceSelectType: FC<IPriceSelectType> = ({
         </div>
         <div
           className={clsx(
-            "w-24 h-24 grid place-items-center bg-nft-color rounded-lg cursor-pointer bg-superise-gradient",
-            selectPrizeType === "NFT" && "border-2 border-black"
+            "w-24 h-24 grid place-items-center bg-nft-color rounded-lg cursor-pointer bg-gray-200",
+            selectPrizeType === "NFT" &&
+              "border-2 border-black bg-superise-gradient"
           )}
           onClick={() => setSelectPrizeType("NFT")}
         >
           NFT
         </div>
       </section>
-      <p className="mb-8">
+      <p className="mb-8 text-sm font-normal leading-5">
         None fungible token, an item from Paras or Mintbase
       </p>
       <PrimaryButton

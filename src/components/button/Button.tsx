@@ -21,7 +21,7 @@ export function PrimaryButton(
   if (disabled) classes.push("cursor-not-allowed");
   return (
     <button
-      className={clsx(classes.join(" "), "hover:shadow")}
+      className={clsx(classes.join(" "), "hover:shadow-lg")}
       {...resetProps}
       disabled={loading || disabled}
     >
