@@ -23,13 +23,15 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
   const selectCount = 0;
 
   useEffect(() => {
-    nft_tokens_for_owner_in_paras(wallet.getAccountId(), 100).then(
-      (data: ParasNft[]) => {
-        setNfts(data);
-        setLoading(false);
-      }
-    );
-  }, []);
+    if (selectDataSource === "Paras") {
+      nft_tokens_for_owner_in_paras(wallet.getAccountId(), 100).then(
+        (data: ParasNft[]) => {
+          setNfts(data);
+          setLoading(false);
+        }
+      );
+    }
+  }, [selectDataSource]);
   return (
     <Modal
       isOpen={isOpen}
@@ -39,8 +41,10 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
       <section className="flex mb-3 justify-center items-center">
         <div
           className={clsx(
-            "w-24 h-8 grid place-items-center cursor-pointer rounded-lg font-bold bg-superise-gradient mr-1",
-            selectDataSource === "Paras" && "border-2 border-black"
+            "w-24 h-8 grid place-items-center cursor-pointer rounded-lg font-bold mr-1",
+            selectDataSource === "Paras"
+              ? "border-2 border-black bg-superise-gradient"
+              : "bg-superise-gray"
           )}
           onClick={() => setSelectDataSource("Paras")}
         >
@@ -48,8 +52,10 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
         </div>
         <div
           className={clsx(
-            "w-24 h-8  grid place-items-center cursor-pointer rounded-lg font-bold bg-superise-gray",
-            selectDataSource === "Mintbase" && "border-2 border-black"
+            "w-24 h-8  grid place-items-center cursor-pointer rounded-lg font-bold",
+            selectDataSource === "Mintbase"
+              ? "border-2 border-black bg-superise-gradient"
+              : " bg-superise-gray"
           )}
           onClick={() => setSelectDataSource("Mintbase")}
         >
