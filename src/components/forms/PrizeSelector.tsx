@@ -89,31 +89,37 @@ const PrizeSelector: FC<IPrizeSelectType> = (props) => {
           </TextButton>
         </div>
       )}
-      <PrizeSelectType
-        isOpen={showPrizeSelectType}
-        onRequestClose={() => setShowPrizeSelectType(false)}
-        showFTPrizeSelector={() => {
-          setShowPrizeSelectType(false);
-          setShowFTPrizeSelector(true);
-        }}
-        showNFTPrizeSelector={() => {
-          setShowPrizeSelectType(false);
-          setShowNFTPrizeSelector(true);
-        }}
-      />
-      <FTPrizeSelector
-        isOpen={showFTPrizeSelector}
-        input={input}
-        balances={balances}
-        tokens={tokens}
-        onRequestClose={() => setShowFTPrizeSelector(false)}
-        ftInputValue={ftInputValue}
-        setFtInputValue={setFtInputValue}
-      />
-      <NFTPrizeSelector
-        isOpen={showNFTPrizeSelector}
-        onRequestClose={() => setShowNFTPrizeSelector(false)}
-      />
+      {showPrizeSelectType && (
+        <PrizeSelectType
+          isOpen={showPrizeSelectType}
+          onRequestClose={() => setShowPrizeSelectType(false)}
+          showFTPrizeSelector={() => {
+            setShowPrizeSelectType(false);
+            setShowFTPrizeSelector(true);
+          }}
+          showNFTPrizeSelector={() => {
+            setShowPrizeSelectType(false);
+            setShowNFTPrizeSelector(true);
+          }}
+        />
+      )}
+      {showFTPrizeSelector && (
+        <FTPrizeSelector
+          isOpen={showFTPrizeSelector}
+          input={input}
+          balances={balances}
+          tokens={tokens}
+          onRequestClose={() => setShowFTPrizeSelector(false)}
+          ftInputValue={ftInputValue}
+          setFtInputValue={setFtInputValue}
+        />
+      )}
+      {showNFTPrizeSelector && (
+        <NFTPrizeSelector
+          isOpen={showNFTPrizeSelector}
+          onRequestClose={() => setShowNFTPrizeSelector(false)}
+        />
+      )}
     </section>
   );
 };
