@@ -22,8 +22,6 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
   const [selectDataSource, setSelectDataSource] = useState<
     "Paras" | "Mintbase"
   >("Paras");
-  const selectCount = 0;
-
   useEffect(() => {
     setLoading(true);
     if (selectDataSource === "Paras") {
@@ -140,7 +138,7 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
           isFull
           onClick={() => onRequestConfirm(nfts.filter((nft) => nft.select))}
         >
-          Add{selectCount === 0 ? "" : ` (${selectCount})`}
+          Add{nfts.length === 0 ? "" : ` (${nfts.length})`}
         </PrimaryButton>
       </section>
     </Modal>
