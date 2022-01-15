@@ -45,28 +45,30 @@ export default function CreateBox() {
   const tokens = useWhitelistTokens() || [];
   const ftAssets = useFtAssets();
   const onSubmit = async (values: any) => {
-    let p: CreatePrizePoolParam = {
-      cover: values.cover_url,
-      describe: values.description,
-      end_time: moment(values.end_day + " " + values.end_hour).valueOf(),
-      fts: values.prizes.map(
-        ({ amount, token }: any) =>
-          new FtPrize(
-            token.id === nearMetadata.id
-              ? config.WRAP_NEAR_CONTRACT_ID
-              : token.id,
-            toNonDivisibleNumber(24, amount)
-          )
-      ),
-      name: values.name,
-      nfs: [],
-      ticket_prize: toNonDivisibleNumber(24, values.ticket_price.amount),
-      ticket_token_id:
-        values.ticket_price.token.id === nearMetadata.id
-          ? config.WRAP_NEAR_CONTRACT_ID
-          : values.ticket_price.token.id,
-    };
-    create_prize_pool(p).then((e) => console.log(e));
+    // TODO create prize pool
+    console.log({ values });
+    // let p: CreatePrizePoolParam = {
+    //   cover: values.cover_url,
+    //   describe: values.description,
+    //   end_time: moment(values.end_day + " " + values.end_hour).valueOf(),
+    //   fts: values.prizes.map(
+    //     ({ amount, token }: any) =>
+    //       new FtPrize(
+    //         token.id === nearMetadata.id
+    //           ? config.WRAP_NEAR_CONTRACT_ID
+    //           : token.id,
+    //         toNonDivisibleNumber(24, amount)
+    //       )
+    //   ),
+    //   name: values.name,
+    //   nfs: [],
+    //   ticket_prize: toNonDivisibleNumber(24, values.ticket_price.amount),
+    //   ticket_token_id:
+    //     values.ticket_price.token.id === nearMetadata.id
+    //       ? config.WRAP_NEAR_CONTRACT_ID
+    //       : values.ticket_price.token.id,
+    // };
+    // create_prize_pool(p).then((e) => console.log(e));
     // create_prize_pool()
   };
 
@@ -253,7 +255,7 @@ export default function CreateBox() {
                   </button>
                 </div>
 
-                <label className="block mt">
+                <div className="block mt">
                   <span className="text-gray-700">Prize</span>
                   <div className="mt-1">
                     <Field name="prizes">
@@ -271,7 +273,7 @@ export default function CreateBox() {
                       name="prizes"
                     />
                   </div>
-                </label>
+                </div>
                 <PrimaryButton type="submit">Create</PrimaryButton>
               </div>
             </form>
