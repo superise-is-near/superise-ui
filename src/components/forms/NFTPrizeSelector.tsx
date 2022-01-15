@@ -127,7 +127,7 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
                   </div>
                   <div className="ml-2">
                     <h3 className="font-bold">{nft.metadata.title}</h3>
-                    <p>{nft.metadata.title}</p>
+                    <p>{nft.metadata.description}</p>
                   </div>
                 </div>
               ))}

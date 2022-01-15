@@ -128,7 +128,7 @@ const PrizeSelector: FC<IPrizeSelectType> = (props) => {
                   <h3 className="font-bold">
                     {nftInputValue.nft.metadata.title}
                   </h3>
-                  <p>{nftInputValue.nft.metadata.title}</p>
+                  <p>{nftInputValue.nft.metadata.description}</p>
                 </div>
               </div>
             </div>
