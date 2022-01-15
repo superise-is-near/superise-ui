@@ -9,6 +9,7 @@ import {
 } from "~domain/near/ft/models";
 import { SuperiseFtInputValue } from "./superise-ft-input";
 import { nanoid } from "nanoid";
+import { ParasNft } from "~domain/paras/models";
 
 interface IFTPrizeSelector {
   isOpen: boolean;
@@ -16,7 +17,7 @@ interface IFTPrizeSelector {
   input: {
     value?: {
       ftValue: SuperiseFtInputValue[];
-      nftValue: any[];
+      nftValue: ParasNft[];
     };
     onChange?: Function;
   };
