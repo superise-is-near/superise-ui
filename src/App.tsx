@@ -37,7 +37,6 @@ Modal.setAppElement('#root');
 function App() {
     return (
         <Router>
-          <NavigationBar />
           <Switch>
             <Route path="/account" component={AccountPage} />
             <Route path="/box/create" component={CreateBoxPage} />
@@ -54,7 +53,7 @@ function App() {
 function AutoHeight(Comp: any) {
     return (props: any) => {
         return (
-            <div className="xs:flex xs:flex-col md:flex md:flex-col justify-center h-4/5 lg:mt-12 relative">
+            <div className="relative justify-center xs:flex xs:flex-col md:flex md:flex-col h-4/5 lg:mt-12">
                 <Comp {...props} />
             </div>
         );
