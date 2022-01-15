@@ -84,7 +84,7 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
       )}
       {selectDataSource === "Mintbase" && (
         <div
-          className="grid place-items-center"
+          className="grid place-items-center text-gray-500"
           style={{ maxHeight: "50vh", height: "50vh" }}
         >
           We will support Mintbase later.
@@ -94,7 +94,7 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
         <>
           {!loading && nfts.length === 0 && (
             <div
-              className="grid place-items-center"
+              className="grid place-items-center text-gray-500"
               style={{ maxHeight: "50vh", height: "50vh" }}
             >
               You don’t have NFT in Paras, check other markeplace or go back.
