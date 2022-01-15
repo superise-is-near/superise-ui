@@ -14,7 +14,10 @@ interface IFTPrizeSelector {
   isOpen: boolean;
   onRequestClose: () => void;
   input: {
-    value?: SuperiseFtInputValue[];
+    value?: {
+      ftValue: SuperiseFtInputValue[];
+      nftValue: any[];
+    };
     onChange?: Function;
   };
   balances: TokenBalancesView;
@@ -38,7 +41,13 @@ const FTPrizeSelector: FC<IFTPrizeSelector> = ({
       title={
         ftInputValue.id
           ? "Update prize"
-          : `Add ${input.value.length > 0 ? "another" : "the first"} prize`
+          : `Add ${
+              input.value &&
+              input.value.ftValue &&
+              input.value.ftValue.length > 0
+                ? "another"
+                : "the first"
+            } prize`
       }
     >
       <div className="mt-4 grid grid-cols-1 gap-6">
@@ -58,12 +67,15 @@ const FTPrizeSelector: FC<IFTPrizeSelector> = ({
           {ftInputValue.id && (
             <PrimaryButton
               onClick={() => {
-                let newValue = input.value.filter(
+                let newValue = input.value.ftValue.filter(
                   (item) => item.id !== ftInputValue.id
                 );
                 onRequestClose();
                 setFtInputValue(EMPTY_INPUT_VALUE);
-                input.onChange(newValue);
+                input.onChange({
+                  ...input.value,
+                  ftValue: newValue,
+                });
               }}
             >
               Delete
@@ -72,7 +84,9 @@ const FTPrizeSelector: FC<IFTPrizeSelector> = ({
           <PrimaryButton
             isFull
             onClick={() => {
-              let newValue = [...input.value];
+              let newValue = input.value?.ftValue
+                ? [...input.value.ftValue]
+                : [];
               if (ftInputValue.id) {
                 newValue = newValue.map((item) => {
                   if (item.id !== ftInputValue.id) return item;
@@ -83,7 +97,10 @@ const FTPrizeSelector: FC<IFTPrizeSelector> = ({
               }
               onRequestClose();
               setFtInputValue(EMPTY_INPUT_VALUE);
-              input.onChange(newValue);
+              input.onChange({
+                ...input.value,
+                ftValue: newValue,
+              });
             }}
           >
             {ftInputValue.id ? "Update" : "Add"}

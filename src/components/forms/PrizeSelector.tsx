@@ -10,6 +10,9 @@ import { FaPlusSquare } from "react-icons/fa";
 import PrizeSelectType from "./PrizeSelectType";
 import FTPrizeSelector from "./FTPrizeSelector";
 import NFTPrizeSelector from "./NFTPrizeSelector";
+import { ParasNft } from "~domain/paras/models";
+import clsx from "classnames";
+import Modal from "~components/modal/modal";
 
 function InputValueDisplay({
   value,
@@ -20,12 +23,14 @@ function InputValueDisplay({
 }) {
   const { token, amount } = value;
 
-  let className =
-    "flex items-center justify-between p-1 pr-4 border-2 rounded transition";
-  if (onClick) className += " cursor-pointer hover:border-gray-700";
-
   return (
-    <div className={className} onClick={onClick}>
+    <div
+      className={clsx(
+        "flex items-center justify-between p-1 pr-4 border-2 rounded transition",
+        onClick && "cursor-pointer hover:border-gray-700"
+      )}
+      onClick={onClick}
+    >
       <img src={token.icon} className="w-12 h-12" />
       <span className="text-sm text-gray-700">
         {amount} {token.symbol}
@@ -36,7 +41,10 @@ function InputValueDisplay({
 
 interface IPrizeSelectType {
   input: {
-    value?: SuperiseFtInputValue[];
+    value?: {
+      ftValue: SuperiseFtInputValue[];
+      nftValue: ParasNft[];
+    };
     onChange?: Function;
   };
   balances: TokenBalancesView;
@@ -51,10 +59,25 @@ const PrizeSelector: FC<IPrizeSelectType> = (props) => {
 
   const [ftInputValue, setFtInputValue] =
     useState<SuperiseFtInputValue>(EMPTY_INPUT_VALUE);
+  const [nftInputValue, setNFTInputValue] = useState<ParasNft | undefined>();
 
+  const isInputEmpty = () => {
+    if (!input.value) return true;
+    const ftInputValue = input.value.ftValue;
+    const nftInputValue = input.value.nftValue;
+    const isFtEmpty = !ftInputValue || ftInputValue.length === 0;
+    const isNftEmpty = !nftInputValue || nftInputValue.length === 0;
+    if (isFtEmpty && isNftEmpty) return true;
+    return false;
+  };
+  console.log({
+    showFTPrizeSelector,
+    showNFTPrizeSelector,
+    showPrizeSelectType,
+  });
   return (
     <section>
-      {input.value.length === 0 && (
+      {isInputEmpty() && (
         <TextButton
           icon={<FaPlusSquare />}
           onClick={(e) => {
@@ -65,29 +88,64 @@ const PrizeSelector: FC<IPrizeSelectType> = (props) => {
           Add the first prize
         </TextButton>
       )}
-      {input.value.length > 0 && (
+      {input.value &&
+        input.value.nftValue &&
+        input.value.nftValue.length > 0 &&
+        input.value.nftValue.map((nft, index) => (
+          <div
+            key={index}
+            className="flex justify-between py-2 px-4 border-2 border-gray-300 mb-1 items-center"
+            onClick={() => {
+              setNFTInputValue(nft);
+            }}
+          >
+            <div
+              className="flex items-center"
+              style={{ width: "30px", height: "44px" }}
+            >
+              <img src={nft.img_url} alt={nft.img_url} />
+            </div>
+            <div className="text-gray-700">{nft.nft.metadata.title}</div>
+          </div>
+        ))}
+      {nftInputValue && (
+        <Modal
+          onRequestClose={() => setShowNFTPrizeSelector(false)}
+          isOpen={!!nftInputValue}
+          title="Remove from prize list"
+        >
+          <section>
+            <div>{/* TODO */}</div>
+            <div>{/* TODO */}</div>
+          </section>
+        </Modal>
+      )}
+      {input.value && input.value.ftValue && input.value.ftValue.length > 0 && (
         <div className="grid grid-cols-1 gap-2">
-          {input.value.map((item: SuperiseFtInputValue) => {
+          {input.value.ftValue.map((item: SuperiseFtInputValue) => {
             return (
               <InputValueDisplay
+                key={item.id}
                 value={item}
                 onClick={() => {
                   setFtInputValue(item);
-                  setShowPrizeSelectType(true);
+                  setShowFTPrizeSelector(true);
                 }}
               />
             );
           })}
-          <TextButton
-            icon={<FaPlusSquare />}
-            onClick={(e) => {
-              e.preventDefault();
-              setShowPrizeSelectType(true);
-            }}
-          >
-            Add another prize
-          </TextButton>
         </div>
+      )}
+      {!isInputEmpty() && (
+        <TextButton
+          icon={<FaPlusSquare />}
+          onClick={(e) => {
+            e.preventDefault();
+            setShowPrizeSelectType(true);
+          }}
+        >
+          Add another prize
+        </TextButton>
       )}
       {showPrizeSelectType && (
         <PrizeSelectType
@@ -118,6 +176,10 @@ const PrizeSelector: FC<IPrizeSelectType> = (props) => {
         <NFTPrizeSelector
           isOpen={showNFTPrizeSelector}
           onRequestClose={() => setShowNFTPrizeSelector(false)}
+          onRequestConfirm={(nfts) => {
+            setShowNFTPrizeSelector(false);
+            input.onChange({ ...input.value, nftValue: nfts });
+          }}
         />
       )}
     </section>

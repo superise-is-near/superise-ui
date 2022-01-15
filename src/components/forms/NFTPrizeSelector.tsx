@@ -9,11 +9,13 @@ import { ParasNft } from "~domain/paras/models";
 interface INFTPrizeSelector {
   isOpen: boolean;
   onRequestClose: () => void;
+  onRequestConfirm: (nfts: any) => void;
 }
 
 const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
   isOpen,
   onRequestClose,
+  onRequestConfirm,
 }) => {
   const [nfts, setNfts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -136,9 +138,7 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
       <section>
         <PrimaryButton
           isFull
-          onClick={() => {
-            // TODO
-          }}
+          onClick={() => onRequestConfirm(nfts.filter((nft) => nft.select))}
         >
           Add{selectCount === 0 ? "" : ` (${selectCount})`}
         </PrimaryButton>
