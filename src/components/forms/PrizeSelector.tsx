@@ -92,21 +92,19 @@ const PrizeSelector: FC<IPrizeSelectType> = (props) => {
         input.value.nftValue &&
         input.value.nftValue.length > 0 &&
         input.value.nftValue.map((nft, index) => (
-          <div
-            key={index}
-            className="flex justify-between py-2 px-4 border-2 border-gray-300 mb-1 items-center"
+          <InputValueDisplay
+            value={{
+              id: nft.nft.token_id,
+              amount: "",
+              token: {
+                icon: nft.img_url,
+                symbol: nft.nft.metadata.title,
+              } as TokenMetadata,
+            }}
             onClick={() => {
               setNFTInputValue(nft);
             }}
-          >
-            <div
-              className="flex items-center"
-              style={{ width: "30px", height: "44px" }}
-            >
-              <img src={nft.img_url} alt={nft.img_url} />
-            </div>
-            <div className="text-gray-700">{nft.nft.metadata.title}</div>
-          </div>
+          />
         ))}
       {nftInputValue && (
         <Modal
