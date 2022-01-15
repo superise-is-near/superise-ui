@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { TextButton } from "~components/button/Button";
+import { PrimaryButton, TextButton } from "~components/button/Button";
 import { SuperiseFtInputValue } from "./superise-ft-input";
 import {
   EMPTY_INPUT_VALUE,
@@ -110,13 +110,46 @@ const PrizeSelector: FC<IPrizeSelectType> = (props) => {
         ))}
       {nftInputValue && (
         <Modal
-          onRequestClose={() => setShowNFTPrizeSelector(false)}
+          onRequestClose={() => setNFTInputValue(undefined)}
           isOpen={!!nftInputValue}
           title="Remove from prize list"
         >
           <section>
-            <div>{/* TODO */}</div>
-            <div>{/* TODO */}</div>
+            <div className="shadow-lg rounded-lg px-4 py-2 flex mb-5">
+              <img
+                className="mr-3"
+                height="100px"
+                width="80px"
+                src={nftInputValue.img_url}
+                alt={nftInputValue.nft.metadata.title}
+              />
+              <div>
+                <div className="ml-2">
+                  <h3 className="font-bold">
+                    {nftInputValue.nft.metadata.title}
+                  </h3>
+                  <p>{nftInputValue.nft.metadata.title}</p>
+                </div>
+              </div>
+            </div>
+            <PrimaryButton
+              isFull
+              onClick={() => {
+                input.onChange({
+                  ...input.value,
+                  nftValue: input.value.nftValue.filter(
+                    (nft) =>
+                      !(
+                        nft.nft.token_id === nftInputValue.nft.token_id &&
+                        nft.nft.owner_id === nftInputValue.nft.owner_id
+                      )
+                  ),
+                });
+                setNFTInputValue(undefined);
+              }}
+            >
+              Remove
+            </PrimaryButton>
           </section>
         </Modal>
       )}

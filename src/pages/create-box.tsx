@@ -255,7 +255,7 @@ export default function CreateBox() {
                   </button>
                 </div>
 
-                <label className="block mt">
+                <div className="block mt">
                   <span className="text-gray-700">Prize</span>
                   <div className="mt-1">
                     <Field name="prizes">
@@ -273,7 +273,7 @@ export default function CreateBox() {
                       name="prizes"
                     />
                   </div>
-                </label>
+                </div>
                 <PrimaryButton type="submit">Create</PrimaryButton>
               </div>
             </form>

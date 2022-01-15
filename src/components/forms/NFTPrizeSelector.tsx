@@ -126,7 +126,7 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
                     <img src={img_url} width={76} height={107} alt={img_url} />
                   </div>
                   <div className="ml-2">
-                    <h3>{nft.metadata.title}</h3>
+                    <h3 className="font-bold">{nft.metadata.title}</h3>
                     <p>{nft.metadata.title}</p>
                   </div>
                 </div>
