@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "~components/Card";
 import { Form, Field } from "react-final-form";
+import { useHistory } from "react-router-dom";
 import { PrimaryButton } from "~components/button/Button";
 import PrizeSelector from "~components/forms/PrizeSelector";
 import SuperiseFtInput from "~components/forms/superise-ft-input";
@@ -44,6 +45,7 @@ export default function CreateBox() {
   const balances = useTokenBalances();
   const tokens = useWhitelistTokens() || [];
   const ftAssets = useFtAssets();
+  const history = useHistory();
   const onSubmit = async (values: any) => {
     // TODO create prize pool
     console.log({ values });
@@ -281,7 +283,11 @@ export default function CreateBox() {
                     name="tweet_link"
                     component="textarea"
                     type="text"
-                    defaultValue=""
+                    defaultValue={
+                      new URLSearchParams(history.location.search).get(
+                        "twitter"
+                      ) ?? ""
+                    }
                     placeholder="eg: https://twitter.com/blitzstein1125/status/1479875380659974148"
                     className="block w-full mt-1 rounded-md"
                   />

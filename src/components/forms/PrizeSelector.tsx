@@ -70,11 +70,6 @@ const PrizeSelector: FC<IPrizeSelectType> = (props) => {
     if (isFtEmpty && isNftEmpty) return true;
     return false;
   };
-  console.log({
-    showFTPrizeSelector,
-    showNFTPrizeSelector,
-    showPrizeSelectType,
-  });
   return (
     <section>
       {isInputEmpty() && (
