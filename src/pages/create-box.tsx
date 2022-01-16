@@ -22,6 +22,7 @@ import dayjs from "dayjs";
 import RequestSigninModal from "~components/modal/request-signin-modal";
 import { wallet } from "~services/near";
 import PrizeSelectType from "~components/forms/PrizeSelector";
+import Participant from "~components/forms/Participant";
 
 let config = getConfig();
 
@@ -273,6 +274,32 @@ export default function CreateBox() {
                     />
                   </div>
                 </div>
+
+                <label className="block mt">
+                  <span className="text-gray-700">Tweet link</span>
+                  <Field
+                    name="tweet_link"
+                    component="textarea"
+                    type="text"
+                    defaultValue=""
+                    placeholder="eg: https://twitter.com/blitzstein1125/status/1479875380659974148"
+                    className="block w-full mt-1 rounded-md"
+                  />
+                  <FormErrorLabel
+                    errors={errors}
+                    touched={touched}
+                    name="cover_url"
+                  />
+                </label>
+                <label className="block mt">
+                  <span className="text-gray-700">The participant must:</span>
+                  <Participant
+                    follow={"@blitzstein1125"}
+                    hasFollow={true}
+                    hasRetweet={false}
+                    hasLike={false}
+                  />
+                </label>
                 <PrimaryButton type="submit">Create</PrimaryButton>
               </div>
             </form>
