@@ -17,15 +17,17 @@ function AccountEntry() {
   const history = useHistory();
 
   if (!isSignedIn) {
-    <PrimaryButton
-      color="#1C9954"
-      size="small"
-      onClick={() => {
-        wallet.requestSignIn(REF_FARM_CONTRACT_ID);
-      }}
-    >
-      Connect to NEAR
-    </PrimaryButton>;
+    return (
+      <PrimaryButton
+        color="#1C9954"
+        size="small"
+        onClick={() => {
+          wallet.requestSignIn(REF_FARM_CONTRACT_ID);
+        }}
+      >
+        Connect to NEAR
+      </PrimaryButton>
+    );
   }
 
   return (
