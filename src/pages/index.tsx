@@ -31,7 +31,7 @@ export default function Index() {
   const featuredPool = prizePoolDisplays?.[0];
   return (
     <div>
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+      <div className="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-12">
         <div className="lg:col-span-7">
           <ColorCard>
             <div className="grid grid-cols-1 gap-5">
@@ -75,7 +75,7 @@ export default function Index() {
         </div>
       </div>
 
-      <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:auto-rows-fr">
+      <div className="mt-6 md:mt-8 grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-12 lg:auto-rows-fr">
         <div className="lg:col-span-7 xl:col-span-4">
           <ColorCard theme="purple">
             <div className="grid grid-cols-1 gap-5">
@@ -110,7 +110,7 @@ export default function Index() {
           </ColorCard>
         </div>
       </div>
-      <div className="mt-8">
+      <div className="mt-6 md:mt-8">
         <ColorCard theme="lightGreen">
           <div className="grid grid-cols-1 gap-5">
             <FaFire size="36px" color={cardTheme.lightGreen.fg} />
