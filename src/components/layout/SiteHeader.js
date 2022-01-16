@@ -19,7 +19,6 @@ function AccountEntry() {
   if (!isSignedIn) {
     return (
       <PrimaryButton
-        color="#1C9954"
         size="small"
         onClick={() => {
           wallet.requestSignIn(REF_FARM_CONTRACT_ID);
@@ -32,7 +31,6 @@ function AccountEntry() {
 
   return (
     <PrimaryButton
-      color="#1C9954"
       size="small"
       onClick={() => {
         history.push("/account");
@@ -48,7 +46,7 @@ const Header = () => {
     <div className="flex items-center justify-between py-6">
       <Link to="/">
         <div className="flex items-center">
-          <Logo color="#1C9954" />
+          <Logo />
           <div className="m-2" />
           <TextLogo />
         </div>

@@ -15,6 +15,7 @@ import {
 import { GiDramaMasks } from "react-icons/gi";
 import { cardTheme, ColorCard, ColorCardTitle } from "~/components/ColorCard";
 import Footer from "~components/layout/footer";
+import Logo from "~components/icons/logo";
 
 export default function Index() {
   let history = useHistory();
@@ -35,10 +36,11 @@ export default function Index() {
         <div className="lg:col-span-7">
           <ColorCard>
             <div className="grid grid-cols-1 gap-5">
+              <Logo size="36px" color={cardTheme.blue.fg} />
               <ColorCardTitle>
-                <span className="text-4xl">
+                <h1 className="text-4xl lg:w-10/12">
                   Social media giveaway made easy and transparent.
-                </span>
+                </h1>
               </ColorCardTitle>
               <div className="lg:w-2/3">
                 <PrizePoolCard
