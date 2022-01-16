@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import dayjs from "dayjs";
 import { PrizePoolDisplay } from "~domain/superise/models";
 import { fancyTimeFormat } from "~utils/time";

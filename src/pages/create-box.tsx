@@ -1,6 +1,5 @@
 import React from "react";
 import Card from "~components/Card";
-import CenterWrap from "~components/layout/center-wrap";
 import { Form, Field } from "react-final-form";
 import { PrimaryButton } from "~components/button/Button";
 import PrizeSelector from "~components/forms/PrizeSelector";
@@ -73,12 +72,12 @@ export default function CreateBox() {
   };
 
   return (
-    <CenterWrap>
-      <RequestSigninModal
-        isOpen={!wallet.isSignedIn()}
-        text="Please connect to NEAR wallet before creating a mysteray box."
-      />
+    <div className="m-auto lg:max-w-2xl">
       <Card title="Create a box">
+        <RequestSigninModal
+          isOpen={!wallet.isSignedIn()}
+          text="Please connect to NEAR wallet before creating a mysteray box."
+        />
         <Form
           onSubmit={onSubmit}
           validate={(values) => {
@@ -280,6 +279,6 @@ export default function CreateBox() {
           )}
         />
       </Card>
-    </CenterWrap>
+    </div>
   );
 }

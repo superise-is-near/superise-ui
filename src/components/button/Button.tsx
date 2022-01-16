@@ -10,7 +10,8 @@ export function PrimaryButton(
     suffixIcon?: JSX.Element;
     icon?: JSX.Element;
     type?: "button" | "submit" | "reset";
-    className?: string;
+    color?: string;
+    size?: string;
   }
 ) {
   const {
@@ -20,12 +21,16 @@ export function PrimaryButton(
     loading,
     disabled,
     className,
+    color,
+    size,
     ...resetProps
   } = props;
   return (
     <button
       className={clsx(
-        "flex items-center justify-center text-lg bg-gray-900 text-white px-5 py-2 rounded-full",
+        "flex items-center justify-center bg-gray-900 text-white px-5 py-2 rounded-full font-bold",
+        size === "small" && "py-1 px-4 text-sm",
+        size !== "small" && "py-2 px-5 text-base",
         isFull && "w-full",
         disabled && "cursor-not-allowed",
         "hover:shadow-lg",
@@ -33,6 +38,7 @@ export function PrimaryButton(
       )}
       {...resetProps}
       disabled={loading || disabled}
+      style={{ backgroundColor: color }}
     >
       {!loading && (
         <span

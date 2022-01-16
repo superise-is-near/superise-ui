@@ -1,21 +1,13 @@
 import React from "react";
 import "reflect-metadata";
 import "es6-shim";
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  useRouteMatch,
-  useLocation,
-} from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { AccountPage } from "./pages/account";
 import IndexPage from "./pages/index";
 import BoxPage from "~pages/box-page";
 import CreateBoxPage from "~pages/create-box";
-import NavigationBar from "./components/layout/NavigationBar";
 import Modal from "react-modal";
-import Footer from "~components/layout/footer";
-import CenterWrap from "~/components/layout/center-wrap";
+import SiteHeader from "~/components/layout/SiteHeader";
 
 Modal.defaultStyles = {
   overlay: {
@@ -43,30 +35,18 @@ Modal.setAppElement("#root");
 
 function App() {
   return (
-    <Router>
-      <NavigationBar />
-      <Switch>
-        <Route path="/account" component={AccountPage} />
-        <Route path="/box/create" component={CreateBoxPage} />
-        <Route path="/box/:id" component={BoxPage} />
-        <Route path="/" component={IndexPage} />
-      </Switch>
-      <Footer />
-    </Router>
+    <div className="max-w-2xl px-5 m-auto mb-6 lg:max-w-7xl">
+      <Router>
+        <SiteHeader />
+        <Switch>
+          <Route path="/account" component={AccountPage} />
+          <Route path="/box/create" component={CreateBoxPage} />
+          <Route path="/box/:id" component={BoxPage} />
+          <Route path="/" component={IndexPage} />
+        </Switch>
+      </Router>
+    </div>
   );
-}
-
-// decorate any components with this HOC to display them as vertical-align middle
-// use individual fn is needed since `h-4/5` is not a appropriate style rule for
-// any components
-function AutoHeight(Comp: any) {
-  return (props: any) => {
-    return (
-      <div className="relative justify-center xs:flex xs:flex-col md:flex md:flex-col h-4/5 lg:mt-12">
-        <Comp {...props} />
-      </div>
-    );
-  };
 }
 
 export default App;
