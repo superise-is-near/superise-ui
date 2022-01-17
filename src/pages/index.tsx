@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { PrimaryButton } from "~/components/button/Button";
 import { useHistory } from "react-router-dom";
 import { usePrizePoolDisplayLists } from "~state/prize";
@@ -27,6 +27,7 @@ export default function Index() {
   let prizePoolDisplays = usePrizePoolDisplayLists();
   const tokens = useWhitelistTokens();
 
+  const [twitterLink, setTwitterLink] = useState("");
   if (!prizePoolDisplays || !tokens) return <PageLoading />;
 
   const featuredPool = prizePoolDisplays?.[0];
@@ -60,6 +61,7 @@ export default function Index() {
                 Paste the Twitter giveaway link to get start.
               </ColorCardTitle>
               <textarea
+                onChange={(e) => setTwitterLink(e.target.value)}
                 rows={5}
                 className="border-0 rounded-sm"
                 placeholder="Put twitter link here"
@@ -67,7 +69,7 @@ export default function Index() {
               <PrimaryButton
                 suffixIcon={<FaArrowRight />}
                 onClick={() => {
-                  history.push("/box/create");
+                  history.push(`/box/create?twitter=${twitterLink}`);
                 }}
               >
                 CREATE GIVEAWAY BOX
@@ -120,7 +122,7 @@ export default function Index() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
               {prizePoolDisplays.slice(0, 5).map((pool, idx) => {
                 return (
-                  <div className="md:col-span-6 lg:col-span-4">
+                  <div key={idx} className="md:col-span-6 lg:col-span-4">
                     <PrizePoolCard
                       key={idx}
                       tokens={tokens}
