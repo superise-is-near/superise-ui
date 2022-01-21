@@ -1,10 +1,13 @@
 import { number, string } from "mathjs";
 import { Type } from "class-transformer";
-type TokenId = string;
-type Balance = number;
-type PoolId = number;
-type AccountId = string;
-type TimeStamp = number;
+export type TokenId = string;
+export type Balance = string;
+export type PoolId = number;
+// near account like xxx.near
+export type AccountId = string;
+export type TimeStamp = number;
+export type MilliTimeStamp = number;
+export type PrizeId = number;
 
 export class PrizePoolDisplay {
   id: number;
@@ -22,37 +25,30 @@ export class PrizePoolDisplay {
 export class PrizePool {
   id: number = 0;
   creator_id: string = "";
-  name: string = "";
-  describe: string = "";
-  cover: string = "";
-  @Type(() => FtPrize)
   ft_prizes: FtPrize[] = [];
-  @Type(() => NftPrize)
   nft_prizes: NftPrize[] = [];
-
-  @Type(() => string)
   join_accounts: string[] = [];
-  end_time: number = 0;
-  @Type(() => Record)
-  records: Record[] = [];
-  ticket_price: string = "1";
-  ticket_token_id: TokenId = "";
-  finish: boolean = false;
 }
 
-export class NftPrize {
-  contract: string;
-  id: string;
-}
+export type NftAsset = {
+  contract_id: string;
+  nft_id: String;
+};
 
-export class FtPrize {
-  token_id: string;
-  amount: string;
-  constructor(toke_id: string, amount: string) {
-    this.token_id = toke_id;
-    this.amount = amount;
-  }
-}
+export type FtAsset = {
+  contract_id: string;
+  balance: Balance;
+};
+
+export type NftPrize = {
+  prize_id: PrizeId;
+  nft: NftAsset;
+};
+
+export type FtPrize = {
+  prize_id: PrizeId;
+  ft: FtAsset;
+};
 
 class Account {
   fts: Map<TokenId, Balance>;

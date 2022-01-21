@@ -99,7 +99,11 @@ export default function Assets(props: {
     if (selectedToken.id === nearMetadata.id) {
       return wrapNear(amount);
     }
-    deposit_ft({ token: selectedToken, amount });
+    deposit_ft({
+      contract_id: selectedToken.id,
+      decimals: selectedToken.decimals,
+      amount,
+    });
   };
 
   return (

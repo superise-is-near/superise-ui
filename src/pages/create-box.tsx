@@ -16,13 +16,15 @@ import {
   CreatePrizePoolParam,
 } from "~domain/superise/methods";
 import moment from "moment";
-import { FtPrize } from "~domain/superise/models";
+import { FtAsset, FtPrize } from "~domain/superise/models";
 import getConfig from "~domain/near/config";
 import { toNonDivisibleNumber } from "~utils/numbers";
 import dayjs from "dayjs";
 import RequestSigninModal from "~components/modal/request-signin-modal";
 import { wallet } from "~services/near";
 import PrizeSelectType from "~components/forms/PrizeSelector";
+import { TwitterPoolCreateParam } from "~domain/superise/twitter_giveaway/models";
+import { create_twitter_pool } from "~domain/superise/twitter_giveaway/methods";
 
 let config = getConfig();
 
@@ -45,28 +47,35 @@ export default function CreateBox() {
   const tokens = useWhitelistTokens() || [];
   const ftAssets = useFtAssets();
   const onSubmit = async (values: any) => {
-    let p: CreatePrizePoolParam = {
+    let p: TwitterPoolCreateParam = {
       cover: values.cover_url,
       describe: values.description,
       end_time: moment(values.end_day + " " + values.end_hour).valueOf(),
-      fts: values.prizes.map(
-        ({ amount, token }: any) =>
-          new FtPrize(
-            token.id === nearMetadata.id
-              ? config.WRAP_NEAR_CONTRACT_ID
-              : token.id,
-            toNonDivisibleNumber(24, amount)
-          )
-      ),
-      name: values.name,
-      nfs: [],
-      ticket_prize: toNonDivisibleNumber(24, values.ticket_price.amount),
-      ticket_token_id:
-        values.ticket_price.token.id === nearMetadata.id
-          ? config.WRAP_NEAR_CONTRACT_ID
-          : values.ticket_price.token.id,
+      ft_prizes: values.prizes.map(),
     };
-    create_prize_pool(p).then((e) => console.log(e));
+    // let p: CreatePrizePoolParam = {
+    //   cover: values.cover_url,
+    //   describe: values.description,
+    //   end_time: moment(values.end_day + " " + values.end_hour).valueOf(),
+    //   fts: values.prizes.map(
+    //     ({ amount, token }: any) =>
+    //       // new FtPrize(
+    //       //   token.id === nearMetadata.id
+    //       //     ? config.WRAP_NEAR_CONTRACT_ID
+    //       //     : token.id,
+    //       //   toNonDivisibleNumber(24, amount)
+    //       // )
+    //   ),
+    //   name: values.name,
+    //   nfs: [],
+    //   ticket_prize: toNonDivisibleNumber(24, values.ticket_price.amount),
+    //   ticket_token_id:
+    //     values.ticket_price.token.id === nearMetadata.id
+    //       ? config.WRAP_NEAR_CONTRACT_ID
+    //       : values.ticket_price.token.id,
+    // };
+    return create_twitter_pool(p);
+    // create_prize_pool(p).then((e) => console.log(e));
     // create_prize_pool()
   };
 

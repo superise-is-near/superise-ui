@@ -3,7 +3,7 @@ import { TokenBalancesView, TokenMetadata } from "~domain/near/ft/models";
 import { toNonDivisibleNumber } from "~utils/numbers";
 import { FinalExecutionOutcome } from "near-api-js/lib/providers";
 import getConfig from "~domain/near/config";
-import { FunctionCallOptions } from "~domain/near/models";
+import { defaultGas, FunctionCallOptions } from "~domain/near/models";
 import { nearViewCall, ONE_YOCTO_NEAR, wallet } from "~domain/near/global";
 import {
   FtPrize,
@@ -14,23 +14,50 @@ import {
 
 let config = getConfig();
 
-interface DepositOptions {
-  token: TokenMetadata;
+interface DepositNftOptions {
+  contract_id: string;
+  nft_id: string;
+  msg?: string;
+}
+export function deposit_nft({
+  contract_id,
+  nft_id,
+  msg = "",
+}: DepositNftOptions): Promise<FinalExecutionOutcome> {
+  return wallet.account().functionCall(
+    contract_id,
+    "nft_transfer_call",
+    {
+      receiver_id: config.SUPERISE_CONTRACT_ID,
+      token_id: nft_id,
+      approval_id: null,
+      memo: null,
+      msg: msg,
+    },
+    getGas("300000000000000"),
+    getAmount(ONE_YOCTO_NEAR)
+  );
+}
+
+interface DepositFtOptions {
+  contract_id: string;
+  decimals: number;
   amount: string;
   msg?: string;
 }
 
 export function deposit_ft({
-  token,
+  contract_id,
+  decimals,
   amount,
   msg = "",
-}: DepositOptions): Promise<FinalExecutionOutcome> {
+}: DepositFtOptions): Promise<FinalExecutionOutcome> {
   return wallet.account().functionCall(
-    token.id,
+    contract_id,
     "ft_transfer_call",
     {
       receiver_id: config.SUPERISE_CONTRACT_ID,
-      amount: toNonDivisibleNumber(token.decimals, amount),
+      amount: toNonDivisibleNumber(decimals, amount),
       msg,
     },
     getGas("300000000000000"),
@@ -66,10 +93,6 @@ export type CreatePrizePoolParam = {
   end_time: number;
   fts?: FtPrize[];
   nfs?: NftPrize[];
-};
-const defaultGas: FunctionCallOptions = {
-  gas: "300000000000000",
-  amount: ONE_YOCTO_NEAR,
 };
 
 export function create_prize_pool(

@@ -1,4 +1,4 @@
-type TokenMetadata = {
+export type TokenMetadata = {
   title: string | null; // ex. "Arch Nemesis: Mail Carrier" or "Parcel #5055"
   description: string | null; // free-form description
   media: string | null; // URL to associated media, preferably to decentralized, content-addressed storage
@@ -13,12 +13,12 @@ type TokenMetadata = {
   reference_hash: string | null; // Base64-encoded sha256 hash of JSON from reference field. Required if `reference` is included.
 };
 
-type Nft = {
+export type Nft = {
   token_id: string;
   owner_id: string;
   metadata: TokenMetadata;
 };
 
-interface INft {
+export interface INft {
   getNft(): Nft;
 }
