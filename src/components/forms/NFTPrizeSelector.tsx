@@ -9,19 +9,19 @@ import { ParasNft } from "~domain/paras/models";
 interface INFTPrizeSelector {
   isOpen: boolean;
   onRequestClose: () => void;
+  onRequestConfirm: (nfts: any) => void;
 }
 
 const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
   isOpen,
   onRequestClose,
+  onRequestConfirm,
 }) => {
   const [nfts, setNfts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectDataSource, setSelectDataSource] = useState<
     "Paras" | "Mintbase"
   >("Paras");
-  const selectCount = 0;
-
   useEffect(() => {
     setLoading(true);
     if (selectDataSource === "Paras") {
@@ -82,7 +82,7 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
       )}
       {selectDataSource === "Mintbase" && (
         <div
-          className="grid place-items-center"
+          className="grid place-items-center text-gray-500"
           style={{ maxHeight: "50vh", height: "50vh" }}
         >
           We will support Mintbase later.
@@ -92,7 +92,7 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
         <>
           {!loading && nfts.length === 0 && (
             <div
-              className="grid place-items-center"
+              className="grid place-items-center text-gray-500"
               style={{ maxHeight: "50vh", height: "50vh" }}
             >
               You don’t have NFT in Paras, check other markeplace or go back.
@@ -124,8 +124,8 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
                     <img src={img_url} width={76} height={107} alt={img_url} />
                   </div>
                   <div className="ml-2">
-                    <h3>{nft.metadata.title}</h3>
-                    <p>{nft.metadata.title}</p>
+                    <h3 className="font-bold">{nft.metadata.title}</h3>
+                    <p>{nft.metadata.description}</p>
                   </div>
                 </div>
               ))}
@@ -136,11 +136,9 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
       <section>
         <PrimaryButton
           isFull
-          onClick={() => {
-            // TODO
-          }}
+          onClick={() => onRequestConfirm(nfts.filter((nft) => nft.select))}
         >
-          Add{selectCount === 0 ? "" : ` (${selectCount})`}
+          Add{nfts.length === 0 ? "" : ` (${nfts.length})`}
         </PrimaryButton>
       </section>
     </Modal>

@@ -5,15 +5,12 @@ import Assets from "~/components/account/assets";
 import { wallet } from "~services/near";
 import { PrimaryButton } from "~/components/button/Button";
 import PrizePoolGallary from "~components/prize/prize-pool-gallery";
-import CenterWrap from "~components/layout/center-wrap";
 import { useFtAssets, useWhitelistTokens } from "~state/token";
 import { useAccountHistory } from "~state/prize";
 import RequestSigninModal from "~components/modal/request-signin-modal";
-import {
-  getImgUrlFromCid,
-  nft_tokens_for_owner_in_paras,
-} from "~domain/paras/methods";
+import { nft_tokens_for_owner_in_paras } from "~domain/paras/methods";
 import { ParasNft } from "~domain/paras/models";
+import Footer from "~components/layout/footer";
 
 export function AccountPage() {
   let history = useHistory();
@@ -37,13 +34,15 @@ export function AccountPage() {
         setNfts(nfts);
       }
     );
-  });
+  }, []);
   return (
-    <CenterWrap>
+    <div className="m-auto lg:max-w-2xl">
+      {/*
       {nfts.map((e) => {
         console.log("url", getImgUrlFromCid(e.nft.metadata.media));
         return <img src={getImgUrlFromCid(e.nft.metadata.media)} />;
       })}
+        */}
       <Assets tokens={tokens} balances={ftAssets} />
       <div className="mt-8" />
       <div className="mt-8" />
@@ -60,6 +59,7 @@ export function AccountPage() {
           Sign out
         </PrimaryButton>
       </div>
-    </CenterWrap>
+      <Footer />
+    </div>
   );
 }

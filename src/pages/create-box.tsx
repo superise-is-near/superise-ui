@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "~components/Card";
-import CenterWrap from "~components/layout/center-wrap";
 import { Form, Field } from "react-final-form";
+import { useHistory } from "react-router-dom";
 import { PrimaryButton } from "~components/button/Button";
 import PrizeSelector from "~components/forms/PrizeSelector";
 import SuperiseFtInput from "~components/forms/superise-ft-input";
@@ -16,15 +16,14 @@ import {
   CreatePrizePoolParam,
 } from "~domain/superise/methods";
 import moment from "moment";
-import { FtAsset, FtPrize } from "~domain/superise/models";
+import { FtPrize } from "~domain/superise/models";
 import getConfig from "~domain/near/config";
 import { toNonDivisibleNumber } from "~utils/numbers";
 import dayjs from "dayjs";
 import RequestSigninModal from "~components/modal/request-signin-modal";
 import { wallet } from "~services/near";
 import PrizeSelectType from "~components/forms/PrizeSelector";
-import { TwitterPoolCreateParam } from "~domain/superise/twitter_giveaway/models";
-import { create_twitter_pool } from "~domain/superise/twitter_giveaway/methods";
+import Participant from "~components/forms/Participant";
 
 let config = getConfig();
 
@@ -46,25 +45,22 @@ export default function CreateBox() {
   const balances = useTokenBalances();
   const tokens = useWhitelistTokens() || [];
   const ftAssets = useFtAssets();
+  const history = useHistory();
   const onSubmit = async (values: any) => {
-    let p: TwitterPoolCreateParam = {
-      cover: values.cover_url,
-      describe: values.description,
-      end_time: moment(values.end_day + " " + values.end_hour).valueOf(),
-      ft_prizes: values.prizes.map(),
-    };
+    // TODO create prize pool
+    console.log({ values });
     // let p: CreatePrizePoolParam = {
     //   cover: values.cover_url,
     //   describe: values.description,
     //   end_time: moment(values.end_day + " " + values.end_hour).valueOf(),
     //   fts: values.prizes.map(
     //     ({ amount, token }: any) =>
-    //       // new FtPrize(
-    //       //   token.id === nearMetadata.id
-    //       //     ? config.WRAP_NEAR_CONTRACT_ID
-    //       //     : token.id,
-    //       //   toNonDivisibleNumber(24, amount)
-    //       // )
+    //       new FtPrize(
+    //         token.id === nearMetadata.id
+    //           ? config.WRAP_NEAR_CONTRACT_ID
+    //           : token.id,
+    //         toNonDivisibleNumber(24, amount)
+    //       )
     //   ),
     //   name: values.name,
     //   nfs: [],
@@ -74,18 +70,17 @@ export default function CreateBox() {
     //       ? config.WRAP_NEAR_CONTRACT_ID
     //       : values.ticket_price.token.id,
     // };
-    return create_twitter_pool(p);
     // create_prize_pool(p).then((e) => console.log(e));
     // create_prize_pool()
   };
 
   return (
-    <CenterWrap>
-      <RequestSigninModal
-        isOpen={!wallet.isSignedIn()}
-        text="Please connect to NEAR wallet before creating a mysteray box."
-      />
+    <div className="m-auto lg:max-w-2xl">
       <Card title="Create a box">
+        <RequestSigninModal
+          isOpen={!wallet.isSignedIn()}
+          text="Please connect to NEAR wallet before creating a mysteray box."
+        />
         <Form
           onSubmit={onSubmit}
           validate={(values) => {
@@ -262,7 +257,7 @@ export default function CreateBox() {
                   </button>
                 </div>
 
-                <label className="block mt">
+                <div className="block mt">
                   <span className="text-gray-700">Prize</span>
                   <div className="mt-1">
                     <Field name="prizes">
@@ -280,6 +275,36 @@ export default function CreateBox() {
                       name="prizes"
                     />
                   </div>
+                </div>
+
+                <label className="block mt">
+                  <span className="text-gray-700">Tweet link</span>
+                  <Field
+                    name="tweet_link"
+                    component="textarea"
+                    type="text"
+                    defaultValue={
+                      new URLSearchParams(history.location.search).get(
+                        "twitter"
+                      ) ?? ""
+                    }
+                    placeholder="eg: https://twitter.com/blitzstein1125/status/1479875380659974148"
+                    className="block w-full mt-1 rounded-md"
+                  />
+                  <FormErrorLabel
+                    errors={errors}
+                    touched={touched}
+                    name="cover_url"
+                  />
+                </label>
+                <label className="block mt">
+                  <span className="text-gray-700">The participant must:</span>
+                  <Participant
+                    follow={"@blitzstein1125"}
+                    hasFollow={true}
+                    hasRetweet={false}
+                    hasLike={false}
+                  />
                 </label>
                 <PrimaryButton type="submit">Create</PrimaryButton>
               </div>
@@ -287,6 +312,6 @@ export default function CreateBox() {
           )}
         />
       </Card>
-    </CenterWrap>
+    </div>
   );
 }
