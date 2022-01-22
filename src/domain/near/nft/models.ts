@@ -1,4 +1,4 @@
-export type TokenMetadata = {
+export type TokenMetadataOfNep177 = {
   title: string | null; // ex. "Arch Nemesis: Mail Carrier" or "Parcel #5055"
   description: string | null; // free-form description
   media: string | null; // URL to associated media, preferably to decentralized, content-addressed storage
@@ -13,11 +13,17 @@ export type TokenMetadata = {
   reference_hash: string | null; // Base64-encoded sha256 hash of JSON from reference field. Required if `reference` is included.
 };
 
-export type Nft = {
-  token_id: string;
+//https://nomicon.io/Standards/NonFungibleToken/Metadata.html
+export interface TokenTypeOfNep177 {
+  id: string;
   owner_id: string;
-  metadata: TokenMetadata;
-};
+  metadata: TokenMetadataOfNep177;
+}
+
+export interface Nft {
+  token: TokenTypeOfNep177;
+  contract_id: string;
+}
 
 export interface INft {
   getNft(): Nft;

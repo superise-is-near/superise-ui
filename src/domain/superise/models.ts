@@ -32,7 +32,7 @@ export class PrizePool {
 
 export type NftAsset = {
   contract_id: string;
-  nft_id: String;
+  nft_id: string;
 };
 
 export type FtAsset = {
@@ -45,10 +45,10 @@ export type NftPrize = {
   nft: NftAsset;
 };
 
-export type FtPrize = {
-  prize_id: PrizeId;
+export interface FtPrize {
+  prize_id: PrizeId | null;
   ft: FtAsset;
-};
+}
 
 class Account {
   fts: Map<TokenId, Balance>;

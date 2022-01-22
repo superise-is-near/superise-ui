@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { PrimaryButton } from "~components/button/Button";
 import PrizeSelector from "~components/forms/PrizeSelector";
 import SuperiseFtInput from "~components/forms/superise-ft-input";
-import { nearMetadata } from "~domain/near/ft/models";
+import { nearMetadata, TokenMetadata } from "~domain/near/ft/models";
 import {
   useFtAssets,
   useTokenBalances,
@@ -16,7 +16,7 @@ import {
   CreatePrizePoolParam,
 } from "~domain/superise/methods";
 import moment from "moment";
-import { FtPrize } from "~domain/superise/models";
+import { FtPrize, NftPrize } from "~domain/superise/models";
 import getConfig from "~domain/near/config";
 import { toNonDivisibleNumber } from "~utils/numbers";
 import dayjs from "dayjs";
@@ -24,6 +24,9 @@ import RequestSigninModal from "~components/modal/request-signin-modal";
 import { wallet } from "~services/near";
 import PrizeSelectType from "~components/forms/PrizeSelector";
 import Participant from "~components/forms/Participant";
+import { TwitterPoolCreateParam } from "~domain/superise/twitter_giveaway/models";
+import { Nft } from "~domain/near/nft/models";
+import { create_twitter_pool } from "~domain/superise/twitter_giveaway/methods";
 
 let config = getConfig();
 
@@ -41,14 +44,65 @@ function FormErrorLabel({
   return null;
 }
 
+type NftValue = {
+  nft: Nft;
+  img_url: string;
+};
+type FtValue = {
+  token: TokenMetadata;
+  amount: string;
+  id: string; // generate for update and remove
+};
+type CreateBoxFormValue = {
+  cover_url: string;
+  tweet_link: string;
+  prizes: {
+    nftValue: NftValue[];
+    ftValue: FtValue[];
+  };
+  name: string;
+  description: string;
+  end_day: string; //"2022-01-22"
+  end_hour: string; //"17:55"
+  ticket_price: {
+    amount: string;
+    token: TokenMetadata;
+  };
+};
+
 export default function CreateBox() {
   const balances = useTokenBalances();
   const tokens = useWhitelistTokens() || [];
   const ftAssets = useFtAssets();
   const history = useHistory();
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: CreateBoxFormValue) => {
     // TODO create prize pool
     console.log({ values });
+    let p: TwitterPoolCreateParam = {
+      name: values.name,
+      // todo
+      requirements: [],
+      twitter_link: values.tweet_link,
+      white_list: [],
+      cover: values.cover_url,
+      describe: values.description,
+      end_time: moment(values.end_day + " " + values.end_hour).valueOf(),
+      ft_prizes: values.prizes.ftValue.map(({ token, amount }): FtPrize => {
+        return {
+          prize_id: null,
+          ft: { contract_id: token.id, balance: amount },
+        };
+      }),
+      nft_prizes: values.prizes.nftValue.map((nft): NftPrize => {
+        return {
+          prize_id: null,
+          nft: { contract_id: nft.nft.contract_id, nft_id: nft.nft.token.id },
+        };
+      }),
+      // join_accounts: []
+    };
+    await create_twitter_pool(p);
+
     // let p: CreatePrizePoolParam = {
     //   cover: values.cover_url,
     //   describe: values.description,

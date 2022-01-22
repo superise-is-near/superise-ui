@@ -13,7 +13,11 @@ export function nft_tokens_for_owner_in_paras(
     account_id,
     from_index,
     limit
-  ).then((nfts) => nfts.map((nft) => ParasNft.newWithImgUrl(nft)));
+  ).then((tokens) =>
+    tokens.map((token) =>
+      ParasNft.newWithImgUrl(token, config.PARAS_NFT_CONTRACT_ID)
+    )
+  );
 }
 
 export function getImgUrlFromCid(cid: string): string {

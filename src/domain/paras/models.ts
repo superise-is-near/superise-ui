@@ -1,4 +1,5 @@
 import { getImgUrlFromCid } from "~domain/paras/methods";
+import { INft, Nft, TokenTypeOfNep177 } from "~domain/near/nft/models";
 
 export class ParasNft implements INft {
   nft: Nft;
@@ -7,8 +8,14 @@ export class ParasNft implements INft {
     this.nft = nft;
     this.img_url = img_url;
   }
-  static newWithImgUrl(nft: Nft): ParasNft {
-    return new ParasNft(nft, getImgUrlFromCid(nft.metadata.media));
+  static newWithImgUrl(
+    token: TokenTypeOfNep177,
+    contract_id: string
+  ): ParasNft {
+    return new ParasNft(
+      { token, contract_id },
+      getImgUrlFromCid(token.metadata.media)
+    );
   }
 
   getNft(): Nft {
