@@ -6,6 +6,30 @@ import {
   PrizePool,
 } from "~domain/superise/models";
 
+export enum RequirmentType {
+  TwitterFollow = "twitter_follow",
+  TwitterRetweet = "twitter_retweet",
+  TwitterLike = "twitter_like",
+}
+
+export interface TwitterFollowRequirmentInputValue {
+  requirment_type: RequirmentType;
+  screen_name: string;
+  required: boolean;
+}
+
+export interface TwitterRetweetRequirmentInputValue {
+  requirment_type: RequirmentType;
+  tweet_link: string;
+  required: boolean;
+}
+
+export interface TwitterLikeRequirmentInputValue {
+  requirment_type: RequirmentType;
+  tweet_link: String;
+  required: boolean;
+}
+
 export type TwitterPoolCreateParam = {
   name: string;
   describe: string;
