@@ -17,7 +17,7 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
   onRequestClose,
   onRequestConfirm,
 }) => {
-  const [nfts, setNfts] = useState([]);
+  const [nfts, setNfts] = useState<ParasNft[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectDataSource, setSelectDataSource] = useState<
     "Paras" | "Mintbase"
@@ -105,7 +105,7 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
             >
               {nfts.map(({ nft, img_url, select }) => (
                 <div
-                  key={nft.token_id}
+                  key={nft.token.token_id}
                   className={clsx(
                     select ? "border-black" : "border-white",
                     "flex mb-4 px-2 py-3 rounded-lg shadow cursor-pointer border-2"
@@ -124,8 +124,8 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
                     <img src={img_url} width={76} height={107} alt={img_url} />
                   </div>
                   <div className="ml-2">
-                    <h3 className="font-bold">{nft.metadata.title}</h3>
-                    <p>{nft.metadata.description}</p>
+                    <h3 className="font-bold">{nft.token.metadata.title}</h3>
+                    <p>{nft.token.metadata.description}</p>
                   </div>
                 </div>
               ))}

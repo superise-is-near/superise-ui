@@ -53,6 +53,7 @@ interface IPrizeSelectType {
 
 const PrizeSelector: FC<IPrizeSelectType> = (props) => {
   const { input, balances, tokens } = props;
+  debugger;
   const [showPrizeSelectType, setShowPrizeSelectType] = useState(false);
   const [showFTPrizeSelector, setShowFTPrizeSelector] = useState(false);
   const [showNFTPrizeSelector, setShowNFTPrizeSelector] = useState(false);
@@ -86,18 +87,18 @@ const PrizeSelector: FC<IPrizeSelectType> = (props) => {
       {input.value &&
         input.value.nftValue &&
         input.value.nftValue.length > 0 &&
-        input.value.nftValue.map((nft, index) => (
+        input.value.nftValue.map((parasNft, index) => (
           <InputValueDisplay
             value={{
-              id: nft.nft.token_id,
+              id: parasNft.nft.token.token_id,
               amount: "",
               token: {
-                icon: nft.img_url,
-                symbol: nft.nft.metadata.title,
+                icon: parasNft.img_url,
+                symbol: parasNft.nft.token.metadata.title,
               } as TokenMetadata,
             }}
             onClick={() => {
-              setNFTInputValue(nft);
+              setNFTInputValue(parasNft);
             }}
           />
         ))}
@@ -114,14 +115,14 @@ const PrizeSelector: FC<IPrizeSelectType> = (props) => {
                 height="100px"
                 width="80px"
                 src={nftInputValue.img_url}
-                alt={nftInputValue.nft.metadata.title}
+                alt={nftInputValue.nft.token.metadata.title}
               />
               <div>
                 <div className="ml-2">
                   <h3 className="font-bold">
-                    {nftInputValue.nft.metadata.title}
+                    {nftInputValue.nft.token.metadata.title}
                   </h3>
-                  <p>{nftInputValue.nft.metadata.description}</p>
+                  <p>{nftInputValue.nft.token.metadata.description}</p>
                 </div>
               </div>
             </div>
@@ -133,8 +134,10 @@ const PrizeSelector: FC<IPrizeSelectType> = (props) => {
                   nftValue: input.value.nftValue.filter(
                     (nft) =>
                       !(
-                        nft.nft.token_id === nftInputValue.nft.token_id &&
-                        nft.nft.owner_id === nftInputValue.nft.owner_id
+                        nft.nft.token.token_id ===
+                          nftInputValue.nft.token.token_id &&
+                        nft.nft.token.owner_id ===
+                          nftInputValue.nft.token.owner_id
                       )
                   ),
                 });

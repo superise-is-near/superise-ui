@@ -73,6 +73,7 @@ type CreateBoxFormValue = {
     amount: string;
     token: TokenMetadata;
   };
+  requirements: any[];
 };
 
 export default function CreateBox() {
@@ -109,7 +110,10 @@ export default function CreateBox() {
       nft_prizes: (values.prizes.nftValue || []).map((nft): NftPrize => {
         return {
           prize_id: null,
-          nft: { contract_id: nft.nft.contract_id, nft_id: nft.nft.token.id },
+          nft: {
+            contract_id: nft.nft.contract_id,
+            nft_id: nft.nft.token.token_id,
+          },
         };
       }),
       // join_accounts: []

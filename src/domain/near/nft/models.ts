@@ -15,9 +15,10 @@ export type TokenMetadataOfNep177 = {
 
 //https://nomicon.io/Standards/NonFungibleToken/Metadata.html
 export interface TokenTypeOfNep177 {
-  id: string;
+  token_id: string;
   owner_id: string;
-  metadata: TokenMetadataOfNep177;
+  metadata: TokenMetadataOfNep177 | undefined;
+  approved_account_ids: ApprovedAccountIds | undefined;
 }
 
 export interface Nft {
@@ -27,4 +28,8 @@ export interface Nft {
 
 export interface INft {
   getNft(): Nft;
+}
+
+export interface ApprovedAccountIds {
+  [tokenId: string]: string;
 }
