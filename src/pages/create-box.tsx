@@ -23,10 +23,15 @@ import dayjs from "dayjs";
 import RequestSigninModal from "~components/modal/request-signin-modal";
 import { wallet } from "~services/near";
 import PrizeSelectType from "~components/forms/PrizeSelector";
-import Participant from "~components/forms/Participant";
-import { TwitterPoolCreateParam } from "~domain/superise/twitter_giveaway/models";
+import Participant, { defaultRequirments } from "~components/forms/Participant";
+import {
+  RequirmentType,
+  TwitterPoolCreateParam,
+} from "~domain/superise/twitter_giveaway/models";
 import { Nft } from "~domain/near/nft/models";
 import { create_twitter_pool } from "~domain/superise/twitter_giveaway/methods";
+import Modal from "~components/modal/modal";
+import createDecorator from "final-form-calculate";
 
 let config = getConfig();
 
@@ -80,20 +85,28 @@ export default function CreateBox() {
     console.log({ values });
     let p: TwitterPoolCreateParam = {
       name: values.name,
-      // todo
-      requirements: "",
+      requirements: JSON.stringify(
+        values.requirements
+          .filter((item) => item.required)
+          .map((item) => {
+            const { required, ...requirement } = item;
+            return requirement;
+          })
+      ),
       twitter_link: values.tweet_link,
       white_list: [],
       cover: values.cover_url,
       describe: values.description,
       end_time: moment(values.end_day + " " + values.end_hour).valueOf(),
-      ft_prizes: values.prizes.ftValue.map(({ token, amount }): FtPrize => {
-        return {
-          prize_id: null,
-          ft: { contract_id: token.id, balance: amount },
-        };
-      }),
-      nft_prizes: values.prizes.nftValue.map((nft): NftPrize => {
+      ft_prizes: (values.prizes.ftValue || []).map(
+        ({ token, amount }): FtPrize => {
+          return {
+            prize_id: null,
+            ft: { contract_id: token.id, balance: amount },
+          };
+        }
+      ),
+      nft_prizes: (values.prizes.nftValue || []).map((nft): NftPrize => {
         return {
           prize_id: null,
           nft: { contract_id: nft.nft.contract_id, nft_id: nft.nft.token.id },
@@ -128,8 +141,24 @@ export default function CreateBox() {
     // create_prize_pool()
   };
 
+  const [isTweetURLWarningOpen, setIsTweetURLWarningOpen] =
+    React.useState(false);
+
   return (
     <div className="m-auto lg:max-w-2xl">
+      <Modal
+        isOpen={isTweetURLWarningOpen}
+        onRequestClose={() => {
+          setIsTweetURLWarningOpen(false);
+        }}
+      >
+        <p className="mb-4">
+          Please add the Tweet link before turn on the requirement.
+        </p>
+        <PrimaryButton isFull onClick={() => setIsTweetURLWarningOpen(false)}>
+          Got it
+        </PrimaryButton>
+      </Modal>
       <Card title="Create a box">
         <RequestSigninModal
           isOpen={!wallet.isSignedIn()}
@@ -137,6 +166,32 @@ export default function CreateBox() {
         />
         <Form
           onSubmit={onSubmit}
+          decorators={[
+            createDecorator({
+              field: "tweet_link",
+              updates: {
+                requirements: (tweet_link, allValues) => {
+                  if (!tweet_link) return defaultRequirments;
+                  // TODO: need to check if it's a validate tweet_link
+                  const screen_name = tweet_link.split("/")[3];
+                  const { requirements } = allValues;
+                  return requirements.map((item) => {
+                    if (item.requirment_type === RequirmentType.TwitterFollow) {
+                      return { ...item, screen_name };
+                    }
+                    if (item.requirment_type === RequirmentType.TwitterLike) {
+                      return { ...item, tweet_link };
+                    }
+                    if (
+                      item.requirment_type === RequirmentType.TwitterRetweet
+                    ) {
+                      return { ...item, tweet_link };
+                    }
+                  });
+                },
+              },
+            }),
+          ]}
           validate={(values) => {
             const errors = [
               "name",
@@ -146,6 +201,8 @@ export default function CreateBox() {
               "end_day",
               "end_hour",
               "prizes",
+              "requirements",
+              "tweet_link",
             ].reduce((errors, name) => {
               if (values[name]) return errors;
               return { ...errors, [name]: "Required" };
@@ -348,16 +405,31 @@ export default function CreateBox() {
                   <FormErrorLabel
                     errors={errors}
                     touched={touched}
-                    name="cover_url"
+                    name="tweet_link"
                   />
                 </label>
                 <label className="block mt">
                   <span className="text-gray-700">The participant must:</span>
-                  <Participant
-                    follow={"@blitzstein1125"}
-                    hasFollow={true}
-                    hasRetweet={false}
-                    hasLike={false}
+                  <Field name="requirements" defaultValue={defaultRequirments}>
+                    {(props) => {
+                      return (
+                        <Participant
+                          value={props.input.value}
+                          onChange={(value) => {
+                            if (!form.getState().values.tweet_link) {
+                              setIsTweetURLWarningOpen(true);
+                              return;
+                            }
+                            props.input.onChange(value);
+                          }}
+                        />
+                      );
+                    }}
+                  </Field>
+                  <FormErrorLabel
+                    errors={errors}
+                    touched={touched}
+                    name="requirements"
                   />
                 </label>
                 <PrimaryButton type="submit">Create</PrimaryButton>
