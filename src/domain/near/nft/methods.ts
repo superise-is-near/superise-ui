@@ -13,3 +13,12 @@ export function nft_tokens_for_owner(
     limit: limit,
   });
 }
+
+export function nft_token(
+  contract_id: string,
+  token_id: string
+): Promise<TokenTypeOfNep177> {
+  return wallet
+    .account()
+    .viewFunction(contract_id, "nft_token", { token_id: token_id });
+}

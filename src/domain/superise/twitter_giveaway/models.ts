@@ -12,7 +12,7 @@ export type TwitterPoolCreateParam = {
   cover: string;
   end_time: MilliTimeStamp;
   white_list: AccountId[]; // Option<Vec<AccountId>>,
-  requirements: string[];
+  requirements: string;
   ft_prizes: FtPrize[];
   nft_prizes: NftPrize[];
   twitter_link: string;
@@ -26,8 +26,8 @@ export type TwitterPool = {
   finish: boolean;
   end_time: MilliTimeStamp;
   white_list: AccountId[];
-  requirements: String[];
+  requirements: string;
   // twitter_near_bind: HashMap<AccountId, TwitterAccount>,
-  twitter_link: String;
+  twitter_link: string;
   records: [];
 };

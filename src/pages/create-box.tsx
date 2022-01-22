@@ -81,7 +81,7 @@ export default function CreateBox() {
     let p: TwitterPoolCreateParam = {
       name: values.name,
       // todo
-      requirements: [],
+      requirements: "",
       twitter_link: values.tweet_link,
       white_list: [],
       cover: values.cover_url,
