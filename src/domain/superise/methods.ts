@@ -11,6 +11,7 @@ import {
   PrizePool,
   PrizePoolDisplay,
 } from "~domain/superise/models";
+import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
 
 let config = getConfig();
 
@@ -110,22 +111,22 @@ export function create_prize_pool(
     );
 }
 
-export function view_prize_pool(id: number): Promise<PrizePool> {
-  // return nearViewCall<number,PrizePool>(
-  //     config.SUPERISE_CONTRACT_ID,
-  //     'view_prize_pool',id,PrizePool,false) as Promise<PrizePool>;
-  return wallet
-    .account()
-    .viewFunction(config.SUPERISE_CONTRACT_ID, "view_prize_pool", {
-      pool_id: id,
-    });
-}
+// export function view_prize_pool(id: number): Promise<PrizePool> {
+//   // return nearViewCall<number,PrizePool>(
+//   //     config.SUPERISE_CONTRACT_ID,
+//   //     'view_prize_pool',id,PrizePool,false) as Promise<PrizePool>;
+//   return wallet
+//     .account()
+//     .viewFunction(config.SUPERISE_CONTRACT_ID, "view_prize_pool", {
+//       pool_id: id,
+//     });
+// }
 
-export function view_prize_pool_list(): Promise<PrizePoolDisplay[]> {
-  return wallet
-    .account()
-    .viewFunction(config.SUPERISE_CONTRACT_ID, "view_prize_pool_list");
-}
+// export function view_prize_pool_list(): Promise<PrizePoolDisplay[]> {
+//   return wallet
+//     .account()
+//     .viewFunction(config.SUPERISE_CONTRACT_ID, "view_prize_pool_list");
+// }
 
 export function view_account_balance(id: string): Promise<TokenBalancesView> {
   return wallet
@@ -149,10 +150,11 @@ export function unjoin_pool(pool_id: number) {
 
 export function view_user_pool(
   account_id: string
-): Promise<PrizePoolDisplay[]> {
-  return wallet
-    .account()
-    .viewFunction(config.SUPERISE_CONTRACT_ID, "view_user_pool", {
-      account_id,
-    });
+): Promise<TwitterPoolDisplay[]> {
+  return Promise.resolve([]);
+  // wallet
+  //   .account()
+  //   .viewFunction(config.SUPERISE_CONTRACT_ID, "view_user_pool", {
+  //     account_id,
+  //   });
 }

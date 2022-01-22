@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
 import { FaArrowDown } from "react-icons/fa";
 import { TokenMetadata } from "~domain/near/ft/models";
-import { PrizePoolDisplay } from "~domain/superise/models";
 import PrizePoolCard from "./prize-pool-card";
+import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
 
 function PrizePoolList(props: {
-  pools: PrizePoolDisplay[];
+  pools: TwitterPoolDisplay[];
   onClickPool: (id: number) => void;
   tokens: TokenMetadata[];
 }) {

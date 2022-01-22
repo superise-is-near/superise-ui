@@ -5,6 +5,17 @@ import {
   NftPrize,
   PrizePool,
 } from "~domain/superise/models";
+import { boolean, number } from "mathjs";
+
+export type TwitterPoolDisplay = {
+  id: number;
+  name: string;
+  describe: string;
+  cover: string;
+  finish: boolean;
+  end_time: MilliTimeStamp;
+  twitter_link: string;
+};
 
 export type TwitterPoolCreateParam = {
   name: string;

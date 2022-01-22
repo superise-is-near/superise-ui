@@ -4,6 +4,7 @@ import { PrizePoolDisplay } from "~domain/superise/models";
 import { fancyTimeFormat } from "~utils/time";
 import { convertAmountToNumber } from "~domain/near/ft/methods";
 import { TokenMetadata } from "~domain/near/ft/models";
+import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
 
 export const useEndtimer = (
   end_time: number,
@@ -56,7 +57,7 @@ export const useEndtimer = (
 };
 
 export default function PrizePoolCard(props: {
-  pool: PrizePoolDisplay;
+  pool: TwitterPoolDisplay;
   tokens: TokenMetadata[];
   onClick?: (event: React.MouseEvent) => void;
 }) {
@@ -66,16 +67,16 @@ export default function PrizePoolCard(props: {
   const { timeLabel, countdownText, dateText, timeText, fontClass } =
     useEndtimer(end_time, finish);
 
-  let price = convertAmountToNumber(pool.ticket_price.amount);
-  const priceText = useMemo(() => {
-    if (price <= 0) return "Free";
-    let text = pool.ticket_price.token_id;
-    const foundToken = tokens.find(
-      (item) => item.id === pool.ticket_price.token_id
-    );
-    if (foundToken) text = foundToken.symbol;
-    return `${price} ${text}`;
-  }, [tokens]);
+  // let price = convertAmountToNumber("0");
+  // const priceText = useMemo(() => {
+  //   if (price <= 0) return "Free";
+  //   let text = pool.ticket_price.token_id;
+  //   const foundToken = tokens.find(
+  //     (item) => item.id === pool.ticket_price.token_id
+  //   );
+  //   if (foundToken) text = foundToken.symbol;
+  //   return `${price} ${text}`;
+  // }, [tokens]);
 
   return (
     <div
@@ -92,9 +93,9 @@ export default function PrizePoolCard(props: {
           <span className="text-base font-semibold text-gray-400 leading-6">
             Ticket price
           </span>
-          <span className="mt-2 text-base font-semibold text-white leading-6">
-            {priceText}
-          </span>
+          {/*<span className="mt-2 text-base font-semibold text-white leading-6">*/}
+          {/*  {priceText}*/}
+          {/*</span>*/}
         </div>
         <div className="flex flex-col items-end">
           <span className="text-base font-semibold text-gray-400 leading-6">

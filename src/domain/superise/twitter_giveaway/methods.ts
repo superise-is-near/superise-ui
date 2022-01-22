@@ -1,12 +1,14 @@
 import {
   TwitterPool,
   TwitterPoolCreateParam,
+  TwitterPoolDisplay,
 } from "~domain/superise/twitter_giveaway/models";
 import { wallet } from "~domain/near/global";
 import getConfig from "~domain/near/config";
 import { FinalExecutionOutcome } from "near-api-js/src/providers/index";
 import { getAmount, getGas } from "~utils/near";
 import { defaultGas, FunctionCallOptions } from "~domain/near/models";
+import { exp } from "mathjs";
 
 const config = getConfig();
 export function create_twitter_pool(
@@ -40,4 +42,14 @@ export function view_twitter_prize_pool(pool_id: number): Promise<TwitterPool> {
     .viewFunction(config.SUPERISE_CONTRACT_ID, "view_twitter_prize_pool", {
       pool_id: pool_id,
     });
+}
+
+export function view_twitter_prize_pool_list(): Promise<TwitterPoolDisplay[]> {
+  return wallet
+    .account()
+    .viewFunction(
+      config.SUPERISE_CONTRACT_ID,
+      "view_twitter_prize_pool_list",
+      {}
+    );
 }

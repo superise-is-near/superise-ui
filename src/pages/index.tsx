@@ -16,6 +16,7 @@ import { GiDramaMasks } from "react-icons/gi";
 import { cardTheme, ColorCard, ColorCardTitle } from "~/components/ColorCard";
 import Footer from "~components/layout/footer";
 import Logo from "~components/icons/logo";
+import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
 
 export default function Index() {
   let history = useHistory();
@@ -30,7 +31,18 @@ export default function Index() {
   const [twitterLink, setTwitterLink] = useState("");
   if (!prizePoolDisplays || !tokens) return <PageLoading />;
 
-  const featuredPool = prizePoolDisplays?.[0];
+  let featuredPool = prizePoolDisplays?.[0];
+  function FeatureCard() {
+    return featuredPool ? (
+      <PrizePoolCard
+        tokens={tokens}
+        pool={featuredPool}
+        onClick={() => handleClickPool(featuredPool.id)}
+      />
+    ) : (
+      <div></div>
+    );
+  }
   return (
     <div>
       <div className="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-12">
@@ -44,11 +56,7 @@ export default function Index() {
                 </h1>
               </ColorCardTitle>
               <div className="lg:w-2/3">
-                <PrizePoolCard
-                  tokens={tokens}
-                  pool={featuredPool}
-                  onClick={() => handleClickPool(featuredPool.id)}
-                />
+                <FeatureCard></FeatureCard>
               </div>
             </div>
           </ColorCard>
