@@ -45,9 +45,9 @@ export const near = new Near({
 });
 export const wallet = new SpecialWallet(near, getConfig().SUPERISE_CONTRACT_ID);
 
-export const getGas = (gas: string="100000000000000") =>
+export const getGas = (gas: string = "100000000000000") =>
   gas ? new BN(gas) : new BN("100000000000000");
-export const getAmount = (amount: string="0") =>
+export const getAmount = (amount: string = "0") =>
   amount ? new BN(utils.format.parseNearAmount(amount)) : new BN("0");
 
 /**

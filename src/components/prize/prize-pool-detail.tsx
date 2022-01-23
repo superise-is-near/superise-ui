@@ -12,7 +12,7 @@ import RequestSigninModal from "~components/modal/request-signin-modal";
 import { wallet } from "~domain/near/global";
 import Confetti from "react-confetti";
 import { TwitterPool } from "~domain/superise/twitter_giveaway/models";
-import {join_twitter_pool} from "~domain/superise/twitter_giveaway/methods";
+import { join_twitter_pool } from "~domain/superise/twitter_giveaway/methods";
 dayjs.extend(isSameOrAfter);
 
 const getTokenSymbol = (tokens: TokenMetadata[] = [], id: string = "") => {

@@ -6,7 +6,7 @@ import { PrimaryButton } from "~components/button/Button";
 import PrizeSelector from "~components/forms/PrizeSelector";
 import SuperiseFtInput from "~components/forms/superise-ft-input";
 import { nearMetadata, TokenMetadata } from "~domain/near/ft/models";
-import { functionCall } from 'near-api-js/lib/transaction';
+import { functionCall } from "near-api-js/lib/transaction";
 import {
   useFtAssets,
   useTokenBalances,
@@ -34,12 +34,24 @@ import { create_twitter_pool } from "~domain/superise/twitter_giveaway/methods";
 import Modal from "~components/modal/modal";
 import createDecorator from "final-form-calculate";
 import { ftGetTokenMetadata } from "~domain/near/ft/methods";
-import {Action} from "near-api-js/lib/transaction";
-import {FunctionCall} from "near-api-js/src/transaction";
-import {executeMultipleTransactions, getAmount, getGas, ONE_YOCTO_NEAR, Transaction} from "~domain/near/global";
-import {RefFiFunctionCallOptions, refFiManyFunctionCalls} from "~domain/ref/methods";
-import {utils} from "near-api-js";
-import {SUPERISE_CONTRACT_ID, WRAP_NEAR_CONTRACT_ID} from "~domain/near/wrap-near";
+import { Action } from "near-api-js/lib/transaction";
+import { FunctionCall } from "near-api-js/src/transaction";
+import {
+  executeMultipleTransactions,
+  getAmount,
+  getGas,
+  ONE_YOCTO_NEAR,
+  Transaction,
+} from "~domain/near/global";
+import {
+  RefFiFunctionCallOptions,
+  refFiManyFunctionCalls,
+} from "~domain/ref/methods";
+import { utils } from "near-api-js";
+import {
+  SUPERISE_CONTRACT_ID,
+  WRAP_NEAR_CONTRACT_ID,
+} from "~domain/near/wrap-near";
 
 let config = getConfig();
 
@@ -140,60 +152,77 @@ export default function CreateBox() {
     };
     const actions: RefFiFunctionCallOptions[] = [];
     const transactions: Transaction[] = [];
-    let add_ft_transfer_call_transaction = (contract_id: string,amount: string)=>{
+    let add_ft_transfer_call_transaction = (
+      contract_id: string,
+      amount: string
+    ) => {
       transactions.push({
         receiverId: contract_id,
-        functionCalls: [{
-          methodName: "ft_transfer_call",
-          args: {
-            receiver_id: SUPERISE_CONTRACT_ID,
-            amount: amount,
-            msg: "",
+        functionCalls: [
+          {
+            methodName: "ft_transfer_call",
+            args: {
+              receiver_id: SUPERISE_CONTRACT_ID,
+              amount: amount,
+              msg: "",
+            },
+            gas: "50000000000000",
+            amount: ONE_YOCTO_NEAR,
           },
-          gas: "50000000000000",
-          amount: ONE_YOCTO_NEAR,
-        }]})
-    }
+        ],
+      });
+    };
 
-    let add_nft_transfer_call_transaction = (contract_id: string,token_id: string)=>{
+    let add_nft_transfer_call_transaction = (
+      contract_id: string,
+      token_id: string
+    ) => {
       transactions.push({
         receiverId: contract_id,
-        functionCalls: [{
-          methodName: "nft_transfer_call",
-          args: {
-            receiver_id: SUPERISE_CONTRACT_ID,
-            token_id: token_id,
-            approval_id: null,
-            memo: null,
-            msg: '',
+        functionCalls: [
+          {
+            methodName: "nft_transfer_call",
+            args: {
+              receiver_id: SUPERISE_CONTRACT_ID,
+              token_id: token_id,
+              approval_id: null,
+              memo: null,
+              msg: "",
+            },
+            gas: "50000000000000",
+            amount: ONE_YOCTO_NEAR,
           },
-          gas: "50000000000000",
-          amount: ONE_YOCTO_NEAR,
-        }]
-      })
-    }
+        ],
+      });
+    };
 
-    p.ft_prizes.forEach((value)=>{add_ft_transfer_call_transaction(value.ft.contract_id,value.ft.balance)})
-    p.nft_prizes.forEach((value)=>add_nft_transfer_call_transaction(value.nft.contract_id,value.nft.nft_id))
+    p.ft_prizes.forEach((value) => {
+      add_ft_transfer_call_transaction(value.ft.contract_id, value.ft.balance);
+    });
+    p.nft_prizes.forEach((value) =>
+      add_nft_transfer_call_transaction(value.nft.contract_id, value.nft.nft_id)
+    );
 
     actions.push({
       methodName: "create_twitter_pool",
       args: p,
       gas: "50000000000000",
       amount: ONE_YOCTO_NEAR,
-    })
+    });
     // await create_twitter_pool(p);
 
     transactions.push({
       receiverId: config.SUPERISE_CONTRACT_ID,
-      functionCalls: [{
-        methodName: "create_twitter_pool",
-        args: {param: p},
-        gas: "50000000000000",
-        amount: ONE_YOCTO_NEAR,
-      }],
+      functionCalls: [
+        {
+          methodName: "create_twitter_pool",
+          args: { param: p },
+          gas: "50000000000000",
+          amount: ONE_YOCTO_NEAR,
+        },
+      ],
     });
-    await executeMultipleTransactions(transactions)
+    await executeMultipleTransactions(transactions);
   };
 
   const [isTweetURLWarningOpen, setIsTweetURLWarningOpen] =

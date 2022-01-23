@@ -23,8 +23,10 @@ export function nft_token(
     .viewFunction(contract_id, "nft_token", { token_id: token_id });
 }
 
-export function nft_transfer_call(receiver_id: string,
-                                  token_id: string,
-                                  approval_id: number|null,
-                                  memo: string|null,
-                                  msg: string,) {}
+export function nft_transfer_call(
+  receiver_id: string,
+  token_id: string,
+  approval_id: number | null,
+  memo: string | null,
+  msg: string
+) {}
