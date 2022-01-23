@@ -32,6 +32,7 @@ import { Nft } from "~domain/near/nft/models";
 import { create_twitter_pool } from "~domain/superise/twitter_giveaway/methods";
 import Modal from "~components/modal/modal";
 import createDecorator from "final-form-calculate";
+import { ftGetTokenMetadata } from "~domain/near/ft/methods";
 
 let config = getConfig();
 
@@ -84,6 +85,7 @@ export default function CreateBox() {
   const onSubmit = async (values: CreateBoxFormValue) => {
     // TODO create prize pool
     console.log({ values });
+
     let p: TwitterPoolCreateParam = {
       name: values.name,
       requirements: JSON.stringify(
@@ -99,13 +101,24 @@ export default function CreateBox() {
       cover: values.cover_url,
       describe: values.description,
       end_time: moment(values.end_day + " " + values.end_hour).valueOf(),
-      ft_prizes: (values.prizes.ftValue || []).map(
-        ({ token, amount }): FtPrize => {
-          return {
-            prize_id: null,
-            ft: { contract_id: token.id, balance: amount },
-          };
-        }
+      ft_prizes: await Promise.all(
+        (values.prizes.ftValue || []).map(
+          async ({ token, amount }): Promise<FtPrize> => {
+            return {
+              prize_id: null,
+              ft: {
+                // impact wNear
+                contract_id: token.id === "NEAR" ? "wrap.testnet" : token.id,
+                balance: toNonDivisibleNumber(
+                  token.id === "NEAR"
+                    ? (await ftGetTokenMetadata("wrap.testnet")).decimals
+                    : (await ftGetTokenMetadata(token.id)).decimals,
+                  amount
+                ),
+              },
+            };
+          }
+        )
       ),
       nft_prizes: (values.prizes.nftValue || []).map((nft): NftPrize => {
         return {
@@ -174,7 +187,14 @@ export default function CreateBox() {
             createDecorator({
               field: "tweet_link",
               updates: {
-                requirements: (tweet_link, allValues) => {
+                requirements: (
+                  tweet_link,
+                  allValues: {
+                    requirements: {
+                      requirment_type: string;
+                    }[];
+                  }
+                ) => {
                   if (!tweet_link) return defaultRequirments;
                   // TODO: need to check if it's a validate tweet_link
                   const screen_name = tweet_link.split("/")[3];
