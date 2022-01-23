@@ -129,7 +129,7 @@ export default function PrizepoolDetail(props: {
               );
               if (!token) return null;
               // let tmp = String(convertAmountToNumber(balance));
-              let tmp = 'todo';
+              let tmp = "todo";
               return (
                 <div
                   className="flex items-center justify-between p-2 border border-gray-100 rounded-sm shadow-sm"
