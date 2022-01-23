@@ -1,0 +1,35 @@
+{
+  "type": "commonjs",
+  "name": "twitter-oauth-login-in-nodejs",
+  "license": "ISC",
+  "version": "1.0.0",
+  "description": "twitter-oauth-login-in-nodejs",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon $npm_package_main",
+    "node": "node",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christian-fei/twitter-oauth-login-in-nodejs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/christian-fei/twitter-oauth-login-in-nodejs/issues"
+  },
+  "homepage": "https://github.com/christian-fei/twitter-oauth-login-in-nodejs#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "http-proxy": "^1.18.1",
+    "http-proxy-middleware": "^2.0.1",
+    "nodemon": "^2.0.15",
+    "oauth": "^0.9.15",
+    "parcel-bundler": "^1.12.5",
+    "secrets": "^1.1.5",
+    "near-api-js": "^0.44.2"
+  }
+}
