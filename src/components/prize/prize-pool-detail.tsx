@@ -4,7 +4,10 @@ import Card from "~components/Card";
 import { TokenMetadata } from "~domain/near/ft/models";
 import { PrimaryButton } from "~components/button/Button";
 import { useEndtimer } from "./prize-pool-card";
-import { convertAmountToNumber } from "~domain/near/ft/methods";
+import {
+  convertAmountToNumber,
+  ftGetTokenMetadata,
+} from "~domain/near/ft/methods";
 import { join_pool } from "~domain/superise/methods";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
@@ -16,6 +19,7 @@ import TwitterCard from "~/components/TweetCard";
 import { InputValueDisplay } from "~components/forms/PrizeSelector";
 import { ParasNft } from "~domain/paras/models";
 import { nft_token } from "~domain/near/nft/methods";
+import { SuperiseFtInputValue } from "~components/forms/superise-ft-input";
 
 dayjs.extend(isSameOrAfter);
 
@@ -50,19 +54,25 @@ export default function PrizepoolDetail(props: {
   const [joining, setJoining] = useState<boolean>(false);
 
   const [parasNfts, setParasNfts] = useState<ParasNft[]>([]);
-
+  const [fts, setFts] = useState<SuperiseFtInputValue[]>([]);
   useEffect(() => {
     Promise.all(
-      pool.prize_pool.nft_prizes.map(async (item, idx) =>
+      pool.prize_pool.nft_prizes.map(async (item) =>
         ParasNft.newWithImgUrl(
           await nft_token(item.nft.contract_id, item.nft.nft_id),
           item.nft.contract_id
         )
       )
     ).then((value) => setParasNfts(value));
+    Promise.all(
+      pool.prize_pool.ft_prizes.map(async (item) => ({
+        id: item.prize_id,
+        amount: item.ft.balance,
+        token:
+          tokens.find((token) => token.id === item.ft.contract_id) ?? tokens[0],
+      }))
+    ).then((value) => setFts(value));
   }, []);
-  console.log({ pool });
-
   return (
     <>
       <Card>
@@ -85,24 +95,8 @@ export default function PrizepoolDetail(props: {
             className="mt-1 grid grid-col-1 gap-2"
             style={{ maxWidth: "550px" }}
           >
-            {pool.prize_pool.ft_prizes.map((item, idx) => {
-              const { contract_id, balance } = item.ft;
-              const token: TokenMetadata = tokens.find(
-                (item) => item.id === contract_id
-              );
-              if (!token) return null;
-              let tmp = String(convertAmountToNumber(balance));
-              return (
-                <div
-                  className="flex items-center justify-between p-2 border border-gray-100 rounded-sm shadow-sm"
-                  key={idx}
-                >
-                  <img src={token.icon} className="w-10 h-10" />
-                  <span className="text-sm text-gray-700">
-                    {tmp} {token.symbol}
-                  </span>
-                </div>
-              );
+            {fts.map((item) => {
+              return <InputValueDisplay key={item.id} value={item} />;
             })}
             {parasNfts.map((parasNft) => (
               <InputValueDisplay
