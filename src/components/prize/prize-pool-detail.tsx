@@ -134,10 +134,7 @@ export default function PrizepoolDetail(props: {
         />
         <div className="mt-6">
           <h2 className="text-base font-bold leading-6">Prize list</h2>
-          <div
-            className="mt-1 grid grid-col-1 gap-2"
-            style={{ maxWidth: "550px" }}
-          >
+          <div className="mt-1 grid grid-col-1 gap-2">
             {fts.map((item) => {
               return <InputValueDisplay key={item.id} value={item} />;
             })}
