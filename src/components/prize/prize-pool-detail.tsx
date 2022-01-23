@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useMemo } from "react";
+import React, { Fragment, useState, useMemo, useEffect } from "react";
 import { PrizePool, Record } from "~domain/superise/models";
 import Card from "~components/Card";
 import { TokenMetadata } from "~domain/near/ft/models";
@@ -12,6 +12,11 @@ import RequestSigninModal from "~components/modal/request-signin-modal";
 import { wallet } from "~domain/near/global";
 import Confetti from "react-confetti";
 import { TwitterPool } from "~domain/superise/twitter_giveaway/models";
+import TwitterCard from "~/components/TweetCard";
+import { InputValueDisplay } from "~components/forms/PrizeSelector";
+import { ParasNft } from "~domain/paras/models";
+import { nft_token } from "~domain/near/nft/methods";
+
 dayjs.extend(isSameOrAfter);
 
 const getTokenSymbol = (tokens: TokenMetadata[] = [], id: string = "") => {
@@ -43,22 +48,43 @@ export default function PrizepoolDetail(props: {
 
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [joining, setJoining] = useState<boolean>(false);
+
+  const [parasNfts, setParasNfts] = useState<ParasNft[]>([]);
+
+  useEffect(() => {
+    Promise.all(
+      pool.prize_pool.nft_prizes.map(async (item, idx) =>
+        ParasNft.newWithImgUrl(
+          await nft_token(item.nft.contract_id, item.nft.nft_id),
+          item.nft.contract_id
+        )
+      )
+    ).then((value) => setParasNfts(value));
+  }, []);
+  console.log({ pool });
+
   return (
     <>
       <Card>
-        <RequestSigninModal
-          isOpen={showLoginModal}
-          onRequestClose={() => setShowLoginModal(false)}
-          text="Please connect to NEAR wallet before joining this box."
-        />
-        <img src={pool.cover} className="w-4/12 m-auto" />
-        <div className="mt-8">
-          <h2 className="text-base font-bold leading-6">{pool.name}</h2>
-          <span className="text-sm font-normal leading-5">{pool.describe}</span>
+        {showLoginModal && (
+          <RequestSigninModal
+            isOpen={showLoginModal}
+            onRequestClose={() => setShowLoginModal(false)}
+            text="Please connect to NEAR wallet before joining this box."
+          />
+        )}
+        <div>
+          <h2 className="text-base font-bold leading-6">Twitter URL</h2>
+          <span className="text-sm font-normal leading-5">
+            <TwitterCard url={pool.twitter_link} />
+          </span>
         </div>
         <div className="mt-6">
-          <h2 className="text-base font-bold leading-6">What's inside</h2>
-          <div className="mt-1 grid grid-col-1 gap-2">
+          <h2 className="text-base font-bold leading-6">Prize list</h2>
+          <div
+            className="mt-1 grid grid-col-1 gap-2"
+            style={{ maxWidth: "550px" }}
+          >
             {pool.prize_pool.ft_prizes.map((item, idx) => {
               const { contract_id, balance } = item.ft;
               const token: TokenMetadata = tokens.find(
@@ -78,6 +104,19 @@ export default function PrizepoolDetail(props: {
                 </div>
               );
             })}
+            {parasNfts.map((parasNft) => (
+              <InputValueDisplay
+                key={`${parasNft.nft.contract_id} ${parasNft.nft.token.token_id}`}
+                value={{
+                  id: parasNft.nft.token.token_id,
+                  amount: "",
+                  token: {
+                    icon: parasNft.img_url,
+                    symbol: parasNft.nft.token.metadata.title,
+                  } as TokenMetadata,
+                }}
+              />
+            ))}
           </div>
         </div>
         <div className="mt-6">
@@ -142,7 +181,7 @@ export default function PrizepoolDetail(props: {
             )}
           </div>
         </div>
-        {!pool.finish && !isAlreadyJoined && (
+        {/* {!pool.finish && !isAlreadyJoined && (
           <div className="mt-6">
             <PrimaryButton
               onClick={async () => {
@@ -200,9 +239,9 @@ export default function PrizepoolDetail(props: {
               You have joined
             </PrimaryButton>
           </div>
-        )}
+        )} */}
       </Card>
-      {pool.finish && (
+      {/* {pool.finish && (
         <>
           <Confetti recycle={false} numberOfPieces={300} />
           <div className="mt-8" />
@@ -238,7 +277,7 @@ export default function PrizepoolDetail(props: {
             </div>
           </Card>
         </>
-      )}
+      )} */}
     </>
   );
 }

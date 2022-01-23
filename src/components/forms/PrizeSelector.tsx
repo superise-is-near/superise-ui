@@ -14,7 +14,7 @@ import { ParasNft } from "~domain/paras/models";
 import clsx from "classnames";
 import Modal from "~components/modal/modal";
 
-function InputValueDisplay({
+export function InputValueDisplay({
   value,
   onClick,
 }: {
