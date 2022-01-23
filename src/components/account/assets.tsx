@@ -5,7 +5,7 @@ import { toPrecision, toReadableNumber } from "~/utils/numbers";
 import { toRealSymbol } from "~/utils/token";
 import {
   nearMetadata,
-  TokenBalancesView,
+  FtBalancesView,
   TokenMetadata,
 } from "~domain/near/ft/models";
 import { PrimaryButton } from "~components/button/Button";
@@ -45,7 +45,7 @@ export function Token(
 
 function TokenList(props: {
   tokens: TokenMetadata[];
-  balances: TokenBalancesView;
+  balances: FtBalancesView;
   hideEmpty?: boolean;
 }) {
   const { tokens, balances, hideEmpty } = props;
@@ -80,7 +80,7 @@ function TokenList(props: {
 
 export default function Assets(props: {
   tokens: TokenMetadata[];
-  balances: TokenBalancesView;
+  balances: FtBalancesView;
 }) {
   const { id } = useParams<{ id: string }>();
   const { tokens, balances } = props;

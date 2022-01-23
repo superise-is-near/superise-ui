@@ -5,7 +5,7 @@ import { toPrecision, toReadableNumber } from "~/utils/numbers";
 import { toRealSymbol } from "~/utils/token";
 import {
   nearMetadata,
-  TokenBalancesView,
+  FtBalancesView,
   TokenMetadata,
 } from "~domain/near/ft/models";
 import { PrimaryButton } from "~components/button/Button";

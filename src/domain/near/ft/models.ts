@@ -17,8 +17,12 @@ export const nearMetadata: TokenMetadata = {
   icon: "https://near.org/wp-content/themes/near-19/assets/img/brand-icon.png",
 };
 
-export interface TokenBalancesView {
+export interface FtBalancesView {
   [tokenId: string]: string;
+}
+
+export interface NftBalancesView {
+  [tokenId: string]: string[];
 }
 
 // need to extract to const folder

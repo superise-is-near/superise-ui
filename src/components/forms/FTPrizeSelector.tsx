@@ -3,7 +3,7 @@ import { PrimaryButton } from "~components/button/Button";
 import Modal from "~components/modal/modal";
 import SuperiseFtInput from "~components/forms/superise-ft-input";
 import {
-  TokenBalancesView,
+  FtBalancesView,
   TokenMetadata,
   EMPTY_INPUT_VALUE,
 } from "~domain/near/ft/models";
@@ -21,7 +21,7 @@ interface IFTPrizeSelector {
     };
     onChange?: Function;
   };
-  balances: TokenBalancesView;
+  balances: FtBalancesView;
   tokens: TokenMetadata[];
   ftInputValue: SuperiseFtInputValue;
   setFtInputValue: React.Dispatch<React.SetStateAction<SuperiseFtInputValue>>;

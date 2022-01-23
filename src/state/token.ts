@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { TokenBalancesView, TokenMetadata } from "~domain/near/ft/models";
+import { FtBalancesView, TokenMetadata } from "~domain/near/ft/models";
 import {
   getWhitelistedTokens,
   getTokenBalances,
@@ -26,7 +26,7 @@ interface TokenData {
 }
 export const useTokensData = (
   tokens: TokenMetadata[],
-  balances?: TokenBalancesView
+  balances?: FtBalancesView
 ): TokenData => {
   const [count, setCount] = useState(0);
   const [result, setResult] = useState<TokenMetadata[]>([]);
@@ -88,7 +88,7 @@ export const useTokensData = (
 };
 
 export const useFtAssets = () => {
-  const [balances, setBalances] = useState<TokenBalancesView>();
+  const [balances, setBalances] = useState<FtBalancesView>();
   useEffect(() => {
     view_account_balance(wallet.getAccountId())
       .then(setBalances)
@@ -100,7 +100,7 @@ export const useFtAssets = () => {
 };
 
 export const useTokenBalances = () => {
-  const [balances, setBalances] = useState<TokenBalancesView>();
+  const [balances, setBalances] = useState<FtBalancesView>();
 
   useEffect(() => {
     getTokenBalances()

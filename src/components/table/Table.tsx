@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TiArrowSortedUp } from "react-icons/ti";
-import { TokenMetadata, TokenBalancesView } from "~domain/near/ft/models";
+import { TokenMetadata, FtBalancesView } from "~domain/near/ft/models";
 import { toReadableNumber } from "~utils/numbers";
 import Token from "~components/tokens/Token";
 import { FormattedMessage } from "react-intl";
@@ -11,7 +11,7 @@ interface TokenListProps {
   currentSort: string;
   onSortChange?: (sortBy: string) => void;
   onClick?: (token: TokenMetadata) => void;
-  balances?: TokenBalancesView;
+  balances?: FtBalancesView;
 }
 
 export default function Table({

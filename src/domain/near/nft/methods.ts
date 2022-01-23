@@ -22,3 +22,5 @@ export function nft_token(
     .account()
     .viewFunction(contract_id, "nft_token", { token_id: token_id });
 }
+
+export function nft_transfer_call(contract_id: string) {}

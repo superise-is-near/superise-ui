@@ -1,7 +1,7 @@
 import getConfig from "~domain/near/config";
 import { wallet } from "~services/near";
 import { REF_FI_CONTRACT_ID } from "~domain/ref/constants";
-import { TokenBalancesView } from "~domain/near/ft/models";
+import { FtBalancesView } from "~domain/near/ft/models";
 
 export interface RefFiViewFunctionOptions {
   methodName: string;
@@ -26,7 +26,7 @@ export const getWhitelistedTokens = async (): Promise<string[]> => {
   return refFiViewFunction({ methodName: "get_whitelisted_tokens" });
 };
 
-export const getTokenBalances = (): Promise<TokenBalancesView> => {
+export const getTokenBalances = (): Promise<FtBalancesView> => {
   return refFiViewFunction({
     methodName: "get_deposits",
     args: { account_id: wallet.getAccountId() },

@@ -34,7 +34,7 @@ export const toReadableNumber = (
 
 export const toNonDivisibleNumber = (
   decimals: number,
-  number: string
+  number: string // 1near
 ): string => {
   if (decimals === null || decimals === undefined) return number;
   const [wholePart, fracPart = ""] = number.split(".");

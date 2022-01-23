@@ -3,7 +3,7 @@ import TokenAmount from "./TokenAmount";
 import fakedata from "~/fakedata/account.json";
 import {
   nearMetadata,
-  TokenBalancesView,
+  FtBalancesView,
   TokenMetadata,
 } from "~domain/near/ft/models";
 import SelectToken from "./SelectToken";
@@ -22,7 +22,7 @@ export default function SuperiseFtInput(props: {
   value: SuperiseFtInputValue;
   onChange?: (value: SuperiseFtInputValue) => void;
   tokens: TokenMetadata[];
-  balances: TokenBalancesView;
+  balances: FtBalancesView;
 }) {
   const { amount, token } = props.value || { amount: "", token: nearMetadata };
 

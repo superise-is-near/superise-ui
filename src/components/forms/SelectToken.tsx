@@ -4,7 +4,7 @@ import { TokenMetadata } from "~domain/near/ft/models";
 import { ArrowDownWhite, ArrowDownBlack } from "~components/icons";
 import { isMobile } from "~utils/device";
 import { FormattedMessage, useIntl } from "react-intl";
-import { TokenBalancesView } from "~domain/near/ft/models";
+import { FtBalancesView } from "~domain/near/ft/models";
 import { IoCloseOutline } from "react-icons/io5";
 import CommenBasses from "~components/tokens/CommenBasses";
 import Table from "~components/table/Table";
@@ -40,7 +40,7 @@ export default function SelectToken({
   render?: (token: TokenMetadata) => string;
   onSelect?: (token: TokenMetadata) => void;
   onSearch?: (value: string) => void;
-  balances?: TokenBalancesView;
+  balances?: FtBalancesView;
 }) {
   const [visible, setVisible] = useState(false);
   const [listData, setListData] = useState<TokenMetadata[]>([]);

@@ -1,16 +1,11 @@
 import { getAmount, getGas } from "~utils/near";
-import { TokenBalancesView, TokenMetadata } from "~domain/near/ft/models";
+import { FtBalancesView, TokenMetadata } from "~domain/near/ft/models";
 import { toNonDivisibleNumber } from "~utils/numbers";
 import { FinalExecutionOutcome } from "near-api-js/lib/providers";
 import getConfig from "~domain/near/config";
 import { defaultGas, FunctionCallOptions } from "~domain/near/models";
 import { nearViewCall, ONE_YOCTO_NEAR, wallet } from "~domain/near/global";
-import {
-  FtPrize,
-  NftPrize,
-  PrizePool,
-  PrizePoolDisplay,
-} from "~domain/superise/models";
+import { AssetVO, FtPrize, NftPrize } from "~domain/superise/models";
 import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
 
 let config = getConfig();
@@ -128,7 +123,15 @@ export function create_prize_pool(
 //     .viewFunction(config.SUPERISE_CONTRACT_ID, "view_prize_pool_list");
 // }
 
-export function view_account_balance(id: string): Promise<TokenBalancesView> {
+export function view_account_assets(account_id: string): Promise<AssetVO> {
+  return wallet
+    .account()
+    .viewFunction(config.SUPERISE_CONTRACT_ID, "view_account_assets", {
+      account_id: account_id,
+    });
+}
+
+export function view_account_balance(id: string): Promise<FtBalancesView> {
   return wallet
     .account()
     .viewFunction(config.SUPERISE_CONTRACT_ID, "view_account_balance", {

@@ -103,7 +103,10 @@ export default function CreateBox() {
         ({ token, amount }): FtPrize => {
           return {
             prize_id: null,
-            ft: { contract_id: token.id, balance: amount },
+            ft: {
+              contract_id: token.id,
+              balance: toNonDivisibleNumber(12, amount),
+            },
           };
         }
       ),
