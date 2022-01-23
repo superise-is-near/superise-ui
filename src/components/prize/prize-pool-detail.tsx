@@ -214,7 +214,7 @@ export default function PrizepoolDetail(props: {
             )}
           </div>
         </div>
-        {/* {!pool.finish && !isAlreadyJoined && (
+        {!pool.finish && !isAlreadyJoined && (
           <div className="mt-6">
             <PrimaryButton
               onClick={async () => {
@@ -267,7 +267,7 @@ export default function PrizepoolDetail(props: {
               You have joined
             </PrimaryButton>
           </div>
-        )} */}
+        )}
       </Card>
       {/* {pool.finish && (
         <>
