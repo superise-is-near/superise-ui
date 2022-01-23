@@ -29,10 +29,8 @@ export function AccountPage() {
   const [nfts, setNfts] = useState<ParasNft[]>([]);
 
   useEffect(() => {
-    nft_tokens_for_owner_in_paras("xsb.testnet", null).then(
-      (nfts: ParasNft[]) => {
-        setNfts(nfts);
-      }
+    nft_tokens_for_owner_in_paras("xsb.testnet", null).then((nfts) =>
+      setNfts(nfts)
     );
   }, []);
   return (
@@ -43,7 +41,7 @@ export function AccountPage() {
         return <img src={getImgUrlFromCid(e.nft.metadata.media)} />;
       })}
         */}
-      <Assets tokens={tokens} balances={ftAssets} />
+      <Assets tokens={tokens} balances={ftAssets} nftAssets={nfts} />
       <div className="mt-8" />
       <div className="mt-8" />
       <Card title="History">
