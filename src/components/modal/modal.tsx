@@ -21,7 +21,10 @@ export default function Modal(
         },
       }}
     >
-      <div className={contentClassName || "w-11/12 md:w-96"}>
+      <div
+        className={contentClassName || "w-11/12 md:w-96"}
+        style={{ maxWidth: "550px" }}
+      >
         <div className="mx-4">
           <Card title={title}>
             <div className="mt-4">{props.children}</div>

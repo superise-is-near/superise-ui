@@ -7,7 +7,7 @@ import {
   RequirmentType,
 } from "~domain/superise/twitter_giveaway/models";
 
-type requirementsValue = (
+export type requirementsValue = (
   | TwitterLikeRequirmentInputValue
   | TwitterFollowRequirmentInputValue
   | TwitterRetweetRequirmentInputValue
@@ -15,7 +15,8 @@ type requirementsValue = (
 
 interface IPrizeSelectType {
   value: requirementsValue;
-  onChange: (value: requirementsValue) => void;
+  onChange?: (value: requirementsValue) => void;
+  readonly?: boolean;
 }
 
 export const defaultRequirments = [
@@ -36,7 +37,7 @@ export const defaultRequirments = [
   },
 ];
 
-const Participant: FC<IPrizeSelectType> = ({ value, onChange }) => {
+const Participant: FC<IPrizeSelectType> = ({ value, onChange, readonly }) => {
   const followRequirment = value.find(
     (item) => item.requirment_type === RequirmentType.TwitterFollow
   ) as TwitterFollowRequirmentInputValue;
@@ -50,58 +51,64 @@ const Participant: FC<IPrizeSelectType> = ({ value, onChange }) => {
   return (
     <section>
       <div className="flex justify-between w-full px-4 py-3 mt-2 border border-gray-300 rounded-md">
-        <div>Follow {followRequirment.screen_name}</div>
-        <Switch
-          offColor="#9CA3AF"
-          onColor="#111827"
-          onChange={() => {
-            const updatedRequirments = value.map((item) => {
-              if (item.requirment_type !== RequirmentType.TwitterFollow)
-                return item;
-              return { ...item, required: !item.required };
-            });
-            onChange(updatedRequirments);
-          }}
-          checked={followRequirment.required}
-          uncheckedIcon={false}
-          checkedIcon={false}
-        />
+        <div>Follow @{followRequirment.screen_name}</div>
+        {!readonly && (
+          <Switch
+            offColor="#9CA3AF"
+            onColor="#111827"
+            onChange={() => {
+              const updatedRequirments = value.map((item) => {
+                if (item.requirment_type !== RequirmentType.TwitterFollow)
+                  return item;
+                return { ...item, required: !item.required };
+              });
+              onChange(updatedRequirments);
+            }}
+            checked={followRequirment.required}
+            uncheckedIcon={false}
+            checkedIcon={false}
+          />
+        )}
       </div>
       <div className="flex justify-between w-full px-4 py-3 mt-2 border border-gray-300 rounded-md">
         <div>Retweet this tweet</div>
-        <Switch
-          offColor="#9CA3AF"
-          onColor="#111827"
-          onChange={() => {
-            const updatedRequirments = value.map((item) => {
-              if (item.requirment_type !== RequirmentType.TwitterRetweet)
-                return item;
-              return { ...item, required: !item.required };
-            });
-            onChange(updatedRequirments);
-          }}
-          checked={retweetRequirment.required}
-          uncheckedIcon={false}
-          checkedIcon={false}
-        />
+        {!readonly && (
+          <Switch
+            offColor="#9CA3AF"
+            onColor="#111827"
+            onChange={() => {
+              const updatedRequirments = value.map((item) => {
+                if (item.requirment_type !== RequirmentType.TwitterRetweet)
+                  return item;
+                return { ...item, required: !item.required };
+              });
+              onChange(updatedRequirments);
+            }}
+            checked={retweetRequirment.required}
+            uncheckedIcon={false}
+            checkedIcon={false}
+          />
+        )}
       </div>
       <div className="flex justify-between w-full px-4 py-3 mt-2 border border-gray-300 rounded-md">
         <div>Like this tweet</div>
-        <Switch
-          offColor="#9CA3AF"
-          onColor="#111827"
-          onChange={() => {
-            const updatedRequirments = value.map((item) => {
-              if (item.requirment_type !== RequirmentType.TwitterLike)
-                return item;
-              return { ...item, required: !item.required };
-            });
-            onChange(updatedRequirments);
-          }}
-          checked={likeRequirment.required}
-          uncheckedIcon={false}
-          checkedIcon={false}
-        />
+        {!readonly && (
+          <Switch
+            offColor="#9CA3AF"
+            onColor="#111827"
+            onChange={() => {
+              const updatedRequirments = value.map((item) => {
+                if (item.requirment_type !== RequirmentType.TwitterLike)
+                  return item;
+                return { ...item, required: !item.required };
+              });
+              onChange(updatedRequirments);
+            }}
+            checked={likeRequirment.required}
+            uncheckedIcon={false}
+            checkedIcon={false}
+          />
+        )}
       </div>
     </section>
   );

@@ -24,7 +24,11 @@ import { SuperiseFtInputValue } from "~components/forms/superise-ft-input";
 
 dayjs.extend(isSameOrAfter);
 import { useLocation } from "react-router-dom";
-import { join_twitter_pool } from "~domain/superise/twitter_giveaway/methods";
+import {
+  join_twitter_pool,
+  TwitterRequirment,
+} from "~domain/superise/twitter_giveaway/methods";
+import Participant, { requirementsValue } from "~components/forms/Participant";
 
 const getTokenSymbol = (tokens: TokenMetadata[] = [], id: string = "") => {
   let symbolText = id;
@@ -173,20 +177,23 @@ export default function PrizepoolDetail(props: {
           </div>
         </div>
         <div className="mt-6">
-          <h2 className="text-base font-bold leading-6">Created by</h2>
+          <h2 className="text-base font-bold leading-6">Requirements</h2>
           <div className="mt-1 grid grid-col-1 gap-1">
-            <span className="text-gray-800">{creator_id}</span>
+            <Participant
+              value={JSON.parse(pool.requirements) as requirementsValue}
+              readonly
+            />
           </div>
         </div>
         <div className="flex justify-between mt-6">
-          {/*<div className="flex flex-col">*/}
-          {/*  <span className="text-base font-semibold text-gray-400 leading-6">*/}
-          {/*    Ticket price*/}
-          {/*  </span>*/}
-          {/*  <span className="mt-2 text-base font-semibold text-gray-900 leading-6">*/}
-          {/*    {priceText}*/}
-          {/*  </span>*/}
-          {/*</div>*/}
+          <div className="flex flex-col">
+            <span className="text-base font-semibold text-gray-400 leading-6">
+              Created by
+            </span>
+            <span className="mt-2 text-base font-semibold text-gray-900 leading-6">
+              {creator_id}
+            </span>
+          </div>
           <div className="flex flex-col items-end">
             <span className="text-base font-semibold text-gray-400 leading-6">
               {timeLabel}
