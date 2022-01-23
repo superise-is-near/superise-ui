@@ -12,6 +12,7 @@ import { join_pool } from "~domain/superise/methods";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import RequestSigninModal from "~components/modal/request-signin-modal";
+import RequirementsModal from "~components/modal/requirements-modal";
 import { wallet } from "~domain/near/global";
 import Confetti from "react-confetti";
 import { TwitterPool } from "~domain/superise/twitter_giveaway/models";
@@ -22,6 +23,7 @@ import { nft_token } from "~domain/near/nft/methods";
 import { SuperiseFtInputValue } from "~components/forms/superise-ft-input";
 
 dayjs.extend(isSameOrAfter);
+import { useLocation } from "react-router-dom";
 
 const getTokenSymbol = (tokens: TokenMetadata[] = [], id: string = "") => {
   let symbolText = id;
@@ -35,6 +37,7 @@ export default function PrizepoolDetail(props: {
   tokens: TokenMetadata[];
 }) {
   const { pool, tokens } = props;
+  console.log({ pool });
   const { timeLabel, countdownText, dateText, timeText, fontClass } =
     useEndtimer(pool.end_time, pool.finish);
   // let prize = convertAmountToNumber(pool.ticket_price);
@@ -45,12 +48,21 @@ export default function PrizepoolDetail(props: {
   //   if (foundToken) text = foundToken.symbol;
   //   return `${prize} ${text}`;
   // }, [tokens]);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.search.indexOf("show_requirements_modal=1") !== -1) {
+      setShowRequirementsModal(true);
+    }
+  }, [location.search]);
 
   const { join_accounts, creator_id } = pool.prize_pool;
   const loginAccountName = wallet.getAccountId();
   const isAlreadyJoined = join_accounts.indexOf(loginAccountName) !== -1;
 
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+  const [showRequrementsModal, setShowRequirementsModal] =
+    useState<boolean>(false);
   const [joining, setJoining] = useState<boolean>(false);
 
   const [parasNfts, setParasNfts] = useState<ParasNft[]>([]);
@@ -89,6 +101,15 @@ export default function PrizepoolDetail(props: {
             <TwitterCard url={pool.twitter_link} />
           </span>
         </div>
+        <RequirementsModal
+          isOpen={showRequrementsModal}
+          onRequestClose={() => setShowRequirementsModal(false)}
+          handleClickConnectTwitter={() => {
+            window.location = `/twitter/authenticate?near_account=${loginAccountName}&pool_id=${pool.prize_pool.id}`;
+          }}
+          accountName={loginAccountName}
+          onSuccess={() => {}}
+        />
         <div className="mt-6">
           <h2 className="text-base font-bold leading-6">Prize list</h2>
           <div
@@ -179,6 +200,8 @@ export default function PrizepoolDetail(props: {
           <div className="mt-6">
             <PrimaryButton
               onClick={async () => {
+                setShowRequirementsModal(true);
+                return;
                 const isSignedIn = wallet.isSignedIn();
                 if (!isSignedIn) {
                   setShowLoginModal(true);
