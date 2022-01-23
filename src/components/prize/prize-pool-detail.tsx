@@ -128,7 +128,8 @@ export default function PrizepoolDetail(props: {
                 (item) => item.id === contract_id
               );
               if (!token) return null;
-              let tmp = String(convertAmountToNumber(balance));
+              // let tmp = String(convertAmountToNumber(balance));
+              let tmp = 'todo';
               return (
                 <div
                   className="flex items-center justify-between p-2 border border-gray-100 rounded-sm shadow-sm"
@@ -218,7 +219,7 @@ export default function PrizepoolDetail(props: {
             )}
           </div>
         </div>
-        {/* {!pool.finish && !isAlreadyJoined && (
+        {!pool.finish && !isAlreadyJoined && (
           <div className="mt-6">
             <PrimaryButton
               onClick={async () => {
@@ -271,7 +272,7 @@ export default function PrizepoolDetail(props: {
               You have joined
             </PrimaryButton>
           </div>
-        )} */}
+        )}
       </Card>
       {/* {pool.finish && (
         <>
