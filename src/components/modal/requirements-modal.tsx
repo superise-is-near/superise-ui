@@ -119,8 +119,9 @@ export default function RequestSigninModal(props: {
         return current.finished;
       }, true);
       if (allSuccessed && addWhiteListSuccess) {
-        setButtonText("Great, all tasks done");
+        setButtonText("All done, joining...");
         setTimeout(() => {
+          props.onSuccess();
           props.onRequestClose();
           history.replace(location.pathname);
         }, 2000);
