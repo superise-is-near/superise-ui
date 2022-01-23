@@ -16,6 +16,8 @@ import Modal from "~components/modal/modal";
 import { wrapNear } from "~domain/near/wrap-near";
 import { deposit_ft } from "~domain/superise/methods";
 import { useDepositableBalance, useUserRegisteredTokens } from "~state/token";
+import { ParasNft } from "~domain/paras/models";
+import { InputValueDisplay } from "~components/forms/PrizeSelector";
 
 export function Token(
   props: TokenMetadata & { amount: string; totalAmount: string }
@@ -23,7 +25,7 @@ export function Token(
   const { symbol, icon, amount, totalAmount } = props;
   return (
     <div
-      className="token flex items-center justify-between pt-3.5 pb-3.5 text-gray-700"
+      className="mt-2 pl-2 pr-4 token flex items-center justify-between pt-3.5 pb-3.5 text-gray-700 border-2 rounded transition"
       title={totalAmount}
     >
       <div className="flex items-center">
@@ -81,9 +83,10 @@ function TokenList(props: {
 export default function Assets(props: {
   tokens: TokenMetadata[];
   balances: FtBalancesView;
+  nftAssets: ParasNft[];
 }) {
   const { id } = useParams<{ id: string }>();
-  const { tokens, balances } = props;
+  const { tokens, balances, nftAssets } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [showDepositModal, setShowDepositModal] = useState<boolean>(false);
 
@@ -108,40 +111,61 @@ export default function Assets(props: {
 
   return (
     <Card title="Assets">
-      <Modal
-        isOpen={showDepositModal}
-        onRequestClose={() => {
-          setShowDepositModal(false);
-        }}
-      >
-        <TokenAmount
-          amount={amount}
-          max={max}
-          total={max}
-          tokens={[nearMetadata, ...tokens]}
-          selectedToken={selectedToken}
-          onSelectToken={setSelectedToken}
-          onChangeAmount={setAmount}
-          text={selectedToken.symbol}
-          balances={balances}
-        />
-        {wallet.isSignedIn() ? (
-          <PrimaryButton isFull onClick={handleDeposit}>
-            Deposit
-          </PrimaryButton>
-        ) : (
-          <div>
-            <PrimaryButton
-              isFull
-              onClick={() => {
-                wallet.requestSignIn(REF_FARM_CONTRACT_ID);
-              }}
-            >
-              Connect to Near
+      {showDepositModal && (
+        <Modal
+          isOpen={showDepositModal}
+          onRequestClose={() => {
+            setShowDepositModal(false);
+          }}
+        >
+          <TokenAmount
+            amount={amount}
+            max={max}
+            total={max}
+            tokens={[nearMetadata, ...tokens]}
+            selectedToken={selectedToken}
+            onSelectToken={setSelectedToken}
+            onChangeAmount={setAmount}
+            text={selectedToken.symbol}
+            balances={balances}
+          />
+          {wallet.isSignedIn() ? (
+            <PrimaryButton isFull onClick={handleDeposit}>
+              Deposit
             </PrimaryButton>
+          ) : (
+            <div>
+              <PrimaryButton
+                isFull
+                onClick={() => {
+                  wallet.requestSignIn(REF_FARM_CONTRACT_ID);
+                }}
+              >
+                Connect to Near
+              </PrimaryButton>
+            </div>
+          )}
+        </Modal>
+      )}
+      {nftAssets &&
+        nftAssets.length > 0 &&
+        nftAssets.map((parasNft: ParasNft) => (
+          <div
+            className="mt-2"
+            key={`${parasNft.nft.contract_id} ${parasNft.nft.token.token_id}`}
+          >
+            <InputValueDisplay
+              value={{
+                id: parasNft.nft.token.token_id,
+                amount: "",
+                token: {
+                  icon: parasNft.img_url,
+                  symbol: parasNft.nft.token.metadata.title,
+                } as TokenMetadata,
+              }}
+            />
           </div>
-        )}
-      </Modal>
+        ))}
       <TokenList hideEmpty={true} tokens={tokens} balances={balances} />
       {/*tokens.length > 0 ? (
         <div className="flex items-center justify-center pt-5">

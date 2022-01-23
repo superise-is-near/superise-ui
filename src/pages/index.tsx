@@ -128,7 +128,7 @@ export default function Index() {
             <FaFire size="36px" color={cardTheme.lightGreen.fg} />
             <ColorCardTitle theme="lightGreen">Hot giveaways</ColorCardTitle>
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-              {prizePoolDisplays.slice(0, 5).map((pool, idx) => {
+              {prizePoolDisplays.map((pool, idx) => {
                 return (
                   <div key={idx} className="md:col-span-6 lg:col-span-4">
                     <PrizePoolCard

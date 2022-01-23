@@ -1,3 +1,5 @@
+import axios from "axios";
+
 import {
   TwitterPool,
   TwitterPoolCreateParam,
@@ -52,4 +54,63 @@ export function view_twitter_prize_pool_list(): Promise<TwitterPoolDisplay[]> {
       "view_twitter_prize_pool_list",
       {}
     );
+}
+
+export enum RequirmentType {
+  TwitterFollow = "twitter_follow",
+  TwitterRetweet = "twitter_retweet",
+  TwitterLike = "twitter_like",
+}
+
+export type TwitterRequirment =
+  | TwitterFollowRequirment
+  | TwitterRetweetRequirment
+  | TwitterRetweetRequirment;
+
+export interface TwitterFollowRequirment {
+  requirment_type: RequirmentType;
+  screen_name: String;
+}
+
+export interface TwitterFollowRequirmentDisplay
+  extends TwitterFollowRequirment {
+  id?: string;
+  finished: boolean;
+}
+
+export interface TwitterRetweetRequirment {
+  requirment_type: RequirmentType;
+  tweet_link: string;
+}
+
+export interface TwitterRetweetRequirmentDisplay
+  extends TwitterRetweetRequirment {
+  id?: string;
+  finished: boolean;
+}
+
+export interface TwitterLikeRequirment {
+  requirment_type: RequirmentType;
+  tweet_link: String;
+}
+
+export interface TwitterLikeRequirmentDisplay extends TwitterLikeRequirment {
+  id?: string;
+  finished: boolean;
+}
+
+export interface VerifyRequirmentsResult {
+  id: String;
+  finished: boolean;
+  message?: string;
+}
+
+export type AxiosRequestResult = {
+  data: VerifyRequirmentsResult[];
+};
+
+export async function verify_requirments(
+  requirments: TwitterRequirment[]
+): Promise<AxiosRequestResult> {
+  return axios.post("/verify-requirments", { requirments });
 }

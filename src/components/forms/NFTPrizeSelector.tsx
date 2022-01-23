@@ -17,7 +17,12 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
   onRequestClose,
   onRequestConfirm,
 }) => {
-  const [nfts, setNfts] = useState<ParasNft[]>([]);
+  const [nfts, setNfts] = useState<
+    {
+      parasNft: ParasNft;
+      select: boolean;
+    }[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [selectDataSource, setSelectDataSource] = useState<
     "Paras" | "Mintbase"
@@ -27,7 +32,7 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
     if (selectDataSource === "Paras") {
       nft_tokens_for_owner_in_paras(wallet.getAccountId(), 100).then(
         (data: ParasNft[]) => {
-          setNfts(data);
+          setNfts(data.map((parasNft) => ({ parasNft, select: false })));
           setLoading(false);
         }
       );
@@ -103,9 +108,9 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
               className="overflow-auto "
               style={{ maxHeight: "50vh", height: "50vh" }}
             >
-              {nfts.map(({ nft, img_url, select }) => (
+              {nfts.map(({ parasNft, select }) => (
                 <div
-                  key={nft.token.token_id}
+                  key={parasNft.nft.token.token_id}
                   className={clsx(
                     select ? "border-black" : "border-white",
                     "flex mb-4 px-2 py-3 rounded-lg shadow cursor-pointer border-2"
@@ -113,19 +118,27 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
                   onClick={() => {
                     setNfts(
                       nfts.map((nftTmp) =>
-                        nftTmp.nft.token_id === nft.token_id
+                        nftTmp.parasNft.nft.token.token_id ===
+                        parasNft.nft.token.token_id
                           ? { ...nftTmp, select: !nftTmp.select }
                           : nftTmp
                       )
                     );
                   }}
                 >
-                  <div>
-                    <img src={img_url} width={76} height={107} alt={img_url} />
+                  <div className="overflow-hidden h-12 w-12">
+                    <img
+                      src={parasNft.img_url}
+                      width="512px"
+                      height="512px"
+                      alt={parasNft.img_url}
+                    />
                   </div>
                   <div className="ml-2">
-                    <h3 className="font-bold">{nft.token.metadata.title}</h3>
-                    <p>{nft.token.metadata.description}</p>
+                    <h3 className="font-bold">
+                      {parasNft.nft.token.metadata.title}
+                    </h3>
+                    <p>{parasNft.nft.token.metadata.description}</p>
                   </div>
                 </div>
               ))}
@@ -136,9 +149,16 @@ const NFTPrizeSelector: FC<INFTPrizeSelector> = ({
       <section>
         <PrimaryButton
           isFull
-          onClick={() => onRequestConfirm(nfts.filter((nft) => nft.select))}
+          onClick={() =>
+            onRequestConfirm(
+              nfts.filter((nft) => nft.select).map((nft) => nft.parasNft)
+            )
+          }
         >
-          Add{nfts.length === 0 ? "" : ` (${nfts.length})`}
+          Add
+          {nfts.filter((nft) => nft.select).length === 0
+            ? ""
+            : ` (${nfts.filter((nft) => nft.select).length})`}
         </PrimaryButton>
       </section>
     </Modal>

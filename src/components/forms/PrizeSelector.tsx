@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { PrimaryButton, TextButton } from "~components/button/Button";
 import { SuperiseFtInputValue } from "./superise-ft-input";
 import {
@@ -13,8 +13,10 @@ import NFTPrizeSelector from "./NFTPrizeSelector";
 import { ParasNft } from "~domain/paras/models";
 import clsx from "classnames";
 import Modal from "~components/modal/modal";
+import { toReadableNumber } from "~utils/numbers";
+import { useWhitelistTokens } from "~state/token";
 
-function InputValueDisplay({
+export function InputValueDisplay({
   value,
   onClick,
 }: {
@@ -22,7 +24,9 @@ function InputValueDisplay({
   onClick?: any;
 }) {
   const { token, amount } = value;
+  const tokens = useWhitelistTokens();
 
+  if (!tokens) return null;
   return (
     <div
       className={clsx(
@@ -33,7 +37,12 @@ function InputValueDisplay({
     >
       <img src={token.icon} className="w-12 h-12" />
       <span className="text-sm text-gray-700">
-        {amount} {token.symbol}
+        {toReadableNumber(
+          tokens.find((_token) => token.id === _token.id)?.decimals ??
+            tokens[0].decimals,
+          amount
+        )}{" "}
+        {token.symbol}
       </span>
     </div>
   );
