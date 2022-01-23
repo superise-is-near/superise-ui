@@ -7,12 +7,14 @@ Backend:
 
 ```
 > cd ./server
+> yarn
 > yarn start
 ```
 
 Frontend
 
 ```
+> yarn
 > yarn start:testnet
 ```
 
