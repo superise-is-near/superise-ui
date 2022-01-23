@@ -20,6 +20,7 @@ import { nft_token } from "~domain/near/nft/methods";
 
 dayjs.extend(isSameOrAfter);
 import { useLocation } from "react-router-dom";
+import { join_twitter_pool } from "~domain/superise/twitter_giveaway/methods";
 
 const getTokenSymbol = (tokens: TokenMetadata[] = [], id: string = "") => {
   let symbolText = id;
@@ -75,6 +76,21 @@ export default function PrizepoolDetail(props: {
   }, []);
   console.log({ pool });
 
+  const joinPool = async () => {
+    setJoining(true);
+    try {
+      const res = await join_twitter_pool(pool.prize_pool.id);
+      console.log({ res });
+    } catch (e) {
+      // TODO: read the join_pool return value to determine if it's successfully joined
+      console.log({ e });
+      setJoining(false);
+      return;
+    }
+    setJoining(false);
+    // TODO: find a good way to refresh the data
+    window.location.reload();
+  };
   return (
     <>
       <Card>
@@ -98,7 +114,7 @@ export default function PrizepoolDetail(props: {
             window.location = `/twitter/authenticate?near_account=${loginAccountName}&pool_id=${pool.prize_pool.id}`;
           }}
           accountName={loginAccountName}
-          onSuccess={() => {}}
+          onSuccess={joinPool}
         />
         <div className="mt-6">
           <h2 className="text-base font-bold leading-6">Prize list</h2>
@@ -206,25 +222,18 @@ export default function PrizepoolDetail(props: {
           <div className="mt-6">
             <PrimaryButton
               onClick={async () => {
-                setShowRequirementsModal(true);
-                return;
                 const isSignedIn = wallet.isSignedIn();
                 if (!isSignedIn) {
                   setShowLoginModal(true);
                   return;
                 }
-                setJoining(true);
 
-                try {
-                  await join_pool(pool.prize_pool.id);
-                } catch (e) {
-                  // TODO: read the join_pool return value to determine if it's successfully joined
-                  setJoining(false);
+                if (pool.white_list.indexOf(loginAccountName) === -1) {
+                  setShowRequirementsModal(true);
                   return;
                 }
-                setJoining(false);
-                // TODO: find a good way to refresh the data
-                location.reload();
+
+                joinPool();
               }}
               isFull
               loading={joining}
