@@ -118,13 +118,15 @@ const PrizeSelector: FC<IPrizeSelectType> = (props) => {
         >
           <section>
             <div className="shadow-lg rounded-lg px-4 py-2 flex mb-5">
-              <img
-                className="mr-3"
-                height="100px"
-                width="80px"
-                src={nftInputValue.img_url}
-                alt={nftInputValue.nft.token.metadata.title}
-              />
+              <div className="overflow-hidden h-12 w-12">
+                <img
+                  className="mr-3"
+                  height="100px"
+                  width="80px"
+                  src={nftInputValue.img_url}
+                  alt={nftInputValue.nft.token.metadata.title}
+                />
+              </div>
               <div>
                 <div className="ml-2">
                   <h3 className="font-bold">
