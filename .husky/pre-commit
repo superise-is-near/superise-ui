@@ -3,4 +3,3 @@
 
 yarn check-type
 yarn prettier:fix
-git add .

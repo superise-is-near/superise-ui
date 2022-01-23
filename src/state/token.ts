@@ -151,6 +151,10 @@ export const useUserRegisteredTokens = () => {
   return tokens;
 };
 
+// TODO perf
+// Load ft_metadata when first invoked,
+// this metadata will never change
+// Like ref: https://github.com/ref-finance/ref-ui/blob/main/src/store/RefDatabase.ts
 export const useWhitelistTokens = (
   extraTokenIds: string[] = []
 ): TokenMetadata[] => {

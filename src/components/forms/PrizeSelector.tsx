@@ -53,7 +53,6 @@ interface IPrizeSelectType {
 
 const PrizeSelector: FC<IPrizeSelectType> = (props) => {
   const { input, balances, tokens } = props;
-  debugger;
   const [showPrizeSelectType, setShowPrizeSelectType] = useState(false);
   const [showFTPrizeSelector, setShowFTPrizeSelector] = useState(false);
   const [showNFTPrizeSelector, setShowNFTPrizeSelector] = useState(false);
