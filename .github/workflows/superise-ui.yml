@@ -33,6 +33,6 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          source: "./dist/*"
+          source: "./public/*"
           target: "/usr/local/nginx/html"
           strip_components: 1
