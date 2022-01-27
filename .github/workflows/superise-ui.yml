@@ -1,4 +1,4 @@
-name: Build And Deploy To Superise-ui
+name: Superise UI
 on:
   push:
     branches: [master]

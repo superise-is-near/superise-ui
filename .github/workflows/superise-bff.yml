@@ -1,4 +1,4 @@
-name: Build And Deploy To Superise-ui
+name: Superise BFF
 on:
   push:
     branches: [master]
@@ -22,3 +22,15 @@ jobs:
           source: "./server/*"
           target: "/usr/local/express"
           strip_components: 1
+      
+      - name: Executing node backend for frontend jobs
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            killall node
+            cd /usr/local/express
+            yarn install
+            nohup node index >> express.log 2>&1 &
