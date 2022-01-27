@@ -7,6 +7,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon $npm_package_main",
+    "start:backstage": "yarn && nohup node index >> express.log 2>&1 &",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
