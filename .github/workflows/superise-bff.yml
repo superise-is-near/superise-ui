@@ -1,4 +1,4 @@
-name: Superise BFF
+name: Superise BFF (testnet)
 on:
   push:
     branches: [master]

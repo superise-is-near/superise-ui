@@ -1,4 +1,4 @@
-name: Superise UI
+name: Superise UI (testnet)
 on:
   push:
     branches: [master]
@@ -34,5 +34,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           source: "./public/*"
-          target: "/usr/local/nginx/html"
+          target: "/usr/local/dist"
           strip_components: 1
