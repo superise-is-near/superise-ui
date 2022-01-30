@@ -33,4 +33,4 @@ jobs:
             killall node
             cd /usr/local/express
             yarn install
-            nohup node index >> express.log 2>&1 &
+            NODE_ENV=testnet nohup node index >> express.log 2>&1 &
