@@ -67,6 +67,11 @@ export type TwitterRequirment =
   | TwitterRetweetRequirment
   | TwitterRetweetRequirment;
 
+export type TwitterRequirmentDisplay =
+  | TwitterFollowRequirmentDisplay
+  | TwitterRetweetRequirmentDisplay
+  | TwitterLikeRequirmentDisplay;
+
 export interface TwitterFollowRequirment {
   requirment_type: RequirmentType;
   screen_name: String;
@@ -75,7 +80,8 @@ export interface TwitterFollowRequirment {
 export interface TwitterFollowRequirmentDisplay
   extends TwitterFollowRequirment {
   id?: string;
-  finished: boolean;
+  status: "success" | "failed" | "pending";
+  message?: string;
 }
 
 export interface TwitterRetweetRequirment {
@@ -86,7 +92,8 @@ export interface TwitterRetweetRequirment {
 export interface TwitterRetweetRequirmentDisplay
   extends TwitterRetweetRequirment {
   id?: string;
-  finished: boolean;
+  status: "success" | "failed";
+  message?: string;
 }
 
 export interface TwitterLikeRequirment {
@@ -96,21 +103,26 @@ export interface TwitterLikeRequirment {
 
 export interface TwitterLikeRequirmentDisplay extends TwitterLikeRequirment {
   id?: string;
-  finished: boolean;
-}
-
-export interface VerifyRequirmentsResult {
-  id: String;
-  finished: boolean;
+  status: "success" | "failed";
   message?: string;
 }
 
+export type RequirmentVerifyResult = {
+  id: string;
+  status: "success" | "failed";
+  message?: string;
+};
+
 export type AxiosRequestResult = {
-  data: VerifyRequirmentsResult[];
+  data: {
+    verifyResults: RequirmentVerifyResult[];
+    addWhiteListSuccess: boolean;
+    invalidate_twitter_session?: boolean;
+  };
 };
 
 export async function verify_requirments(
-  requirments: TwitterRequirment[]
+  requirments: TwitterRequirmentDisplay[]
 ): Promise<AxiosRequestResult> {
   return axios.post("/verify-requirments", { requirments });
 }

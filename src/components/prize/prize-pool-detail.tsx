@@ -28,7 +28,9 @@ import {
   join_twitter_pool,
   TwitterRequirment,
 } from "~domain/superise/twitter_giveaway/methods";
-import Participant, { requirementsValue } from "~components/forms/Participant";
+import Participant, {
+  RequirementInputValue,
+} from "~components/forms/Participant";
 
 const getTokenSymbol = (tokens: TokenMetadata[] = [], id: string = "") => {
   let symbolText = id;
@@ -131,6 +133,9 @@ export default function PrizepoolDetail(props: {
           }}
           accountName={loginAccountName}
           onSuccess={joinPool}
+          requirementsValue={
+            JSON.parse(pool.requirements) as RequirementInputValue[]
+          }
         />
         <div className="mt-6">
           <h2 className="text-base font-bold leading-6">Prize list</h2>
@@ -177,7 +182,7 @@ export default function PrizepoolDetail(props: {
           <h2 className="text-base font-bold leading-6">Requirements</h2>
           <div className="mt-1 grid grid-col-1 gap-1">
             <Participant
-              value={JSON.parse(pool.requirements) as requirementsValue}
+              value={JSON.parse(pool.requirements) as RequirementInputValue[]}
               readonly
             />
           </div>

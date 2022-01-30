@@ -9,9 +9,9 @@ const {
   getOAuthRequestToken,
   getOAuthAccessTokenWith,
   oauthGetUserById,
-  createTwitterFriendship,
-  retweetTweet,
-  likeTweet,
+  checkTwitterFriendship,
+  checkRetweet,
+  checkLikeTweet,
 } = require("./oauth-utilities");
 
 const path = require("path");
@@ -73,13 +73,8 @@ async function main() {
     };
   }
 
-  app.get("/twitter/callback", async (req, res) => {
-    const {
-      oauthRequestToken,
-      oauthRequestTokenSecret,
-      pool_id,
-      near_account,
-    } = req.session;
+  app.get("/twitter-callback", async (req, res) => {
+    const { oauthRequestToken, oauthRequestTokenSecret, pool_id } = req.session;
     const { oauth_verifier: oauthVerifier } = req.query;
 
     // console.log("/twitter/callback", {
@@ -118,7 +113,6 @@ async function main() {
   // If not, remove the `connected-twitter` query in the URL and redirect to the new URL
   app.get("/verify-connected-twitter", (req, res) => {
     const { connected_twitter } = req.query;
-    console.log(req.body, req.query);
     res.json({
       success: connected_twitter === req.session.twitter_screen_name,
     });
@@ -133,15 +127,15 @@ async function main() {
       twitter_screen_name,
     } = req.session;
     const { requirments } = req.body;
-    console.log({ requirments });
     if (!oauthAccessToken || !oauthAccessTokenSecret) {
       res.send({ invalidate_twitter_session: true });
       return;
     }
+
     const promises = requirments.map((requirment) => {
       const { requirment_type } = requirment;
       if (requirment_type === "twitter_follow") {
-        return createTwitterFriendship({
+        return checkTwitterFriendship({
           oauthAccessToken,
           oauthAccessTokenSecret,
           screen_name: requirment.screen_name,
@@ -149,18 +143,20 @@ async function main() {
       }
 
       if (requirment_type === "twitter_retweet") {
-        return retweetTweet({
+        return checkRetweet({
           oauthAccessToken,
           oauthAccessTokenSecret,
           tweet_id: requirment.tweet_link.split("/").slice(-1)[0],
+          screen_name: twitter_screen_name,
         });
       }
 
       if (requirment_type === "twitter_like") {
-        return likeTweet({
+        return checkLikeTweet({
           oauthAccessToken,
           oauthAccessTokenSecret,
           tweet_id: requirment.tweet_link.split("/").slice(-1)[0],
+          screen_name: twitter_screen_name,
         });
       }
     });
@@ -168,21 +164,23 @@ async function main() {
 
     // If all result is correct set the whitelist
     let addWhiteListSuccess = false;
-    try {
-      addWhiteListSuccess = await add_user_into_whitelist({
-        pool_id: Number(pool_id),
-        account: near_account,
-        twitter_account: twitter_screen_name,
-      });
-    } catch {
-      addWhiteListSuccess = false;
+    if (!results.find((item) => item.status === "failed")) {
+      try {
+        addWhiteListSuccess = await add_user_into_whitelist({
+          pool_id: Number(pool_id),
+          account: near_account,
+          twitter_account: twitter_screen_name,
+        });
+      } catch {
+        addWhiteListSuccess = false;
+      }
     }
+
     const verifyResults = results.map((result, idx) => {
       return {
         id: requirments[idx].id,
-        finished: result.status === "success",
-        message:
-          "Something wrong with the interact with Twitter API, please refresh and try again.",
+        status: result.status,
+        message: result.message,
       };
     });
 

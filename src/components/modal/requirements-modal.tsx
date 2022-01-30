@@ -8,23 +8,10 @@ import {
   TwitterFollowRequirmentDisplay,
   RequirmentType,
   TwitterRequirment,
+  TwitterRequirmentDisplay,
 } from "~domain/superise/twitter_giveaway/methods";
 import { FaCheck } from "react-icons/fa";
-
-const requirmentsFromURL = [
-  {
-    requirment_type: RequirmentType.TwitterFollow,
-    screen_name: "NFTNinjaas",
-  },
-  {
-    requirment_type: RequirmentType.TwitterRetweet,
-    tweet_link: "https://twitter.com/NFTNinjaas/status/1482604978585972736",
-  },
-  {
-    requirment_type: RequirmentType.TwitterLike,
-    tweet_link: "https://twitter.com/NFTNinjaas/status/1482604978585972736",
-  },
-];
+import { RequirementInputValue } from "~components/forms/Participant";
 
 const Checkbox = ({ checked }: { checked?: boolean }) => {
   if (!checked) {
@@ -48,14 +35,14 @@ const CheckboxText = ({
 }) => {
   if (!checked) {
     return (
-      <div className="ml-2 text-lg font-medium text-gray-900 leading-7">
+      <div className="text-lg font-medium text-gray-900 leading-7">
         {children}
       </div>
     );
   }
 
   return (
-    <div className="ml-2 text-lg font-medium text-gray-900 line-through leading-7">
+    <div className="text-lg font-medium text-gray-900 line-through leading-7">
       {children}
     </div>
   );
@@ -69,26 +56,26 @@ export default function RequestSigninModal(props: {
   handleClickConnectTwitter: any;
   onSuccess: any;
   accountName: string;
+  requirementsValue: RequirementInputValue[];
 }) {
   const location = useLocation();
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
-  const [requirments, setRequirments] = useState<
-    TwitterFollowRequirmentDisplay[]
-  >([]);
+  const [requirments, setRequirments] = useState<TwitterRequirmentDisplay[]>(
+    []
+  );
   const [buttonText, setButtonText] = useState("Connect Twitter to continue");
 
   useEffect(async () => {
     const toRequirmentDisplay = (
-      item: TwitterRequirment
-    ): TwitterFollowRequirmentDisplay => {
+      item: RequirementInputValue
+    ): TwitterRequirmentDisplay => {
       return {
         ...item,
         id: nanoid(),
-        finished: false,
-      } as TwitterFollowRequirmentDisplay;
+      } as any as TwitterRequirmentDisplay;
     };
-    const displayRequirments = requirmentsFromURL.map(toRequirmentDisplay);
+    const displayRequirments = props.requirementsValue.map(toRequirmentDisplay);
     setRequirments(displayRequirments);
 
     if (location.search.indexOf("connected-twitter") !== -1) {
@@ -109,14 +96,15 @@ export default function RequestSigninModal(props: {
           );
           return {
             ...requirementItem,
-            finished: foundVerifyResult.finished,
+            status: foundVerifyResult.status,
+            message: foundVerifyResult.message,
           };
         });
         setRequirments(updatedRequirments);
       }
       const allSuccessed = verifyResults.reduce((acc, current) => {
         if (acc === false) return false;
-        return current.finished;
+        return current.status === "success";
       }, true);
       if (allSuccessed && addWhiteListSuccess) {
         setButtonText("All done, joining...");
@@ -126,7 +114,7 @@ export default function RequestSigninModal(props: {
           history.replace(location.pathname);
         }, 2000);
       } else {
-        setButtonText("Opps, please try again");
+        setButtonText("Try again");
       }
     }
   }, [location.search]);
@@ -145,37 +133,46 @@ export default function RequestSigninModal(props: {
         </div>
         <div className="mt-8 grid grid-cols-1 gap-2">
           {requirments.map((requirment) => {
-            const { id, requirment_type, finished } = requirment;
+            const { id, requirment_type, status, message } = requirment;
+            let content;
             if (requirment_type === RequirmentType.TwitterFollow) {
-              return (
-                <div className="flex items-center" id={id}>
-                  <Checkbox checked={finished} />
-                  <CheckboxText
-                    checked={finished}
-                  >{`Follow twitter account @${requirment.screen_name}`}</CheckboxText>
-                </div>
+              content = (
+                <CheckboxText
+                  checked={status === "success"}
+                >{`Follow twitter account @${
+                  (requirment as TwitterFollowRequirmentDisplay).screen_name
+                }`}</CheckboxText>
               );
             }
             if (requirment_type === RequirmentType.TwitterRetweet) {
-              return (
-                <div className="flex items-center" id={id}>
-                  <Checkbox checked={finished} />
-                  <CheckboxText checked={finished}>
-                    Retweet this tweet
-                  </CheckboxText>
-                </div>
+              content = (
+                <CheckboxText checked={status === "success"}>
+                  Retweet this tweet
+                </CheckboxText>
               );
             }
             if (requirment_type === RequirmentType.TwitterLike) {
-              return (
-                <div className="flex items-center" id={id}>
-                  <Checkbox checked={finished} />
-                  <CheckboxText checked={finished}>
-                    Like this tweet
-                  </CheckboxText>
-                </div>
+              content = (
+                <CheckboxText checked={status === "success"}>
+                  Like this tweet
+                </CheckboxText>
               );
             }
+
+            return (
+              <div className="flex items-center" id={id}>
+                <Checkbox checked={status === "success"} />
+                <div className="flex flex-col ml-2">
+                  {content}
+                  {status !== "success" && (
+                    <span
+                      className="text-red-600"
+                      dangerouslySetInnerHTML={{ __html: message }}
+                    />
+                  )}
+                </div>
+              </div>
+            );
           })}
         </div>
         <div className="mt-8">

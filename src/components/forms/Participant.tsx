@@ -7,15 +7,14 @@ import {
   RequirmentType,
 } from "~domain/superise/twitter_giveaway/models";
 
-export type requirementsValue = (
+export type RequirementInputValue =
   | TwitterLikeRequirmentInputValue
   | TwitterFollowRequirmentInputValue
-  | TwitterRetweetRequirmentInputValue
-)[];
+  | TwitterRetweetRequirmentInputValue;
 
 interface IPrizeSelectType {
-  value: requirementsValue;
-  onChange?: (value: requirementsValue) => void;
+  value: RequirementInputValue[];
+  onChange?: (value: RequirementInputValue[]) => void;
   readonly?: boolean;
 }
 
@@ -48,6 +47,7 @@ const Participant: FC<IPrizeSelectType> = ({ value, onChange, readonly }) => {
     (item) => item.requirment_type === RequirmentType.TwitterLike
   ) as TwitterLikeRequirmentInputValue;
 
+  if (value.length === 0) return "Free for joining.";
   return (
     <section>
       <div className="flex justify-between w-full px-4 py-3 mt-2 border border-gray-300 rounded-md">

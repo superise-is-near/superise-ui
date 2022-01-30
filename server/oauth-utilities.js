@@ -2,12 +2,13 @@ const oauth = require("oauth");
 
 const { promisify } = require("util");
 
+const ERROR_MESSAGE_TRY = "Something went wrong, please try again.";
+
 const TWITTER_CONSUMER_API_KEY =
-  process.env.npm_config_twitter_consumer_api_key ||
-  process.env.TWITTER_CONSUMER_API_KEY;
+  process.env.npm_config_twitter_consumer_api_key || process.env.consumer_key;
 const TWITTER_CONSUMER_API_SECRET_KEY =
   process.env.npm_config_twitter_consumer_api_secret_key ||
-  process.env.TWITTER_CONSUMER_API_SECRET_KEY;
+  process.env.consumer_secret;
 
 const oauthConsumer = new oauth.OAuth(
   "https://twitter.com/oauth/request_token",
@@ -15,7 +16,7 @@ const oauthConsumer = new oauth.OAuth(
   TWITTER_CONSUMER_API_KEY,
   TWITTER_CONSUMER_API_SECRET_KEY,
   "1.0A",
-  "http://127.0.0.1:3000/twitter/callback",
+  "http://127.0.0.1:3000/twitter-callback",
   "HMAC-SHA1"
 );
 
@@ -58,102 +59,113 @@ async function getOAuthRequestToken() {
       results
     ) {
       return error
-        ? reject(new Error("Error getting OAuth request token"))
+        ? console.log({ error }) ||
+            reject(new Error("Error getting OAuth request token"))
         : resolve({ oauthRequestToken, oauthRequestTokenSecret, results });
     });
   });
 }
 
-async function createTwitterFriendship({
+async function checkTwitterFriendship({
   oauthAccessToken,
   oauthAccessTokenSecret,
   screen_name,
 } = {}) {
-  return promisify(oauthConsumer.post.bind(oauthConsumer))(
-    `https://api.twitter.com/1.1/friendships/create.json`,
-    oauthAccessToken,
-    oauthAccessTokenSecret,
-    {
-      screen_name,
-    }
-  )
-    .then((body) => ({ status: "success" }))
-    .catch((e) => ({ status: "fail" }));
+  return new Promise((resolve, reject) => {
+    oauthConsumer.get(
+      `https://api.twitter.com/1.1/friendships/show.json?target_screen_name=${screen_name}`,
+      oauthAccessToken,
+      oauthAccessTokenSecret,
+      (err, result, response) => {
+        const parsedResult = result && JSON.parse(result);
+        if (
+          parsedResult &&
+          parsedResult.relationship.target &&
+          parsedResult.relationship.target.followed_by
+        ) {
+          resolve({ status: "success", message: "success" });
+          return;
+        }
+        resolve({
+          status: "failed",
+          message: `Please follow <a target="_blank" class="text-gray-900 underline" href="https://twitter.com/${screen_name}">@${screen_name} ↗</a> and try again`,
+        });
+      }
+    );
+  });
 }
 
-async function retweetTweet({
+// https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-user_timeline
+async function checkRetweet({
   oauthAccessToken,
   oauthAccessTokenSecret,
   tweet_id,
+  screen_name,
 } = {}) {
-  console.log({ oauthAccessToken, oauthAccessTokenSecret, tweet_id });
-  return promisify(oauthConsumer.post.bind(oauthConsumer))(
-    `https://api.twitter.com/1.1/statuses/retweet/:id.json`.replace(
-      ":id",
-      tweet_id
-    ),
-    oauthAccessToken,
-    oauthAccessTokenSecret,
-    {
-      id: tweet_id,
-    }
-  )
-    .then((body) => ({ status: "success" }))
-    .catch((e) => {
-      console.log({ e });
-      if (e.data && JSON.parse(e.data)) {
-        if (JSON.parse(e.data).errors.find((item) => item.code === 327)) {
-          // 403 means already retweeted
-          //   {
-          //     statusCode: 403,
-          //     data: '{"errors":[{"code":327,"message":"You have already retweeted this Tweet."}]}'
-          //   }
-          return { status: "success" };
+  return new Promise((resolve, reject) => {
+    oauthConsumer.get(
+      `https://api.twitter.com/1.1/statuses/user_timeline.json?&screen_name=${screen_name}&trim_user=true&exclude_replies=false`,
+      oauthAccessToken,
+      oauthAccessTokenSecret,
+      (err, result, response) => {
+        if (result) {
+          const retweets = JSON.parse(result || []).filter(
+            (item) => item.retweeted_status
+          );
+          const foundRetweet = retweets.find(
+            (item) => item.retweeted_status.id_str === tweet_id
+          );
+          if (foundRetweet) {
+            resolve({ status: "success", message: "success" });
+            return;
+          }
+          resolve({
+            status: "failed",
+            message: `Please retweet <a target="_blank" class="text-gray-900 underline" href="https://twitter.com/i/web/status/${tweet_id}">this tweet ↗</a> and try again`,
+          });
+          return;
         }
+        resolve({ status: "failed", message: ERROR_MESSAGE_TRY });
       }
-      return { status: "fail" };
-    });
+    );
+  });
 }
-async function likeTweet({
+async function checkLikeTweet({
   oauthAccessToken,
   oauthAccessTokenSecret,
   tweet_id,
 } = {}) {
-  return promisify(oauthConsumer.post.bind(oauthConsumer))(
-    `https://api.twitter.com/1.1/favorites/create.json`,
-    oauthAccessToken,
-    oauthAccessTokenSecret,
-    {
-      id: tweet_id,
-    }
-  )
-    .then((body) => ({ status: "success" }))
-    .catch((e) => {
-      console.log({ e });
-      if (e.data && JSON.parse(e.data)) {
-        if (
-          JSON.parse(e.data).errors.find(
-            (item) =>
-              item.code === 193 || item.code === 327 || item.code === 139
-          )
-        ) {
-          // 193 means already liked
-          // {
-          //   statusCode: 403,
-          //     data: '{"errors":[{"code":139,"message":"You have already favorited this status."}]}'
-          // }
-          return { status: "success" };
+  return new Promise((resolve, reject) => {
+    oauthConsumer.get(
+      `https://api.twitter.com/1.1/favorites/list.json?count=100`,
+      oauthAccessToken,
+      oauthAccessTokenSecret,
+      (err, result, response) => {
+        if (result) {
+          const foundLikedTweet = JSON.parse(result || []).find(
+            (item) => item.id_str === tweet_id
+          );
+          if (foundLikedTweet) {
+            resolve({ status: "success", message: "success" });
+            return;
+          }
+          resolve({
+            status: "failed",
+            message: `Please like <a target="_blank" class="text-gray-900 underline" href="https://twitter.com/i/web/status/${tweet_id}">this tweet ↗</a> and try again`,
+          });
+          return;
         }
+        resolve({ status: "failed", message: ERROR_MESSAGE_TRY });
       }
-      return { status: "fail" };
-    });
+    );
+  });
 }
 
 module.exports = {
   oauthGetUserById,
   getOAuthAccessTokenWith,
   getOAuthRequestToken,
-  createTwitterFriendship,
-  likeTweet,
-  retweetTweet,
+  checkTwitterFriendship,
+  checkLikeTweet,
+  checkRetweet,
 };
