@@ -1,35 +1,35 @@
-import React, { FC } from "react";
+import React, { useState } from "react";
+import Modal from "~components/modal/modal";
+import NFTSelectModal from "./nft-select-modal";
+import SelectPrizesCard from "./select-prizes-card";
 import VerticalLine from "./vertical-line";
-import AddIcon from "~assets/add.svg";
-import { PrimaryButton } from "~components/button/Button";
 
-const GiveAwayPrizes: FC<{ className?: string }> = ({ className }) => {
+const GiveAwayPrizes = () => {
+  const [showCryptoSelectModal, setShowCryptoSelectModal] = useState(false);
+  const [showNFTSelectModal, setShowNFTSelectModal] = useState(false);
   return (
     <section className="flex">
       <VerticalLine bgLight className="mr-4" />
-      <div className="w-full mt-2">
-        <div className="p-4 flex justify-between border border-gray-300 rounded-t-2xl">
-          <div>
-            <div>NFT</div>
-            <div className="mt-1 text-sm text-gray-400">Paras or Mintbase</div>
-          </div>
-          <div className="grid place-items-center">
-            <img src={AddIcon} width="24px" height="24px" alt="add" />
-          </div>
-        </div>
-        <div className="p-4 flex justify-between border border-t-0 border-gray-300 rounded-b-2xl">
-          <div>
-            <div>Crypto</div>
-            <div className="mt-1 text-sm text-gray-400">NEAR or OCTA</div>
-          </div>
-          <div className="grid place-items-center">
-            <img src={AddIcon} width="24px" height="24px" alt="add" />
-          </div>
-        </div>
-        <PrimaryButton size="large" className="my-6" disabled>
-          Continue
-        </PrimaryButton>
-      </div>
+      <SelectPrizesCard
+        onClickAddNFT={() => setShowNFTSelectModal(true)}
+        onClickAddCrypto={() => setShowCryptoSelectModal(true)}
+      />
+
+      {showCryptoSelectModal && (
+        <Modal
+          isOpen={showCryptoSelectModal}
+          onRequestClose={() => setShowCryptoSelectModal(false)}
+        >
+          Crypto
+        </Modal>
+      )}
+
+      {showNFTSelectModal && (
+        <NFTSelectModal
+          showNFTSelectModal={showNFTSelectModal}
+          setShowNFTSelectModal={setShowNFTSelectModal}
+        />
+      )}
     </section>
   );
 };
