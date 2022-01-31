@@ -11,7 +11,7 @@ export function PrimaryButton(
     icon?: JSX.Element;
     type?: "button" | "submit" | "reset";
     color?: string;
-    size?: string;
+    size?: "small" | "normal" | "large";
   }
 ) {
   const {
@@ -22,18 +22,17 @@ export function PrimaryButton(
     disabled,
     className,
     color,
-    size,
+    size = "normal",
     ...resetProps
   } = props;
   return (
     <button
       className={clsx(
-        "flex items-center justify-center bg-gray-900 text-white px-5 py-2 rounded-full font-bold",
-        size === "small" && "py-1 px-4 text-sm",
-        size !== "small" && "py-2 px-5 text-base",
+        "flex items-center justify-center text-white rounded-2xl font-bold drop-shadow hover:shadow transition-all",
+        size === "normal" && "px-5 py-2 text-sm",
+        size === "large" && "p-3",
         isFull && "w-full",
-        disabled && "cursor-not-allowed",
-        "hover:shadow-lg",
+        disabled ? "cursor-not-allowed bg-indigo-100" : "bg-indigo-600",
         className
       )}
       {...resetProps}
