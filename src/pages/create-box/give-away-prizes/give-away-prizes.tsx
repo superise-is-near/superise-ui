@@ -11,7 +11,7 @@ const GiveAwayPrizes: FC<{ className?: string }> = ({ className }) => {
         <div className="p-4 flex justify-between border border-gray-300 rounded-t-2xl">
           <div>
             <div>NFT</div>
-            <div>Paras or Mintbase</div>
+            <div className="mt-1 text-sm text-gray-400">Paras or Mintbase</div>
           </div>
           <div className="grid place-items-center">
             <img src={AddIcon} width="24px" height="24px" alt="add" />
@@ -20,7 +20,7 @@ const GiveAwayPrizes: FC<{ className?: string }> = ({ className }) => {
         <div className="p-4 flex justify-between border border-t-0 border-gray-300 rounded-b-2xl">
           <div>
             <div>Crypto</div>
-            <div>NEAR or OCTA</div>
+            <div className="mt-1 text-sm text-gray-400">NEAR or OCTA</div>
           </div>
           <div className="grid place-items-center">
             <img src={AddIcon} width="24px" height="24px" alt="add" />
