@@ -1,20 +1,20 @@
 import React, { FC, useEffect, useState } from "react";
-import { PrimaryButton, TextButton } from "~/src/components/button/Button";
+import { PrimaryButton, TextButton } from "~components/button/Button";
 import { SuperiseFtInputValue } from "./superise-ft-input";
 import {
   EMPTY_INPUT_VALUE,
   TokenBalancesView,
   TokenMetadata,
-} from "~/src/domain/near/ft/models";
+} from "~domain/near/ft/models";
 import { FaPlusSquare } from "react-icons/fa";
 import PrizeSelectType from "./PrizeSelectType";
 import FTPrizeSelector from "./FTPrizeSelector";
 import NFTPrizeSelector from "./NFTPrizeSelector";
-import { ParasNft } from "~/src/domain/paras/models";
+import { ParasNft } from "~domain/paras/models";
 import clsx from "classnames";
-import Modal from "~/src/components/modal/modal";
-import { toReadableNumber } from "~/src/utils/numbers";
-import { useWhitelistTokens } from "~/src/state/token";
+import Modal from "~components/modal/modal";
+import { toReadableNumber } from "~utils/numbers";
+import { useWhitelistTokens } from "~state/token";
 
 export function InputValueDisplay({
   value,

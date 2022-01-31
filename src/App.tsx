@@ -4,10 +4,10 @@ import "es6-shim";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { AccountPage } from "./pages/account";
 import IndexPage from "./pages/index";
-import BoxPage from "~/src/pages/box-page";
-import CreateBoxPage from "~/src/pages/create-box";
+import BoxPage from "~pages/box-page";
+import CreateBoxPage from "~pages/create-box";
 import Modal from "react-modal";
-import SiteHeader from "~/src/components/layout/SiteHeader";
+import SiteHeader from "~components/layout/SiteHeader";
 
 Modal.defaultStyles = {
   overlay: {

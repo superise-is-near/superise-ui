@@ -1,15 +1,15 @@
 import { utils } from "near-api-js";
 import getConfig from "./config";
-import { TokenMetadata } from "~/src/domain/near/ft/models";
-import { REF_FI_CONTRACT_ID } from "~/src/domain/ref/constants";
+import { TokenMetadata } from "~domain/near/ft/models";
+import { REF_FI_CONTRACT_ID } from "~domain/ref/constants";
 import {
   executeMultipleTransactions,
   ONE_YOCTO_NEAR,
   Transaction,
   wallet,
-} from "~/src/domain/near/global";
-import { RefFiFunctionCallOptions } from "~/src/domain/ref/methods";
-import { ftGetStorageBalance } from "~/src/domain/near/ft/methods";
+} from "~domain/near/global";
+import { RefFiFunctionCallOptions } from "~domain/ref/methods";
+import { ftGetStorageBalance } from "~domain/near/ft/methods";
 
 export const { WRAP_NEAR_CONTRACT_ID, SUPERISE_CONTRACT_ID } = getConfig();
 export const NEW_ACCOUNT_STORAGE_COST = "0.00125";

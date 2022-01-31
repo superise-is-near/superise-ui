@@ -1,7 +1,7 @@
-import { TokenMetadata } from "~/src/domain/near/ft/models";
-import { wallet } from "~/src/domain/near/global";
-import { toReadableNumber } from "~/src/utils/numbers";
-import { RefFiViewFunctionOptions } from "~/src/domain/ref/methods";
+import { TokenMetadata } from "~domain/near/ft/models";
+import { wallet } from "~domain/near/global";
+import { toReadableNumber } from "~utils/numbers";
+import { RefFiViewFunctionOptions } from "~domain/ref/methods";
 import {
   BANANA_ID,
   CHEDDAR_ID,
@@ -9,7 +9,7 @@ import {
   HAPI_ID,
   icons as metadataDefaults,
   NEAR_ICON,
-} from "~/src/domain/near/ft/metadata";
+} from "~domain/near/ft/metadata";
 
 export const ftViewFunction = (
   tokenId: string,

@@ -1,5 +1,5 @@
 import Modal from "./modal";
-import { PrimaryButton } from "~/src/components/button/Button";
+import { PrimaryButton } from "~components/button/Button";
 import { nanoid } from "nanoid";
 import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
@@ -9,9 +9,9 @@ import {
   RequirmentType,
   TwitterRequirment,
   TwitterRequirmentDisplay,
-} from "~/src/domain/superise/twitter_giveaway/methods";
+} from "~domain/superise/twitter_giveaway/methods";
 import { FaCheck } from "react-icons/fa";
-import { RequirementInputValue } from "~/src/components/forms/Participant";
+import { RequirementInputValue } from "~components/forms/Participant";
 
 const Checkbox = ({ checked }: { checked?: boolean }) => {
   if (!checked) {

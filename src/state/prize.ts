@@ -1,18 +1,18 @@
-import { TokenMetadata } from "~/src/domain/near/ft/models";
+import { TokenMetadata } from "~domain/near/ft/models";
 import { useEffect, useState } from "react";
-import { getWhitelistedTokens } from "~/src/domain/ref/methods";
-import { ftGetTokenMetadata } from "~/src/domain/near/ft/methods";
-import { PrizePool, PrizePoolDisplay } from "~/src/domain/superise/models";
-import { view_user_pool } from "~/src/domain/superise/methods";
-import { wallet } from "~/src/domain/near/global";
+import { getWhitelistedTokens } from "~domain/ref/methods";
+import { ftGetTokenMetadata } from "~domain/near/ft/methods";
+import { PrizePool, PrizePoolDisplay } from "~domain/superise/models";
+import { view_user_pool } from "~domain/superise/methods";
+import { wallet } from "~domain/near/global";
 import {
   TwitterPool,
   TwitterPoolDisplay,
-} from "~/src/domain/superise/twitter_giveaway/models";
+} from "~domain/superise/twitter_giveaway/models";
 import {
   view_twitter_prize_pool,
   view_twitter_prize_pool_list,
-} from "~/src/domain/superise/twitter_giveaway/methods";
+} from "~domain/superise/twitter_giveaway/methods";
 
 export const usePrizePoolDisplayLists = (): TwitterPoolDisplay[] => {
   const [prizePoolDisplay, setPrizePoolDisplay] =

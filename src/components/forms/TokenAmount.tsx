@@ -1,11 +1,11 @@
 import React from "react";
 import { wallet } from "../../services/near";
 import { toRoundedReadableNumber } from "../../utils/numbers";
-import { TokenMetadata, TokenBalancesView } from "~/src/domain/near/ft/models";
-import Icon from "~/src/components/tokens/Icon";
+import { TokenMetadata, TokenBalancesView } from "~domain/near/ft/models";
+import Icon from "~components/tokens/Icon";
 import InputAmount from "./InputAmount";
 import SelectToken from "./SelectToken";
-import { toPrecision } from "~/src/utils/numbers";
+import { toPrecision } from "~utils/numbers";
 import { FormattedMessage } from "react-intl";
 
 interface TokenAmountProps {

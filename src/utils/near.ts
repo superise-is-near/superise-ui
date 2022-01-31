@@ -1,4 +1,4 @@
-import { wallet } from "~/src/services/near";
+import { wallet } from "~services/near";
 import { deserialize, deserializeArray, serialize } from "class-transformer";
 import { reject } from "lodash";
 import { ClassConstructor } from "class-transformer/types/interfaces";

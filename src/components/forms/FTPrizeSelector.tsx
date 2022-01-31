@@ -1,15 +1,15 @@
 import React, { FC, useState } from "react";
-import { PrimaryButton } from "~/src/components/button/Button";
-import Modal from "~/src/components/modal/modal";
-import SuperiseFtInput from "~/src/components/forms/superise-ft-input";
+import { PrimaryButton } from "~components/button/Button";
+import Modal from "~components/modal/modal";
+import SuperiseFtInput from "~components/forms/superise-ft-input";
 import {
   TokenBalancesView,
   TokenMetadata,
   EMPTY_INPUT_VALUE,
-} from "~/src/domain/near/ft/models";
+} from "~domain/near/ft/models";
 import { SuperiseFtInputValue } from "./superise-ft-input";
 import { nanoid } from "nanoid";
-import { ParasNft } from "~/src/domain/paras/models";
+import { ParasNft } from "~domain/paras/models";
 
 interface IFTPrizeSelector {
   isOpen: boolean;

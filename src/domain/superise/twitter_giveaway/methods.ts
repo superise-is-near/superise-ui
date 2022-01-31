@@ -4,12 +4,12 @@ import {
   TwitterPool,
   TwitterPoolCreateParam,
   TwitterPoolDisplay,
-} from "~/src/domain/superise/twitter_giveaway/models";
-import { wallet } from "~/src/domain/near/global";
-import getConfig from "~/src/domain/near/config";
+} from "~domain/superise/twitter_giveaway/models";
+import { wallet } from "~domain/near/global";
+import getConfig from "~domain/near/config";
 import { FinalExecutionOutcome } from "near-api-js/src/providers/index";
-import { getAmount, getGas } from "~/src/utils/near";
-import { defaultGas, FunctionCallOptions } from "~/src/domain/near/models";
+import { getAmount, getGas } from "~utils/near";
+import { defaultGas, FunctionCallOptions } from "~domain/near/models";
 import { exp } from "mathjs";
 
 const config = getConfig();

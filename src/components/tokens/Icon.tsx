@@ -1,7 +1,7 @@
 import React from "react";
-import { toRealSymbol } from "~/src/utils/token";
-import { TokenMetadata } from "~/src/domain/near/ft/models";
-import { ArrowDownBlack } from "~/src/components/icons";
+import { toRealSymbol } from "~utils/token";
+import { TokenMetadata } from "~domain/near/ft/models";
+import { ArrowDownBlack } from "~components/icons";
 
 interface TokenProps {
   token: TokenMetadata;

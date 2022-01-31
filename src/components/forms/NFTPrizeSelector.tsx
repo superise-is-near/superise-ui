@@ -1,10 +1,10 @@
 import React, { FC, useEffect, useState } from "react";
-import { PrimaryButton } from "~/src/components/button/Button";
-import Modal from "~/src/components/modal/modal";
+import { PrimaryButton } from "~components/button/Button";
+import Modal from "~components/modal/modal";
 import clsx from "classnames";
-import { nft_tokens_for_owner_in_paras } from "~/src/domain/paras/methods";
-import { wallet } from "~/src/domain/near/global";
-import { ParasNft } from "~/src/domain/paras/models";
+import { nft_tokens_for_owner_in_paras } from "~domain/paras/methods";
+import { wallet } from "~domain/near/global";
+import { ParasNft } from "~domain/paras/models";
 
 interface INFTPrizeSelector {
   isOpen: boolean;

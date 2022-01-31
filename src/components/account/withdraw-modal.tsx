@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import Modal from "~/src/components/modal/modal";
-import Card from "~/src/components/Card";
-import { toPrecision, toReadableNumber } from "~/src/utils/numbers";
-import { toRealSymbol } from "~/src/utils/token";
+import Modal from "~components/modal/modal";
+import Card from "~components/Card";
+import { toPrecision, toReadableNumber } from "~utils/numbers";
+import { toRealSymbol } from "~utils/token";
 import {
   nearMetadata,
   TokenBalancesView,
   TokenMetadata,
-} from "~/src/domain/near/ft/models";
-import { PrimaryButton } from "~/src/components/button/Button";
-import InputAmount from "~/src/components/forms/InputAmount";
-import TokenAmount from "~/src/components/forms/TokenAmount";
-import fakedata from "~/src/fakedata/account.json";
+} from "~domain/near/ft/models";
+import { PrimaryButton } from "~components/button/Button";
+import InputAmount from "~components/forms/InputAmount";
+import TokenAmount from "~components/forms/TokenAmount";
+import fakedata from "~fakedata/account.json";
 
 export default function WithdrawModal(props: ReactModal.Props) {
   const [amount, setAmount] = useState<string>("");

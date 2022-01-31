@@ -35,3 +35,5 @@ yarn-error.log*
 .env
 .env.json
 .idea
+
+parcel-bundle-reports/

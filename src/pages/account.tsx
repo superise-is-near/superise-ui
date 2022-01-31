@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import Card from "~/src/components/Card";
+import Card from "~components/Card";
 import { useHistory } from "react-router-dom";
-import Assets from "~/src/components/account/assets";
-import { wallet } from "~/src/services/near";
-import { PrimaryButton } from "~/src/components/button/Button";
-import PrizePoolGallary from "~/src/components/prize/prize-pool-gallery";
-import { useFtAssets, useWhitelistTokens } from "~/src/state/token";
-import { useAccountHistory } from "~/src/state/prize";
-import RequestSigninModal from "~/src/components/modal/request-signin-modal";
-import { nft_tokens_for_owner_in_paras } from "~/src/domain/paras/methods";
-import { ParasNft } from "~/src/domain/paras/models";
-import Footer from "~/src/components/layout/footer";
+import Assets from "~components/account/assets";
+import { wallet } from "~services/near";
+import { PrimaryButton } from "~components/button/Button";
+import PrizePoolGallary from "~components/prize/prize-pool-gallery";
+import { useFtAssets, useWhitelistTokens } from "~state/token";
+import { useAccountHistory } from "~state/prize";
+import RequestSigninModal from "~components/modal/request-signin-modal";
+import { nft_tokens_for_owner_in_paras } from "~domain/paras/methods";
+import { ParasNft } from "~domain/paras/models";
+import Footer from "~components/layout/footer";
 
 export function AccountPage() {
   let history = useHistory();

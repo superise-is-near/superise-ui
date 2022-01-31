@@ -1,6 +1,6 @@
 import React from "react";
 import ReactModal from "react-modal";
-import Card from "~/src/components/Card";
+import Card from "~components/Card";
 import clsx from "classnames";
 
 export default function Modal(

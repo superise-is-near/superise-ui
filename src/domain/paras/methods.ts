@@ -1,6 +1,6 @@
-import { nft_tokens_for_owner } from "~/src/domain/near/nft/methods";
-import getConfig from "~/src/domain/near/config";
-import { ParasNft } from "~/src/domain/paras/models";
+import { nft_tokens_for_owner } from "~domain/near/nft/methods";
+import getConfig from "~domain/near/config";
+import { ParasNft } from "~domain/paras/models";
 
 let config = getConfig();
 export function nft_tokens_for_owner_in_paras(

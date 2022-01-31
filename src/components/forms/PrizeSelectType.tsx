@@ -1,6 +1,6 @@
 import React, { FC, useState, Dispatch, SetStateAction } from "react";
-import { PrimaryButton } from "~/src/components/button/Button";
-import Modal from "~/src/components/modal/modal";
+import { PrimaryButton } from "~components/button/Button";
+import Modal from "~components/modal/modal";
 import clsx from "classnames";
 
 interface IPriceSelectType {

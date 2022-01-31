@@ -1,7 +1,7 @@
-import getConfig from "~/src/domain/near/config";
-import { wallet } from "~/src/services/near";
-import { REF_FI_CONTRACT_ID } from "~/src/domain/ref/constants";
-import { TokenBalancesView } from "~/src/domain/near/ft/models";
+import getConfig from "~domain/near/config";
+import { wallet } from "~services/near";
+import { REF_FI_CONTRACT_ID } from "~domain/ref/constants";
+import { TokenBalancesView } from "~domain/near/ft/models";
 
 export interface RefFiViewFunctionOptions {
   methodName: string;

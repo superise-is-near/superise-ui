@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import TokenAmount from "./TokenAmount";
-import fakedata from "~/src/fakedata/account.json";
+import fakedata from "~fakedata/account.json";
 import {
   nearMetadata,
   TokenBalancesView,
   TokenMetadata,
-} from "~/src/domain/near/ft/models";
+} from "~domain/near/ft/models";
 import SelectToken from "./SelectToken";
-import Icon from "~/src/components/tokens/Icon";
-import getConfig from "~/src/domain/near/config";
+import Icon from "~components/tokens/Icon";
+import getConfig from "~domain/near/config";
 
 let config = getConfig();
 
