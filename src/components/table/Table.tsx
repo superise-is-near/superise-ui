@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { TiArrowSortedUp } from "react-icons/ti";
-import { TokenMetadata, TokenBalancesView } from "~domain/near/ft/models";
-import { toReadableNumber } from "~utils/numbers";
-import Token from "~components/tokens/Token";
+import { TokenMetadata, TokenBalancesView } from "~/src/domain/near/ft/models";
+import { toReadableNumber } from "~/src/utils/numbers";
+import Token from "~/src/components/tokens/Token";
 import { FormattedMessage } from "react-intl";
 
 interface TokenListProps {

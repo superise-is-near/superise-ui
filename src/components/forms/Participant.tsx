@@ -5,7 +5,7 @@ import {
   TwitterRetweetRequirmentInputValue,
   TwitterFollowRequirmentInputValue,
   RequirmentType,
-} from "~domain/superise/twitter_giveaway/models";
+} from "~/src/domain/superise/twitter_giveaway/models";
 
 export type RequirementInputValue =
   | TwitterLikeRequirmentInputValue

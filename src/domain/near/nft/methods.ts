@@ -1,5 +1,5 @@
-import { wallet } from "~domain/near/global";
-import { TokenTypeOfNep177 } from "~domain/near/nft/models";
+import { wallet } from "~/src/domain/near/global";
+import { TokenTypeOfNep177 } from "~/src/domain/near/nft/models";
 
 export function nft_tokens_for_owner(
   contract: string,

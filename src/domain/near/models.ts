@@ -1,4 +1,4 @@
-import { ONE_YOCTO_NEAR } from "~domain/near/global";
+import { ONE_YOCTO_NEAR } from "~/src/domain/near/global";
 
 export interface FunctionCallOptions {
   gas?: string;

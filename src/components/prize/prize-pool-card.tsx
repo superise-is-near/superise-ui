@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import dayjs from "dayjs";
-import { PrizePoolDisplay } from "~domain/superise/models";
-import { fancyTimeFormat } from "~utils/time";
-import { convertAmountToNumber } from "~domain/near/ft/methods";
-import { TokenMetadata } from "~domain/near/ft/models";
-import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
+import { PrizePoolDisplay } from "~/src/domain/superise/models";
+import { fancyTimeFormat } from "~/src/utils/time";
+import { convertAmountToNumber } from "~/src/domain/near/ft/methods";
+import { TokenMetadata } from "~/src/domain/near/ft/models";
+import { TwitterPoolDisplay } from "~/src/domain/superise/twitter_giveaway/models";
 
 export const useEndtimer = (
   end_time: number,

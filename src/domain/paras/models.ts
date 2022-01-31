@@ -1,5 +1,5 @@
-import { getImgUrlFromCid } from "~domain/paras/methods";
-import { INft, Nft, TokenTypeOfNep177 } from "~domain/near/nft/models";
+import { getImgUrlFromCid } from "~/src/domain/paras/methods";
+import { INft, Nft, TokenTypeOfNep177 } from "~/src/domain/near/nft/models";
 
 export class ParasNft implements INft {
   nft: Nft;

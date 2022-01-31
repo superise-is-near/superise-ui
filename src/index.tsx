@@ -1,4 +1,4 @@
-import ReactDOM = require("react-dom");
+import ReactDOM from "react-dom";
 import React from "react";
 import App from "./App";
 import Wrapper from "./components/wrapper";

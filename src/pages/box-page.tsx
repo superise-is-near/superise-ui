@@ -1,10 +1,10 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import PrizePoolDetail from "~components/prize/prize-pool-detail";
-import { useTwitterPool } from "~state/prize";
-import PageLoading from "~components/page-loading";
-import { useWhitelistTokens } from "~state/token";
-import Footer from "~components/layout/footer";
+import PrizePoolDetail from "~/src/components/prize/prize-pool-detail";
+import { useTwitterPool } from "~/src/state/prize";
+import PageLoading from "~/src/components/page-loading";
+import { useWhitelistTokens } from "~/src/state/token";
+import Footer from "~/src/components/layout/footer";
 
 const BoxPage = () => {
   const { id } = useParams<{ id: string }>();

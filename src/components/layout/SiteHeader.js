@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import TextLogo from "./TextLogo";
-import Logo from "~/components/icons/logo";
-import { Near } from "~/components/icons/Near";
+import Logo from "~/src/components/icons/logo";
+import { Near } from "~/src/components/icons/Near";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { REF_FARM_CONTRACT_ID, wallet } from "~services/near";
-import { PrimaryButton } from "~/components/button/Button";
+import { REF_FARM_CONTRACT_ID, wallet } from "~/src/services/near";
+import { PrimaryButton } from "~/src/components/button/Button";
 
 function AccountEntry() {
   const [account, network] = wallet.getAccountId().split(".");

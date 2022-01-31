@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT OR Apache-2.0",
   "scripts": {
-    "build:testnet": "NEAR_ENV=testnet parcel build --out-dir public src/index.html",
+    "build:testnet": "NEAR_ENV=testnet parcel build --dist-dir public src/index.html",
     "start": "parcel src/index.html",
     "start:mainnet": "NEAR_ENV=mainnet parcel src/index.html",
     "start:testnet": "NEAR_ENV=testnet parcel src/index.html",
@@ -21,6 +21,8 @@
     "@babel/preset-react": "^7.13.13",
     "@babel/preset-typescript": "^7.13.0",
     "@emotion/babel-plugin": "^11.3.0",
+    "@parcel/config-default": "^2.2.1",
+    "@parcel/transformer-typescript-tsc": "^2.2.1",
     "@tailwindcss/jit": "^0.1.18",
     "@tailwindcss/postcss7-compat": "^2.1.0",
     "@testing-library/react": "^11.2.6",
@@ -41,7 +43,7 @@
     "husky": "^7.0.4",
     "jest": "^26.6.3",
     "jest-environment-node": "~26.6.2",
-    "parcel-bundler": "1.12.3",
+    "parcel": "^2.2.1",
     "postcss": "^8",
     "postcss-modules": "^4.0.0",
     "prettier": "2.3.1",
@@ -96,7 +98,5 @@
     "recharts": "^2.1.6",
     "reflect-metadata": "^0.1.13"
   },
-  "browserslist": [
-    "last 2 Chrome versions"
-  ]
+  "browserslist": "> 0.5%, last 2 versions, not dead"
 }

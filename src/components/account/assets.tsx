@@ -1,23 +1,26 @@
 import React, { useState } from "react";
-import Card from "~/components/Card";
+import Card from "~/src/components/Card";
 import { useParams } from "react-router-dom";
-import { toPrecision, toReadableNumber } from "~/utils/numbers";
-import { toRealSymbol } from "~/utils/token";
+import { toPrecision, toReadableNumber } from "~/src/utils/numbers";
+import { toRealSymbol } from "~/src/utils/token";
 import {
   nearMetadata,
   TokenBalancesView,
   TokenMetadata,
-} from "~domain/near/ft/models";
-import { PrimaryButton } from "~components/button/Button";
+} from "~/src/domain/near/ft/models";
+import { PrimaryButton } from "~/src/components/button/Button";
 import WithdrawModal from "./withdraw-modal";
-import TokenAmount from "~components/forms/TokenAmount";
-import { REF_FARM_CONTRACT_ID, wallet } from "~services/near";
-import Modal from "~components/modal/modal";
-import { wrapNear } from "~domain/near/wrap-near";
-import { deposit_ft } from "~domain/superise/methods";
-import { useDepositableBalance, useUserRegisteredTokens } from "~state/token";
-import { ParasNft } from "~domain/paras/models";
-import { InputValueDisplay } from "~components/forms/PrizeSelector";
+import TokenAmount from "~/src/components/forms/TokenAmount";
+import { REF_FARM_CONTRACT_ID, wallet } from "~/src/services/near";
+import Modal from "~/src/components/modal/modal";
+import { wrapNear } from "~/src/domain/near/wrap-near";
+import { deposit_ft } from "~/src/domain/superise/methods";
+import {
+  useDepositableBalance,
+  useUserRegisteredTokens,
+} from "~/src/state/token";
+import { ParasNft } from "~/src/domain/paras/models";
+import { InputValueDisplay } from "~/src/components/forms/PrizeSelector";
 
 export function Token(
   props: TokenMetadata & { amount: string; totalAmount: string }

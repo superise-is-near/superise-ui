@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-import { PrizePool, PrizePoolDisplay } from "~domain/superise/models";
-import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
+import { PrizePool, PrizePoolDisplay } from "~/src/domain/superise/models";
+import { TwitterPoolDisplay } from "~/src/domain/superise/twitter_giveaway/models";
 
 function Gallery(props: { pools: TwitterPoolDisplay[] }) {
   return (

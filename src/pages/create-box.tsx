@@ -1,38 +1,40 @@
 import React from "react";
-import Card from "~components/Card";
+import Card from "~/src/components/Card";
 import { Form, Field } from "react-final-form";
 import { useHistory } from "react-router-dom";
-import { PrimaryButton } from "~components/button/Button";
-import PrizeSelector from "~components/forms/PrizeSelector";
-import SuperiseFtInput from "~components/forms/superise-ft-input";
-import { nearMetadata, TokenMetadata } from "~domain/near/ft/models";
+import { PrimaryButton } from "~/src/components/button/Button";
+import PrizeSelector from "~/src/components/forms/PrizeSelector";
+import SuperiseFtInput from "~/src/components/forms/superise-ft-input";
+import { nearMetadata, TokenMetadata } from "~/src/domain/near/ft/models";
 import {
   useFtAssets,
   useTokenBalances,
   useWhitelistTokens,
-} from "~state/token";
+} from "~/src/state/token";
 import {
   create_prize_pool,
   CreatePrizePoolParam,
-} from "~domain/superise/methods";
+} from "~/src/domain/superise/methods";
 import moment from "moment";
-import { FtPrize, NftPrize } from "~domain/superise/models";
-import getConfig from "~domain/near/config";
-import { toNonDivisibleNumber } from "~utils/numbers";
+import { FtPrize, NftPrize } from "~/src/domain/superise/models";
+import getConfig from "~/src/domain/near/config";
+import { toNonDivisibleNumber } from "~/src/utils/numbers";
 import dayjs from "dayjs";
-import RequestSigninModal from "~components/modal/request-signin-modal";
-import { wallet } from "~services/near";
-import PrizeSelectType from "~components/forms/PrizeSelector";
-import Participant, { defaultRequirments } from "~components/forms/Participant";
+import RequestSigninModal from "~/src/components/modal/request-signin-modal";
+import { wallet } from "~/src/services/near";
+import PrizeSelectType from "~/src/components/forms/PrizeSelector";
+import Participant, {
+  defaultRequirments,
+} from "~/src/components/forms/Participant";
 import {
   RequirmentType,
   TwitterPoolCreateParam,
-} from "~domain/superise/twitter_giveaway/models";
-import { Nft } from "~domain/near/nft/models";
-import { create_twitter_pool } from "~domain/superise/twitter_giveaway/methods";
-import Modal from "~components/modal/modal";
+} from "~/src/domain/superise/twitter_giveaway/models";
+import { Nft } from "~/src/domain/near/nft/models";
+import { create_twitter_pool } from "~/src/domain/superise/twitter_giveaway/methods";
+import Modal from "~/src/components/modal/modal";
 import createDecorator from "final-form-calculate";
-import { ftGetTokenMetadata } from "~domain/near/ft/methods";
+import { ftGetTokenMetadata } from "~/src/domain/near/ft/methods";
 import { Action } from "near-api-js/lib/transaction";
 import { FunctionCall } from "near-api-js/src/transaction";
 import {
@@ -41,13 +43,13 @@ import {
   getGas,
   ONE_YOCTO_NEAR,
   Transaction,
-} from "~domain/near/global";
-import { RefFiFunctionCallOptions } from "~domain/ref/methods";
+} from "~/src/domain/near/global";
+import { RefFiFunctionCallOptions } from "~/src/domain/ref/methods";
 import { utils } from "near-api-js";
 import {
   SUPERISE_CONTRACT_ID,
   WRAP_NEAR_CONTRACT_ID,
-} from "~domain/near/wrap-near";
+} from "~/src/domain/near/wrap-near";
 
 let config = getConfig();
 

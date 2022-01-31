@@ -1,17 +1,17 @@
-import { getAmount, getGas } from "~utils/near";
-import { TokenBalancesView, TokenMetadata } from "~domain/near/ft/models";
-import { toNonDivisibleNumber } from "~utils/numbers";
+import { getAmount, getGas } from "~/src/utils/near";
+import { TokenBalancesView, TokenMetadata } from "~/src/domain/near/ft/models";
+import { toNonDivisibleNumber } from "~/src/utils/numbers";
 import { FinalExecutionOutcome } from "near-api-js/lib/providers";
-import getConfig from "~domain/near/config";
-import { defaultGas, FunctionCallOptions } from "~domain/near/models";
-import { nearViewCall, ONE_YOCTO_NEAR, wallet } from "~domain/near/global";
+import getConfig from "~/src/domain/near/config";
+import { defaultGas, FunctionCallOptions } from "~/src/domain/near/models";
+import { nearViewCall, ONE_YOCTO_NEAR, wallet } from "~/src/domain/near/global";
 import {
   FtPrize,
   NftPrize,
   PrizePool,
   PrizePoolDisplay,
-} from "~domain/superise/models";
-import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
+} from "~/src/domain/superise/models";
+import { TwitterPoolDisplay } from "~/src/domain/superise/twitter_giveaway/models";
 
 let config = getConfig();
 

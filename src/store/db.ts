@@ -1,6 +1,6 @@
 import Dexie from "dexie";
 import _ from "lodash";
-import { TokenMetadata } from "~/domain/near/ft/models";
+import { TokenMetadata } from "~/src/domain/near/ft/models";
 
 // TODO: Use SuperiseDatabase store to IndexDB
 class SuperiseDatabase extends Dexie {

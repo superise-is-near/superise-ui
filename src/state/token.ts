@@ -1,23 +1,23 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { TokenBalancesView, TokenMetadata } from "~domain/near/ft/models";
+import { TokenBalancesView, TokenMetadata } from "~/src/domain/near/ft/models";
 import {
   getWhitelistedTokens,
   getTokenBalances,
   getUserRegisteredTokens,
-} from "~domain/ref/methods";
+} from "~/src/domain/ref/methods";
 import {
   ftGetBalance,
   ftGetTokenMetadata,
   getDepositableBalance,
-} from "~domain/near/ft/methods";
+} from "~/src/domain/near/ft/methods";
 import {
   toPrecision,
   toReadableNumber,
   toRoundedReadableNumber,
-} from "~utils/numbers";
-import { toRealSymbol } from "~utils/token";
-import { wallet } from "~domain/near/global";
-import { view_account_balance } from "~domain/superise/methods";
+} from "~/src/utils/numbers";
+import { toRealSymbol } from "~/src/utils/token";
+import { wallet } from "~/src/domain/near/global";
+import { view_account_balance } from "~/src/domain/superise/methods";
 
 interface TokenData {
   tokensData: TokenMetadata[];

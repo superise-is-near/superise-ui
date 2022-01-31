@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 import { FaArrowDown } from "react-icons/fa";
-import { TokenMetadata } from "~domain/near/ft/models";
+import { TokenMetadata } from "~/src/domain/near/ft/models";
 import PrizePoolCard from "./prize-pool-card";
-import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
+import { TwitterPoolDisplay } from "~/src/domain/superise/twitter_giveaway/models";
 
 function PrizePoolList(props: {
   pools: TwitterPoolDisplay[];

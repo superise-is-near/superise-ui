@@ -1,10 +1,10 @@
 import React from "react";
 import Modal from "./modal";
 import ReactModal from "react-modal";
-import { PrimaryButton } from "~components/button/Button";
-import { wallet } from "~domain/near/global";
-import { REF_FARM_CONTRACT_ID } from "~services/near";
-import getConfig from "~domain/near/config";
+import { PrimaryButton } from "~/src/components/button/Button";
+import { wallet } from "~/src/domain/near/global";
+import { REF_FARM_CONTRACT_ID } from "~/src/services/near";
+import getConfig from "~/src/domain/near/config";
 
 export default function RequestSigninModal(props: {
   title?: string;

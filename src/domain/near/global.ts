@@ -1,12 +1,12 @@
-import SpecialWallet from "~services/SpecialWallet";
-import getConfig from "~domain/near/config";
+import SpecialWallet from "~/src/services/SpecialWallet";
+import getConfig from "~/src/domain/near/config";
 import { keyStores, Near, utils } from "near-api-js";
 import BN from "bn.js";
 import { ClassConstructor } from "class-transformer/types/interfaces";
 import { deserialize, deserializeArray, serialize } from "class-transformer";
 import { reject } from "lodash";
 import { functionCall } from "near-api-js/lib/transaction";
-import { RefFiFunctionCallOptions } from "~domain/ref/methods";
+import { RefFiFunctionCallOptions } from "~/src/domain/ref/methods";
 
 export const ONE_YOCTO_NEAR = "0.000000000000000000000001";
 

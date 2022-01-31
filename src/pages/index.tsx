@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { PrimaryButton } from "~/components/button/Button";
+import { PrimaryButton } from "~/src/components/button/Button";
 import { useHistory } from "react-router-dom";
-import { usePrizePoolDisplayLists } from "~state/prize";
-import PageLoading from "~components/page-loading";
-import { useWhitelistTokens } from "~state/token";
-import PrizePoolCard from "~components/prize/prize-pool-card";
+import { usePrizePoolDisplayLists } from "~/src/state/prize";
+import PageLoading from "~/src/components/page-loading";
+import { useWhitelistTokens } from "~/src/state/token";
+import PrizePoolCard from "~/src/components/prize/prize-pool-card";
 import {
   FaArrowRight,
   FaTrain,
@@ -13,10 +13,14 @@ import {
   FaFire,
 } from "react-icons/fa";
 import { GiDramaMasks } from "react-icons/gi";
-import { cardTheme, ColorCard, ColorCardTitle } from "~/components/ColorCard";
-import Footer from "~components/layout/footer";
-import Logo from "~components/icons/logo";
-import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
+import {
+  cardTheme,
+  ColorCard,
+  ColorCardTitle,
+} from "~/src/components/ColorCard";
+import Footer from "~/src/components/layout/footer";
+import Logo from "~/src/components/icons/logo";
+import { TwitterPoolDisplay } from "~/src/domain/superise/twitter_giveaway/models";
 
 export default function Index() {
   let history = useHistory();

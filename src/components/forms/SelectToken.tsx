@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import MicroModal from "react-micro-modal";
-import { TokenMetadata } from "~domain/near/ft/models";
-import { ArrowDownWhite, ArrowDownBlack } from "~components/icons";
-import { isMobile } from "~utils/device";
+import { TokenMetadata } from "~/src/domain/near/ft/models";
+import { ArrowDownWhite, ArrowDownBlack } from "~/src/components/icons";
+import { isMobile } from "~/src/utils/device";
 import { FormattedMessage, useIntl } from "react-intl";
-import { TokenBalancesView } from "~domain/near/ft/models";
+import { TokenBalancesView } from "~/src/domain/near/ft/models";
 import { IoCloseOutline } from "react-icons/io5";
-import CommenBasses from "~components/tokens/CommenBasses";
-import Table from "~components/table/Table";
+import CommenBasses from "~/src/components/tokens/CommenBasses";
+import Table from "~/src/components/table/Table";
 // import { useTokensData } from '~state/token';
-import { toRealSymbol } from "~utils/token";
+import { toRealSymbol } from "~/src/utils/token";
 import { FaSearch } from "react-icons/fa";
 // import fakedata from '~fakedata/account'
-import { useTokensData } from "~state/token";
+import { useTokensData } from "~/src/state/token";
 
 function sort(a: any, b: any) {
   if (typeof a === "string" && typeof b === "string") {

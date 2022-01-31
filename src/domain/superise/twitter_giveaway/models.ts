@@ -4,7 +4,7 @@ import {
   MilliTimeStamp,
   NftPrize,
   PrizePool,
-} from "~domain/superise/models";
+} from "~/src/domain/superise/models";
 import { boolean, number } from "mathjs";
 
 export type TwitterPoolDisplay = {

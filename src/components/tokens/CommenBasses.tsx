@@ -1,6 +1,6 @@
 import React from "react";
-import { toRealSymbol } from "~utils/token";
-import { TokenMetadata } from "~domain/near/ft/models";
+import { toRealSymbol } from "~/src/utils/token";
+import { TokenMetadata } from "~/src/domain/near/ft/models";
 import { FormattedMessage } from "react-intl";
 
 interface CommenBassesProps {
