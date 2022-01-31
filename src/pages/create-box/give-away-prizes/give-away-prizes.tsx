@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Modal from "~components/modal/modal";
+import CryptoSelectModal from "./crypto-select-modal";
 import NFTSelectModal from "./nft-select-modal";
 import SelectPrizesCard from "./select-prizes-card";
 import VerticalLine from "./vertical-line";
@@ -16,12 +17,10 @@ const GiveAwayPrizes = () => {
       />
 
       {showCryptoSelectModal && (
-        <Modal
-          isOpen={showCryptoSelectModal}
-          onRequestClose={() => setShowCryptoSelectModal(false)}
-        >
-          Crypto
-        </Modal>
+        <CryptoSelectModal
+          showCryptoSelectModal={showCryptoSelectModal}
+          setShowCryptoSelectModal={setShowCryptoSelectModal}
+        />
       )}
 
       {showNFTSelectModal && (
