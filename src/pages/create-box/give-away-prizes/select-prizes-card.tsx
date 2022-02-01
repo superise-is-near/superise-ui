@@ -5,12 +5,21 @@ import MinusIcon from "~assets/minus.svg";
 import { PrimaryButton } from "~components/button/Button";
 import { ParasNft } from "~domain/paras/models";
 import clsx from "classnames";
+import { TokenMetadataWithAmount } from "~domain/near/ft/models";
 
 interface INFTsDisplay {
   showNfts: ParasNft[];
   setShowNfts: React.Dispatch<React.SetStateAction<ParasNft[]>>;
 }
-interface ISelectPrizesCard extends INFTsDisplay {
+
+interface ICryptosDisplay {
+  showCryptos: TokenMetadataWithAmount[];
+  setShowCryptos: React.Dispatch<
+    React.SetStateAction<TokenMetadataWithAmount[]>
+  >;
+}
+
+interface ISelectPrizesCard extends INFTsDisplay, ICryptosDisplay {
   onClickAddNFT: () => void;
   onClickAddCrypto: () => void;
 }
@@ -21,30 +30,54 @@ interface IAddNFTOrCryptoCard {
   onClickAddCrypto: () => void;
 }
 
-const NFTsDisplay: FC<INFTsDisplay> = ({ showNfts, setShowNfts }) => {
+const AssetsDisplay: FC<INFTsDisplay & ICryptosDisplay> = ({
+  showNfts,
+  setShowNfts,
+  showCryptos,
+  setShowCryptos,
+}) => {
+  const assetsCombine = [
+    ...showNfts.map((nft) => ({
+      type: "nft",
+      id: nft.nft.token.token_id,
+      icon: nft.img_url,
+      title: nft.nft.token.metadata.title,
+    })),
+    ...showCryptos.map((crypto) => ({
+      type: "crypto",
+      id: crypto.id,
+      icon: crypto.icon,
+      title: `${crypto.amount} ${crypto.symbol}`,
+    })),
+  ];
   return (
     <section>
-      {showNfts.map((nft, index) => (
+      {assetsCombine.map((asset, index) => (
         <div
-          key={nft.nft.token.token_id}
+          key={asset.id}
           className={clsx(
             "p-4 flex justify-between border border-gray-300",
             index === 0 && "rounded-t-2xl",
-            index === showNfts.length - 1 && "rounded-b-2xl mb-4",
+            index === assetsCombine.length - 1 && "rounded-b-2xl mb-4",
             index !== 0 && "border-t-0"
           )}
         >
           <div className="flex items-center">
-            <div className="w-12 h-12 mr-4 overflow-hidden rounded-lg">
+            <div
+              className={clsx(
+                "w-12 h-12 mr-4 overflow-hidden",
+                asset.type === "nft" ? "rounded-lg" : "rounded-full"
+              )}
+            >
               <img
                 className="object-cover w-12 h-12"
-                src={nft.img_url}
+                src={asset.icon}
                 width="48px"
                 height="48px"
-                alt={nft.img_url}
+                alt={asset.icon}
               />
             </div>
-            <div className="text-gray-600">{nft.nft.token.metadata.title}</div>
+            <div className="text-gray-600">{asset.title}</div>
           </div>
           <div className="grid place-items-center">
             <img
@@ -53,13 +86,19 @@ const NFTsDisplay: FC<INFTsDisplay> = ({ showNfts, setShowNfts }) => {
               width="24px"
               height="24px"
               alt="remove"
-              onClick={() =>
-                setShowNfts(
-                  showNfts.filter(
-                    (_nft) => nft.nft.token.token_id !== _nft.nft.token.token_id
-                  )
-                )
-              }
+              onClick={() => {
+                if (asset.type === "nft") {
+                  setShowNfts(
+                    showNfts.filter(
+                      (_nft) => asset.id !== _nft.nft.token.token_id
+                    )
+                  );
+                } else {
+                  setShowCryptos(
+                    showCryptos.filter((_crypto) => asset.id !== _crypto.id)
+                  );
+                }
+              }}
               tabIndex={-1}
               role="button"
             />
@@ -118,16 +157,23 @@ const AddNFTOrCryptoCard: FC<IAddNFTOrCryptoCard> = ({
 };
 
 const SelectPrizesCard: FC<ISelectPrizesCard> = ({
+  showCryptos,
+  setShowCryptos,
   showNfts,
   setShowNfts,
   onClickAddNFT,
   onClickAddCrypto,
 }) => {
-  const hasSelected = showNfts.length > 0;
+  const hasSelected = showNfts.length > 0 || showCryptos.length > 0;
   return (
     <div className="w-full mt-2">
       {hasSelected && (
-        <NFTsDisplay showNfts={showNfts} setShowNfts={setShowNfts} />
+        <AssetsDisplay
+          showNfts={showNfts}
+          setShowNfts={setShowNfts}
+          showCryptos={showCryptos}
+          setShowCryptos={setShowCryptos}
+        />
       )}
       <AddNFTOrCryptoCard
         hasSelected={hasSelected}

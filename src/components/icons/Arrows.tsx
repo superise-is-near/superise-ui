@@ -39,7 +39,7 @@ export function ArrowDownBlack() {
   );
 }
 
-export function ArrowDownWhite() {
+export function ArrowDownIndigo() {
   return (
     <svg
       width="10"
@@ -50,7 +50,7 @@ export function ArrowDownWhite() {
     >
       <path
         d="M1 1L5 6L9 1"
-        stroke="white"
+        stroke="#4F46E5"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"

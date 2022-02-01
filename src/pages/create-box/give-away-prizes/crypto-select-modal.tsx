@@ -1,59 +1,125 @@
-import React, { FC } from "react";
-import clsx from "classnames";
+import React, { FC, useEffect, useState } from "react";
 import { PrimaryButton } from "~components/button/Button";
 import Modal from "~components/modal/modal";
-import NEARTokenIcon from "~/assets/near-token.svg";
-
+import { useTokenBalances, useWhitelistTokens } from "~state/token";
+import SelectToken from "~components/forms/SelectToken";
+import { TokenMetadata, TokenMetadataWithAmount } from "~domain/near/ft/models";
+import { ftGetBalance } from "~domain/near/ft/methods";
+import { accurateNDecimal, toReadableNumber } from "~utils/numbers";
+import clsx from "classnames";
 interface ICryptoSelectModal {
+  showCryptos: TokenMetadataWithAmount[];
+  setShowCryptos: React.Dispatch<
+    React.SetStateAction<TokenMetadataWithAmount[]>
+  >;
   showCryptoSelectModal: boolean;
   setShowCryptoSelectModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const CryptoSelectModal: FC<ICryptoSelectModal> = ({
+  showCryptos,
+  setShowCryptos,
   showCryptoSelectModal,
   setShowCryptoSelectModal,
 }) => {
+  const balances = useTokenBalances();
+  const tokens = useWhitelistTokens() || [];
+
+  const [selectToken, setSelectToken] = useState<TokenMetadata | undefined>(
+    undefined
+  );
+  const [selectTokenBalance, setSelectTokenBalance] = useState<string>("0");
+  const [inputBalance, setInputBalance] = useState<string>("");
+  useEffect(() => {
+    tokens && tokens.length > 0 && setSelectToken(tokens[0]);
+  }, [tokens]);
+  useEffect(() => {
+    selectToken && ftGetBalance(selectToken.id).then(setSelectTokenBalance);
+  }, [selectToken]);
+
+  if (!selectToken) return null;
+  // accuracy token 2 decimal
+  const selectTokenAccracy2Decimal = accurateNDecimal(
+    2,
+    toReadableNumber(selectToken.decimals, selectTokenBalance)
+  );
+  // check if input balance less than select token balance
+  const numberRangeNormal: boolean =
+    Number(inputBalance) <= Number(selectTokenAccracy2Decimal);
+
   return (
     <Modal
       isOpen={showCryptoSelectModal}
       onRequestClose={() => setShowCryptoSelectModal(false)}
     >
-      <h3 className="text-2xl font-semibold text-center mt-2">
+      <h3 className="text-2xl font-semibold text-center my-2">
         Select Crypto Prize
       </h3>
-      <div className="flex justify-center mb-2">
-        <div className="mt-6 flex justify-center p-1 rounded-full bg-gray-200">
-          <div
-            className={clsx(
-              "w-24 h-7 rounded-full grid place-items-center text-sm text-gray-700 font-semibold cursor-pointer",
-              false && "bg-white"
-            )}
-          >
-            OCTA
-          </div>
-          <div
-            className={clsx(
-              "w-24 h-7 rounded-full grid place-items-center text-sm text-gray-700 font-semibold cursor-pointer",
-              "bg-white"
-            )}
-          >
-            NEAR
-          </div>
-        </div>
-      </div>
-      <p className="text-sm text-gray-400 text-center mb-6">
-        Available: 1205.067 NEAR
+      <p
+        className={clsx(
+          "text-sm text-center mb-6",
+          numberRangeNormal ? "text-gray-400" : "text-red-500"
+        )}
+      >
+        Available:
+        {` ${selectTokenAccracy2Decimal} ${selectToken.symbol}`}
       </p>
       <div className="mb-8 border rounded-2xl border-gray-300 p-4 flex justify-between focus-within:border-indigo-600">
         <input
           type="text"
           className="border-0 p-0 m-0"
-          placeholder="Amount of NEAR"
+          onChange={(e) => setInputBalance(e.target.value)}
+          placeholder={`Amount of ${selectToken.symbol}`}
         />
-        <div>
-          <img src={NEARTokenIcon} width="25px" height="25px" alt="NEAR" />
-        </div>
+        <SelectToken
+          tokens={tokens}
+          selected={
+            <div
+              className="rounded-full overflow-hidden"
+              style={{ width: "25px", height: "25px" }}
+            >
+              <img
+                src={selectToken.icon}
+                width="25px"
+                height="25px"
+                alt={selectToken.symbol}
+              />
+            </div>
+          }
+          onSelect={setSelectToken}
+          balances={balances}
+        />
       </div>
-      <PrimaryButton isFull className="py-3">
+      <PrimaryButton
+        disabled={inputBalance.length === 0 || !numberRangeNormal}
+        isFull
+        className="py-3"
+        onClick={() => {
+          const hasAdd = showCryptos.find(
+            (crypto) => crypto.id === selectToken.id
+          );
+          if (hasAdd) {
+            setShowCryptos(
+              showCryptos.map((crypto) =>
+                crypto.id === selectToken.id
+                  ? {
+                      ...crypto,
+                      amount: Number(crypto.amount) + Number(inputBalance),
+                    }
+                  : crypto
+              )
+            );
+          } else {
+            setShowCryptos([
+              ...showCryptos,
+              {
+                ...selectToken,
+                amount: Number(inputBalance),
+              },
+            ]);
+          }
+          setShowCryptoSelectModal(false);
+        }}
+      >
         Add Crypto
       </PrimaryButton>
     </Modal>
