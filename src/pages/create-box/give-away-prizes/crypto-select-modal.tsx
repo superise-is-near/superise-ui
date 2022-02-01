@@ -7,6 +7,8 @@ import { TokenMetadata, TokenMetadataWithAmount } from "~domain/near/ft/models";
 import { ftGetBalance } from "~domain/near/ft/methods";
 import { accurateNDecimal, toReadableNumber } from "~utils/numbers";
 import clsx from "classnames";
+import AddIcon from "~assets/add-white.svg";
+
 interface ICryptoSelectModal {
   showCryptos: TokenMetadataWithAmount[];
   setShowCryptos: React.Dispatch<
@@ -93,6 +95,15 @@ const CryptoSelectModal: FC<ICryptoSelectModal> = ({
         disabled={inputBalance.length === 0 || !numberRangeNormal}
         isFull
         className="py-3"
+        prefixIcon={
+          <img
+            src={AddIcon}
+            className="w-6 h-6 mr-1"
+            width="24px"
+            height="24px"
+            alt="hor image"
+          />
+        }
         onClick={() => {
           const hasAdd = showCryptos.find(
             (crypto) => crypto.id === selectToken.id

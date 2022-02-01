@@ -7,6 +7,7 @@ import CheckFillIcon from "~/assets/check-fill.svg";
 import CheckNFillIcon from "~/assets/check-nfill.svg";
 import { PrimaryButton } from "~components/button/Button";
 import Modal from "~components/modal/modal";
+import AddIcon from "~assets/add-white.svg";
 
 interface INFTSelectModal {
   showNfts: ParasNft[];
@@ -32,7 +33,20 @@ const MintbaseNFTsDisplay = () => {
       >
         We will support Mintbase later.
       </div>
-      <PrimaryButton isFull className="py-3">
+      <PrimaryButton
+        prefixIcon={
+          <img
+            src={AddIcon}
+            className="w-6 h-6 mr-1"
+            width="24px"
+            height="24px"
+            alt="hor image"
+          />
+        }
+        isFull
+        disabled
+        className="py-3"
+      >
         Add NFT
       </PrimaryButton>
     </section>
@@ -106,6 +120,15 @@ const ParasNFTsDisplay: FC<IParasNFTsDisplay> = ({
       <PrimaryButton
         isFull
         className="py-3"
+        prefixIcon={
+          <img
+            src={AddIcon}
+            className="w-6 h-6 mr-1"
+            width="24px"
+            height="24px"
+            alt="hor image"
+          />
+        }
         onClick={() => {
           setShowNfts(parasNfts.filter((_, index) => selectNftsIndex[index]));
           setShowNFTSelectModal(false);

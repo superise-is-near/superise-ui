@@ -8,6 +8,7 @@ import DeepClock from "~/assets/deep-clock.svg";
 import DeepHor from "~/assets/deep-hor.svg";
 import SecondaryTitle from "./secondary-title";
 import RequirementsTiming from "./requirements-timing";
+import CustomTweet from "./custom-tweet";
 
 const CreateBox: FC = () => {
   const [progress, setProgress] = useState(0);
@@ -38,6 +39,7 @@ const CreateBox: FC = () => {
       </SecondaryTitle>
       <GiveAwayPrizes collapsed={progress !== 0} setProgress={setProgress} />
 
+      {/* progress 2, select requirements */}
       <SecondaryTitle
         select={progress >= 1}
         className="mt-12"
@@ -60,6 +62,7 @@ const CreateBox: FC = () => {
         />
       )}
 
+      {/* progress 3, send tweet */}
       <SecondaryTitle
         select={progress === 2}
         className="mt-12"
@@ -68,6 +71,13 @@ const CreateBox: FC = () => {
       >
         CUSTOMIZE TWEET
       </SecondaryTitle>
+      <CustomTweet
+        progress={progress}
+        follow={follow}
+        like={like}
+        retweet={retweet}
+        username={"steve"}
+      />
     </main>
   );
 };

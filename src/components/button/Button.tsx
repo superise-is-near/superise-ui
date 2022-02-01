@@ -7,6 +7,7 @@ export function PrimaryButton(
     disabled?: boolean;
     isFull?: boolean;
     loading?: boolean;
+    prefixIcon?: JSX.Element;
     suffixIcon?: JSX.Element;
     icon?: JSX.Element;
     type?: "button" | "submit" | "reset";
@@ -28,17 +29,20 @@ export function PrimaryButton(
   return (
     <button
       className={clsx(
-        "flex items-center justify-center text-white rounded-2xl font-bold drop-shadow hover:shadow transition-all",
+        "flex items-center justify-center text-white rounded-2xl font-bold drop-shadow transition-all",
         size === "normal" && "px-5 py-2 text-sm",
         size === "large" && "p-3",
         isFull && "w-full",
-        disabled ? "cursor-not-allowed bg-indigo-100" : "bg-indigo-600",
+        disabled
+          ? "cursor-not-allowed bg-indigo-100"
+          : "bg-indigo-600 hover:shadow",
         className
       )}
       {...resetProps}
       disabled={loading || disabled}
       style={{ backgroundColor: color }}
     >
+      {!loading && props.prefixIcon && props.prefixIcon}
       {!loading && (
         <span
           className={`${props.icon && "ml-2"} ${props.suffixIcon && "mr-2"}`}
