@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, FC } from "react";
 import CryptoSelectModal from "./crypto-select-modal";
 import NFTSelectModal from "./nft-select-modal";
 import SelectPrizesCard from "./select-prizes-card";
 import VerticalLine from "./vertical-line";
 import { ParasNft } from "~domain/paras/models";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
+import CollapsedCard from "./CollapsedCard";
 
-const GiveAwayPrizes = () => {
+interface IGiveAwayPrizes {
+  collapsed: boolean;
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const GiveAwayPrizes: FC<IGiveAwayPrizes> = ({ collapsed, setProgress }) => {
   const [showCryptoSelectModal, setShowCryptoSelectModal] = useState(false);
   const [showNFTSelectModal, setShowNFTSelectModal] = useState(false);
 
@@ -14,15 +20,25 @@ const GiveAwayPrizes = () => {
   const [showCryptos, setShowCryptos] = useState<TokenMetadataWithAmount[]>([]);
   return (
     <section className="flex">
-      <VerticalLine bgLight className="mr-4" />
-      <SelectPrizesCard
-        showCryptos={showCryptos}
-        setShowCryptos={setShowCryptos}
-        showNfts={showNfts}
-        setShowNfts={setShowNfts}
-        onClickAddNFT={() => setShowNFTSelectModal(true)}
-        onClickAddCrypto={() => setShowCryptoSelectModal(true)}
-      />
+      <VerticalLine bgLight={!collapsed} className="mr-4" />
+      {collapsed && (
+        <CollapsedCard
+          showNfts={showNfts}
+          showCryptos={showCryptos}
+          setProgress={setProgress}
+        />
+      )}
+      {!collapsed && (
+        <SelectPrizesCard
+          setProgress={setProgress}
+          showCryptos={showCryptos}
+          setShowCryptos={setShowCryptos}
+          showNfts={showNfts}
+          setShowNfts={setShowNfts}
+          onClickAddNFT={() => setShowNFTSelectModal(true)}
+          onClickAddCrypto={() => setShowCryptoSelectModal(true)}
+        />
+      )}
 
       {showCryptoSelectModal && (
         <CryptoSelectModal

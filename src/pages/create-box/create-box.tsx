@@ -15,14 +15,14 @@ const CreateBox: FC = () => {
       <h1 className="text-5xl font-bold">Create Giveaway</h1>
       {/* progress 1, select prize */}
       <SecondaryTitle
-        select={progress === 0}
+        select={progress >= 0}
         className="mt-12"
         icon={Clothes}
         deepIcon={DeepClothes}
       >
         ADD GIVEAWAY PRIZES
       </SecondaryTitle>
-      <GiveAwayPrizes />
+      <GiveAwayPrizes collapsed={progress !== 0} setProgress={setProgress} />
 
       <SecondaryTitle
         select={progress === 1}

@@ -20,6 +20,7 @@ interface ICryptosDisplay {
 }
 
 interface ISelectPrizesCard extends INFTsDisplay, ICryptosDisplay {
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
   onClickAddNFT: () => void;
   onClickAddCrypto: () => void;
 }
@@ -157,6 +158,7 @@ const AddNFTOrCryptoCard: FC<IAddNFTOrCryptoCard> = ({
 };
 
 const SelectPrizesCard: FC<ISelectPrizesCard> = ({
+  setProgress,
   showCryptos,
   setShowCryptos,
   showNfts,
@@ -184,6 +186,7 @@ const SelectPrizesCard: FC<ISelectPrizesCard> = ({
         size="large"
         className="my-6"
         disabled={showNfts.length === 0}
+        onClick={() => setProgress(1)}
       >
         Continue
       </PrimaryButton>
