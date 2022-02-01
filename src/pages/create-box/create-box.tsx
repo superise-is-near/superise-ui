@@ -21,9 +21,9 @@ const CreateBox: FC = () => {
   }, [progress]);
 
   // progress 2
-  const [follow, setFollow] = useState<boolean>(false);
-  const [retweet, setRetweet] = useState<boolean>(false);
-  const [like, setLike] = useState<boolean>(false);
+  const [follow, setFollow] = useState<boolean>(true);
+  const [retweet, setRetweet] = useState<boolean>(true);
+  const [like, setLike] = useState<boolean>(true);
 
   return (
     <main className="m-auto lg:max-w-2xl">
