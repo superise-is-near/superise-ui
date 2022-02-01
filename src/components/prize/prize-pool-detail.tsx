@@ -16,7 +16,7 @@ import RequirementsModal from "~components/modal/requirements-modal";
 import { wallet } from "~domain/near/global";
 import Confetti from "react-confetti";
 import { TwitterPool } from "~domain/superise/twitter_giveaway/models";
-import TwitterCard from "~components/TweetCard";
+import TwitterCard from "~components/twitter-card";
 import { InputValueDisplay } from "~components/forms/PrizeSelector";
 import { ParasNft } from "~domain/paras/models";
 import { nft_token } from "~domain/near/nft/methods";
