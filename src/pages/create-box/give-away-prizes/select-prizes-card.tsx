@@ -185,7 +185,7 @@ const SelectPrizesCard: FC<ISelectPrizesCard> = ({
       <PrimaryButton
         size="large"
         className="my-6"
-        disabled={showNfts.length === 0}
+        disabled={!hasSelected}
         onClick={() => setProgress(1)}
       >
         Continue
