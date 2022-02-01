@@ -35,7 +35,7 @@ const NFTsDisplay: FC<INFTsDisplay> = ({ showNfts, setShowNfts }) => {
           )}
         >
           <div className="flex items-center">
-            <div className="w-12 h-12 mr-4 overflow-hidden">
+            <div className="w-12 h-12 mr-4 overflow-hidden rounded-lg">
               <img
                 className="object-cover w-12 h-12"
                 src={nft.img_url}
