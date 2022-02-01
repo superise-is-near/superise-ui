@@ -2,7 +2,7 @@ import React, { useState, FC } from "react";
 import CryptoSelectModal from "./crypto-select-modal";
 import NFTSelectModal from "./nft-select-modal";
 import SelectPrizesCard from "./select-prizes-card";
-import VerticalLine from "./vertical-line";
+import VerticalLine from "../vertical-line";
 import { ParasNft } from "~domain/paras/models";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
 import CollapsedCard from "./CollapsedCard";
