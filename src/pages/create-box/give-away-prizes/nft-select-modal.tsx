@@ -1,6 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
+import { nft_tokens_for_owner_in_paras } from "~domain/paras/methods";
+import { ParasNft } from "~domain/paras/models";
+import { wallet } from "~services/near";
 import clsx from "classnames";
 import CheckFillIcon from "~/assets/check-fill.svg";
+import CheckNFillIcon from "~/assets/check-nfill.svg";
 import { PrimaryButton } from "~components/button/Button";
 import Modal from "~components/modal/modal";
 
@@ -8,10 +12,122 @@ interface INFTSelectModal {
   showNFTSelectModal: boolean;
   setShowNFTSelectModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
+interface IParasNFTsDisplay {
+  loading: boolean;
+  nfts: ParasNft[];
+  selectNftsIndex: boolean[];
+  setSelectNftsIndex: React.Dispatch<React.SetStateAction<boolean[]>>;
+}
+
+const MintbaseNFTsDisplay = () => {
+  return (
+    <section>
+      <div
+        className="overflow-auto mb-4 grid place-items-center text-gray-700 font-semibold"
+        style={{ height: "40vh" }}
+      >
+        We will support Mintbase later.
+      </div>
+      <PrimaryButton isFull className="py-3">
+        Add NFT
+      </PrimaryButton>
+    </section>
+  );
+};
+
+const ParasNFTsDisplay: FC<IParasNFTsDisplay> = ({
+  nfts,
+  selectNftsIndex,
+  setSelectNftsIndex,
+  loading,
+}) => {
+  const selectNftsCount = selectNftsIndex.filter(Boolean).length;
+  return (
+    <section>
+      <div
+        className={clsx("mb-4", loading ? "overflow-hidden" : "overflow-auto")}
+        style={{ height: "40vh" }}
+      >
+        {loading &&
+          new Array(6)
+            .fill(0)
+            .map((_, index) => (
+              <div
+                key={index}
+                className="flex mb-4 bg-gray-100 rounded-lg"
+                style={{ height: "48px" }}
+              ></div>
+            ))}
+        {!loading &&
+          nfts.map((nft, index) => (
+            <div
+              key={nft.nft.token.token_id}
+              className="flex justify-between mb-4"
+            >
+              <div className="flex">
+                <div className="w-12 h-12 rounded-lg overflow-hidden">
+                  <img
+                    className="w-12 h-12 object-cover"
+                    src={nft.img_url}
+                    width="48px"
+                    height="48px"
+                    alt="nft"
+                  />
+                </div>
+                <div className="flex items-center ml-4 text-gray-600">
+                  {nft.nft.token.metadata.title}
+                </div>
+              </div>
+              <div className="grid place-items-center">
+                <img
+                  src={selectNftsIndex[index] ? CheckFillIcon : CheckNFillIcon}
+                  width="24px"
+                  height="24px"
+                  alt="check image"
+                  onClick={() =>
+                    setSelectNftsIndex(
+                      selectNftsIndex.map((nftIndex, _index) =>
+                        index === _index ? !nftIndex : nftIndex
+                      )
+                    )
+                  }
+                  role="button"
+                />
+              </div>
+            </div>
+          ))}
+      </div>
+      <PrimaryButton isFull className="py-3">
+        Add {!!selectNftsCount ? selectNftsCount : ""} NFT
+      </PrimaryButton>
+    </section>
+  );
+};
+
 const NFTSelectModal: FC<INFTSelectModal> = ({
   showNFTSelectModal,
   setShowNFTSelectModal,
 }) => {
+  const [dataSource, setDataSource] = useState<"PARAS" | "MINTBASE">("PARAS");
+  const [parasNfts, setParasNfts] = useState<ParasNft[]>([]);
+  const [selectParasNftsIndex, setParasSelectNftsIndex] = useState<boolean[]>(
+    []
+  );
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setParasNfts([]);
+    setParasSelectNftsIndex([]);
+    if (dataSource === "PARAS") {
+      nft_tokens_for_owner_in_paras(wallet.getAccountId(), 100).then((nfts) => {
+        setParasNfts(nfts);
+        setParasSelectNftsIndex(nfts.map((_) => false));
+        setLoading(false);
+      });
+    }
+  }, [dataSource]);
+
   return (
     <Modal
       isOpen={showNFTSelectModal}
@@ -25,52 +141,32 @@ const NFTSelectModal: FC<INFTSelectModal> = ({
           <div
             className={clsx(
               "w-24 h-7 rounded-full grid place-items-center text-sm text-gray-700 font-semibold cursor-pointer",
-              false && "bg-white"
+              dataSource === "PARAS" && "bg-white"
             )}
+            onClick={() => setDataSource("PARAS")}
           >
             PARAS
           </div>
           <div
             className={clsx(
               "w-24 h-7 rounded-full grid place-items-center text-sm text-gray-700 font-semibold cursor-pointer",
-              "bg-white"
+              dataSource === "MINTBASE" && "bg-white"
             )}
+            onClick={() => setDataSource("MINTBASE")}
           >
             MINTBASE
           </div>
         </div>
       </div>
-      <div className="overflow-auto mb-4" style={{ height: "40vh" }}>
-        {new Array(4).fill(0).map((_, index) => (
-          <div key={index} className="flex justify-between mb-4">
-            <div className="flex">
-              <div className="w-12 h-12 rounded-lg overflow-hidden">
-                <img
-                  className="w-12 h-12 object-cover"
-                  src="https://s3-alpha-sig.figma.com/img/41fb/30fa/e9ddf3daa61d44e38f5ba1b1313b50b2?Expires=1644796800&Signature=QIvNavYfxdF2mansvI9qVXYvtEZzB-WSXIA78a2iTEychJfUC3oTuXM~0yeVPsLSVTwye3dmQaKldHAKK2b7nxfwvbPiTDkzoz-Y6R6G1310bqlo2MInK44~jl4XaZZtxLfY5DijRp6qH635A1VWEh816E0RdRRG6NBbZ4dsA4~MNB9E7k12K9Dhz5AvYWOxZ9~NOwIxnFwcwG08Px1FnqOFGV3hZebmROx5yHB36iqM8Q8ERw9V9VQAIIMf9BuqWFgMNwMb70MuizdDBb6x3uG~AyNviC2thvhIpMVKZvknS7vtbBZ85T8QoWzqIyUUNsoEzMA0ajWLeK9SXVZmHQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
-                  width="48px"
-                  height="48px"
-                  alt="nft"
-                />
-              </div>
-              <div className="flex items-center ml-4 text-gray-600">
-                CryptoCuy #4562
-              </div>
-            </div>
-            <div className="grid place-items-center">
-              <img
-                src={CheckFillIcon}
-                width="24px"
-                height="24px"
-                alt="checkfill"
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-      <PrimaryButton isFull className="py-3">
-        Add 4 NFT
-      </PrimaryButton>
+      {dataSource === "PARAS" && (
+        <ParasNFTsDisplay
+          loading={loading}
+          nfts={parasNfts}
+          selectNftsIndex={selectParasNftsIndex}
+          setSelectNftsIndex={setParasSelectNftsIndex}
+        />
+      )}
+      {dataSource === "MINTBASE" && <MintbaseNFTsDisplay />}
     </Modal>
   );
 };
