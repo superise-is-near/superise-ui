@@ -30,7 +30,8 @@ const NFTsDisplay: FC<INFTsDisplay> = ({ showNfts, setShowNfts }) => {
           className={clsx(
             "p-4 flex justify-between border border-gray-300",
             index === 0 && "rounded-t-2xl",
-            index === showNfts.length - 1 && "rounded-b-2xl mb-4"
+            index === showNfts.length - 1 && "rounded-b-2xl mb-4",
+            index !== 0 && "border-t-0"
           )}
         >
           <div className="flex items-center">
