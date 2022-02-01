@@ -17,9 +17,9 @@ const CollapsedCard: FC<ICollapsedCard> = ({
     <section className="w-full mt-2">
       <div className="p-4 flex justify-between border border-gray-300 rounded-lg">
         <div className="text-gray-600">
-          {`${showNfts.length} NFT${showNfts.length > 0 ? "s" : ""} & ${
+          {`${showNfts.length} NFT${showNfts.length > 1 ? "s" : ""} & ${
             showCryptos.length
-          } FT${showCryptos.length > 0 ? "s" : ""}`}
+          } FT${showCryptos.length > 1 ? "s" : ""}`}
         </div>
         <div className="grid place-items-center">
           <img
