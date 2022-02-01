@@ -9,14 +9,18 @@ import { PrimaryButton } from "~components/button/Button";
 import Modal from "~components/modal/modal";
 
 interface INFTSelectModal {
+  showNfts: ParasNft[];
+  setShowNfts: React.Dispatch<React.SetStateAction<ParasNft[]>>;
   showNFTSelectModal: boolean;
   setShowNFTSelectModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 interface IParasNFTsDisplay {
   loading: boolean;
-  nfts: ParasNft[];
+  parasNfts: ParasNft[];
+  setShowNfts: React.Dispatch<React.SetStateAction<ParasNft[]>>;
   selectNftsIndex: boolean[];
   setSelectNftsIndex: React.Dispatch<React.SetStateAction<boolean[]>>;
+  setShowNFTSelectModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const MintbaseNFTsDisplay = () => {
@@ -36,10 +40,12 @@ const MintbaseNFTsDisplay = () => {
 };
 
 const ParasNFTsDisplay: FC<IParasNFTsDisplay> = ({
-  nfts,
+  parasNfts,
+  setShowNfts,
   selectNftsIndex,
   setSelectNftsIndex,
   loading,
+  setShowNFTSelectModal,
 }) => {
   const selectNftsCount = selectNftsIndex.filter(Boolean).length;
   return (
@@ -59,7 +65,7 @@ const ParasNFTsDisplay: FC<IParasNFTsDisplay> = ({
               ></div>
             ))}
         {!loading &&
-          nfts.map((nft, index) => (
+          parasNfts.map((nft, index) => (
             <div
               key={nft.nft.token.token_id}
               className="flex justify-between mb-4"
@@ -97,7 +103,14 @@ const ParasNFTsDisplay: FC<IParasNFTsDisplay> = ({
             </div>
           ))}
       </div>
-      <PrimaryButton isFull className="py-3">
+      <PrimaryButton
+        isFull
+        className="py-3"
+        onClick={() => {
+          setShowNfts(parasNfts.filter((_, index) => selectNftsIndex[index]));
+          setShowNFTSelectModal(false);
+        }}
+      >
         Add {!!selectNftsCount ? selectNftsCount : ""} NFT
       </PrimaryButton>
     </section>
@@ -105,6 +118,8 @@ const ParasNFTsDisplay: FC<IParasNFTsDisplay> = ({
 };
 
 const NFTSelectModal: FC<INFTSelectModal> = ({
+  showNfts,
+  setShowNfts,
   showNFTSelectModal,
   setShowNFTSelectModal,
 }) => {
@@ -122,7 +137,14 @@ const NFTSelectModal: FC<INFTSelectModal> = ({
     if (dataSource === "PARAS") {
       nft_tokens_for_owner_in_paras(wallet.getAccountId(), 100).then((nfts) => {
         setParasNfts(nfts);
-        setParasSelectNftsIndex(nfts.map((_) => false));
+        setParasSelectNftsIndex(
+          nfts.map(
+            (_nft) =>
+              !!showNfts.find(
+                (nft) => nft.nft.token.token_id === _nft.nft.token.token_id
+              )
+          )
+        );
         setLoading(false);
       });
     }
@@ -161,9 +183,11 @@ const NFTSelectModal: FC<INFTSelectModal> = ({
       {dataSource === "PARAS" && (
         <ParasNFTsDisplay
           loading={loading}
-          nfts={parasNfts}
+          parasNfts={parasNfts}
           selectNftsIndex={selectParasNftsIndex}
           setSelectNftsIndex={setParasSelectNftsIndex}
+          setShowNfts={setShowNfts}
+          setShowNFTSelectModal={setShowNFTSelectModal}
         />
       )}
       {dataSource === "MINTBASE" && <MintbaseNFTsDisplay />}
