@@ -38,7 +38,7 @@ const CollapsedCard: FC<ICollapsedCard> = ({
 }) => {
   return (
     <section className="w-full mt-2">
-      <div className="p-4 flex justify-between border border-gray-300 rounded-lg">
+      <div className="p-4 flex justify-between border border-gray-300 rounded-2xl">
         <div className="text-gray-600">
           {generateTitle({ follow, like, retweet })}
         </div>
