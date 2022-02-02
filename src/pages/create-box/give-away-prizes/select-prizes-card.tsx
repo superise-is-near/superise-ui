@@ -8,15 +8,13 @@ import clsx from "classnames";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
 
 interface INFTsDisplay {
-  showNfts: ParasNft[];
-  setShowNfts: React.Dispatch<React.SetStateAction<ParasNft[]>>;
+  nfts: ParasNft[];
+  setNfts: React.Dispatch<React.SetStateAction<ParasNft[]>>;
 }
 
 interface ICryptosDisplay {
-  showCryptos: TokenMetadataWithAmount[];
-  setShowCryptos: React.Dispatch<
-    React.SetStateAction<TokenMetadataWithAmount[]>
-  >;
+  cryptos: TokenMetadataWithAmount[];
+  setCryptos: React.Dispatch<React.SetStateAction<TokenMetadataWithAmount[]>>;
 }
 
 interface ISelectPrizesCard extends INFTsDisplay, ICryptosDisplay {
@@ -32,19 +30,19 @@ interface IAddNFTOrCryptoCard {
 }
 
 const AssetsDisplay: FC<INFTsDisplay & ICryptosDisplay> = ({
-  showNfts,
-  setShowNfts,
-  showCryptos,
-  setShowCryptos,
+  nfts,
+  setNfts,
+  cryptos,
+  setCryptos,
 }) => {
   const assetsCombine = [
-    ...showNfts.map((nft) => ({
+    ...nfts.map((nft) => ({
       type: "nft",
       id: nft.nft.token.token_id,
       icon: nft.img_url,
       title: nft.nft.token.metadata.title,
     })),
-    ...showCryptos.map((crypto) => ({
+    ...cryptos.map((crypto) => ({
       type: "crypto",
       id: crypto.id,
       icon: crypto.icon,
@@ -89,14 +87,12 @@ const AssetsDisplay: FC<INFTsDisplay & ICryptosDisplay> = ({
               alt="remove"
               onClick={() => {
                 if (asset.type === "nft") {
-                  setShowNfts(
-                    showNfts.filter(
-                      (_nft) => asset.id !== _nft.nft.token.token_id
-                    )
+                  setNfts(
+                    nfts.filter((_nft) => asset.id !== _nft.nft.token.token_id)
                   );
                 } else {
-                  setShowCryptos(
-                    showCryptos.filter((_crypto) => asset.id !== _crypto.id)
+                  setCryptos(
+                    cryptos.filter((_crypto) => asset.id !== _crypto.id)
                   );
                 }
               }}
@@ -159,22 +155,22 @@ const AddNFTOrCryptoCard: FC<IAddNFTOrCryptoCard> = ({
 
 const SelectPrizesCard: FC<ISelectPrizesCard> = ({
   setProgress,
-  showCryptos,
-  setShowCryptos,
-  showNfts,
-  setShowNfts,
+  cryptos,
+  setCryptos,
+  nfts,
+  setNfts,
   onClickAddNFT,
   onClickAddCrypto,
 }) => {
-  const hasSelected = showNfts.length > 0 || showCryptos.length > 0;
+  const hasSelected = nfts.length > 0 || cryptos.length > 0;
   return (
     <div className="w-full mt-2">
       {hasSelected && (
         <AssetsDisplay
-          showNfts={showNfts}
-          setShowNfts={setShowNfts}
-          showCryptos={showCryptos}
-          setShowCryptos={setShowCryptos}
+          nfts={nfts}
+          setNfts={setNfts}
+          cryptos={cryptos}
+          setCryptos={setCryptos}
         />
       )}
       <AddNFTOrCryptoCard

@@ -10,15 +10,15 @@ import Modal from "~components/modal/modal";
 import AddIcon from "~assets/add-white.svg";
 
 interface INFTSelectModal {
-  showNfts: ParasNft[];
-  setShowNfts: React.Dispatch<React.SetStateAction<ParasNft[]>>;
+  nfts: ParasNft[];
+  setNfts: React.Dispatch<React.SetStateAction<ParasNft[]>>;
   showNFTSelectModal: boolean;
   setShowNFTSelectModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 interface IParasNFTsDisplay {
   loading: boolean;
   parasNfts: ParasNft[];
-  setShowNfts: React.Dispatch<React.SetStateAction<ParasNft[]>>;
+  setNfts: React.Dispatch<React.SetStateAction<ParasNft[]>>;
   selectNftsIndex: boolean[];
   setSelectNftsIndex: React.Dispatch<React.SetStateAction<boolean[]>>;
   setShowNFTSelectModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -55,7 +55,7 @@ const MintbaseNFTsDisplay = () => {
 
 const ParasNFTsDisplay: FC<IParasNFTsDisplay> = ({
   parasNfts,
-  setShowNfts,
+  setNfts,
   selectNftsIndex,
   setSelectNftsIndex,
   loading,
@@ -130,7 +130,7 @@ const ParasNFTsDisplay: FC<IParasNFTsDisplay> = ({
           />
         }
         onClick={() => {
-          setShowNfts(parasNfts.filter((_, index) => selectNftsIndex[index]));
+          setNfts(parasNfts.filter((_, index) => selectNftsIndex[index]));
           setShowNFTSelectModal(false);
         }}
       >
@@ -141,8 +141,8 @@ const ParasNFTsDisplay: FC<IParasNFTsDisplay> = ({
 };
 
 const NFTSelectModal: FC<INFTSelectModal> = ({
-  showNfts,
-  setShowNfts,
+  nfts,
+  setNfts,
   showNFTSelectModal,
   setShowNFTSelectModal,
 }) => {
@@ -158,18 +158,20 @@ const NFTSelectModal: FC<INFTSelectModal> = ({
     setParasNfts([]);
     setParasSelectNftsIndex([]);
     if (dataSource === "PARAS") {
-      nft_tokens_for_owner_in_paras(wallet.getAccountId(), 100).then((nfts) => {
-        setParasNfts(nfts);
-        setParasSelectNftsIndex(
-          nfts.map(
-            (_nft) =>
-              !!showNfts.find(
-                (nft) => nft.nft.token.token_id === _nft.nft.token.token_id
-              )
-          )
-        );
-        setLoading(false);
-      });
+      nft_tokens_for_owner_in_paras(wallet.getAccountId(), 100).then(
+        (_nfts) => {
+          setParasNfts(_nfts);
+          setParasSelectNftsIndex(
+            _nfts.map(
+              (_nft) =>
+                !!nfts.find(
+                  (nft) => nft.nft.token.token_id === _nft.nft.token.token_id
+                )
+            )
+          );
+          setLoading(false);
+        }
+      );
     }
   }, [dataSource]);
 
@@ -209,7 +211,7 @@ const NFTSelectModal: FC<INFTSelectModal> = ({
           parasNfts={parasNfts}
           selectNftsIndex={selectParasNftsIndex}
           setSelectNftsIndex={setParasSelectNftsIndex}
-          setShowNfts={setShowNfts}
+          setNfts={setNfts}
           setShowNFTSelectModal={setShowNFTSelectModal}
         />
       )}

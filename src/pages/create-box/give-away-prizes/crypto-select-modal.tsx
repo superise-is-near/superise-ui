@@ -10,16 +10,14 @@ import clsx from "classnames";
 import AddIcon from "~assets/add-white.svg";
 
 interface ICryptoSelectModal {
-  showCryptos: TokenMetadataWithAmount[];
-  setShowCryptos: React.Dispatch<
-    React.SetStateAction<TokenMetadataWithAmount[]>
-  >;
+  cryptos: TokenMetadataWithAmount[];
+  setCryptos: React.Dispatch<React.SetStateAction<TokenMetadataWithAmount[]>>;
   showCryptoSelectModal: boolean;
   setShowCryptoSelectModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const CryptoSelectModal: FC<ICryptoSelectModal> = ({
-  showCryptos,
-  setShowCryptos,
+  cryptos,
+  setCryptos,
   showCryptoSelectModal,
   setShowCryptoSelectModal,
 }) => {
@@ -105,12 +103,10 @@ const CryptoSelectModal: FC<ICryptoSelectModal> = ({
           />
         }
         onClick={() => {
-          const hasAdd = showCryptos.find(
-            (crypto) => crypto.id === selectToken.id
-          );
+          const hasAdd = cryptos.find((crypto) => crypto.id === selectToken.id);
           if (hasAdd) {
-            setShowCryptos(
-              showCryptos.map((crypto) =>
+            setCryptos(
+              cryptos.map((crypto) =>
                 crypto.id === selectToken.id
                   ? {
                       ...crypto,
@@ -120,8 +116,8 @@ const CryptoSelectModal: FC<ICryptoSelectModal> = ({
               )
             );
           } else {
-            setShowCryptos([
-              ...showCryptos,
+            setCryptos([
+              ...cryptos,
               {
                 ...selectToken,
                 amount: Number(inputBalance),

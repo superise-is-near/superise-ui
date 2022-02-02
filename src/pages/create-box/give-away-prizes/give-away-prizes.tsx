@@ -7,34 +7,34 @@ import { ParasNft } from "~domain/paras/models";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
 import CollapsedCard from "./CollapsedCard";
 
-interface IGiveawayPrizes {
+interface IGiveAwayPrizes {
   collapsed: boolean;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const GiveawayPrizes: FC<IGiveawayPrizes> = ({ collapsed, setProgress }) => {
+const GiveAwayPrizes: FC<IGiveAwayPrizes> = ({ collapsed, setProgress }) => {
   const [showCryptoSelectModal, setShowCryptoSelectModal] = useState(false);
   const [showNFTSelectModal, setShowNFTSelectModal] = useState(false);
 
-  const [showNfts, setShowNfts] = useState<ParasNft[]>([]);
-  const [showCryptos, setShowCryptos] = useState<TokenMetadataWithAmount[]>([]);
+  const [nfts, setNfts] = useState<ParasNft[]>([]);
+  const [cryptos, setCryptos] = useState<TokenMetadataWithAmount[]>([]);
   return (
     <section className="flex">
       <VerticalLine bgLight={!collapsed} className="mr-4" />
       {collapsed && (
         <CollapsedCard
-          showNfts={showNfts}
-          showCryptos={showCryptos}
+          nfts={nfts}
+          cryptos={cryptos}
           setProgress={setProgress}
         />
       )}
       {!collapsed && (
         <SelectPrizesCard
           setProgress={setProgress}
-          showCryptos={showCryptos}
-          setShowCryptos={setShowCryptos}
-          showNfts={showNfts}
-          setShowNfts={setShowNfts}
+          cryptos={cryptos}
+          setCryptos={setCryptos}
+          nfts={nfts}
+          setNfts={setNfts}
           onClickAddNFT={() => setShowNFTSelectModal(true)}
           onClickAddCrypto={() => setShowCryptoSelectModal(true)}
         />
@@ -42,8 +42,8 @@ const GiveawayPrizes: FC<IGiveawayPrizes> = ({ collapsed, setProgress }) => {
 
       {showCryptoSelectModal && (
         <CryptoSelectModal
-          showCryptos={showCryptos}
-          setShowCryptos={setShowCryptos}
+          cryptos={cryptos}
+          setCryptos={setCryptos}
           showCryptoSelectModal={showCryptoSelectModal}
           setShowCryptoSelectModal={setShowCryptoSelectModal}
         />
@@ -51,8 +51,8 @@ const GiveawayPrizes: FC<IGiveawayPrizes> = ({ collapsed, setProgress }) => {
 
       {showNFTSelectModal && (
         <NFTSelectModal
-          showNfts={showNfts}
-          setShowNfts={setShowNfts}
+          nfts={nfts}
+          setNfts={setNfts}
           showNFTSelectModal={showNFTSelectModal}
           setShowNFTSelectModal={setShowNFTSelectModal}
         />
@@ -61,4 +61,4 @@ const GiveawayPrizes: FC<IGiveawayPrizes> = ({ collapsed, setProgress }) => {
   );
 };
 
-export default GiveawayPrizes;
+export default GiveAwayPrizes;
