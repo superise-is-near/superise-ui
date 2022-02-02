@@ -19,7 +19,6 @@ function AccountEntry() {
   if (!isSignedIn) {
     return (
       <PrimaryButton
-        size="small"
         onClick={() => {
           wallet.requestSignIn(REF_FARM_CONTRACT_ID);
         }}
@@ -31,7 +30,6 @@ function AccountEntry() {
 
   return (
     <PrimaryButton
-      size="small"
       onClick={() => {
         history.push("/account");
       }}

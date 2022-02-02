@@ -25,11 +25,9 @@ export default function Modal(
         className={contentClassName || "w-11/12 md:w-96"}
         style={{ maxWidth: "550px" }}
       >
-        <div className="mx-4">
-          <Card title={title}>
-            <div className="mt-4">{props.children}</div>
-          </Card>
-        </div>
+        <Card title={title}>
+          <div>{props.children}</div>
+        </Card>
       </div>
     </ReactModal>
   );

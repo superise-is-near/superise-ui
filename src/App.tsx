@@ -1,13 +1,13 @@
 import React from "react";
 import "reflect-metadata";
 import "es6-shim";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AccountPage } from "./pages/account";
 import IndexPage from "./pages/index";
 import BoxPage from "~pages/box-page";
-import CreateBoxPage from "~pages/create-box";
 import Modal from "react-modal";
 import SiteHeader from "~components/layout/SiteHeader";
+import CreateBox from "~pages/create-box";
 
 Modal.defaultStyles = {
   overlay: {
@@ -39,8 +39,8 @@ function App() {
       <Router>
         <SiteHeader />
         <Switch>
+          <Route path="/box/create" component={CreateBox} />
           <Route path="/account" component={AccountPage} />
-          <Route path="/box/create" component={CreateBoxPage} />
           <Route path="/box/:id" component={BoxPage} />
           <Route path="/" component={IndexPage} />
         </Switch>

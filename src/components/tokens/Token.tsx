@@ -35,7 +35,7 @@ export default function Token({ token, onClick, sortBy }: TokenProps) {
           sortBy === "total" ? "text-white" : ""
         }`}
       >
-        {toInternationalCurrencySystem(String(total))}
+        {toInternationalCurrencySystem(String(near))}
       </td>
     </tr>
   );

@@ -5,3 +5,5 @@ declare module "*.json" {
 
 // For png type check
 declare module "*.png";
+
+declare module "*.svg";

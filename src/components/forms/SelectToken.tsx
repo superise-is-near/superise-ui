@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MicroModal from "react-micro-modal";
 import { TokenMetadata } from "~domain/near/ft/models";
-import { ArrowDownWhite, ArrowDownBlack } from "~components/icons";
+import { ArrowDownIndigo } from "~components/icons";
 import { isMobile } from "~utils/device";
 import { FormattedMessage, useIntl } from "react-intl";
 import { TokenBalancesView } from "~domain/near/ft/models";
@@ -121,14 +121,14 @@ export default function SelectToken({
       handleClose={handleClose}
       trigger={() => (
         <div
-          className={`focus:outline-none  ${standalone ? "w-full" : "w-2/5"}`}
+          className={`focus:outline-none`}
           onClick={() => {
             setVisible(true);
           }}
         >
           {selected || (
             <section
-              className={`flex justify-between items-center px-3 py-3 ${
+              className={`flex justify-between items-center ${
                 standalone
                   ? "bg-inputDarkBg text-white relative flex overflow-hidden rounded-lg align-center my-2 border border-greenLight"
                   : ""
@@ -141,7 +141,7 @@ export default function SelectToken({
                 {placeholder ?? "Select"}
               </p>
               <div className="pl-2">
-                <ArrowDownWhite />
+                <ArrowDownIndigo />
               </div>
             </section>
           )}

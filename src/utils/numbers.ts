@@ -32,6 +32,12 @@ export const toReadableNumber = (
   return `${wholeStr}.${fractionStr}`.replace(/\.?0+$/, "");
 };
 
+export const accurateNDecimal = (decimals: number, number: string = "0") => {
+  const [real, virt] = number.split(".");
+  if (!virt) return real;
+  return [real, virt.slice(0, decimals)].join(".");
+};
+
 export const toNonDivisibleNumber = (
   decimals: number,
   number: string
