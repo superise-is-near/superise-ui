@@ -25,29 +25,23 @@ const CustomTweet: FC<ICustomTweet> = ({
   if (retweet) requirementTextures.push(`Retweet`);
   if (like) requirementTextures.push(`Like`);
 
+  const content = `🚨 CRYPTO GIVEAWAY 🚨
+I am doing a huge giveaway
+
+To enter:
+${requirementTextures
+  .map((requirementTexture, index) => `${index + 1}. ${requirementTexture}`)
+  .join("\n")}
+👉Join through this link: https://usesurprise.com/box/12 
+  `;
   return (
     <section className="flex">
       <VerticalLine bgLight={progress <= 2} className="mr-4" />
       <div className="w-full mt-2">
         <div className="p-4 border border-gray-300 rounded-2xl">
-          🚨 CRYPTO GIVEAWAY 🚨
-          <br />I am doing a huge giveaway. <br />
-          <br />
-          To enter:
-          <br />
-          {requirementTextures.map((requirementTexture, index) => (
-            <p>
-              {index + 1}. {requirementTexture}
-            </p>
-          ))}
-          <br />
-          Join through this link:{" "}
-          <a
-            className="text-blue-500 underline"
-            href="https://usesurprise.com/box/12"
-          >
-            https://usesurprise.com/box/12
-          </a>
+          <textarea className="border-0 w-full h-full" rows={8}>
+            {content}
+          </textarea>
         </div>
         <PrimaryButton
           size="large"
