@@ -60,6 +60,7 @@ export type TwitterPool = {
   prize_pool: PrizePool;
   finish: boolean;
   end_time: MilliTimeStamp;
+  create_time: MilliTimeStamp;
   white_list: AccountId[];
   requirements: string; // requirmentsValue type
   // twitter_near_bind: HashMap<AccountId, TwitterAccount>,

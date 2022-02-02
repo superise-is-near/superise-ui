@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import PrizePoolDetail from "~components/prize/prize-pool-detail";
 import { useTwitterPool } from "~state/prize";
@@ -8,44 +8,136 @@ import Footer from "~components/layout/footer";
 import TwitterCard from "~components/twitter-card";
 import Spacer from "~components/spacer";
 import ProgressBar from "~components/progress-bar";
-import {PrimaryButton} from "~components/button/Button";
+import { PrimaryButton } from "~components/button/Button";
+import RequirementsModal from "~components/modal/requirements-modal";
+import RequestSigninModal from "~components/modal/request-signin-modal";
+import { wallet } from "~domain/near/global";
+import {
+  join_twitter_pool,
+  TwitterRequirment,
+} from "~domain/superise/twitter_giveaway/methods";
+import dayjs from "dayjs";
+import { useEndtimer } from "~components/prize/prize-pool-card";
 
 const Card = ({ children }: { children?: any }) => {
-  return <div className="px-4 py-[22px] py-4 bg-white border border-gray-300 rounded-2xl">{children}</div>
-}
+  return (
+    <div className="px-4 py-[22px] py-4 bg-white border border-gray-300 rounded-2xl">
+      {children}
+    </div>
+  );
+};
 
 const BoxPage = () => {
   const { id } = useParams<{ id: string }>();
+  const [showRequrementsModal, setShowRequirementsModal] =
+    useState<boolean>(false);
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const tokens = useWhitelistTokens();
-  const prizePool = useTwitterPool(Number(id));
-  if (!prizePool || !tokens) return <PageLoading />;
+  const twitterPool = useTwitterPool(Number(id));
+  const loginAccountName = wallet.getAccountId();
+  const [joining, setJoining] = useState<boolean>(false);
+
+  // TODO: should not use .finish once we have a better status management for a twitterbox
+  const { timeLabel, countdownText, dateText, timeText, fontClass } =
+    useEndtimer((twitterPool || {}).end_time, (twitterPool || {}).finish);
+
+  if (!twitterPool || !tokens) return <PageLoading />;
+
+  console.log({ timeLabel, countdownText, dateText, timeText });
+
+  // console.log({ prizePool })
+
+  async function joinPool() {
+    setJoining(true);
+    try {
+      const res = await join_twitter_pool(twitterPool.prize_pool.id);
+      console.log({ res });
+    } catch (e) {
+      // TODO: read the join_pool return value to determine if it's successfully joined
+      console.log({ e });
+      setJoining(false);
+      return;
+    }
+    setJoining(false);
+    // TODO: find a good way to refresh the data
+    window.location.reload();
+  }
+  async function handleClickJoin() {
+    const isSignedIn = wallet.isSignedIn();
+    if (!isSignedIn) {
+      setShowLoginModal(true);
+      return;
+    }
+
+    if (twitterPool.white_list.indexOf(loginAccountName) === -1) {
+      setShowRequirementsModal(true);
+      return;
+    }
+
+    joinPool();
+  }
+
+  console.log({ twitterPool });
+
   return (
     <div className="m-auto lg:max-w-2xl">
-      <h2 className="text-5xl font-bold leading-none">Giveaway #1</h2>
+      {showLoginModal && (
+        <RequestSigninModal
+          isOpen={showLoginModal}
+          onRequestClose={() => setShowLoginModal(false)}
+          text="Please connect to NEAR wallet before joining this box."
+        />
+      )}
+      <RequirementsModal
+        pool_id={twitterPool.prize_pool.id}
+        accountName="liaa.near"
+        isOpen={showRequrementsModal}
+        requirementsValue={JSON.parse(twitterPool.requirements)}
+        onRequestClose={() => {
+          setShowRequirementsModal: false;
+        }}
+        onSuccess={() => {
+          // call join pool
+        }}
+      />
+      <h2 className="text-5xl font-bold leading-none">
+        Giveaway #{twitterPool.prize_pool.id}
+      </h2>
       <Spacer h="48px" />
       <Card>
-        <div style={{ maxHeight: '359px' }}>
-        <TwitterCard url="https://twitter.com/0xSabri/status/1487348695859445761" />
+        <div style={{ maxHeight: "359px" }}>
+          <TwitterCard url="https://twitter.com/0xSabri/status/1487348695859445761" />
         </div>
       </Card>
       <Spacer h="16px" />
       <Card>
         <div className="grid grid-cols-2">
           <div className="text-base font-normal leading-6">
-            <div className="text-gray-900">Ends in</div> 
-            <div className="text-gray-900 opacity-50">2h 35 mins</div>
+            <div className="text-gray-900">{timeLabel}</div>
+            <div className="text-gray-900 opacity-50">
+              {dateText || countdownText} {timeText}
+            </div>
           </div>
           <div className="text-base font-normal leading-6">
-            <div className="text-gray-900">Created at</div> 
-            <div className="text-gray-900 opacity-50">Feb 16th 16:34pm</div>
+            <div className="text-gray-900">Created at</div>
+            <div className="text-gray-900 opacity-50">
+              {dayjs(twitterPool.create_time).format("MMM D, YYYY hh:mma")}
+            </div>
           </div>
         </div>
-        
-        <Spacer h="24px"/>
+
+        <Spacer h="24px" />
         <ProgressBar percentage={10} />
         <Spacer h="16px" />
-        <PrimaryButton isFull>Join Giveaway</PrimaryButton>
+        <PrimaryButton isFull onClick={handleClickJoin}>
+          Join Giveaway
+        </PrimaryButton>
       </Card>
+
+      <Spacer h="32px" />
+      <div className="flex items-center justify-between">
+        <h3 className="text-base font-semibold leading-6">Prizes</h3>
+      </div>
 
       <Spacer h="32px" />
       <div className="flex items-center justify-between">
@@ -55,9 +147,15 @@ const BoxPage = () => {
       <Spacer h={"12px"} />
       <Card>
         <div className="-mx-4 -my-4">
-          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">Follow @NFTNinjaas</div>
-          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">Retweet Tweet</div>
-          <div className="px-4 py-6 text-base font-normal text-gray-600 leading-6">Lik Tweet</div>
+          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">
+            Follow @NFTNinjaas
+          </div>
+          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">
+            Retweet Tweet
+          </div>
+          <div className="px-4 py-6 text-base font-normal text-gray-600 leading-6">
+            Lik Tweet
+          </div>
         </div>
       </Card>
 
@@ -69,20 +167,29 @@ const BoxPage = () => {
       <Spacer h={"12px"} />
       <Card>
         <div className="-mx-4 -my-4">
-          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">clemens.near</div>
-          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">xsb.near</div>
-          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">steve.near</div>
-          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">draven.near</div>
-          <div className="px-4 py-6 text-base font-normal text-gray-400 text-gray-600 leading-6">+1296 more</div>
+          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">
+            clemens.near
+          </div>
+          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">
+            xsb.near
+          </div>
+          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">
+            steve.near
+          </div>
+          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">
+            draven.near
+          </div>
+          <div className="px-4 py-6 text-base font-normal text-gray-400 text-gray-600 leading-6">
+            +1296 more
+          </div>
         </div>
       </Card>
 
       <Spacer h="32px" />
       <div className="flex flex-col items-center">
-        <span className="font-semibold text-gray-700">CREATED BY</span> 
-        <span className="text-gray-500">liaa.near</span> 
+        <span className="font-semibold text-gray-700">CREATED BY</span>
+        <span className="text-gray-500">liaa.near</span>
       </div>
-
 
       {/*<PrizePoolDetail pool={prizePool} tokens={tokens} /> */}
       <Footer />

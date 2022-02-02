@@ -48,12 +48,12 @@ const CheckboxText = ({
   );
 };
 
-export default function RequestSigninModal(props: {
+export default function RequirementsModal(props: {
+  pool_id: number;
   title?: string;
   text?: string;
   isOpen?: boolean;
   onRequestClose?: any;
-  handleClickConnectTwitter: any;
   onSuccess: any;
   accountName: string;
   requirementsValue: RequirementInputValue[];
@@ -181,7 +181,9 @@ export default function RequestSigninModal(props: {
             loadingText="Verifying"
             bg="#3b82f6"
             isFull
-            onClick={props.handleClickConnectTwitter}
+            onClick={() => {
+              window.location = `/twitter/authenticate?near_account=${props.accountName}&pool_id=${props.pool_id}`;
+            }}
           >
             {buttonText}
           </PrimaryButton>

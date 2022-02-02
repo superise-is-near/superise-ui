@@ -12,6 +12,10 @@ export interface TokenMetadataWithAmount extends TokenMetadata {
   amount: number;
 }
 
+export interface TokenMetadataWithAmount extends TokenMetadata {
+  amount: number;
+}
+
 export const nearMetadata: TokenMetadata = {
   id: "NEAR",
   name: "NEAR",
