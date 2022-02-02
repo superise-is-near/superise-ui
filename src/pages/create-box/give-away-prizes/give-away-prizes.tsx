@@ -7,12 +7,12 @@ import { ParasNft } from "~domain/paras/models";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
 import CollapsedCard from "./CollapsedCard";
 
-interface IGiveAwayPrizes {
+interface IGiveawayPrizes {
   collapsed: boolean;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const GiveAwayPrizes: FC<IGiveAwayPrizes> = ({ collapsed, setProgress }) => {
+const GiveawayPrizes: FC<IGiveawayPrizes> = ({ collapsed, setProgress }) => {
   const [showCryptoSelectModal, setShowCryptoSelectModal] = useState(false);
   const [showNFTSelectModal, setShowNFTSelectModal] = useState(false);
 
@@ -61,4 +61,4 @@ const GiveAwayPrizes: FC<IGiveAwayPrizes> = ({ collapsed, setProgress }) => {
   );
 };
 
-export default GiveAwayPrizes;
+export default GiveawayPrizes;

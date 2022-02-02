@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
-import GiveAwayPrizes from "./give-away-prizes";
+import GiveawayPrizes from "./give-away-prizes";
 import Clothes from "~/assets/clothes.svg";
 import Clock from "~/assets/clock.svg";
 import Hor from "~/assets/hor.svg";
@@ -37,7 +37,7 @@ const CreateBox: FC = () => {
       >
         ADD GIVEAWAY PRIZES
       </SecondaryTitle>
-      <GiveAwayPrizes collapsed={progress !== 0} setProgress={setProgress} />
+      <GiveawayPrizes collapsed={progress !== 0} setProgress={setProgress} />
 
       {/* progress 2, select requirements */}
       <SecondaryTitle
