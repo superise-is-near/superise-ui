@@ -51,7 +51,7 @@ export const useEndtimer = (
     return () => {
       clearInterval(timerRef.current);
     };
-  }, []);
+  }, [end_time, finish]);
 
   return { timeLabel, countdownText, dateText, timeText, fontClass };
 };

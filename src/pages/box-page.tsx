@@ -15,6 +15,10 @@ import { wallet } from "~domain/near/global";
 import {
   join_twitter_pool,
   TwitterRequirment,
+  RequirmentType,
+  TwitterFollowRequirment,
+  TwitterLikeRequirment,
+  TwitterRetweetRequirment,
 } from "~domain/superise/twitter_giveaway/methods";
 import dayjs from "dayjs";
 import { useEndtimer } from "~components/prize/prize-pool-card";
@@ -40,6 +44,8 @@ const BoxPage = () => {
   // TODO: should not use .finish once we have a better status management for a twitterbox
   const { timeLabel, countdownText, dateText, timeText, fontClass } =
     useEndtimer((twitterPool || {}).end_time, (twitterPool || {}).finish);
+
+  // console.log({ timeLabel, countdownText, dateText, timeText })
 
   if (!twitterPool || !tokens) return <PageLoading />;
 
@@ -78,6 +84,10 @@ const BoxPage = () => {
   }
 
   console.log({ twitterPool });
+
+  const requirements: TwitterRequirment[] = JSON.parse(
+    twitterPool.requirements
+  );
 
   return (
     <div className="m-auto lg:max-w-2xl">
@@ -142,47 +152,92 @@ const BoxPage = () => {
       <Spacer h="32px" />
       <div className="flex items-center justify-between">
         <h3 className="text-base font-semibold leading-6">REQUIREMENTS</h3>
-        {/*<span className="text-sm font-bold text-gray-500">1300 TOTAL</span> */}
       </div>
       <Spacer h={"12px"} />
       <Card>
         <div className="-mx-4 -my-4">
-          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">
-            Follow @NFTNinjaas
-          </div>
-          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">
-            Retweet Tweet
-          </div>
-          <div className="px-4 py-6 text-base font-normal text-gray-600 leading-6">
-            Lik Tweet
-          </div>
+          {requirements.map((item) => {
+            const { requirment_type } = item;
+            let content;
+            switch (requirment_type) {
+              case RequirmentType.TwitterFollow: {
+                const typedRequirement = item as TwitterFollowRequirment;
+                content = (
+                  <div className="px-4 py-4 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">
+                    Follow{" "}
+                    <a
+                      className="underline"
+                      href={`https://twitter.com/${typedRequirement.screen_name}`}
+                      target="_blank"
+                    >
+                      @{typedRequirement.screen_name}
+                    </a>
+                  </div>
+                );
+                break;
+              }
+              case RequirmentType.TwitterLike: {
+                const typedRequirement = item as TwitterLikeRequirment;
+                content = (
+                  <div className="px-4 py-4 text-base font-normal text-gray-600 leading-6">
+                    Like{" "}
+                    <a
+                      className="underline"
+                      href={typedRequirement.tweet_link}
+                      target="_blank"
+                    >
+                      this tweet
+                    </a>
+                  </div>
+                );
+                break;
+              }
+
+              case RequirmentType.TwitterRetweet: {
+                const typedRequirement = item as TwitterRetweetRequirment;
+                content = (
+                  <div className="px-4 py-4 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">
+                    Retweet{" "}
+                    <a
+                      className="underline"
+                      href={typedRequirement.tweet_link}
+                      target="_blank"
+                    >
+                      this tweet
+                    </a>
+                  </div>
+                );
+                break;
+              }
+            }
+            return content;
+          })}
         </div>
       </Card>
 
       <Spacer h="32px" />
       <div className="flex items-center justify-between">
         <h3 className="text-base font-semibold leading-6">PARTICIPANTS</h3>
-        <span className="text-sm font-bold text-gray-500">1300 TOTAL</span>
+        <span className="text-sm font-bold text-gray-500">
+          {twitterPool.prize_pool.join_accounts.length} TOTAL
+        </span>
       </div>
       <Spacer h={"12px"} />
       <Card>
-        <div className="-mx-4 -my-4">
-          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">
-            clemens.near
-          </div>
-          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">
-            xsb.near
-          </div>
-          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">
-            steve.near
-          </div>
-          <div className="px-4 py-6 text-base font-normal text-gray-600 border-b border-gray-300 leading-6">
-            draven.near
-          </div>
-          <div className="px-4 py-6 text-base font-normal text-gray-400 text-gray-600 leading-6">
-            +1296 more
-          </div>
-        </div>
+        <ul className="-mx-4 -my-4">
+          {twitterPool.prize_pool.join_accounts.slice(0, 3).map((item) => {
+            return (
+              <li className="px-4 py-4 text-base font-normal text-gray-600 border-b border-gray-300 leading-6 last:border-b-0">
+                {item}
+              </li>
+            );
+          })}
+          {twitterPool.prize_pool.join_accounts.length > 3 && (
+            <li className="px-4 py-4 text-base font-normal text-gray-400 text-gray-600 leading-6">
+              +{twitterPool.prize_pool.join_accounts.length - 3} more
+            </li>
+          )}
+        </ul>
       </Card>
 
       <Spacer h="32px" />

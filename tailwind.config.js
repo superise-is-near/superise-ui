@@ -4,4 +4,10 @@ module.exports = {
     require("@tailwindcss/forms"),
     // ...
   ],
+  variants: {
+    extend: {
+      borderColor: ['focus-visible', 'first', 'last'],
+      borderWidth: ['last']
+    }
+  },
 };
