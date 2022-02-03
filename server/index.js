@@ -104,7 +104,7 @@ async function main() {
     console.log("user succesfully logged in with twitter", user.screen_name);
     req.session.save(() =>
       res.redirect(
-        `/#/box/${pool_id}?connected-twitter=${user.screen_name}&show_requirements_modal=1`
+        `/box/${pool_id}?connected-twitter=${user.screen_name}&show_requirements_modal=1`
       )
     );
   });

@@ -217,11 +217,7 @@ const BoxPage = () => {
       <div className="flex items-center justify-between">
         <h3 className="text-base font-semibold leading-6">Prizes</h3>
       </div>
-      <AssetsDisplay
-        nfts={parasNfts}
-        cryptos={console.log({ fts }) || fts}
-        readonly
-      />
+      <AssetsDisplay nfts={parasNfts} cryptos={fts} readonly />
       {console.log(twitterPool.prize_pool)}
 
       <Spacer h="32px" />

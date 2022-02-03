@@ -42,7 +42,7 @@ export default function RequirementsModal(props: {
   );
   const [buttonText, setButtonText] = useState("Connect to Twitter");
 
-  useEffect(async () => {
+  const trigger = async () => {
     const toRequirmentDisplay = (
       item: RequirementInputValue
     ): TwitterRequirmentDisplay => {
@@ -93,6 +93,9 @@ export default function RequirementsModal(props: {
         setButtonText("Try again");
       }
     }
+  };
+  useEffect(() => {
+    trigger();
   }, [location.search]);
 
   const failedRequirement = requirments.find(
@@ -181,18 +184,13 @@ export default function RequirementsModal(props: {
           </div>
         )}
         <div className="mt-8">
-          <PrimaryButton
-            size="large"
-            loading={isLoading}
-            loadingText="Verifying"
-            bg="#3b82f6"
-            isFull
-            onClick={() => {
-              window.location = `/twitter/authenticate?near_account=${props.accountName}&pool_id=${props.pool_id}`;
-            }}
+          <a
+            href={`/twitter/authenticate?near_account=${props.accountName}&pool_id=${props.pool_id}`}
           >
-            {buttonText}
-          </PrimaryButton>
+            <PrimaryButton size="large" loading={isLoading} isFull>
+              {buttonText}
+            </PrimaryButton>
+          </a>
         </div>
       </div>
     </Modal>
