@@ -12,7 +12,7 @@ export type TwitterPoolDisplay = {
   name: string;
   describe: string;
   cover: string;
-  finish: boolean;
+  status: PoolStatus;
   end_time: MilliTimeStamp;
   twitter_link: string;
 };
@@ -42,23 +42,25 @@ export interface TwitterLikeRequirmentInputValue {
 }
 
 export type TwitterPoolCreateParam = {
-  name: string;
-  describe: string;
-  cover: string;
-  end_time: MilliTimeStamp;
-  white_list: AccountId[]; // Option<Vec<AccountId>>,
-  requirements: string;
-  ft_prizes: FtPrize[];
-  nft_prizes: NftPrize[];
-  twitter_link: string;
+  name: string|null;
+  describe: string|null;
+  cover: string|null;
+  end_time: MilliTimeStamp|null;
+  white_list: AccountId[]|null; // Option<Vec<AccountId>>,
+  requirements: string|null;
+  ft_prizes: FtPrize[]|null;
+  nft_prizes: NftPrize[]|null;
+  twitter_link: string|null;
 };
+
+export type PoolStatus = "PENDING"|"ONGOING"|"FINISHED"|"DELETED";
 
 export type TwitterPool = {
   name: string;
   describe: string;
   cover: string;
   prize_pool: PrizePool;
-  finish: boolean;
+  status: PoolStatus;
   end_time: MilliTimeStamp;
   white_list: AccountId[];
   requirements: string; // requirmentsValue type
