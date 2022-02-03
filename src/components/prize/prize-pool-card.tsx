@@ -4,11 +4,14 @@ import { PrizePoolDisplay } from "~domain/superise/models";
 import { fancyTimeFormat } from "~utils/time";
 import { convertAmountToNumber } from "~domain/near/ft/methods";
 import { TokenMetadata } from "~domain/near/ft/models";
-import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
+import {
+  TwitterPoolDisplay,
+  TwitterPoolStatus,
+} from "~domain/superise/twitter_giveaway/models";
 
 export const useEndtimer = (
   end_time: number,
-  finish: boolean
+  status: TwitterPoolStatus
 ): {
   timeLabel: string;
   countdownText: string;
@@ -24,12 +27,12 @@ export const useEndtimer = (
   const [fontClass, setFontClass] = useState<string>("");
 
   const calculateTime = () => {
-    if (!finish && dayjs(end_time) <= dayjs()) {
+    if (status !== "FINISHED" && dayjs(end_time) <= dayjs()) {
       setCountdownText("");
       setDataText("Wait for opening");
       setTimeLabel("Time's up");
       setFontClass("");
-    } else if (!finish) {
+    } else if (status !== "FINISHED") {
       const difference = dayjs(end_time).diff(dayjs());
       setCountdownText(fancyTimeFormat(difference / 1000));
       setDataText("");
@@ -51,7 +54,7 @@ export const useEndtimer = (
     return () => {
       clearInterval(timerRef.current);
     };
-  }, []);
+  }, [end_time, status]);
 
   return { timeLabel, countdownText, dateText, timeText, fontClass };
 };

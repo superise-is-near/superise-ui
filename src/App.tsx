@@ -1,7 +1,7 @@
 import React from "react";
 import "reflect-metadata";
 import "es6-shim";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { AccountPage } from "./pages/account";
 import IndexPage from "./pages/index";
 import BoxPage from "~pages/box-page";

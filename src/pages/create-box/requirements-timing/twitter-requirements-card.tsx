@@ -18,7 +18,7 @@ const SwitchCard: FC<ISwitchCard> = ({
   return (
     <div
       className={clsx(
-        "p-4 flex justify-between border border-gray-300",
+        "bg-white p-4 flex justify-between border border-gray-300",
         className
       )}
     >

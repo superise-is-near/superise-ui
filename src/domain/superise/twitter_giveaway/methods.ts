@@ -98,7 +98,7 @@ export interface TwitterRetweetRequirmentDisplay
 
 export interface TwitterLikeRequirment {
   requirment_type: RequirmentType;
-  tweet_link: String;
+  tweet_link: string;
 }
 
 export interface TwitterLikeRequirmentDisplay extends TwitterLikeRequirment {

@@ -53,13 +53,16 @@ export type TwitterPoolCreateParam = {
   twitter_link: string;
 };
 
+export type TwitterPoolStatus = "PENDING" | "ONGOING" | "FINISHED" | "DELETED";
 export type TwitterPool = {
   name: string;
   describe: string;
   cover: string;
   prize_pool: PrizePool;
-  finish: boolean;
+  status: TwitterPoolStatus;
   end_time: MilliTimeStamp;
+  create_time: MilliTimeStamp;
+  updated_time: MilliTimeStamp;
   white_list: AccountId[];
   requirements: string; // requirmentsValue type
   // twitter_near_bind: HashMap<AccountId, TwitterAccount>,
