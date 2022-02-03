@@ -1,7 +1,7 @@
 const configs = {
   base: {
     host: "http://127.0.0.1",
-    twitter_callback_url: "http://127.0.0.1",
+    twitter_callback_url: "http://127.0.0.1:3000/twitter-callback",
     port: 3000,
   },
 

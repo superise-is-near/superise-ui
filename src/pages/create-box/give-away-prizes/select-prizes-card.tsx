@@ -9,12 +9,14 @@ import { TokenMetadataWithAmount } from "~domain/near/ft/models";
 
 interface INFTsDisplay {
   nfts: ParasNft[];
-  setNfts: React.Dispatch<React.SetStateAction<ParasNft[]>>;
+  setNfts?: React.Dispatch<React.SetStateAction<ParasNft[]>>;
+  readonly?: boolean;
 }
 
 interface ICryptosDisplay {
   cryptos: TokenMetadataWithAmount[];
-  setCryptos: React.Dispatch<React.SetStateAction<TokenMetadataWithAmount[]>>;
+  setCryptos?: React.Dispatch<React.SetStateAction<TokenMetadataWithAmount[]>>;
+  readonly?: boolean;
 }
 
 interface ISelectPrizesCard extends INFTsDisplay, ICryptosDisplay {
@@ -29,11 +31,12 @@ interface IAddNFTOrCryptoCard {
   onClickAddCrypto: () => void;
 }
 
-const AssetsDisplay: FC<INFTsDisplay & ICryptosDisplay> = ({
+export const AssetsDisplay: FC<INFTsDisplay & ICryptosDisplay> = ({
   nfts,
   setNfts,
   cryptos,
   setCryptos,
+  readonly,
 }) => {
   const assetsCombine = [
     ...nfts.map((nft) => ({
@@ -55,7 +58,7 @@ const AssetsDisplay: FC<INFTsDisplay & ICryptosDisplay> = ({
         <div
           key={asset.id}
           className={clsx(
-            "p-4 flex justify-between border border-gray-300",
+            "bg-white p-4 flex justify-between border border-gray-300",
             index === 0 && "rounded-t-2xl",
             index === assetsCombine.length - 1 && "rounded-b-2xl mb-4",
             index !== 0 && "border-t-0"
@@ -78,28 +81,32 @@ const AssetsDisplay: FC<INFTsDisplay & ICryptosDisplay> = ({
             </div>
             <div className="text-gray-600">{asset.title}</div>
           </div>
-          <div className="grid place-items-center">
-            <img
-              className="cursor-pointer"
-              src={MinusIcon}
-              width="24px"
-              height="24px"
-              alt="remove"
-              onClick={() => {
-                if (asset.type === "nft") {
-                  setNfts(
-                    nfts.filter((_nft) => asset.id !== _nft.nft.token.token_id)
-                  );
-                } else {
-                  setCryptos(
-                    cryptos.filter((_crypto) => asset.id !== _crypto.id)
-                  );
-                }
-              }}
-              tabIndex={-1}
-              role="button"
-            />
-          </div>
+          {!readonly && (
+            <div className="grid place-items-center">
+              <img
+                className="cursor-pointer"
+                src={MinusIcon}
+                width="24px"
+                height="24px"
+                alt="remove"
+                onClick={() => {
+                  if (asset.type === "nft") {
+                    setNfts(
+                      nfts.filter(
+                        (_nft) => asset.id !== _nft.nft.token.token_id
+                      )
+                    );
+                  } else {
+                    setCryptos(
+                      cryptos.filter((_crypto) => asset.id !== _crypto.id)
+                    );
+                  }
+                }}
+                tabIndex={-1}
+                role="button"
+              />
+            </div>
+          )}
         </div>
       ))}
     </section>
@@ -113,7 +120,7 @@ const AddNFTOrCryptoCard: FC<IAddNFTOrCryptoCard> = ({
 }) => {
   return (
     <>
-      <div className="p-4 flex justify-between border border-gray-300 rounded-t-2xl">
+      <div className="flex justify-between p-4 bg-white border border-gray-300 rounded-t-2xl">
         <div>
           <div>{hasSelected && "Add another "}NFT</div>
           <div className="mt-1 text-sm text-gray-400">Paras or Mintbase</div>
@@ -131,7 +138,7 @@ const AddNFTOrCryptoCard: FC<IAddNFTOrCryptoCard> = ({
           />
         </div>
       </div>
-      <div className="p-4 flex justify-between border border-t-0 border-gray-300 rounded-b-2xl">
+      <div className="flex justify-between p-4 bg-white border border-t-0 border-gray-300 rounded-b-2xl">
         <div>
           <div>{hasSelected && "Add more "}Crypto</div>
           <div className="mt-1 text-sm text-gray-400">NEAR or OCTA</div>

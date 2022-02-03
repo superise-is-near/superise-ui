@@ -5,47 +5,23 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import {
   verify_requirments,
-  TwitterFollowRequirmentDisplay,
   RequirmentType,
-  TwitterRequirment,
   TwitterRequirmentDisplay,
 } from "~domain/superise/twitter_giveaway/methods";
-import { FaCheck } from "react-icons/fa";
 import { RequirementInputValue } from "~components/forms/Participant";
+import checkFill from "~assets/check-fill.svg";
+import checkNotFill from "~assets/check-nfill.svg";
+import {
+  TwitterFollowRequirment,
+  TwitterLikeRequirment,
+  TwitterRetweetRequirment,
+} from "~domain/superise/twitter_giveaway/methods";
 
 const Checkbox = ({ checked }: { checked?: boolean }) => {
   if (!checked) {
-    return (
-      <div className="flex items-center justify-center w-6 h-6 text-base font-normal text-white bg-white border-2 border-gray-800 rounded-full cursor-pointer" />
-    );
+    return <img width={24} height={24} src={checkNotFill} />;
   }
-  return (
-    <div className="flex items-center justify-center w-6 h-6 text-base font-normal text-white bg-black rounded-full">
-      <FaCheck size={14} />
-    </div>
-  );
-};
-
-const CheckboxText = ({
-  checked,
-  children,
-}: {
-  checked?: boolean;
-  children: any;
-}) => {
-  if (!checked) {
-    return (
-      <div className="text-lg font-medium text-gray-900 leading-7">
-        {children}
-      </div>
-    );
-  }
-
-  return (
-    <div className="text-lg font-medium text-gray-900 line-through leading-7">
-      {children}
-    </div>
-  );
+  return <img width={24} height={24} src={checkFill} />;
 };
 
 export default function RequirementsModal(props: {
@@ -64,7 +40,7 @@ export default function RequirementsModal(props: {
   const [requirments, setRequirments] = useState<TwitterRequirmentDisplay[]>(
     []
   );
-  const [buttonText, setButtonText] = useState("Connect Twitter to continue");
+  const [buttonText, setButtonText] = useState("Connect to Twitter");
 
   useEffect(async () => {
     const toRequirmentDisplay = (
@@ -119,6 +95,10 @@ export default function RequirementsModal(props: {
     }
   }, [location.search]);
 
+  const failedRequirement = requirments.find(
+    (item) => item.status === "failed"
+  );
+
   return (
     <Modal
       isOpen={props.isOpen}
@@ -127,56 +107,82 @@ export default function RequirementsModal(props: {
       contentClassName="w-11/12 md:w-1/2"
     >
       <div>
-        <div className="mt-8 text-lg font-bold text-gray-800 leading-7">
+        <div className="mt-8 text-lg font-bold text-center text-gray-800 leading-7">
           <h1>Hi {props.accountName},</h1>
-          <h1>Finish the tasks and get a seat of the giveaway.</h1>
+          <h1>finish the tasks to join the giveaway!</h1>
         </div>
         <div className="mt-8 grid grid-cols-1 gap-2">
-          {requirments.map((requirment) => {
-            const { id, requirment_type, status, message } = requirment;
+          {requirments.map((item) => {
+            const { requirment_type } = item;
             let content;
-            if (requirment_type === RequirmentType.TwitterFollow) {
-              content = (
-                <CheckboxText
-                  checked={status === "success"}
-                >{`Follow twitter account @${
-                  (requirment as TwitterFollowRequirmentDisplay).screen_name
-                }`}</CheckboxText>
-              );
-            }
-            if (requirment_type === RequirmentType.TwitterRetweet) {
-              content = (
-                <CheckboxText checked={status === "success"}>
-                  Retweet this tweet
-                </CheckboxText>
-              );
-            }
-            if (requirment_type === RequirmentType.TwitterLike) {
-              content = (
-                <CheckboxText checked={status === "success"}>
-                  Like this tweet
-                </CheckboxText>
-              );
-            }
+            switch (requirment_type) {
+              case RequirmentType.TwitterFollow: {
+                const typedRequirement = item as TwitterFollowRequirment;
+                content = (
+                  <div className="text-base font-normal text-gray-600 border-b border-gray-300 leading-6 last:border-0">
+                    Follow{" "}
+                    <a
+                      className="underline"
+                      href={`https://twitter.com/${typedRequirement.screen_name}`}
+                      target="_blank"
+                    >
+                      @{typedRequirement.screen_name}
+                    </a>
+                  </div>
+                );
+                break;
+              }
+              case RequirmentType.TwitterLike: {
+                const typedRequirement = item as TwitterLikeRequirment;
+                content = (
+                  <div className="text-base font-normal text-gray-600 border-b border-gray-300 leading-6 last:border-0">
+                    Like{" "}
+                    <a
+                      className="underline"
+                      href={typedRequirement.tweet_link}
+                      target="_blank"
+                    >
+                      this tweet
+                    </a>
+                  </div>
+                );
+                break;
+              }
 
+              case RequirmentType.TwitterRetweet: {
+                const typedRequirement = item as TwitterRetweetRequirment;
+                content = (
+                  <div className="text-base font-normal text-gray-600 border-b border-gray-300 leading-6 last:border-0">
+                    Retweet{" "}
+                    <a
+                      className="underline"
+                      href={typedRequirement.tweet_link}
+                      target="_blank"
+                    >
+                      this tweet
+                    </a>
+                  </div>
+                );
+                break;
+              }
+            }
             return (
-              <div className="flex items-center" id={id}>
-                <Checkbox checked={status === "success"} />
-                <div className="flex flex-col ml-2">
-                  {content}
-                  {status !== "success" && (
-                    <span
-                      className="text-red-600"
-                      dangerouslySetInnerHTML={{ __html: message }}
-                    />
-                  )}
-                </div>
+              <div className="flex items-center px-2 py-3">
+                <Checkbox checked={item.status === "success"} />
+                <div className="ml-2">{content}</div>
               </div>
             );
+            return content;
           })}
         </div>
+        {failedRequirement && (
+          <div className="text-sm text-center text-red-700 leading-5">
+            Please fullfill the requirments above and try again!
+          </div>
+        )}
         <div className="mt-8">
           <PrimaryButton
+            size="large"
             loading={isLoading}
             loadingText="Verifying"
             bg="#3b82f6"
