@@ -41,15 +41,29 @@ textarea:focus {
 }
 
 .homepage-container {
-  max-width: 507px;
+  max-width: none;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.home-page-giveaway-cards {
+  width: 100%;
 }
 
 @media (min-width: 1024px) {
   .lg-max-1280px {
     max-width: 1280px;
   }
-  .homepage-container {
-    max-width: auto;
+}
+
+@media (min-width: 760px) {
+  .home-page-giveaway-cards {
+    width: 740px;
   }
-  
+}
+
+@media (min-width: 620px) {
+  .homepage-container {
+    max-width: 567px;
+  }
 }

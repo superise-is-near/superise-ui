@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { PrimaryButton } from "~components/button/Button";
 import BookIcon from "~assets/book.svg";
 import NearIcon from "~assets/near.svg";
@@ -9,7 +10,9 @@ function HomeHero() {
       <h1 className="text-4xl sm:text-5xl font-bold text-center">
         Crypto & NFT giveaways made easy.
       </h1>
-      <PrimaryButton className="mt-8 py-4 px-8">Get Started</PrimaryButton>
+      <NavLink to="/box/create">
+        <PrimaryButton className="mt-8 py-4 px-8">Get Started</PrimaryButton>
+      </NavLink>
       <div
         className="bg-gray-300"
         style={{
