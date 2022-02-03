@@ -11,8 +11,33 @@ import { FinalExecutionOutcome } from "near-api-js/src/providers/index";
 import { getAmount, getGas } from "~utils/near";
 import { defaultGas, FunctionCallOptions } from "~domain/near/models";
 import { exp } from "mathjs";
+import { PoolId } from "~domain/superise/models";
 
 const config = getConfig();
+
+export function publish_pool(pool_id: PoolId) {
+  return wallet
+    .account()
+    .functionCall(config.SUPERISE_CONTRACT_ID, "publish_pool", {
+      pool_id: pool_id,
+    });
+}
+
+export function update_twitter_pool(
+  param: TwitterPoolCreateParam,
+  option: FunctionCallOptions = defaultGas
+) {
+  return wallet
+    .account()
+    .functionCall(
+      config.SUPERISE_CONTRACT_ID,
+      "update_twitter_pool",
+      { param: param },
+      getGas(option.gas),
+      getAmount(option.amount)
+    );
+}
+
 export function create_twitter_pool(
   param: TwitterPoolCreateParam,
   option: FunctionCallOptions = defaultGas
