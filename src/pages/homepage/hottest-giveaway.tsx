@@ -4,7 +4,10 @@ import GiveawayCard from "./giveaway-card";
 
 function HottestGiveaway() {
   return (
-    <section className="w-full flex flex-col items-center homepage-container">
+    <section
+      id="hottest-giveaway"
+      className="w-full flex flex-col items-center homepage-container"
+    >
       <div className="w-13 h-13 mt-8">
         <img
           className="w-13 h-13"

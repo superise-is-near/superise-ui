@@ -10,9 +10,9 @@ function HomeHero() {
       <h1 className="text-4xl sm:text-5xl font-bold text-center">
         Crypto & NFT giveaways made easy.
       </h1>
-      <NavLink to="/box/create">
+      <a href="/#started">
         <PrimaryButton className="mt-8 py-4 px-8">Get Started</PrimaryButton>
-      </NavLink>
+      </a>
       <div
         className="bg-gray-300"
         style={{
