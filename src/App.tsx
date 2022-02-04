@@ -2,7 +2,7 @@ import React from "react";
 import "reflect-metadata";
 import "es6-shim";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
-import { AccountPage } from "./pages/account";
+import AccountPage from "./pages/account";
 import BoxPage from "~pages/box-page";
 import Modal from "react-modal";
 import SiteHeader from "~components/layout/SiteHeader";

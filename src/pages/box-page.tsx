@@ -27,14 +27,7 @@ import { TwitterPool } from "~domain/superise/twitter_giveaway/models";
 import { ParasNft } from "~domain/paras/models";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
 import { toReadableNumber } from "~utils/numbers";
-
-const Card = ({ children }: { children?: any }) => {
-  return (
-    <div className="px-4 py-[22px] py-4 bg-white border border-gray-300 rounded-2xl bg-white">
-      {children}
-    </div>
-  );
-};
+import Section from "~components/section";
 
 const BoxPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -185,13 +178,13 @@ const BoxPage = () => {
         Giveaway #{twitterPool.prize_pool.id}
       </h2>
       <Spacer h="48px" />
-      <Card>
+      <Section>
         <div style={{ maxHeight: "359px" }}>
           <TwitterCard url="https://twitter.com/0xSabri/status/1487348695859445761" />
         </div>
-      </Card>
+      </Section>
       <Spacer h="16px" />
-      <Card>
+      <Section>
         <div className="grid grid-cols-2">
           <div className="text-base font-normal leading-6">
             <div className="text-gray-900">{timeLabel}</div>
@@ -211,17 +204,13 @@ const BoxPage = () => {
         <ProgressBar percentage={progress} />
         <Spacer h="16px" />
         {JoinButton}
-      </Card>
+      </Section>
 
       <Spacer h="32px" />
       <div className="flex items-center justify-between">
         <h3 className="text-base font-semibold leading-6">Prizes</h3>
       </div>
-      <AssetsDisplay
-        nfts={parasNfts}
-        cryptos={console.log({ fts }) || fts}
-        readonly
-      />
+      <AssetsDisplay nfts={parasNfts} cryptos={fts} readonly />
       {console.log(twitterPool.prize_pool)}
 
       <Spacer h="32px" />
@@ -229,7 +218,7 @@ const BoxPage = () => {
         <h3 className="text-base font-semibold leading-6">REQUIREMENTS</h3>
       </div>
       <Spacer h={"12px"} />
-      <Card>
+      <Section>
         <div className="-mx-4 -my-4">
           {requirements.map((item) => {
             const { requirment_type } = item;
@@ -288,7 +277,7 @@ const BoxPage = () => {
             return content;
           })}
         </div>
-      </Card>
+      </Section>
 
       <Spacer h="32px" />
       <div className="flex items-center justify-between">
@@ -298,7 +287,7 @@ const BoxPage = () => {
         </span>
       </div>
       <Spacer h={"12px"} />
-      <Card>
+      <Section>
         {twitterPool.prize_pool.join_accounts.length === 0 ? (
           <div className="flex flex-col items-center ">
             <span className="text-base font-normal text-gray-500 leading-6">
@@ -323,7 +312,7 @@ const BoxPage = () => {
             )}
           </ul>
         )}
-      </Card>
+      </Section>
 
       <Spacer h="32px" />
       <div className="flex flex-col items-center">
