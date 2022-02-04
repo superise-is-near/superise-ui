@@ -34,11 +34,11 @@ export const ColorCardTitle = ({
   theme?: string;
 }) => {
   return (
-    <h1
+    <h3
       className="text-4xl font-bold leading-10"
       style={{ color: cardTheme[theme].fg }}
     >
       {children}
-    </h1>
+    </h3>
   );
 };

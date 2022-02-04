@@ -6,6 +6,8 @@ import { PrimaryButton } from "~components/button/Button";
 import { ParasNft } from "~domain/paras/models";
 import clsx from "classnames";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
+import { create_twitter_pool } from "~domain/superise/twitter_giveaway/methods";
+import { toNonDivisibleNumber } from "~utils/numbers";
 
 interface INFTsDisplay {
   nfts: ParasNft[];
@@ -189,7 +191,25 @@ const SelectPrizesCard: FC<ISelectPrizesCard> = ({
         size="large"
         className="my-6"
         disabled={!hasSelected}
-        onClick={() => setProgress(1)}
+        onClick={() => {
+          create_twitter_pool({
+            ft_prizes: cryptos?.map((crypto) => ({
+              ft: {
+                contract_id: crypto.id,
+                balance: toNonDivisibleNumber(
+                  crypto.decimals,
+                  String(crypto.amount)
+                ),
+              },
+            })),
+            nft_prizes: nfts?.map((nft) => ({
+              nft: {
+                contract_id: nft.nft.contract_id,
+                nft_id: nft.nft.token.token_id,
+              },
+            })),
+          });
+        }}
       >
         Continue
       </PrimaryButton>

@@ -17,6 +17,7 @@ export function PrimaryButton(
 ) {
   const {
     isFull,
+    prefixIcon,
     suffixIcon,
     icon,
     loading,
@@ -42,7 +43,7 @@ export function PrimaryButton(
       disabled={loading || disabled}
       style={{ backgroundColor: color }}
     >
-      {!loading && props.prefixIcon && props.prefixIcon}
+      {!loading && prefixIcon}
       {!loading && (
         <span
           className={`${props.icon && "ml-2"} ${props.suffixIcon && "mr-2"}`}
