@@ -1,5 +1,5 @@
 import { TokenMetadata } from "~domain/near/ft/models";
-import { wallet } from "~domain/near/global";
+import {Transaction, wallet} from "~domain/near/global";
 import { toReadableNumber } from "~utils/numbers";
 import { RefFiViewFunctionOptions } from "~domain/ref/methods";
 import {
@@ -10,6 +10,7 @@ import {
   icons as metadataDefaults,
   NEAR_ICON,
 } from "~domain/near/ft/metadata";
+import {AccountId} from "~domain/superise/models";
 
 export const ftViewFunction = (
   tokenId: string,
@@ -99,7 +100,3 @@ export const getDepositableBalance = async (
     return "";
   }
 };
-
-export function convertAmountToNumber(amount: string): number {
-  return Number(toReadableNumber(24, amount));
-}

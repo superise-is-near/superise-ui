@@ -1,36 +1,26 @@
-import React, { Fragment, useState, useMemo, useEffect } from "react";
-import { PrizePool, Record } from "~domain/superise/models";
+import React, {useEffect, useState} from "react";
 import Card from "~components/Card";
-import { TokenMetadata } from "~domain/near/ft/models";
-import { PrimaryButton } from "~components/button/Button";
-import { useEndtimer } from "./prize-pool-card";
-import {
-  convertAmountToNumber,
-  ftGetTokenMetadata,
-} from "~domain/near/ft/methods";
-import { join_pool } from "~domain/superise/methods";
+import {TokenMetadata} from "~domain/near/ft/models";
+import {PrimaryButton} from "~components/button/Button";
+import {useEndtimer} from "./prize-pool-card";
+
+import {join_pool} from "~domain/superise/methods";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import RequestSigninModal from "~components/modal/request-signin-modal";
 import RequirementsModal from "~components/modal/requirements-modal";
-import { wallet } from "~domain/near/global";
-import Confetti from "react-confetti";
-import { TwitterPool } from "~domain/superise/twitter_giveaway/models";
+import {wallet} from "~domain/near/global";
+import {TwitterPool} from "~domain/superise/twitter_giveaway/models";
 import TwitterCard from "~components/twitter-card";
-import { InputValueDisplay } from "~components/forms/PrizeSelector";
-import { ParasNft } from "~domain/paras/models";
-import { nft_token } from "~domain/near/nft/methods";
-import { SuperiseFtInputValue } from "~components/forms/superise-ft-input";
+import {InputValueDisplay} from "~components/forms/PrizeSelector";
+import {ParasNft} from "~domain/paras/models";
+import {nft_token} from "~domain/near/nft/methods";
+import {SuperiseFtInputValue} from "~components/forms/superise-ft-input";
+import {useLocation} from "react-router-dom";
+import {join_twitter_pool,} from "~domain/superise/twitter_giveaway/methods";
+import Participant, {RequirementInputValue,} from "~components/forms/Participant";
 
 dayjs.extend(isSameOrAfter);
-import { useLocation } from "react-router-dom";
-import {
-  join_twitter_pool,
-  TwitterRequirment,
-} from "~domain/superise/twitter_giveaway/methods";
-import Participant, {
-  RequirementInputValue,
-} from "~components/forms/Participant";
 
 const getTokenSymbol = (tokens: TokenMetadata[] = [], id: string = "") => {
   let symbolText = id;
