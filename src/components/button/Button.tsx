@@ -43,7 +43,7 @@ export function PrimaryButton(
       disabled={loading || disabled}
       style={{ backgroundColor: color }}
     >
-      {!loading && prefixIcon}
+      {!loading && prefixIcon && <span className="mr-1">{prefixIcon}</span>}
       {!loading && (
         <span
           className={`${props.icon && "ml-2"} ${props.suffixIcon && "mr-2"}`}

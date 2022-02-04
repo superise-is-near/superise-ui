@@ -4,9 +4,9 @@ import clsx from "classnames";
 
 interface ISecondaryTitle {
   icon: string;
-  deepIcon: string;
+  deepIcon?: string;
   children: string;
-  className: string;
+  className?: string;
   select?: boolean;
 }
 const SecondaryTitle: FC<ISecondaryTitle> = ({
@@ -24,7 +24,9 @@ const SecondaryTitle: FC<ISecondaryTitle> = ({
         icon={icon}
         deepIcon={deepIcon}
       />
-      <h2 className="text-base font-semibold text-gray-700">{children}</h2>
+      <h2 className="text-base font-semibold text-gray-700 leading-6">
+        {children}
+      </h2>
     </div>
   );
 };

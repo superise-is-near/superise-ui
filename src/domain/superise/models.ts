@@ -62,3 +62,16 @@ export class Record {
   ft_prize: FtPrize;
   receiver: AccountId;
 }
+
+export interface AssetsActivity {
+  activity_id: number;
+  time: MilliTimeStamp;
+  sender: string;
+  receiver: string;
+  tx_hash: string;
+  message: string; // 'Giveaway #1 created'
+  asset_type: "FT" | "NFT" | "NEAR";
+  contract_id: string; // eg: 'wNear.testnet', 'punk.testnet'
+  amount: string;
+  nft_id: string;
+}
