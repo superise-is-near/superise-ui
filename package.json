@@ -13,7 +13,8 @@
     "test": "jest test --runInBand",
     "test:watch": "yarn test --watch",
     "prepare": "husky install",
-    "check-type": "tsc src/*.ts"
+    "check-type": "tsc src/*.ts",
+    "analyze-bundle": "parcel build src/index.html --reporter @parcel/reporter-bundle-analyzer"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
