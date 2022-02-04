@@ -3,11 +3,11 @@ import "reflect-metadata";
 import "es6-shim";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { AccountPage } from "./pages/account";
-import IndexPage from "./pages/index";
 import BoxPage from "~pages/box-page";
 import Modal from "react-modal";
 import SiteHeader from "~components/layout/SiteHeader";
 import CreateBox from "~pages/create-box";
+import HomePage from "~pages/homepage";
 
 Modal.defaultStyles = {
   overlay: {
@@ -35,17 +35,17 @@ Modal.setAppElement("#root");
 
 function App() {
   return (
-    <div className="max-w-2xl px-5 m-auto mb-6 lg:max-w-7xl">
-      <Router>
+    <Router>
+      <div className="max-w-2xl px-5 m-auto mb-6 lg:max-w-7xl">
         <SiteHeader />
-        <Switch>
-          <Route path="/box/create" component={CreateBox} />
-          <Route path="/account" component={AccountPage} />
-          <Route path="/box/:id" component={BoxPage} />
-          <Route path="/" component={IndexPage} />
-        </Switch>
-      </Router>
-    </div>
+      </div>
+      <Switch>
+        <Route path="/box/create" component={CreateBox} />
+        <Route path="/account" component={AccountPage} />
+        <Route path="/box/:id" component={BoxPage} />
+        <Route path="/" component={HomePage} />
+      </Switch>
+    </Router>
   );
 }
 

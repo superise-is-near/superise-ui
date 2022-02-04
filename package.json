@@ -7,7 +7,7 @@
     "start": "parcel src/index.html",
     "start:mainnet": "NEAR_ENV=mainnet parcel src/index.html",
     "start:testnet": "NEAR_ENV=testnet parcel src/index.html",
-    "clean": "rm -rf dist .cache",
+    "clean": "rm -rf dist .cache .parcel-cache parcel-bundle-reports",
     "prettier": "prettier --check src",
     "prettier:fix": "prettier --write src",
     "test": "jest test --runInBand",
