@@ -51,9 +51,9 @@ export default function Index() {
             <div className="grid grid-cols-1 gap-5">
               <Logo size="36px" color={cardTheme.blue.fg} />
               <ColorCardTitle>
-                <h1 className="text-4xl lg:w-10/12">
+                <p className="text-4xl lg:w-10/12">
                   Social media giveaway made easy and transparent.
-                </h1>
+                </p>
               </ColorCardTitle>
               <div className="lg:w-2/3">
                 <FeatureCard></FeatureCard>

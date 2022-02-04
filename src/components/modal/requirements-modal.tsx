@@ -108,8 +108,8 @@ export default function RequirementsModal(props: {
     >
       <div>
         <div className="mt-8 text-lg font-bold text-center text-gray-800 leading-7">
-          <h1>Hi {props.accountName},</h1>
-          <h1>finish the tasks to join the giveaway!</h1>
+          <h2>Hi {props.accountName},</h2>
+          <p>finish the tasks to join the giveaway!</p>
         </div>
         <div className="mt-8 grid grid-cols-1 gap-2">
           {requirments.map((item) => {

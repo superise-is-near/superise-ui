@@ -41,12 +41,12 @@ export type FtAsset = {
 };
 
 export type NftPrize = {
-  prize_id: PrizeId;
+  prize_id?: PrizeId;
   nft: NftAsset;
 };
 
 export interface FtPrize {
-  prize_id: PrizeId | null;
+  prize_id?: PrizeId;
   ft: FtAsset;
 }
 

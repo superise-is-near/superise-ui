@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState, FC, useEffect } from "react";
 import CryptoSelectModal from "./crypto-select-modal";
 import NFTSelectModal from "./nft-select-modal";
 import SelectPrizesCard from "./select-prizes-card";
@@ -18,6 +18,8 @@ const GiveAwayPrizes: FC<IGiveAwayPrizes> = ({ collapsed, setProgress }) => {
 
   const [nfts, setNfts] = useState<ParasNft[]>([]);
   const [cryptos, setCryptos] = useState<TokenMetadataWithAmount[]>([]);
+
+  useEffect(() => {}, []);
   return (
     <section className="flex">
       <VerticalLine bgLight={!collapsed} className="mr-4" />
