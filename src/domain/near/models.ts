@@ -39,8 +39,6 @@ export class NearAmount {
     );
   }
 
-
-
   public static toApiAmount(amount: READABLE_AMOUNT, decimals: number): string {
     if (decimals === null || decimals === undefined) return amount;
     const [wholePart, fracPart = ""] = amount.split(".");

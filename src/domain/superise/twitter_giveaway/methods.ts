@@ -37,7 +37,7 @@ export function update_twitter_pool(
     );
 }
 
-export async function create_twitter_pool_callback(
+export async function create_twitter_pool_transaction(
   param: TwitterPoolCreateParam,
   url: string,
 ) {

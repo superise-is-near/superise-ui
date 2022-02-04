@@ -2,15 +2,25 @@ import { TokenBalancesView, TokenMetadata } from "~domain/near/ft/models";
 import { toNonDivisibleNumber } from "~utils/numbers";
 import { FinalExecutionOutcome } from "near-api-js/lib/providers";
 import getConfig from "~domain/near/config";
-import {defaultGasAmount, FunctionCallOptions, NearAmount, NearGas} from "~domain/near/models";
+import {
+  defaultGasAmount,
+  FunctionCallOptions,
+  NearAmount,
+  NearGas,
+  READABLE_AMOUNT,
+  TRANSFERABLE_AMOUNT
+} from "~domain/near/models";
 import { wallet } from "~domain/near/global";
 import {
+  AccountId,
   FtPrize,
   NftPrize,
   PrizePool,
   PrizePoolDisplay,
 } from "~domain/superise/models";
 import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
+import {Account} from "near-api-js";
+import {NearTransaction, NearTransactionInfoFactory} from "~domain/near/transaction";
 
 let config = getConfig();
 
@@ -71,13 +81,41 @@ interface WithdrawOptions {
   // unregister?: boolean;
 }
 
+export async function withdraw_ft_transaction(
+  contract_id: AccountId,
+  amount: TRANSFERABLE_AMOUNT,
+  url?: string
+) {
+  let nearTransaction = new NearTransaction();
+  NearTransactionInfoFactory
+    .superise_withdraw_ft_transactions(contract_id,  amount)
+    .then(e=>nearTransaction.add_transactions(e))
+  await nearTransaction.execute(url)
+}
+
 export function withdraw_ft({ token, amount }: WithdrawOptions) {
   return wallet.account().functionCall(
     config.SUPERISE_CONTRACT_ID,
     "withdraw_ft",
     {
-      receiver_id: config.SUPERISE_CONTRACT_ID,
+      contract_id: token,
       amount: toNonDivisibleNumber(token.decimals, amount),
+    },
+    NearGas.TGas(30),
+    NearAmount.ONE_YOCTO_NEAR
+  );
+}
+
+export function withdraw_nft(
+  contract_id: AccountId,
+  nft_id: string
+) {
+  return wallet.account().functionCall(
+    config.SUPERISE_CONTRACT_ID,
+    "withdraw_nft",
+    {
+      contract_id: contract_id,
+      nft_id: nft_id
     },
     NearGas.TGas(30),
     NearAmount.ONE_YOCTO_NEAR
