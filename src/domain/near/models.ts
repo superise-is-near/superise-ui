@@ -34,9 +34,7 @@ export class NearAmount {
   }
 
   public static near_amount(amount_of_near: number = 1): API_AMOUNT {
-    return new BN(utils.format.parseNearAmount('1')).muln(
-      amount_of_near
-    );
+    return new BN(utils.format.parseNearAmount("1")).muln(amount_of_near);
   }
 
   public static toApiAmount(amount: READABLE_AMOUNT, decimals: number): string {
