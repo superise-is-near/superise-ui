@@ -7,6 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: testing-bff
     steps:
       - name: Checkout
         uses: actions/checkout@v2
