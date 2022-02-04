@@ -7,6 +7,7 @@ import {
 } from "~domain/superise/models";
 import { boolean, number } from "mathjs";
 
+type PrizeType = "NFT" | "Crypto" | "NFT_Crypto" | "No_Prize";
 export type TwitterPoolDisplay = {
   id: number;
   name: string;
@@ -15,6 +16,8 @@ export type TwitterPoolDisplay = {
   status: TwitterPoolStatus;
   end_time: MilliTimeStamp;
   twitter_link: string;
+  requirements: string;
+  prize_type: PrizeType;
 };
 
 export enum RequirmentType {
