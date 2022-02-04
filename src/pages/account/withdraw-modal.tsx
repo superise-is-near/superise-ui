@@ -8,7 +8,7 @@ import { TokenBalancesView } from "~domain/near/ft/models";
 import { ParasNft } from "~domain/paras/models";
 
 interface IWithdrawModal extends ReactModal.Props, IAssetsList {
-  onWidthdraw: (params: { fts: TokenBalancesView; nfts: ParasNft[] }) => any;
+  onWithdraw: (params: { fts: TokenBalancesView; nfts: ParasNft[] }) => any;
 }
 
 const WithdrawModal: FC<IWithdrawModal> = ({
@@ -17,19 +17,19 @@ const WithdrawModal: FC<IWithdrawModal> = ({
   nfts,
   fts,
   tokens,
-  onWidthdraw,
+  onWithdraw,
 }) => {
   const [selectedFts, setSelectedFts] = useState<TokenBalancesView>([]);
   const [selectedNfts, setSelectedNfts] = useState([]);
 
-  const handleClickWidthdraw = () => {
-    onWidthdraw({ fts: selectedFts, nfts: selectedNfts });
+  const handleClickWithdraw = () => {
+    onWithdraw({ fts: selectedFts, nfts: selectedNfts });
   };
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
       <h3 className="my-2 text-2xl font-semibold text-center">
-        Widthdraw Assets
+        Withdraw Assets
       </h3>
       <AssetsList
         onFtsChange={(fts) => {
@@ -46,8 +46,8 @@ const WithdrawModal: FC<IWithdrawModal> = ({
         selectable
       />
       <Spacer h="24px" />
-      <PrimaryButton size="large" isFull onClick={handleClickWidthdraw}>
-        Widthdraw
+      <PrimaryButton size="large" isFull onClick={handleClickWithdraw}>
+        Withdraw
       </PrimaryButton>
     </Modal>
   );

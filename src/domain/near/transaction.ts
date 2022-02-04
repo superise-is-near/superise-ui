@@ -43,7 +43,7 @@ export interface NearTransactionInfo {
 }
 
 export class NearTransaction {
-  transaction_infos: NearTransactionInfo[];
+  transaction_infos: NearTransactionInfo[]=[];
 
   constructor() {
   }
@@ -83,7 +83,7 @@ export class NearTransaction {
   public add_transactions(
     transactions: NearTransactionInfo[]
   ): NearTransaction {
-    this.transaction_infos.push(...transactions);
+    this.transaction_infos = [...this.transaction_infos, ...transactions];
     return this;
   }
 
