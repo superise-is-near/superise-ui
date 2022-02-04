@@ -37,9 +37,31 @@ export function update_twitter_pool(
     );
 }
 
+export async function update_twitter_pool_transaction(
+  param: TwitterPoolCreateParam,
+  callback_url: string,
+) {
+  let nearTransaction = new NearTransaction();
+  param.ft_prizes.forEach(e=>{
+    NearTransactionInfoFactory
+      .superise_deposit_ft_transactions(e.ft.contract_id,e.ft.balance)
+      .then(e=>nearTransaction.add_transactions(e))
+  });
+  param.nft_prizes.forEach(e=>{
+    nearTransaction.add_action(
+      e.nft.contract_id,
+      NearActions.nft_transfer_call_action(e.nft.nft_id))
+  });
+  nearTransaction.add_action(
+    config.SUPERISE_CONTRACT_ID,
+    NearActions.superise_update_twitter_action(param)
+  );
+  await nearTransaction.execute(callback_url)
+}
+
 export async function create_twitter_pool_transaction(
   param: TwitterPoolCreateParam,
-  url: string,
+  callback_url: string,
 ) {
   let nearTransaction = new NearTransaction();
   param.ft_prizes.forEach(e=>{
@@ -56,7 +78,7 @@ export async function create_twitter_pool_transaction(
     config.SUPERISE_CONTRACT_ID,
     NearActions.superise_create_twitter_action(param)
   );
-  await nearTransaction.execute(url)
+  await nearTransaction.execute(callback_url)
 }
 
 export function create_twitter_pool(

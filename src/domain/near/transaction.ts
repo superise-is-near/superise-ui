@@ -164,6 +164,16 @@ export class NearActions {
     )
   }
 
+  static superise_update_twitter_action(create_param: TwitterPoolCreateParam): Action {
+    return functionCall(
+      "update_twitter_pool",
+      {param: create_param},
+      NearGas.MAX_GAS,
+      NearAmount.ONE_YOCTO_NEAR
+    )
+  }
+
+
 }
 
 export abstract class NearTransactionInfoFactory {
