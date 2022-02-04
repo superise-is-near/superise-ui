@@ -1,5 +1,6 @@
 import { number, string } from "mathjs";
 import { Type } from "class-transformer";
+import {TRANSFERABLE_AMOUNT} from "~domain/near/models";
 export type TokenId = string;
 export type Balance = string;
 export type PoolId = number;
@@ -37,7 +38,7 @@ export type NftAsset = {
 
 export type FtAsset = {
   contract_id: string;
-  balance: Balance;
+  balance: TRANSFERABLE_AMOUNT;
 };
 
 export type NftPrize = {

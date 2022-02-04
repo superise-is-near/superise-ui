@@ -9,6 +9,10 @@ import { functionCall } from "near-api-js/lib/transaction";
 import { RefFiFunctionCallOptions } from "~domain/ref/methods";
 
 export const ONE_YOCTO_NEAR = "0.000000000000000000000001";
+// 1TGas ≈ 1 millisecond of "compute" time
+export const ONE_TGas = "1000000000000"; // = 0.0001 Ⓝ in 2021/12/3
+export const TEN_TGas = "10000000000000";
+export const MAX_GAS = "300000000000000";
 
 export interface Transaction {
   receiverId: string;
@@ -38,7 +42,7 @@ export const executeMultipleTransactions = async (
   return wallet.requestSignTransactions(nearTransactions, callbackUrl);
 };
 
-const config = getConfig();
+export const config = getConfig();
 export const near = new Near({
   keyStore: new keyStores.BrowserLocalStorageKeyStore(),
   ...config,

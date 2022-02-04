@@ -8,10 +8,9 @@ import {
 import { wallet } from "~domain/near/global";
 import getConfig from "~domain/near/config";
 import { FinalExecutionOutcome } from "near-api-js/src/providers/index";
-import { getAmount, getGas } from "~utils/near";
-import { defaultGas, FunctionCallOptions } from "~domain/near/models";
-import { exp } from "mathjs";
+import { defaultGasAmount, FunctionCallOptions} from "~domain/near/models";
 import { PoolId } from "~domain/superise/models";
+import {NearActions, NearTransaction, NearTransactionInfoFactory} from "~domain/near/transaction";
 
 const config = getConfig();
 
@@ -25,7 +24,7 @@ export function publish_pool(pool_id: PoolId) {
 
 export function update_twitter_pool(
   param: TwitterPoolCreateParam,
-  option: FunctionCallOptions = defaultGas
+  option: FunctionCallOptions = defaultGasAmount
 ) {
   return wallet
     .account()
@@ -33,14 +32,58 @@ export function update_twitter_pool(
       config.SUPERISE_CONTRACT_ID,
       "update_twitter_pool",
       { param: param },
-      getGas(option.gas),
-      getAmount(option.amount)
+      option.gas,
+      option.amount
     );
+}
+
+export async function update_twitter_pool_transaction(
+  param: TwitterPoolCreateParam,
+  callback_url: string,
+) {
+  let nearTransaction = new NearTransaction();
+  param.ft_prizes.forEach(e=>{
+    NearTransactionInfoFactory
+      .superise_deposit_ft_transactions(e.ft.contract_id,e.ft.balance)
+      .then(e=>nearTransaction.add_transactions(e))
+  });
+  param.nft_prizes.forEach(e=>{
+    nearTransaction.add_action(
+      e.nft.contract_id,
+      NearActions.nft_transfer_call_action(e.nft.nft_id))
+  });
+  nearTransaction.add_action(
+    config.SUPERISE_CONTRACT_ID,
+    NearActions.superise_update_twitter_action(param)
+  );
+  await nearTransaction.execute(callback_url)
+}
+
+export async function create_twitter_pool_transaction(
+  param: TwitterPoolCreateParam,
+  callback_url: string,
+) {
+  let nearTransaction = new NearTransaction();
+  param.ft_prizes.forEach(e=>{
+    NearTransactionInfoFactory
+      .superise_deposit_ft_transactions(e.ft.contract_id,e.ft.balance)
+      .then(e=>nearTransaction.add_transactions(e))
+  });
+  param.nft_prizes.forEach(e=>{
+    nearTransaction.add_action(
+      e.nft.contract_id,
+      NearActions.nft_transfer_call_action(e.nft.nft_id))
+  });
+  nearTransaction.add_action(
+    config.SUPERISE_CONTRACT_ID,
+    NearActions.superise_create_twitter_action(param)
+  );
+  await nearTransaction.execute(callback_url)
 }
 
 export function create_twitter_pool(
   param: TwitterPoolCreateParam,
-  option: FunctionCallOptions = defaultGas
+  option: FunctionCallOptions = defaultGasAmount
 ): Promise<FinalExecutionOutcome> {
   return wallet
     .account()
@@ -48,8 +91,8 @@ export function create_twitter_pool(
       config.SUPERISE_CONTRACT_ID,
       "create_twitter_pool",
       { param: param },
-      getGas(option.gas),
-      getAmount(option.amount)
+      option.gas,
+      option.amount
     );
 }
 
