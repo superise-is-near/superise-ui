@@ -6,9 +6,9 @@ import { PrimaryButton } from "~components/button/Button";
 import { ParasNft } from "~domain/paras/models";
 import clsx from "classnames";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
-import { create_twitter_pool } from "~domain/superise/twitter_giveaway/methods";
+import { create_twitter_pool_transaction } from "~domain/superise/twitter_giveaway/methods";
 import { toNonDivisibleNumber } from "~utils/numbers";
-
+import { getNodeConfig } from "~domain/near/config";
 interface INFTsDisplay {
   nfts: ParasNft[];
   setNfts?: React.Dispatch<React.SetStateAction<ParasNft[]>>;
@@ -163,7 +163,6 @@ const AddNFTOrCryptoCard: FC<IAddNFTOrCryptoCard> = ({
 };
 
 const SelectPrizesCard: FC<ISelectPrizesCard> = ({
-  setProgress,
   cryptos,
   setCryptos,
   nfts,
@@ -172,6 +171,7 @@ const SelectPrizesCard: FC<ISelectPrizesCard> = ({
   onClickAddCrypto,
 }) => {
   const hasSelected = nfts.length > 0 || cryptos.length > 0;
+  const NODE_CONFIG = getNodeConfig();
   return (
     <div className="w-full mt-2">
       {hasSelected && (
@@ -192,23 +192,26 @@ const SelectPrizesCard: FC<ISelectPrizesCard> = ({
         className="my-6"
         disabled={!hasSelected}
         onClick={() => {
-          create_twitter_pool({
-            ft_prizes: cryptos?.map((crypto) => ({
-              ft: {
-                contract_id: crypto.id,
-                balance: toNonDivisibleNumber(
-                  crypto.decimals,
-                  String(crypto.amount)
-                ),
-              },
-            })),
-            nft_prizes: nfts?.map((nft) => ({
-              nft: {
-                contract_id: nft.nft.contract_id,
-                nft_id: nft.nft.token.token_id,
-              },
-            })),
-          });
+          create_twitter_pool_transaction(
+            {
+              ft_prizes: cryptos?.map((crypto) => ({
+                ft: {
+                  contract_id: crypto.id,
+                  balance: toNonDivisibleNumber(
+                    crypto.decimals,
+                    String(crypto.amount)
+                  ),
+                },
+              })),
+              nft_prizes: nfts?.map((nft) => ({
+                nft: {
+                  contract_id: nft.nft.contract_id,
+                  nft_id: nft.nft.token.token_id,
+                },
+              })),
+            },
+            `${NODE_CONFIG.origin}/#/box/create-callback`
+          );
         }}
       >
         Continue

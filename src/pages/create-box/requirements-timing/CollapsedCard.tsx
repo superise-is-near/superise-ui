@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { useHistory } from "react-router-dom";
 import PencilIcon from "~assets/pencil.svg";
 
 interface ICollapsedCard {
@@ -36,6 +37,7 @@ const CollapsedCard: FC<ICollapsedCard> = ({
   retweet,
   setProgress,
 }) => {
+  const history = useHistory();
   return (
     <section className="w-full mt-2">
       <div className="p-4 flex justify-between border border-gray-300 rounded-2xl">
@@ -48,7 +50,12 @@ const CollapsedCard: FC<ICollapsedCard> = ({
             width="24px"
             height="24px"
             alt="modify image"
-            onClick={() => setProgress(1)}
+            onClick={() => {
+              history.push({
+                search: "?progress=1",
+              });
+              setProgress(1);
+            }}
             role="button"
           />
         </div>

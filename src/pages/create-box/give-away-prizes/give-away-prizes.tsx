@@ -10,14 +10,23 @@ import CollapsedCard from "./CollapsedCard";
 interface IGiveAwayPrizes {
   collapsed: boolean;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
+  parasNfts: ParasNft[];
+  cryptos: TokenMetadataWithAmount[];
 }
 
-const GiveAwayPrizes: FC<IGiveAwayPrizes> = ({ collapsed, setProgress }) => {
+const GiveAwayPrizes: FC<IGiveAwayPrizes> = ({
+  collapsed,
+  setProgress,
+  parasNfts: defaultParasNfts,
+  cryptos: defaultCryptos,
+}) => {
+  console.log({ defaultParasNfts, defaultCryptos });
   const [showCryptoSelectModal, setShowCryptoSelectModal] = useState(false);
   const [showNFTSelectModal, setShowNFTSelectModal] = useState(false);
 
-  const [nfts, setNfts] = useState<ParasNft[]>([]);
-  const [cryptos, setCryptos] = useState<TokenMetadataWithAmount[]>([]);
+  const [nfts, setNfts] = useState<ParasNft[]>(defaultParasNfts);
+  const [cryptos, setCryptos] =
+    useState<TokenMetadataWithAmount[]>(defaultCryptos);
 
   useEffect(() => {}, []);
   return (
