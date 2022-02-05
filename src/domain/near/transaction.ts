@@ -140,7 +140,7 @@ export class NearActions {
       {
         receiver_id: config.SUPERISE_CONTRACT_ID,
         amount: amount,
-        msg: '',
+        msg: "",
       },
       NearGas.TGas(50),
       NearAmount.ONE_YOCTO_NEAR
@@ -153,7 +153,7 @@ export class NearActions {
       {
         receiver_id: config.SUPERISE_CONTRACT_ID,
         token_id: nft_id,
-        msg: ''
+        msg: "",
       },
       NearGas.TGas(50),
       NearAmount.ONE_YOCTO_NEAR

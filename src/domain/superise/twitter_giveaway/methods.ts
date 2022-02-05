@@ -12,7 +12,8 @@ import { defaultGasAmount, FunctionCallOptions } from "~domain/near/models";
 import { PoolId } from "~domain/superise/models";
 import {
   NearActions,
-  NearTransaction, NearTransactionInfo,
+  NearTransaction,
+  NearTransactionInfo,
   NearTransactionInfoFactory,
 } from "~domain/near/transaction";
 
@@ -47,7 +48,11 @@ export async function update_twitter_pool_transaction(
 ) {
   let nearTransaction = new NearTransaction();
   for (let ftPrize of param.ft_prizes) {
-    let nearTransactionInfos: NearTransactionInfo[] = await NearTransactionInfoFactory.superise_deposit_ft_transactions(ftPrize.ft.contract_id,ftPrize.ft.balance);
+    let nearTransactionInfos: NearTransactionInfo[] =
+      await NearTransactionInfoFactory.superise_deposit_ft_transactions(
+        ftPrize.ft.contract_id,
+        ftPrize.ft.balance
+      );
     nearTransaction.add_transactions(nearTransactionInfos);
   }
 
@@ -71,7 +76,11 @@ export async function create_twitter_pool_transaction(
 ) {
   let nearTransaction = new NearTransaction();
   for (let ftPrize of param.ft_prizes) {
-    let nearTransactionInfos: NearTransactionInfo[] = await NearTransactionInfoFactory.superise_deposit_ft_transactions(ftPrize.ft.contract_id,ftPrize.ft.balance);
+    let nearTransactionInfos: NearTransactionInfo[] =
+      await NearTransactionInfoFactory.superise_deposit_ft_transactions(
+        ftPrize.ft.contract_id,
+        ftPrize.ft.balance
+      );
     nearTransaction.add_transactions(nearTransactionInfos);
   }
 
