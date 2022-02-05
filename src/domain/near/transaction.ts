@@ -46,7 +46,7 @@ export interface NearTransactionInfo {
 }
 
 export class NearTransaction {
-  transaction_infos: NearTransactionInfo[]=[];
+  transaction_infos: NearTransactionInfo[] = [];
 
   constructor() {}
 
