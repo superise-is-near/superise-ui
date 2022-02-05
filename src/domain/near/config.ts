@@ -76,19 +76,19 @@ export default function getConfig(env: string = process.env.NEAR_ENV) {
   }
 }
 
-export function getNodeConfig(env: string = process.env.NODE_ENV) { 
+export function getNodeConfig(env: string = process.env.NODE_ENV) {
   switch (env) {
-    case 'base':
+    case "base":
       return {
         origin: "http://127.0.0.1:3000",
       };
-    case 'testnet':
+    case "testnet":
       return {
         origin: "http://testnet.usesurprise.com",
       };
-    case 'mainnet':
+    case "mainnet":
       return {
         origin: "http://usesurprise.com",
-      }
+      };
   }
 }
