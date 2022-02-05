@@ -18,7 +18,10 @@ import outIcon from "~/assets/out.svg";
 import { TokenBalancesView } from "~domain/near/ft/models";
 import WithdrawModal from "./withdraw-modal";
 import AssetsList from "./assets-list";
-import {withdraw_ft_transaction, withdraw_nft} from "~domain/superise/methods";
+import {
+  withdraw_ft_transaction,
+  withdraw_nft,
+} from "~domain/superise/methods";
 
 const AccountPage = () => {
   let [isSigningOut, setIsSigningOut] = useState(false);
@@ -54,21 +57,21 @@ const AccountPage = () => {
         onWithdraw={async ({ fts, nfts }) => {
           // TODO: xsb will help to debug this API
           console.log({ fts, nfts });
-          const ftPromises = Object.keys(fts).map(key => {
-            return withdraw_ft_transaction('wrap.testnet', fts['wrap.testnet']);
-          })
-          const nftPromises = nfts.map(item => {
-            return withdraw_nft(item.nft.contract_id, item.nft.token.token_id)
-          })
+          const ftPromises = Object.keys(fts).map((key) => {
+            return withdraw_ft_transaction("wrap.testnet", fts["wrap.testnet"]);
+          });
+          const nftPromises = nfts.map((item) => {
+            return withdraw_nft(item.nft.contract_id, item.nft.token.token_id);
+          });
           Promise.all([...ftPromises, ...nftPromises])
             .then((r) => {
-              console.log({r});
+              console.log({ r });
               setIsWithdrawModalOpen(false);
             })
-            .catch((e)=>{
+            .catch((e) => {
               console.log({ e });
               setIsWithdrawModalOpen(false);
-            })
+            });
         }}
         onRequestClose={() => {
           setIsWithdrawModalOpen(false);
