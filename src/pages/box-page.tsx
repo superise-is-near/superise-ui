@@ -38,7 +38,6 @@ const BoxPage = () => {
   const twitterPool: TwitterPool = useTwitterPool(Number(id));
   const loginAccountName = wallet.getAccountId();
   const [joining, setJoining] = useState<boolean>(false);
-  //
   const { timeLabel, countdownText, dateText, timeText, fontClass } =
     useEndtimer((twitterPool || {}).end_time, (twitterPool || {}).status);
 
