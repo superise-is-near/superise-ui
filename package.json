@@ -5,8 +5,9 @@
   "scripts": {
     "build:testnet": "NEAR_ENV=testnet parcel build --dist-dir public src/index.html",
     "start": "parcel src/index.html",
-    "start:mainnet": "NEAR_ENV=mainnet parcel src/index.html",
-    "start:testnet": "NEAR_ENV=testnet parcel src/index.html",
+    "start:mainnet": "NODE_ENV=mainnet NEAR_ENV=mainnet parcel src/index.html",
+    "start:testnet": "NODE_ENV=testnet NEAR_ENV=testnet parcel src/index.html",
+    "start:local": "NODE_ENV=base NEAR_ENV=testnet parcel src/index.html",
     "clean": "rm -rf dist .cache .parcel-cache parcel-bundle-reports",
     "prettier": "prettier --check src",
     "prettier:fix": "prettier --write src",

@@ -9,13 +9,88 @@ import DeepHor from "~/assets/deep-hor.svg";
 import SecondaryTitle from "./secondary-title";
 import RequirementsTiming from "./requirements-timing";
 import CustomTweet from "./custom-tweet";
+import { useQuery } from "~state/urls";
+import { NearTransaction } from "~domain/near/transaction";
+import { wallet } from "~services/near";
+import { useHistory, useParams } from "react-router-dom";
+import { TwitterPool } from "~domain/superise/twitter_giveaway/models";
+import { useTwitterPool } from "~state/prize";
+import { useWhitelistTokens } from "~state/token";
+import { ParasNft } from "~domain/paras/models";
+import { nft_token } from "~domain/near/nft/methods";
+import { toReadableNumber } from "~utils/numbers";
+import { TokenMetadataWithAmount } from "~domain/near/ft/models";
 
 const CreateBox: FC = () => {
   const [progress, setProgress] = useState(0);
   const [hasFillRequirements, setHasFillRequirements] = useState(false);
 
+  const urlsQuery = useQuery();
+  const history = useHistory();
+  const { id: boxId } = useParams<{ id: string }>();
+  const twitterPool: TwitterPool = useTwitterPool(Number(boxId));
+  const tokens = useWhitelistTokens();
+
+  const [parasNfts, setParasNfts] = useState<ParasNft[]>([]);
+  const [cryptos, setCryptos] = useState<TokenMetadataWithAmount[]>([]);
+
+  async function resolveBoxCallback() {
+    const txHashes = urlsQuery.get("transactionHashes");
+
+    if (!txHashes) return;
+
+    const accountId = wallet.getAccountId();
+
+    if (!accountId) return;
+
+    try {
+      const boxId = await NearTransaction.parseTxOutcome(txHashes);
+      history.push(`/box/${boxId}/edit?progress=1`);
+      setProgress(1);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  function resolveProgress() {
+    const progress = urlsQuery.get("progress");
+
+    if (progress) {
+      console.log({ boxId });
+
+      if (!twitterPool || !tokens) return;
+      Promise.all(
+        twitterPool.prize_pool.nft_prizes.map(async (item) =>
+          ParasNft.newWithImgUrl(
+            await nft_token(item.nft.contract_id, item.nft.nft_id),
+            item.nft.contract_id
+          )
+        )
+      ).then((value) => setParasNfts(value));
+      Promise.all(
+        twitterPool.prize_pool.ft_prizes.map((item) => {
+          const foundToken =
+            tokens.find((token) => token.id === item.ft.contract_id) ??
+            tokens[0];
+          return {
+            id: item.prize_id,
+            // amount: toReadableNumber(Number(item.ft.balance)),
+            amount: toReadableNumber(foundToken.decimals, item.ft.balance),
+            ...foundToken,
+          } as any as TokenMetadataWithAmount;
+        })
+      ).then((value) => setCryptos(value));
+      setProgress(parseInt(progress));
+    }
+  }
+
   useEffect(() => {
-    if (progress === 1) {
+    resolveBoxCallback();
+    resolveProgress();
+  }, []);
+
+  useEffect(() => {
+    if (progress >= 1) {
       setHasFillRequirements(true);
     }
   }, [progress]);
@@ -37,7 +112,12 @@ const CreateBox: FC = () => {
       >
         ADD GIVEAWAY PRIZES
       </SecondaryTitle>
-      <GiveAwayPrizes collapsed={progress !== 0} setProgress={setProgress} />
+      <GiveAwayPrizes
+        collapsed={progress !== 0}
+        setProgress={setProgress}
+        parasNfts={parasNfts}
+        cryptos={cryptos}
+      />
 
       {/* progress 2, select requirements */}
       <SecondaryTitle

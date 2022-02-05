@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { useHistory } from "react-router-dom";
 import { PrimaryButton } from "~components/button/Button";
 import VerticalLine from "../vertical-line";
 import CollapsedCard from "./CollapsedCard";
@@ -24,6 +25,7 @@ const RequirementsTiming: FC<IRequirements> = ({
   setLike,
   setRetweet,
 }) => {
+  const history = useHistory();
   return (
     <section className="flex">
       <VerticalLine bgLight={progress <= 1} className="mr-4" />
@@ -57,7 +59,12 @@ const RequirementsTiming: FC<IRequirements> = ({
           <PrimaryButton
             size="large"
             className="my-6"
-            onClick={() => setProgress(2)}
+            onClick={() => {
+              history.push({
+                search: "?progress=2",
+              });
+              setProgress(2);
+            }}
           >
             Continue
           </PrimaryButton>

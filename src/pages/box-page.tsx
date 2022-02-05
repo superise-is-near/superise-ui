@@ -38,7 +38,7 @@ const BoxPage = () => {
   const twitterPool: TwitterPool = useTwitterPool(Number(id));
   const loginAccountName = wallet.getAccountId();
   const [joining, setJoining] = useState<boolean>(false);
-
+  //
   const { timeLabel, countdownText, dateText, timeText, fontClass } =
     useEndtimer((twitterPool || {}).end_time, (twitterPool || {}).status);
 
@@ -48,7 +48,6 @@ const BoxPage = () => {
   console.log({ twitterPool });
   useEffect(() => {
     if (!twitterPool || !tokens) return;
-    console.log();
     Promise.all(
       twitterPool.prize_pool.nft_prizes.map(async (item) =>
         ParasNft.newWithImgUrl(

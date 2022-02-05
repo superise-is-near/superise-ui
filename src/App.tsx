@@ -40,7 +40,10 @@ function App() {
         <SiteHeader />
       </div>
       <Switch>
-        <Route path="/box/create" component={CreateBox} />
+        <Route
+          path={["/box/create", "/box/:id/edit", "/box/create-callback"]}
+          component={CreateBox}
+        />
         <Route path="/account" component={AccountPage} />
         <Route path="/box/:id" component={BoxPage} />
         <Route path="/" component={HomePage} />
