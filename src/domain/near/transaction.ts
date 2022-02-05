@@ -56,7 +56,10 @@ export class NearTransaction {
   ): Promise<T> {
     return near.connection.provider.txStatus(tx_hash, account_id).then((e) => {
       if ((e.status as FinalExecutionStatus).SuccessValue !== undefined) {
-        let decodedValue: string = Buffer.from((e.status as FinalExecutionStatus).SuccessValue!, "base64").toString();
+        let decodedValue: string = Buffer.from(
+          (e.status as FinalExecutionStatus).SuccessValue!,
+          "base64"
+        ).toString();
         return JSON.parse(decodedValue) as T;
       } else {
         return Promise.reject(
