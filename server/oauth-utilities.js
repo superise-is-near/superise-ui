@@ -161,6 +161,40 @@ async function checkLikeTweet({
     );
   });
 }
+async function sendTweet({
+  oauthAccessToken,
+  oauthAccessTokenSecret,
+  content,
+} = {}) {
+  return new Promise((resolve, reject) => {
+    oauthConsumer.post(
+      `https://api.twitter.com/1.1/statuses/update.json`,
+      oauthAccessToken,
+      oauthAccessTokenSecret,
+      { status: content },
+      (err, result, response) => {
+        if (result) {
+          const parsedResult = JSON.parse(result) || {};
+          if (parsedResult.id_str) {
+            resolve({
+              status: "success",
+              message: "success",
+              tweet_id: parsedResult.id_str,
+              screen_name: parsedResult.user.screen_name,
+            });
+            return;
+          }
+          resolve({
+            status: "failed",
+            message: ERROR_MESSAGE_TRY,
+          });
+          return;
+        }
+        resolve({ status: "failed", message: ERROR_MESSAGE_TRY });
+      }
+    );
+  });
+}
 
 module.exports = {
   oauthGetUserById,
@@ -169,4 +203,5 @@ module.exports = {
   checkTwitterFriendship,
   checkLikeTweet,
   checkRetweet,
+  sendTweet,
 };

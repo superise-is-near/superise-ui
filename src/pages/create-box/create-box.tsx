@@ -11,7 +11,7 @@ import RequirementsTiming from "./requirements-timing";
 import CustomTweet from "./custom-tweet";
 
 const CreateBox: FC = () => {
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(2);
   const [hasFillRequirements, setHasFillRequirements] = useState(false);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const CreateBox: FC = () => {
         follow={follow}
         like={like}
         retweet={retweet}
-        username={"steve"}
+        username={"woca"}
       />
     </main>
   );

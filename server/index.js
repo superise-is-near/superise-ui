@@ -12,6 +12,7 @@ const {
   checkTwitterFriendship,
   checkRetweet,
   checkLikeTweet,
+  sendTweet,
 } = require("./oauth-utilities");
 
 const path = require("path");
@@ -55,18 +56,18 @@ async function main() {
   }
 
   app.get("/twitter/authenticate", twitter("authenticate"));
+
   function twitter(method) {
     return async (req, res) => {
       const { oauthRequestToken, oauthRequestTokenSecret } =
         await getOAuthRequestToken();
-
-      const { pool_id, near_account } = req.query;
-
+      const { pool_id, near_account, redirect } = req.query;
       req.session = req.session || {};
       req.session.oauthRequestToken = oauthRequestToken;
       req.session.oauthRequestTokenSecret = oauthRequestTokenSecret;
       req.session.pool_id = pool_id;
       req.session.near_account = near_account;
+      if (redirect) req.session.redirect = redirect;
       const authorizationUrl = `https://api.twitter.com/oauth/${method}?oauth_token=${oauthRequestToken}`;
       console.log("redirecting user to ", authorizationUrl);
       res.redirect(authorizationUrl);
@@ -102,11 +103,19 @@ async function main() {
     req.session.twitter_screen_name = user.screen_name;
 
     console.log("user succesfully logged in with twitter", user.screen_name);
-    req.session.save(() =>
+    req.session.save(() => {
+      console.log({ redirect: req.session.redirect });
+      // TODO: modify this to /box/edit once Steve finish the creating/editing flow
+      if (req.session.redirect.indexOf("box/create") !== -1) {
+        res.redirect(
+          `/#/${req.session.redirect}?connected-twitter=${user.screen_name}}&progress=2`
+        );
+        return;
+      }
       res.redirect(
         `/#/box/${pool_id}?connected-twitter=${user.screen_name}&show_requirements_modal=1`
-      )
-    );
+      );
+    });
   });
 
   // TODO: Check if the server has the session data for this twitter account
@@ -116,6 +125,13 @@ async function main() {
     res.json({
       success: connected_twitter === req.session.twitter_screen_name,
     });
+  });
+
+  app.get("/verify-twitter-oauth-session", (req, res) => {
+    const { oauthAccessToken, oauthAccessTokenSecret } = req.session;
+    const status =
+      !oauthAccessToken || !oauthAccessTokenSecret ? "failed" : "success";
+    res.send({ status });
   });
 
   app.post("/verify-requirments", async (req, res) => {
@@ -185,6 +201,21 @@ async function main() {
     });
 
     res.json({ verifyResults, addWhiteListSuccess });
+  });
+
+  app.post("/send-tweet", async (req, res) => {
+    const { oauthAccessToken, oauthAccessTokenSecret } = req.session;
+    const { content } = req.body;
+    if (!oauthAccessToken || !oauthAccessTokenSecret) {
+      res.send({ invalidate_twitter_session: true });
+      return;
+    }
+    const sendTweetResult = await sendTweet({
+      oauthAccessToken,
+      oauthAccessTokenSecret,
+      content,
+    });
+    res.json(sendTweetResult);
   });
 
   app.use(express.static(path.resolve(__dirname, "../dist")));
