@@ -5,6 +5,7 @@ import { Near } from "~components/icons/Near";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { REF_FARM_CONTRACT_ID, wallet } from "~services/near";
 import { PrimaryButton } from "~components/button/Button";
+import getConfig from "~domain/near/config";
 
 function AccountEntry() {
   const [account, network] = wallet.getAccountId().split(".");
@@ -20,7 +21,7 @@ function AccountEntry() {
     return (
       <PrimaryButton
         onClick={() => {
-          wallet.requestSignIn(REF_FARM_CONTRACT_ID);
+          wallet.requestSignIn(getConfig().SUPERISE_CONTRACT_ID);
         }}
       >
         Connect to NEAR
