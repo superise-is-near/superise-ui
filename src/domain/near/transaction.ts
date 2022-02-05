@@ -50,18 +50,17 @@ export class NearTransaction {
 
   constructor() {}
 
-  public async parseTxOutcome<T>(
+  public static async parseTxOutcome<T>(
     tx_hash: string,
     account_id: AccountId = wallet.getAccountId()
   ): Promise<T> {
     return near.connection.provider.txStatus(tx_hash, account_id).then((e) => {
       if ((e.status as FinalExecutionStatus).SuccessValue !== undefined) {
-        return JSON.parse(
-          (e.status as FinalExecutionStatus).SuccessValue!
-        ) as T;
+        let decodedValue: string = Buffer.from((e.status as FinalExecutionStatus).SuccessValue!, "base64").toString();
+        return JSON.parse(decodedValue) as T;
       } else {
         return Promise.reject(
-          `parse ${account_id} ${tx_hash} error,FinalExecutionOutcome is ${e}`
+          `Fail to parse ${account_id} ${tx_hash} error,FinalExecutionOutcome is ${e}`
         );
       }
     });
