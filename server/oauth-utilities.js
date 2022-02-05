@@ -161,6 +161,38 @@ async function checkLikeTweet({
     );
   });
 }
+async function sendTweet({
+  oauthAccessToken,
+  oauthAccessTokenSecret,
+  content,
+} = {}) {
+  return new Promise((resolve, reject) => {
+    oauthConsumer.post(
+      `https://api.twitter.com/1.1/statuses/update.json`,
+      oauthAccessToken,
+      oauthAccessTokenSecret,
+      { status: content },
+      (err, result, response) => {
+        console.log({ result });
+        // if (result) {
+        //   const foundLikedTweet = JSON.parse(result || []).find(
+        //     (item) => item.id_str === tweet_id
+        //   );
+        //   if (foundLikedTweet) {
+        //     resolve({ status: "success", message: "success" });
+        //     return;
+        //   }
+        //   resolve({
+        //     status: "failed",
+        //     message: `Please like <a target="_blank" class="text-gray-900 underline" href="https://twitter.com/i/web/status/${tweet_id}">this tweet ↗</a> and try again`,
+        //   });
+        //   return;
+        // }
+        // resolve({ status: "failed", message: ERROR_MESSAGE_TRY });
+      }
+    );
+  });
+}
 
 module.exports = {
   oauthGetUserById,
@@ -169,4 +201,5 @@ module.exports = {
   checkTwitterFriendship,
   checkLikeTweet,
   checkRetweet,
+  sendTweet,
 };

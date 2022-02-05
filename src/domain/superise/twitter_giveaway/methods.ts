@@ -202,3 +202,24 @@ export async function verify_requirments(
 ): Promise<AxiosRequestResult> {
   return axios.post("/verify-requirments", { requirments });
 }
+
+export type SendTweeetResponse = {
+  data: {
+    tweet_id: string;
+    status: "success" | "failed";
+    message: string;
+  };
+};
+
+export async function send_tweet(content: string): Promise<SendTweeetResponse> {
+  return axios.post("/send-tweeet", { content });
+}
+
+export type VerifySessionResponse = {
+  data: {
+    status: "success" | "failed";
+  };
+};
+export async function verify_twitter_oauth_session(): Promise<VerifySessionResponse> {
+  return axios.get("/verify-twitter-oauth-session");
+}

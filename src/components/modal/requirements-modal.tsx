@@ -188,7 +188,7 @@ export default function RequirementsModal(props: {
             bg="#3b82f6"
             isFull
             onClick={() => {
-              window.location = `/twitter/authenticate?near_account=${props.accountName}&pool_id=${props.pool_id}`;
+              window.location.href = `/twitter/authenticate?near_account=${props.accountName}&pool_id=${props.pool_id}`;
             }}
           >
             {buttonText}
