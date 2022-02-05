@@ -173,22 +173,24 @@ async function sendTweet({
       oauthAccessTokenSecret,
       { status: content },
       (err, result, response) => {
-        console.log({ result });
-        // if (result) {
-        //   const foundLikedTweet = JSON.parse(result || []).find(
-        //     (item) => item.id_str === tweet_id
-        //   );
-        //   if (foundLikedTweet) {
-        //     resolve({ status: "success", message: "success" });
-        //     return;
-        //   }
-        //   resolve({
-        //     status: "failed",
-        //     message: `Please like <a target="_blank" class="text-gray-900 underline" href="https://twitter.com/i/web/status/${tweet_id}">this tweet ↗</a> and try again`,
-        //   });
-        //   return;
-        // }
-        // resolve({ status: "failed", message: ERROR_MESSAGE_TRY });
+        if (result) {
+          const parsedResult = JSON.parse(result) || {};
+          if (parsedResult.id_str) {
+            resolve({
+              status: "success",
+              message: "success",
+              tweet_id: parsedResult.id_str,
+              screen_name: parsedResult.user.screen_name,
+            });
+            return;
+          }
+          resolve({
+            status: "failed",
+            message: ERROR_MESSAGE_TRY,
+          });
+          return;
+        }
+        resolve({ status: "failed", message: ERROR_MESSAGE_TRY });
       }
     );
   });

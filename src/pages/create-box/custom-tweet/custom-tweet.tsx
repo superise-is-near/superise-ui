@@ -2,8 +2,12 @@ import React, { FC, useEffect, useState } from "react";
 import { PrimaryButton } from "~components/button/Button";
 import VerticalLine from "../vertical-line";
 import Hor from "~assets/hor.svg";
-import {useLocation} from "react-router-dom";
-import {send_tweet, verify_requirments, verify_twitter_oauth_session} from "~domain/superise/twitter_giveaway/methods";
+import { useLocation } from "react-router-dom";
+import {
+  send_tweet,
+  verify_requirments,
+  verify_twitter_oauth_session,
+} from "~domain/superise/twitter_giveaway/methods";
 
 interface ICustomTweet {
   progress: number;
@@ -27,60 +31,44 @@ const CustomTweet: FC<ICustomTweet> = ({
 
   useEffect(() => {
     if (location.search.indexOf("connected-twitter") !== -1) {
-    const fn = async () => {
-      console.log({ content });
-      setIsLoading(true);
-      const verifyResponse = await verify_twitter_oauth_session();
-      if (verifyResponse.data.status === 'failed') {
-        setIsLoading(false);
-        return;
-      }
-      const sendTweetResponse = await send_tweet(content)
+      const fn = async () => {
+        setIsLoading(true);
+        const verifyResponse = await verify_twitter_oauth_session();
+        if (verifyResponse.data.status === "failed") {
+          setIsLoading(false);
+          return;
+        }
+
+        // Fake URL for testing
+        const fakeTweetURL =
+          "https://twitter.com/woca/status/1489889136433455110";
+        // successfully send tweet and get the tweetURL(fakeTweetURL):
+        // 1. update the twitter pool with the new twitterURL
+        // 2. publish the twitter pool
+        // 3. display the success UI: https://www.figma.com/file/Cpxx63iKEwfBVSmAYdqD84
+
+        // Real URL when deploy to server
+        // Twitter will report error if we send same tweets through the API
+        // So we append a timestamp in the end of tweet when testing incase we send out the same tweet
+        // In production we don't need to do that, because every box will have a unique link in the content
+
+        // const uniqueContent = `${content} \nTEST ${new Date().getTime()}`;
+        // console.log('send tweet: ', uniqueContent)
+        // const sendTweetResponse = await send_tweet(uniqueContent)
+        // if (sendTweetResponse.data.status === 'failed') {
+        //   setIsLoading(false);
+        //   setButtonText("Try again");
+        //   return;
+        // }
+        // setIsLoading(false);
+        // const { tweet_id, screen_name } = sendTweetResponse.data;
+        // const twitterURL = `https://twitter.com/${screen_name}/status/${tweet_id}`;
+        // console.log({ twitterURL })
+      };
+      fn().catch((e) => {
+        console.log({ e });
+      });
     }
-    fn()
-      .catch((e) => {
-        console.log({e});
-      })
-    }
-    // if (location.search.indexOf("connected-twitter") !== -1) {
-    //   setIsLoading(true);
-    //   const response = await verify_requirments(displayRequirments);
-    //   setIsLoading(false);
-    //   if (response.data.invalidate_twitter_session) {
-    //     history.replace(location.pathname);
-    //     return;
-    //   }
-    //   const {
-    //     data: { verifyResults, addWhiteListSuccess },
-    //   } = response;
-    //   if (verifyResults) {
-    //     const updatedRequirments = displayRequirments.map((requirementItem) => {
-    //       const foundVerifyResult = verifyResults.find(
-    //         (result) => result.id === requirementItem.id
-    //       );
-    //       return {
-    //         ...requirementItem,
-    //         status: foundVerifyResult.status,
-    //         message: foundVerifyResult.message,
-    //       };
-    //     });
-    //     setRequirments(updatedRequirments);
-    //   }
-    //   const allSuccessed = verifyResults.reduce((acc, current) => {
-    //     if (acc === false) return false;
-    //     return current.status === "success";
-    //   }, true);
-    //   if (allSuccessed && addWhiteListSuccess) {
-    //     setButtonText("All done, joining...");
-    //     setTimeout(() => {
-    //       props.onSuccess();
-    //       props.onRequestClose();
-    //       history.replace(location.pathname);
-    //     }, 2000);
-    //   } else {
-    //     setButtonText("Try again");
-    //   }
-    // }
   }, [location.search]);
 
   const requirementTextures = [];

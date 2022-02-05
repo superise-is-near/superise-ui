@@ -206,13 +206,14 @@ export async function verify_requirments(
 export type SendTweeetResponse = {
   data: {
     tweet_id: string;
+    screen_name: string;
     status: "success" | "failed";
     message: string;
   };
 };
 
 export async function send_tweet(content: string): Promise<SendTweeetResponse> {
-  return axios.post("/send-tweeet", { content });
+  return axios.post("/send-tweet", { content });
 }
 
 export type VerifySessionResponse = {

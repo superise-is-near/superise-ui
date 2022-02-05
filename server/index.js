@@ -210,12 +210,11 @@ async function main() {
       res.send({ invalidate_twitter_session: true });
       return;
     }
-    const sendTweetResult = sendTweet({
+    const sendTweetResult = await sendTweet({
       oauthAccessToken,
       oauthAccessTokenSecret,
       content,
     });
-
     res.json(sendTweetResult);
   });
 
