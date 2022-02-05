@@ -12,7 +12,7 @@ import { defaultGasAmount, FunctionCallOptions } from "~domain/near/models";
 import { PoolId } from "~domain/superise/models";
 import {
   NearActions,
-  NearTransaction,
+  NearTransaction, NearTransactionInfo,
   NearTransactionInfoFactory,
 } from "~domain/near/transaction";
 
@@ -46,12 +46,11 @@ export async function update_twitter_pool_transaction(
   callback_url: string
 ) {
   let nearTransaction = new NearTransaction();
-  param.ft_prizes.forEach((e) => {
-    NearTransactionInfoFactory.superise_deposit_ft_transactions(
-      e.ft.contract_id,
-      e.ft.balance
-    ).then((e) => nearTransaction.add_transactions(e));
-  });
+  for (let ftPrize of param.ft_prizes) {
+    let nearTransactionInfos: NearTransactionInfo[] = await NearTransactionInfoFactory.superise_deposit_ft_transactions(ftPrize.ft.contract_id,ftPrize.ft.balance);
+    nearTransaction.add_transactions(nearTransactionInfos);
+  }
+
   param.nft_prizes.forEach((e) => {
     nearTransaction.add_action(
       e.nft.contract_id,
@@ -62,6 +61,7 @@ export async function update_twitter_pool_transaction(
     config.SUPERISE_CONTRACT_ID,
     NearActions.superise_update_twitter_action(param)
   );
+  console.log(nearTransaction);
   await nearTransaction.execute(callback_url);
 }
 
@@ -70,12 +70,11 @@ export async function create_twitter_pool_transaction(
   callback_url: string
 ) {
   let nearTransaction = new NearTransaction();
-  param.ft_prizes.forEach((e) => {
-    NearTransactionInfoFactory.superise_deposit_ft_transactions(
-      e.ft.contract_id,
-      e.ft.balance
-    ).then((e) => nearTransaction.add_transactions(e));
-  });
+  for (let ftPrize of param.ft_prizes) {
+    let nearTransactionInfos: NearTransactionInfo[] = await NearTransactionInfoFactory.superise_deposit_ft_transactions(ftPrize.ft.contract_id,ftPrize.ft.balance);
+    nearTransaction.add_transactions(nearTransactionInfos);
+  }
+
   param.nft_prizes.forEach((e) => {
     nearTransaction.add_action(
       e.nft.contract_id,
@@ -86,6 +85,7 @@ export async function create_twitter_pool_transaction(
     config.SUPERISE_CONTRACT_ID,
     NearActions.superise_create_twitter_action(param)
   );
+  console.log(nearTransaction);
   await nearTransaction.execute(callback_url);
 }
 
