@@ -116,12 +116,12 @@ async function main() {
       // TODO: modify this to /box/edit once Steve finish the creating/editing flow
       if (req.session.redirect.indexOf("box/create") !== -1) {
         res.redirect(
-          `/#/${req.session.redirect}?connected-twitter=${user.screen_name}}&progress=2`
+          `/${req.session.redirect}?connected-twitter=${user.screen_name}}&progress=2`
         );
         return;
       }
       res.redirect(
-        `/#/box/${pool_id}?connected-twitter=${user.screen_name}&show_requirements_modal=1`
+        `/box/${pool_id}?connected-twitter=${user.screen_name}&show_requirements_modal=1`
       );
     });
   });
