@@ -5,7 +5,7 @@ import { toPrecision, toReadableNumber } from "~utils/numbers";
 import { toRealSymbol } from "~utils/token";
 import CheckFillIcon from "~/assets/check-fill.svg";
 import CheckNFillIcon from "~/assets/check-nfill.svg";
-import {NftAssetsView} from "~domain/near/nft/models";
+import { NftAssetsView } from "~domain/near/nft/models";
 
 export interface IAssetsList {
   nfts: NftAssetsView;

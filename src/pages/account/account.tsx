@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { wallet } from "~services/near";
 import { PrimaryButton } from "~components/button/Button";
-import {useAssets, useFtAssets, useWhitelistTokens} from "~state/token";
+import { useAssets, useFtAssets, useWhitelistTokens } from "~state/token";
 import { useAccountHistory } from "~state/prize";
 import RequestSigninModal from "~components/modal/request-signin-modal";
 import { nft_tokens_for_owner_in_paras } from "~domain/paras/methods";
@@ -22,7 +22,7 @@ import {
   withdraw_ft_transaction,
   withdraw_nft,
 } from "~domain/superise/methods";
-import {Assets, SuperiseDisplayableNft} from "~domain/superise/models";
+import { Assets, SuperiseDisplayableNft } from "~domain/superise/models";
 
 const AccountPage = () => {
   let [isSigningOut, setIsSigningOut] = useState(false);
@@ -32,7 +32,7 @@ const AccountPage = () => {
   const historyPools = useAccountHistory();
   const tokens = useWhitelistTokens() || [];
   const loginAccount = wallet.getAccountId();
-  const assets: Assets = useAssets() || {ft_assets:[], nft_assets:[]};
+  const assets: Assets = useAssets() || { ft_assets: [], nft_assets: [] };
 
   const [nfts, setNfts] = useState<SuperiseDisplayableNft[]>([]);
 

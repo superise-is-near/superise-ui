@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import TokenAmount from "./TokenAmount";
 import fakedata from "~fakedata/account.json";
-import {
-  nearMetadata,
-  FtAssets,
-  TokenMetadata,
-} from "~domain/near/ft/models";
+import { nearMetadata, FtAssets, TokenMetadata } from "~domain/near/ft/models";
 import SelectToken from "./SelectToken";
 import Icon from "~components/tokens/Icon";
 import getConfig from "~domain/near/config";

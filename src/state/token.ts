@@ -17,8 +17,11 @@ import {
 } from "~utils/numbers";
 import { toRealSymbol } from "~utils/token";
 import { wallet } from "~domain/near/global";
-import {view_account_assets, view_account_balance} from "~domain/superise/methods";
-import {Assets, FtAsset} from "~domain/superise/models";
+import {
+  view_account_assets,
+  view_account_balance,
+} from "~domain/superise/methods";
+import { Assets, FtAsset } from "~domain/superise/models";
 
 interface TokenData {
   tokensData: TokenMetadata[];
@@ -88,14 +91,13 @@ export const useTokensData = (
   };
 };
 
-export const useAssets = ()=> {
-  const [assets, setAssets] = useState<Assets>()
-  useEffect(()=> {
-    view_account_assets(wallet.getAccountId())
-      .then(setAssets)
-  },[])
+export const useAssets = () => {
+  const [assets, setAssets] = useState<Assets>();
+  useEffect(() => {
+    view_account_assets(wallet.getAccountId()).then(setAssets);
+  }, []);
   return assets;
-}
+};
 
 export const useFtAssets = () => {
   const [balances, setBalances] = useState<FtAssets>();

@@ -1,5 +1,8 @@
 import { wallet } from "~domain/near/global";
-import {TokenMetadataOfNep177, TokenTypeOfNep177} from "~domain/near/nft/models";
+import {
+  TokenMetadataOfNep177,
+  TokenTypeOfNep177,
+} from "~domain/near/nft/models";
 
 export function nft_tokens_for_owner(
   contract: string,
@@ -30,5 +33,5 @@ export function nft_token_metadata(
   return wallet
     .account()
     .viewFunction(contract_id, "nft_token", { token_id: token_id })
-    .then((e: TokenTypeOfNep177)=>e.metadata)
+    .then((e: TokenTypeOfNep177) => e.metadata);
 }

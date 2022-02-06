@@ -1,9 +1,9 @@
-import {TRANSFERABLE_AMOUNT} from "~domain/near/models";
-import {Nft} from "~domain/near/nft/models";
-import {nft_token, nft_token_metadata} from "~domain/near/nft/methods";
+import { TRANSFERABLE_AMOUNT } from "~domain/near/models";
+import { Nft } from "~domain/near/nft/models";
+import { nft_token, nft_token_metadata } from "~domain/near/nft/methods";
 import getConfig from "~domain/near/config";
-import {ParasNft} from "~domain/paras/models";
-import {getImgUrlFromCid} from "~domain/paras/methods";
+import { ParasNft } from "~domain/paras/models";
+import { getImgUrlFromCid } from "~domain/paras/methods";
 
 export type TokenId = string;
 export type Balance = string;
@@ -36,9 +36,9 @@ export class PrizePool {
 }
 
 export type Assets = {
-  nft_assets: NftAsset[],
-  ft_assets: FtAsset[]
-}
+  nft_assets: NftAsset[];
+  ft_assets: FtAsset[];
+};
 
 export type NftAsset = {
   contract_id: string;
@@ -86,33 +86,35 @@ export interface AssetsActivity {
 }
 
 // can display with a img url
-export interface SuperiseDisplayableNft{
+export interface SuperiseDisplayableNft {
   contract_id: string;
   nft_id: string;
   nft_img_url: string;
 }
 
 export class SuperiseDisplayableNftFactory {
-  public async toDisplayable(nft_asset: NftAsset): Promise<SuperiseDisplayableNft> {
+  public async toDisplayable(
+    nft_asset: NftAsset
+  ): Promise<SuperiseDisplayableNft> {
     switch (nft_asset.contract_id) {
       case getConfig().PARAS_NFT_CONTRACT_ID:
         return this.parasNftToDisplayable(nft_asset.nft_id);
       default:
-        Promise.reject("unsupport")
+        Promise.reject("unsupport");
     }
-
   }
-  private async parasNftToDisplayable(nft_id: string): Promise<SuperiseDisplayableNft> {
-    let metadataOfNep177 = await nft_token_metadata(getConfig().PARAS_NFT_CONTRACT_ID,nft_id);
+  private async parasNftToDisplayable(
+    nft_id: string
+  ): Promise<SuperiseDisplayableNft> {
+    let metadataOfNep177 = await nft_token_metadata(
+      getConfig().PARAS_NFT_CONTRACT_ID,
+      nft_id
+    );
     let imgUrlFromCid = getImgUrlFromCid(metadataOfNep177.media);
     return {
       contract_id: getConfig().PARAS_NFT_CONTRACT_ID,
       nft_id: nft_id,
-      nft_img_url: imgUrlFromCid
-    }
-
+      nft_img_url: imgUrlFromCid,
+    };
   }
-
 }
-
-

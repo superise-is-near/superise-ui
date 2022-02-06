@@ -3,11 +3,7 @@ import Modal from "~components/modal/modal";
 import Card from "~components/Card";
 import { toPrecision, toReadableNumber } from "~utils/numbers";
 import { toRealSymbol } from "~utils/token";
-import {
-  nearMetadata,
-  FtAssets,
-  TokenMetadata,
-} from "~domain/near/ft/models";
+import { nearMetadata, FtAssets, TokenMetadata } from "~domain/near/ft/models";
 import { PrimaryButton } from "~components/button/Button";
 import InputAmount from "~components/forms/InputAmount";
 import TokenAmount from "~components/forms/TokenAmount";
