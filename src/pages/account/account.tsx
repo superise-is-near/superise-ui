@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { wallet } from "~services/near";
 import { PrimaryButton } from "~components/button/Button";
-import { useAssets, useFtAssets, useWhitelistTokens } from "~state/token";
+import { useFtAssets, useWhitelistTokens } from "~state/token";
 import { useAccountHistory } from "~state/prize";
 import RequestSigninModal from "~components/modal/request-signin-modal";
 import { nft_tokens_for_owner_in_paras } from "~domain/paras/methods";
@@ -15,31 +15,35 @@ import ActivityList from "./assets-activity";
 import basketIcon from "~/assets/basket.svg";
 import bookIcon from "~/assets/book-open.svg";
 import outIcon from "~/assets/out.svg";
-import { FtAssets } from "~domain/near/ft/models";
+import { TokenBalancesView } from "~domain/near/ft/models";
 import WithdrawModal from "./withdraw-modal";
 import AssetsList from "./assets-list";
 import {
+  view_account_assets, withdraw_assets_transaction,
   withdraw_ft_transaction,
   withdraw_nft,
 } from "~domain/superise/methods";
-import { Assets, SuperiseDisplayableNft } from "~domain/superise/models";
+import {nft_token} from "~domain/near/nft/methods";
+import {NftAsset} from "~domain/superise/models";
 
 const AccountPage = () => {
   let [isSigningOut, setIsSigningOut] = useState(false);
   let [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const isSignedIn = wallet.isSignedIn();
-  const ftAssets: FtAssets = useFtAssets() || {};
+  const ftAssets: TokenBalancesView = useFtAssets() || {};
   const historyPools = useAccountHistory();
   const tokens = useWhitelistTokens() || [];
   const loginAccount = wallet.getAccountId();
-  const assets: Assets = useAssets() || { ft_assets: [], nft_assets: [] };
 
-  const [nfts, setNfts] = useState<SuperiseDisplayableNft[]>([]);
+  const [nfts, setNfts] = useState<ParasNft[]>([]);
 
   useEffect(() => {
-    nft_tokens_for_owner_in_paras(loginAccount, null).then((nfts) =>
-      setNfts(nfts)
-    );
+    view_account_assets(loginAccount).then((assets)=>{
+      Promise.all(assets.nft_assets
+          .map(nft_asset=>nft_token(nft_asset.contract_id,nft_asset.nft_id)
+          .then((nep177)=>ParasNft.newWithImgUrl(nep177,nft_asset.contract_id))))
+        .then((nfts)=>setNfts(nfts))
+    })
   }, []);
 
   if (!isSignedIn)
@@ -53,11 +57,17 @@ const AccountPage = () => {
     <div className="m-auto mt-5 lg:max-w-2xl">
       <WithdrawModal
         isOpen={isWithdrawModalOpen}
-        nfts={assets.nfts}
+        nfts={nfts}
         fts={ftAssets}
         tokens={tokens}
         onWithdraw={async ({ fts, nfts }) => {
           // TODO: xsb will help to debug this API
+          // let nft_assets: NftAsset[] = nfts.map(e=>{return {contract_id: }})
+          await withdraw_assets_transaction(
+            nfts.map(e=>{return {contract_id: e.nft.contract_id, nft_id: e.nft.token.token_id}}),
+            Object.keys(fts).map((key)=>{return {contract_id: key,balance: fts[key]}}),
+
+          );
           console.log({ fts, nfts });
           const ftPromises = Object.keys(fts).map((key) => {
             return withdraw_ft_transaction("wrap.testnet", fts["wrap.testnet"]);

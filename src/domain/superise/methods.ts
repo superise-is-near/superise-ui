@@ -1,4 +1,4 @@
-import { FtAssets, TokenMetadata } from "~domain/near/ft/models";
+import {TokenBalancesView, TokenMetadata} from "~domain/near/ft/models";
 import { toNonDivisibleNumber } from "~utils/numbers";
 import { FinalExecutionOutcome } from "near-api-js/lib/providers";
 import getConfig from "~domain/near/config";
@@ -13,8 +13,8 @@ import {
 import { wallet } from "~domain/near/global";
 import {
   AccountId,
-  Assets,
-  FtPrize,
+  Assets, FtAsset,
+  FtPrize, NftAsset,
   NftPrize,
   PrizePool,
   PrizePoolDisplay,
@@ -22,6 +22,7 @@ import {
 import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
 import { Account } from "near-api-js";
 import {
+  NearActions,
   NearTransaction,
   NearTransactionInfoFactory,
 } from "~domain/near/transaction";
@@ -85,16 +86,30 @@ interface WithdrawOptions {
   // unregister?: boolean;
 }
 
+export async function withdraw_assets_transaction(
+  nft_assets: NftAsset[],
+  ft_assets: FtAsset[],
+  url?: string) {
+  let nearTransaction = new NearTransaction();
+  for (let ft_asset of ft_assets) {
+    let transactionInfos=await NearTransactionInfoFactory.superise_withdraw_ft_transactions(ft_asset.contract_id,ft_asset.balance)
+    nearTransaction.add_transactions(transactionInfos)
+  }
+  nft_assets.forEach((nft_asset)=>{
+    nearTransaction.add_action(
+      nft_asset.contract_id, NearActions.nft_withdraw_action(wallet.getAccountId(),nft_asset.nft_id))
+  })
+  await nearTransaction.execute(url);
+}
+
 export async function withdraw_ft_transaction(
   contract_id: AccountId,
   amount: TRANSFERABLE_AMOUNT,
   url?: string
 ) {
   let nearTransaction = new NearTransaction();
-  NearTransactionInfoFactory.superise_withdraw_ft_transactions(
-    contract_id,
-    amount
-  ).then((e) => nearTransaction.add_transactions(e));
+  let transactionInfos = await NearTransactionInfoFactory.superise_withdraw_ft_transactions(contract_id, amount);
+  nearTransaction.add_transactions(transactionInfos);
   await nearTransaction.execute(url);
 }
 
@@ -175,7 +190,7 @@ export function view_account_assets(account_id: string): Promise<Assets> {
     });
 }
 
-export function view_account_balance(id: string): Promise<FtAssets> {
+export function view_account_balance(id: string): Promise<TokenBalancesView> {
   return wallet
     .account()
     .viewFunction(config.SUPERISE_CONTRACT_ID, "view_account_balance", {

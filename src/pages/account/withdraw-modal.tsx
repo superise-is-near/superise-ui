@@ -4,11 +4,11 @@ import Modal from "~components/modal/modal";
 import Section from "~components/section";
 import Spacer from "~components/spacer";
 import AssetsList, { IAssetsList } from "~pages/account/assets-list";
-import { FtAssets } from "~domain/near/ft/models";
+import { TokenBalancesView } from "~domain/near/ft/models";
 import { ParasNft } from "~domain/paras/models";
 
 interface IWithdrawModal extends ReactModal.Props, IAssetsList {
-  onWithdraw: (params: { fts: FtAssets; nfts: NftAssetsView }) => any;
+  onWithdraw: (params: { fts: TokenBalancesView; nfts: ParasNft[] }) => any;
 }
 
 const WithdrawModal: FC<IWithdrawModal> = ({
@@ -19,8 +19,8 @@ const WithdrawModal: FC<IWithdrawModal> = ({
   tokens,
   onWithdraw,
 }) => {
-  const [selectedFts, setSelectedFts] = useState<FtAssets>({});
-  const [selectedNfts, setSelectedNfts] = useState<NftAssetsView>({});
+  const [selectedFts, setSelectedFts] = useState<TokenBalancesView>({});
+  const [selectedNfts, setSelectedNfts] = useState<ParasNft[]>([]);
 
   const handleClickWithdraw = () => {
     onWithdraw({ fts: selectedFts, nfts: selectedNfts });

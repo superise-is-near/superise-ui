@@ -20,7 +20,7 @@ export const nearMetadata: TokenMetadata = {
   icon: "https://near.org/wp-content/themes/near-19/assets/img/brand-icon.png",
 };
 
-export interface FtAssets {
+export interface TokenBalancesView {
   [tokenId: string]: string;
 }
 

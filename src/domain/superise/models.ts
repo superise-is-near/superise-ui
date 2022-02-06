@@ -85,11 +85,42 @@ export interface AssetsActivity {
   nft_id: string;
 }
 
+export class SuperiseDisplayableFt {
+  ft_asset: FtAsset;
+
+
+}
+
 // can display with a img url
-export interface SuperiseDisplayableNft {
-  contract_id: string;
-  nft_id: string;
+export class SuperiseDisplayableNft {
+  nft_asset: NftAsset;
   nft_img_url: string;
+  constructor(nft_assets: NftAsset, nft_img_url: string) {
+    this.nft_asset = nft_assets;
+    this.nft_img_url = nft_img_url;
+  }
+  public static async from(nft_asset: NftAsset): Promise<SuperiseDisplayableNft> {
+    switch (nft_asset.contract_id) {
+      case getConfig().PARAS_NFT_CONTRACT_ID:
+        return this.parasNftToDisplayable(nft_asset.nft_id);
+      default:
+        return Promise.reject("nonsupport nft contract");
+    }
+  }
+
+  private static async parasNftToDisplayable(
+    nft_id: string
+  ): Promise<SuperiseDisplayableNft> {
+    let metadataOfNep177 = await nft_token_metadata(
+      getConfig().PARAS_NFT_CONTRACT_ID,
+      nft_id
+    );
+    let imgUrlFromCid = getImgUrlFromCid(metadataOfNep177.media);
+    return new SuperiseDisplayableNft({
+      contract_id: getConfig().PARAS_NFT_CONTRACT_ID,
+      nft_id: nft_id
+    },imgUrlFromCid)
+  }
 }
 
 export class SuperiseDisplayableNftFactory {
@@ -100,7 +131,7 @@ export class SuperiseDisplayableNftFactory {
       case getConfig().PARAS_NFT_CONTRACT_ID:
         return this.parasNftToDisplayable(nft_asset.nft_id);
       default:
-        Promise.reject("unsupport");
+        return Promise.reject("nonsupport nft contract");
     }
   }
   private async parasNftToDisplayable(
@@ -112,9 +143,15 @@ export class SuperiseDisplayableNftFactory {
     );
     let imgUrlFromCid = getImgUrlFromCid(metadataOfNep177.media);
     return {
-      contract_id: getConfig().PARAS_NFT_CONTRACT_ID,
-      nft_id: nft_id,
+      nft_asset: {
+        contract_id: getConfig().PARAS_NFT_CONTRACT_ID,
+        nft_id: nft_id
+      },
       nft_img_url: imgUrlFromCid,
     };
   }
+}
+
+export interface SuperiseDisplayableFt {
+
 }

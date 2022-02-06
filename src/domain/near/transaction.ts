@@ -126,7 +126,22 @@ export class NearActions {
         receiver_id: config.SUPERISE_CONTRACT_ID,
         amount: amount,
       },
-      NearGas.TGas(30),
+      NearGas.TGas(50),
+      NearAmount.ONE_YOCTO_NEAR
+    );
+  }
+
+  static nft_withdraw_action(
+    receiver_id: AccountId,
+    nft_id: string
+  ): Action {
+    return functionCall(
+      "withdraw_nft",
+      {
+        receiver_id: receiver_id,
+        nft_id: nft_id,
+      },
+      NearGas.TGas(50),
       NearAmount.ONE_YOCTO_NEAR
     );
   }
@@ -184,6 +199,7 @@ export class NearActions {
 }
 
 export abstract class NearTransactionInfoFactory {
+
   public static async superise_withdraw_ft_transactions(
     contract_id: AccountId,
     amount: TRANSFERABLE_AMOUNT

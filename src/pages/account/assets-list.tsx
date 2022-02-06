@@ -1,20 +1,19 @@
 import React, { FC } from "react";
 import { ParasNft } from "~domain/paras/models";
-import { FtAssets, TokenMetadata } from "~domain/near/ft/models";
+import { TokenBalancesView, TokenMetadata } from "~domain/near/ft/models";
 import { toPrecision, toReadableNumber } from "~utils/numbers";
 import { toRealSymbol } from "~utils/token";
 import CheckFillIcon from "~/assets/check-fill.svg";
 import CheckNFillIcon from "~/assets/check-nfill.svg";
-import { NftAssetsView } from "~domain/near/nft/models";
 
 export interface IAssetsList {
-  nfts: NftAssetsView;
-  fts: FtAssets;
+  nfts: ParasNft[];
+  fts: TokenBalancesView;
   tokens: TokenMetadata[];
   selectable?: boolean;
-  selectedFts?: FtAssets;
+  selectedFts?: TokenBalancesView;
   selectedNfts?: ParasNft[];
-  onFtsChange?: (fts: FtAssets) => any;
+  onFtsChange?: (fts: TokenBalancesView) => any;
   onNftsChange?: (nfts: ParasNft[]) => any;
 }
 
