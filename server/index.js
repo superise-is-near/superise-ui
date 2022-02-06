@@ -75,7 +75,7 @@ async function main() {
       req.session.oauthRequestTokenSecret = oauthRequestTokenSecret;
       req.session.pool_id = pool_id;
       req.session.near_account = near_account;
-      if (redirect) req.session.redirect = redirect;
+      req.session.redirect = redirect || "";
       const authorizationUrl = `https://api.twitter.com/oauth/${method}?oauth_token=${oauthRequestToken}`;
       console.log("redirecting user to ", authorizationUrl);
       res.redirect(authorizationUrl);
