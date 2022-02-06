@@ -227,5 +227,9 @@ async function main() {
   });
 
   app.use(express.static(path.resolve(__dirname, "../dist")));
+  app.use("/*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../dist/index.html"));
+  });
+
   if (!process.env.NODE_ENV) app.use(proxy);
 }
