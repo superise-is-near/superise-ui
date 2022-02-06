@@ -131,10 +131,7 @@ export class NearActions {
     );
   }
 
-  static nft_withdraw_action(
-    receiver_id: AccountId,
-    nft_id: string
-  ): Action {
+  static nft_withdraw_action(receiver_id: AccountId, nft_id: string): Action {
     return functionCall(
       "withdraw_nft",
       {
@@ -199,7 +196,6 @@ export class NearActions {
 }
 
 export abstract class NearTransactionInfoFactory {
-
   public static async superise_withdraw_ft_transactions(
     contract_id: AccountId,
     amount: TRANSFERABLE_AMOUNT

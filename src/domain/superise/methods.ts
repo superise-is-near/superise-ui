@@ -1,4 +1,4 @@
-import {TokenBalancesView, TokenMetadata} from "~domain/near/ft/models";
+import { TokenBalancesView, TokenMetadata } from "~domain/near/ft/models";
 import { toNonDivisibleNumber } from "~utils/numbers";
 import { FinalExecutionOutcome } from "near-api-js/lib/providers";
 import getConfig from "~domain/near/config";
@@ -13,8 +13,10 @@ import {
 import { wallet } from "~domain/near/global";
 import {
   AccountId,
-  Assets, FtAsset,
-  FtPrize, NftAsset,
+  Assets,
+  FtAsset,
+  FtPrize,
+  NftAsset,
   NftPrize,
   PrizePool,
   PrizePoolDisplay,
@@ -89,16 +91,23 @@ interface WithdrawOptions {
 export async function withdraw_assets_transaction(
   nft_assets: NftAsset[],
   ft_assets: FtAsset[],
-  url?: string) {
+  url?: string
+) {
   let nearTransaction = new NearTransaction();
   for (let ft_asset of ft_assets) {
-    let transactionInfos=await NearTransactionInfoFactory.superise_withdraw_ft_transactions(ft_asset.contract_id,ft_asset.balance)
-    nearTransaction.add_transactions(transactionInfos)
+    let transactionInfos =
+      await NearTransactionInfoFactory.superise_withdraw_ft_transactions(
+        ft_asset.contract_id,
+        ft_asset.balance
+      );
+    nearTransaction.add_transactions(transactionInfos);
   }
-  nft_assets.forEach((nft_asset)=>{
+  nft_assets.forEach((nft_asset) => {
     nearTransaction.add_action(
-      nft_asset.contract_id, NearActions.nft_withdraw_action(wallet.getAccountId(),nft_asset.nft_id))
-  })
+      nft_asset.contract_id,
+      NearActions.nft_withdraw_action(wallet.getAccountId(), nft_asset.nft_id)
+    );
+  });
   await nearTransaction.execute(url);
 }
 
@@ -108,7 +117,11 @@ export async function withdraw_ft_transaction(
   url?: string
 ) {
   let nearTransaction = new NearTransaction();
-  let transactionInfos = await NearTransactionInfoFactory.superise_withdraw_ft_transactions(contract_id, amount);
+  let transactionInfos =
+    await NearTransactionInfoFactory.superise_withdraw_ft_transactions(
+      contract_id,
+      amount
+    );
   nearTransaction.add_transactions(transactionInfos);
   await nearTransaction.execute(url);
 }

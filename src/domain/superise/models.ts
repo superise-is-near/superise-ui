@@ -87,8 +87,6 @@ export interface AssetsActivity {
 
 export class SuperiseDisplayableFt {
   ft_asset: FtAsset;
-
-
 }
 
 // can display with a img url
@@ -99,7 +97,9 @@ export class SuperiseDisplayableNft {
     this.nft_asset = nft_assets;
     this.nft_img_url = nft_img_url;
   }
-  public static async from(nft_asset: NftAsset): Promise<SuperiseDisplayableNft> {
+  public static async from(
+    nft_asset: NftAsset
+  ): Promise<SuperiseDisplayableNft> {
     switch (nft_asset.contract_id) {
       case getConfig().PARAS_NFT_CONTRACT_ID:
         return this.parasNftToDisplayable(nft_asset.nft_id);
@@ -116,10 +116,13 @@ export class SuperiseDisplayableNft {
       nft_id
     );
     let imgUrlFromCid = getImgUrlFromCid(metadataOfNep177.media);
-    return new SuperiseDisplayableNft({
-      contract_id: getConfig().PARAS_NFT_CONTRACT_ID,
-      nft_id: nft_id
-    },imgUrlFromCid)
+    return new SuperiseDisplayableNft(
+      {
+        contract_id: getConfig().PARAS_NFT_CONTRACT_ID,
+        nft_id: nft_id,
+      },
+      imgUrlFromCid
+    );
   }
 }
 
@@ -145,13 +148,11 @@ export class SuperiseDisplayableNftFactory {
     return {
       nft_asset: {
         contract_id: getConfig().PARAS_NFT_CONTRACT_ID,
-        nft_id: nft_id
+        nft_id: nft_id,
       },
       nft_img_url: imgUrlFromCid,
     };
   }
 }
 
-export interface SuperiseDisplayableFt {
-
-}
+export interface SuperiseDisplayableFt {}
