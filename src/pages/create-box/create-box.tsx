@@ -22,7 +22,7 @@ import { toReadableNumber } from "~utils/numbers";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
 
 const CreateBox: FC = () => {
-  const [progress, setProgress] = useState(2);
+  const [progress, setProgress] = useState(0);
   const [hasFillRequirements, setHasFillRequirements] = useState(false);
 
   const urlsQuery = useQuery();
