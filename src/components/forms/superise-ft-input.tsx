@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import TokenAmount from "./TokenAmount";
 import fakedata from "~fakedata/account.json";
-import {
-  nearMetadata,
-  TokenBalancesView,
-  TokenMetadata,
-} from "~domain/near/ft/models";
+import { nearMetadata, FtAssets, TokenMetadata } from "~domain/near/ft/models";
 import SelectToken from "./SelectToken";
 import Icon from "~components/tokens/Icon";
 import getConfig from "~domain/near/config";
@@ -22,7 +18,7 @@ export default function SuperiseFtInput(props: {
   value: SuperiseFtInputValue;
   onChange?: (value: SuperiseFtInputValue) => void;
   tokens: TokenMetadata[];
-  balances: TokenBalancesView;
+  balances: FtAssets;
 }) {
   const { amount, token } = props.value || { amount: "", token: nearMetadata };
 

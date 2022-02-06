@@ -19,8 +19,8 @@ const WithdrawModal: FC<IWithdrawModal> = ({
   tokens,
   onWithdraw,
 }) => {
-  const [selectedFts, setSelectedFts] = useState<TokenBalancesView>([]);
-  const [selectedNfts, setSelectedNfts] = useState([]);
+  const [selectedFts, setSelectedFts] = useState<TokenBalancesView>({});
+  const [selectedNfts, setSelectedNfts] = useState<ParasNft[]>([]);
 
   const handleClickWithdraw = () => {
     onWithdraw({ fts: selectedFts, nfts: selectedNfts });

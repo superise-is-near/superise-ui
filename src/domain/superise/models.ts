@@ -1,6 +1,10 @@
-import { number, string } from "mathjs";
-import { Type } from "class-transformer";
 import { TRANSFERABLE_AMOUNT } from "~domain/near/models";
+import { Nft } from "~domain/near/nft/models";
+import { nft_token, nft_token_metadata } from "~domain/near/nft/methods";
+import getConfig from "~domain/near/config";
+import { ParasNft } from "~domain/paras/models";
+import { getImgUrlFromCid } from "~domain/paras/methods";
+
 export type TokenId = string;
 export type Balance = string;
 export type PoolId = number;
@@ -30,6 +34,11 @@ export class PrizePool {
   nft_prizes: NftPrize[] = [];
   join_accounts: string[] = [];
 }
+
+export type Assets = {
+  nft_assets: NftAsset[];
+  ft_assets: FtAsset[];
+};
 
 export type NftAsset = {
   contract_id: string;
@@ -75,3 +84,75 @@ export interface AssetsActivity {
   amount: string;
   nft_id: string;
 }
+
+export class SuperiseDisplayableFt {
+  ft_asset: FtAsset;
+}
+
+// can display with a img url
+export class SuperiseDisplayableNft {
+  nft_asset: NftAsset;
+  nft_img_url: string;
+  constructor(nft_assets: NftAsset, nft_img_url: string) {
+    this.nft_asset = nft_assets;
+    this.nft_img_url = nft_img_url;
+  }
+  public static async from(
+    nft_asset: NftAsset
+  ): Promise<SuperiseDisplayableNft> {
+    switch (nft_asset.contract_id) {
+      case getConfig().PARAS_NFT_CONTRACT_ID:
+        return this.parasNftToDisplayable(nft_asset.nft_id);
+      default:
+        return Promise.reject("nonsupport nft contract");
+    }
+  }
+
+  private static async parasNftToDisplayable(
+    nft_id: string
+  ): Promise<SuperiseDisplayableNft> {
+    let metadataOfNep177 = await nft_token_metadata(
+      getConfig().PARAS_NFT_CONTRACT_ID,
+      nft_id
+    );
+    let imgUrlFromCid = getImgUrlFromCid(metadataOfNep177.media);
+    return new SuperiseDisplayableNft(
+      {
+        contract_id: getConfig().PARAS_NFT_CONTRACT_ID,
+        nft_id: nft_id,
+      },
+      imgUrlFromCid
+    );
+  }
+}
+
+export class SuperiseDisplayableNftFactory {
+  public async toDisplayable(
+    nft_asset: NftAsset
+  ): Promise<SuperiseDisplayableNft> {
+    switch (nft_asset.contract_id) {
+      case getConfig().PARAS_NFT_CONTRACT_ID:
+        return this.parasNftToDisplayable(nft_asset.nft_id);
+      default:
+        return Promise.reject("nonsupport nft contract");
+    }
+  }
+  private async parasNftToDisplayable(
+    nft_id: string
+  ): Promise<SuperiseDisplayableNft> {
+    let metadataOfNep177 = await nft_token_metadata(
+      getConfig().PARAS_NFT_CONTRACT_ID,
+      nft_id
+    );
+    let imgUrlFromCid = getImgUrlFromCid(metadataOfNep177.media);
+    return {
+      nft_asset: {
+        contract_id: getConfig().PARAS_NFT_CONTRACT_ID,
+        nft_id: nft_id,
+      },
+      nft_img_url: imgUrlFromCid,
+    };
+  }
+}
+
+export interface SuperiseDisplayableFt {}

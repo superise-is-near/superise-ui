@@ -19,9 +19,14 @@ import { TokenBalancesView } from "~domain/near/ft/models";
 import WithdrawModal from "./withdraw-modal";
 import AssetsList from "./assets-list";
 import {
+  view_account_assets,
+  withdraw_assets_transaction,
   withdraw_ft_transaction,
   withdraw_nft,
 } from "~domain/superise/methods";
+import { nft_token } from "~domain/near/nft/methods";
+import { NftAsset } from "~domain/superise/models";
+import { getNodeConfig } from "~domain/near/config";
 
 const AccountPage = () => {
   let [isSigningOut, setIsSigningOut] = useState(false);
@@ -35,9 +40,15 @@ const AccountPage = () => {
   const [nfts, setNfts] = useState<ParasNft[]>([]);
 
   useEffect(() => {
-    nft_tokens_for_owner_in_paras(loginAccount, null).then((nfts) =>
-      setNfts(nfts)
-    );
+    view_account_assets(loginAccount).then((assets) => {
+      Promise.all(
+        assets.nft_assets.map((nft_asset) =>
+          nft_token(nft_asset.contract_id, nft_asset.nft_id).then((nep177) =>
+            ParasNft.newWithImgUrl(nep177, nft_asset.contract_id)
+          )
+        )
+      ).then((nfts) => setNfts(nfts));
+    });
   }, []);
 
   if (!isSignedIn)
@@ -56,22 +67,18 @@ const AccountPage = () => {
         tokens={tokens}
         onWithdraw={async ({ fts, nfts }) => {
           // TODO: xsb will help to debug this API
-          console.log({ fts, nfts });
-          const ftPromises = Object.keys(fts).map((key) => {
-            return withdraw_ft_transaction("wrap.testnet", fts["wrap.testnet"]);
-          });
-          const nftPromises = nfts.map((item) => {
-            return withdraw_nft(item.nft.contract_id, item.nft.token.token_id);
-          });
-          Promise.all([...ftPromises, ...nftPromises])
-            .then((r) => {
-              console.log({ r });
-              setIsWithdrawModalOpen(false);
+          // let nft_assets: NftAsset[] = nfts.map(e=>{return {contract_id: }})
+          await withdraw_assets_transaction(
+            nfts.map((e) => {
+              return {
+                contract_id: e.nft.contract_id,
+                nft_id: e.nft.token.token_id,
+              };
+            }),
+            Object.keys(fts).map((key) => {
+              return { contract_id: key, balance: fts[key] };
             })
-            .catch((e) => {
-              console.log({ e });
-              setIsWithdrawModalOpen(false);
-            });
+          );
         }}
         onRequestClose={() => {
           setIsWithdrawModalOpen(false);

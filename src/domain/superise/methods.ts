@@ -10,10 +10,13 @@ import {
   READABLE_AMOUNT,
   TRANSFERABLE_AMOUNT,
 } from "~domain/near/models";
-import { wallet } from "~domain/near/global";
+import { defaultCallbackUrl, wallet } from "~domain/near/global";
 import {
   AccountId,
+  Assets,
+  FtAsset,
   FtPrize,
+  NftAsset,
   NftPrize,
   PrizePool,
   PrizePoolDisplay,
@@ -21,6 +24,7 @@ import {
 import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
 import { Account } from "near-api-js";
 import {
+  NearActions,
   NearTransaction,
   NearTransactionInfoFactory,
 } from "~domain/near/transaction";
@@ -84,16 +88,41 @@ interface WithdrawOptions {
   // unregister?: boolean;
 }
 
+export async function withdraw_assets_transaction(
+  nft_assets: NftAsset[],
+  ft_assets: FtAsset[],
+  url: string = defaultCallbackUrl
+) {
+  let nearTransaction = new NearTransaction();
+  for (let ft_asset of ft_assets) {
+    let transactionInfos =
+      await NearTransactionInfoFactory.superise_withdraw_ft_transactions(
+        ft_asset.contract_id,
+        ft_asset.balance
+      );
+    nearTransaction.add_transactions(transactionInfos);
+  }
+  nft_assets.forEach((nft_asset) => {
+    nearTransaction.add_action(
+      config.SUPERISE_CONTRACT_ID,
+      NearActions.nft_withdraw_action(nft_asset.contract_id, nft_asset.nft_id)
+    );
+  });
+  await nearTransaction.execute(url);
+}
+
 export async function withdraw_ft_transaction(
   contract_id: AccountId,
   amount: TRANSFERABLE_AMOUNT,
   url?: string
 ) {
   let nearTransaction = new NearTransaction();
-  NearTransactionInfoFactory.superise_withdraw_ft_transactions(
-    contract_id,
-    amount
-  ).then((e) => nearTransaction.add_transactions(e));
+  let transactionInfos =
+    await NearTransactionInfoFactory.superise_withdraw_ft_transactions(
+      contract_id,
+      amount
+    );
+  nearTransaction.add_transactions(transactionInfos);
   await nearTransaction.execute(url);
 }
 
@@ -165,6 +194,14 @@ export function create_prize_pool(
 //     .account()
 //     .viewFunction(config.SUPERISE_CONTRACT_ID, "view_prize_pool_list");
 // }
+
+export function view_account_assets(account_id: string): Promise<Assets> {
+  return wallet
+    .account()
+    .viewFunction(config.SUPERISE_CONTRACT_ID, "view_account_assets", {
+      account_id: account_id,
+    });
+}
 
 export function view_account_balance(id: string): Promise<TokenBalancesView> {
   return wallet

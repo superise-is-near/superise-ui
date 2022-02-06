@@ -1,7 +1,7 @@
 import React from "react";
 import { wallet } from "../../services/near";
 import { toRoundedReadableNumber } from "../../utils/numbers";
-import { TokenMetadata, TokenBalancesView } from "~domain/near/ft/models";
+import { TokenMetadata, FtAssets } from "~domain/near/ft/models";
 import Icon from "~components/tokens/Icon";
 import InputAmount from "./InputAmount";
 import SelectToken from "./SelectToken";
@@ -14,7 +14,7 @@ interface TokenAmountProps {
   total?: string;
   tokens: TokenMetadata[];
   selectedToken: TokenMetadata;
-  balances?: TokenBalancesView;
+  balances?: FtAssets;
   onMax?: (input: HTMLInputElement) => void;
   onSelectToken?: (token: TokenMetadata) => void;
   onSearchToken?: (value: string) => void;
