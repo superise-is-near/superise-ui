@@ -34,6 +34,14 @@ async function main() {
 
   app.listen(3000, () => console.log("listening on http://127.0.0.1:3000"));
 
+  app.use((req, res, next) => {
+    if (req.headers.host.indexOf("localhost:3000") !== -1) {
+      res.redirect("http://127.0.0.1:3000");
+      return;
+    }
+    next();
+  });
+
   app.get("/whitelist-test", async (req, res) => {
     console.log("test the whitelist method, hotload");
     add_user_into_whitelist({
