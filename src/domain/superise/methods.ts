@@ -10,7 +10,7 @@ import {
   READABLE_AMOUNT,
   TRANSFERABLE_AMOUNT,
 } from "~domain/near/models";
-import {defaultCallbackUrl, wallet} from "~domain/near/global";
+import { defaultCallbackUrl, wallet } from "~domain/near/global";
 import {
   AccountId,
   Assets,

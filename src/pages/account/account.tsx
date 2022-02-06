@@ -26,8 +26,7 @@ import {
 } from "~domain/superise/methods";
 import { nft_token } from "~domain/near/nft/methods";
 import { NftAsset } from "~domain/superise/models";
-import {getNodeConfig} from "~domain/near/config";
-
+import { getNodeConfig } from "~domain/near/config";
 
 const AccountPage = () => {
   let [isSigningOut, setIsSigningOut] = useState(false);

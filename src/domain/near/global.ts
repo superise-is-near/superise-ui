@@ -1,5 +1,5 @@
 import SpecialWallet from "~services/SpecialWallet";
-import getConfig, {getNodeConfig} from "~domain/near/config";
+import getConfig, { getNodeConfig } from "~domain/near/config";
 import { keyStores, Near, utils } from "near-api-js";
 import BN from "bn.js";
 import { ClassConstructor } from "class-transformer/types/interfaces";
@@ -44,7 +44,7 @@ export const executeMultipleTransactions = async (
 
 export const config = getConfig();
 const NODE_CONFIG = getNodeConfig();
-export const defaultCallbackUrl = `${NODE_CONFIG.origin}${window.location.pathname}`
+export const defaultCallbackUrl = `${NODE_CONFIG.origin}${window.location.pathname}`;
 export const near = new Near({
   keyStore: new keyStores.BrowserLocalStorageKeyStore(),
   ...config,
