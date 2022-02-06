@@ -26,6 +26,8 @@ import {
 } from "~domain/superise/methods";
 import { nft_token } from "~domain/near/nft/methods";
 import { NftAsset } from "~domain/superise/models";
+import {getNodeConfig} from "~domain/near/config";
+
 
 const AccountPage = () => {
   let [isSigningOut, setIsSigningOut] = useState(false);
@@ -78,22 +80,6 @@ const AccountPage = () => {
               return { contract_id: key, balance: fts[key] };
             })
           );
-          console.log({ fts, nfts });
-          const ftPromises = Object.keys(fts).map((key) => {
-            return withdraw_ft_transaction("wrap.testnet", fts["wrap.testnet"]);
-          });
-          const nftPromises = nfts.map((item) => {
-            return withdraw_nft(item.nft.contract_id, item.nft.token.token_id);
-          });
-          Promise.all([...ftPromises, ...nftPromises])
-            .then((r) => {
-              console.log({ r });
-              setIsWithdrawModalOpen(false);
-            })
-            .catch((e) => {
-              console.log({ e });
-              setIsWithdrawModalOpen(false);
-            });
         }}
         onRequestClose={() => {
           setIsWithdrawModalOpen(false);

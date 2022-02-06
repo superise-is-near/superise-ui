@@ -10,7 +10,7 @@ import {
   READABLE_AMOUNT,
   TRANSFERABLE_AMOUNT,
 } from "~domain/near/models";
-import { wallet } from "~domain/near/global";
+import {defaultCallbackUrl, wallet} from "~domain/near/global";
 import {
   AccountId,
   Assets,
@@ -91,7 +91,7 @@ interface WithdrawOptions {
 export async function withdraw_assets_transaction(
   nft_assets: NftAsset[],
   ft_assets: FtAsset[],
-  url?: string
+  url: string = defaultCallbackUrl
 ) {
   let nearTransaction = new NearTransaction();
   for (let ft_asset of ft_assets) {
@@ -104,8 +104,8 @@ export async function withdraw_assets_transaction(
   }
   nft_assets.forEach((nft_asset) => {
     nearTransaction.add_action(
-      nft_asset.contract_id,
-      NearActions.nft_withdraw_action(wallet.getAccountId(), nft_asset.nft_id)
+      config.SUPERISE_CONTRACT_ID,
+      NearActions.nft_withdraw_action(nft_asset.contract_id, nft_asset.nft_id)
     );
   });
   await nearTransaction.execute(url);
