@@ -3,7 +3,7 @@ import { PrimaryButton, TextButton } from "~components/button/Button";
 import { SuperiseFtInputValue } from "./superise-ft-input";
 import {
   EMPTY_INPUT_VALUE,
-  TokenBalancesView,
+  FtAssets,
   TokenMetadata,
 } from "~domain/near/ft/models";
 import { FaPlusSquare } from "react-icons/fa";
@@ -56,7 +56,7 @@ interface IPrizeSelectType {
     };
     onChange?: Function;
   };
-  balances: TokenBalancesView;
+  balances: FtAssets;
   tokens: TokenMetadata[];
 }
 

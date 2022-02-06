@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { TokenBalancesView, TokenMetadata } from "~domain/near/ft/models";
+import { FtAssets, TokenMetadata } from "~domain/near/ft/models";
 import {
   getWhitelistedTokens,
   getTokenBalances,
@@ -17,7 +17,8 @@ import {
 } from "~utils/numbers";
 import { toRealSymbol } from "~utils/token";
 import { wallet } from "~domain/near/global";
-import { view_account_balance } from "~domain/superise/methods";
+import {view_account_assets, view_account_balance} from "~domain/superise/methods";
+import {Assets, FtAsset} from "~domain/superise/models";
 
 interface TokenData {
   tokensData: TokenMetadata[];
@@ -26,7 +27,7 @@ interface TokenData {
 }
 export const useTokensData = (
   tokens: TokenMetadata[],
-  balances?: TokenBalancesView
+  balances?: FtAssets
 ): TokenData => {
   const [count, setCount] = useState(0);
   const [result, setResult] = useState<TokenMetadata[]>([]);
@@ -87,8 +88,17 @@ export const useTokensData = (
   };
 };
 
+export const useAssets = ()=> {
+  const [assets, setAssets] = useState<Assets>()
+  useEffect(()=> {
+    view_account_assets(wallet.getAccountId())
+      .then(setAssets)
+  },[])
+  return assets;
+}
+
 export const useFtAssets = () => {
-  const [balances, setBalances] = useState<TokenBalancesView>();
+  const [balances, setBalances] = useState<FtAssets>();
   useEffect(() => {
     view_account_balance(wallet.getAccountId())
       .then(setBalances)
@@ -100,7 +110,7 @@ export const useFtAssets = () => {
 };
 
 export const useTokenBalances = () => {
-  const [balances, setBalances] = useState<TokenBalancesView>();
+  const [balances, setBalances] = useState<FtAssets>();
 
   useEffect(() => {
     getTokenBalances()

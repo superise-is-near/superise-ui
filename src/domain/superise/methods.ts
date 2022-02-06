@@ -1,4 +1,4 @@
-import { TokenBalancesView, TokenMetadata } from "~domain/near/ft/models";
+import { FtAssets, TokenMetadata } from "~domain/near/ft/models";
 import { toNonDivisibleNumber } from "~utils/numbers";
 import { FinalExecutionOutcome } from "near-api-js/lib/providers";
 import getConfig from "~domain/near/config";
@@ -12,7 +12,7 @@ import {
 } from "~domain/near/models";
 import { wallet } from "~domain/near/global";
 import {
-  AccountId,
+  AccountId, Assets,
   FtPrize,
   NftPrize,
   PrizePool,
@@ -166,7 +166,16 @@ export function create_prize_pool(
 //     .viewFunction(config.SUPERISE_CONTRACT_ID, "view_prize_pool_list");
 // }
 
-export function view_account_balance(id: string): Promise<TokenBalancesView> {
+export function view_account_assets(account_id: string): Promise<Assets> {
+  return wallet.account()
+    .viewFunction(
+      config.SUPERISE_CONTRACT_ID,
+      "view_account_assets",
+      {account_id: account_id}
+    )
+}
+
+export function view_account_balance(id: string): Promise<FtAssets> {
   return wallet
     .account()
     .viewFunction(config.SUPERISE_CONTRACT_ID, "view_account_balance", {
