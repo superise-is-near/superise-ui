@@ -54,20 +54,22 @@ export class NearTransaction {
     tx_hash: string,
     account_id: AccountId = wallet.getAccountId()
   ): Promise<T> {
-    return near.connection.provider.txStatus(tx_hash, account_id)
-    .then((e) => {
-      if ((e.status as FinalExecutionStatus).SuccessValue !== undefined) {
-        let decodedValue: string = Buffer.from(
-          (e.status as FinalExecutionStatus).SuccessValue!,
-          "base64"
-        ).toString();
-        return JSON.parse(decodedValue) as T;
-      } else {
-        return Promise.reject(
-          `Fail to parse ${account_id} ${tx_hash} error,FinalExecutionOutcome is ${e}`
-        );
-      }
-    }).catch(e => Promise.reject(`Invoke error, ${e}`));
+    return near.connection.provider
+      .txStatus(tx_hash, account_id)
+      .then((e) => {
+        if ((e.status as FinalExecutionStatus).SuccessValue !== undefined) {
+          let decodedValue: string = Buffer.from(
+            (e.status as FinalExecutionStatus).SuccessValue!,
+            "base64"
+          ).toString();
+          return JSON.parse(decodedValue) as T;
+        } else {
+          return Promise.reject(
+            `Fail to parse ${account_id} ${tx_hash} error,FinalExecutionOutcome is ${e}`
+          );
+        }
+      })
+      .catch((e) => Promise.reject(`Invoke error, ${e}`));
   }
 
   public async execute(callback_url?: string) {
