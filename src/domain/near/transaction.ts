@@ -188,7 +188,7 @@ export class NearActions {
 
   static superise_update_twitter_action(
     create_param: TwitterPoolCreateParam,
-    pool_id: number,
+    pool_id: number
   ): Action {
     return functionCall(
       "update_twitter_pool",
