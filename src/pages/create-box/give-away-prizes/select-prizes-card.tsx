@@ -210,7 +210,7 @@ const SelectPrizesCard: FC<ISelectPrizesCard> = ({
                 },
               })),
             },
-            `${NODE_CONFIG.origin}/#/box/create-callback`
+            `${NODE_CONFIG.origin}/box/create-callback`
           );
         }}
       >

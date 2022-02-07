@@ -20,6 +20,7 @@ import { ParasNft } from "~domain/paras/models";
 import { nft_token } from "~domain/near/nft/methods";
 import { toReadableNumber } from "~utils/numbers";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
+import { view_twitter_prize_pool } from "~domain/superise/twitter_giveaway/methods";
 
 const CreateBox: FC = () => {
   const [progress, setProgress] = useState(0);
@@ -28,7 +29,6 @@ const CreateBox: FC = () => {
   const urlsQuery = useQuery();
   const history = useHistory();
   const { id: boxId } = useParams<{ id: string }>();
-  const twitterPool: TwitterPool = useTwitterPool(Number(boxId));
   const tokens = useWhitelistTokens();
 
   const [parasNfts, setParasNfts] = useState<ParasNft[]>([]);
@@ -44,7 +44,11 @@ const CreateBox: FC = () => {
     if (!accountId) return;
 
     try {
-      const boxId = await NearTransaction.parseTxOutcome(txHashes);
+      const boxId = await NearTransaction.parseTxOutcome(
+        decodeURI(txHashes),
+        accountId
+      );
+      console.log({ boxId });
       history.push(`/box/${boxId}/edit?progress=1`);
       setProgress(1);
     } catch (err) {
@@ -52,12 +56,13 @@ const CreateBox: FC = () => {
     }
   }
 
-  function resolveProgress() {
+  async function resolveProgress() {
     const progress = urlsQuery.get("progress");
 
     if (progress) {
-      console.log({ boxId });
-
+      const twitterPool: TwitterPool = await view_twitter_prize_pool(
+        Number(boxId)
+      );
       if (!twitterPool || !tokens) return;
       Promise.all(
         twitterPool.prize_pool.nft_prizes.map(async (item) =>
