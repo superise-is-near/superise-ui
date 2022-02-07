@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TiArrowSortedUp } from "react-icons/ti";
+import sortupIcon from "~assets/sort-up.svg";
 import { TokenMetadata, FtAssets } from "~domain/near/ft/models";
 import { toReadableNumber } from "~utils/numbers";
 import Token from "~components/tokens/Token";
@@ -14,6 +14,14 @@ interface TokenListProps {
   balances?: FtAssets;
 }
 
+const SortButton = (props: { className: string; onClick: () => void }) => {
+  return (
+    <div {...props}>
+      <img src={sortupIcon} width={14} height={14} />
+    </div>
+  );
+};
+
 export default function Table({
   tokens,
   sortBy,
@@ -24,9 +32,9 @@ export default function Table({
 }: TokenListProps) {
   return (
     tokens.length > 0 && (
-      <table className="text-left w-full text-sm text-gray-400 mt-10 table-auto">
+      <table className="w-full mt-10 text-sm text-left text-gray-400 table-auto">
         <thead
-          className="sticky -top-6 z-30"
+          className="sticky z-30 -top-6"
           style={{ background: "rgb(29, 41, 50)" }}
         >
           <tr className="font-normal border-b border-gray-500 border-opacity-30">
@@ -36,7 +44,7 @@ export default function Table({
               }`}
             >
               <FormattedMessage id="asset_label" defaultMessage="Asset" />
-              <TiArrowSortedUp
+              <SortButton
                 onClick={() => onSortChange("asset")}
                 className={`inline-block cursor-pointer ${
                   sortBy === "asset" && currentSort === "down"
@@ -51,7 +59,7 @@ export default function Table({
               }`}
             >
               <FormattedMessage id="total_label" defaultMessage="Total" />
-              <TiArrowSortedUp
+              <SortButton
                 onClick={() => onSortChange("total")}
                 className={`inline-block cursor-pointer ${
                   sortBy === "total" && currentSort === "down"
