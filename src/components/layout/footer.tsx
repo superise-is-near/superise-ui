@@ -1,11 +1,9 @@
 import React from "react";
-import { FaTwitter } from "react-icons/fa";
-import { FiArrowUpRight } from "react-icons/fi";
 
 export default () => {
   return (
     <div className="mt-6 text-gray-500 grid grid-cols-2">
-      <span style={{ fontFamily: "Racing Sans One" }}>Surprise</span>
+      <span style={{ fontFamily: "Racing Sans One" }}>Superise</span>
       <div className="flex flex-col items-end">
         <div className="grid grid-col-1 gap-2">
           <a
@@ -13,10 +11,14 @@ export default () => {
             className="text-sm font-semibold underline"
             target="_blank"
           >
-            Roadmap <FiArrowUpRight style={{ display: "inline-block" }} />
+            Roadmap
           </a>
-          <a href="https://twitter.com/usesurprise" target="_blank">
-            <FaTwitter />
+          <a
+            href="https://twitter.com/superise_"
+            target="_blank"
+            className="font-semibold underline"
+          >
+            Twitter @superise_
           </a>
         </div>
       </div>

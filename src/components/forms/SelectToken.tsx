@@ -5,12 +5,11 @@ import { ArrowDownIndigo } from "~components/icons";
 import { isMobile } from "~utils/device";
 import { FormattedMessage, useIntl } from "react-intl";
 import { FtAssets } from "~domain/near/ft/models";
-import { IoCloseOutline } from "react-icons/io5";
+import closeIcon from "~assets/close.svg";
 import CommenBasses from "~components/tokens/CommenBasses";
 import Table from "~components/table/Table";
 // import { useTokensData } from '~state/token';
 import { toRealSymbol } from "~utils/token";
-import { FaSearch } from "react-icons/fa";
 // import fakedata from '~fakedata/account'
 import { useTokensData } from "~state/token";
 
@@ -49,7 +48,7 @@ export default function SelectToken({
 
   if (!onSelect) {
     return (
-      <button className="focus:outline-none p-1" type="button">
+      <button className="p-1 focus:outline-none" type="button">
         {selected}
       </button>
     );
@@ -170,16 +169,18 @@ export default function SelectToken({
     >
       {() => (
         <section className="text-white">
-          <div className="flex items-center justify-between pb-5 pr-8 px-6 relative">
+          <div className="relative flex items-center justify-between px-6 pb-5 pr-8">
             <h2 className="text-sm font-bold text-center">
               <FormattedMessage
                 id="select_token"
                 defaultMessage="Select Token"
               />
             </h2>
-            <IoCloseOutline
+            <img
+              src={closeIcon}
               onClick={() => handleClose()}
-              className="absolute text-gray-400 text-2xl right-6 cursor-pointer"
+              className="absolute text-2xl text-gray-400 cursor-pointer right-6"
+              role="button"
             />
           </div>
           <Table
