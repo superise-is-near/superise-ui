@@ -24,7 +24,6 @@ import { view_twitter_prize_pool } from "~domain/superise/twitter_giveaway/metho
 
 const CreateBox: FC = () => {
   const [progress, setProgress] = useState(0);
-  const [hasFillRequirements, setHasFillRequirements] = useState(false);
 
   const urlsQuery = useQuery();
   const history = useHistory();
@@ -93,15 +92,18 @@ const CreateBox: FC = () => {
 
   useEffect(() => {
     resolveProgress();
-    if (progress >= 1) {
-      setHasFillRequirements(true);
-    }
   }, [progress, tokens]);
 
   // progress 2
-  const [follow, setFollow] = useState<boolean>(true);
-  const [retweet, setRetweet] = useState<boolean>(true);
-  const [like, setLike] = useState<boolean>(true);
+  const [follow, setFollow] = useState<boolean>(
+    sessionStorage.getItem("follow") === true.toString()
+  );
+  const [retweet, setRetweet] = useState<boolean>(
+    sessionStorage.getItem("retweet") === true.toString()
+  );
+  const [like, setLike] = useState<boolean>(
+    sessionStorage.getItem("like") === true.toString()
+  );
 
   return (
     <main className="m-auto lg:max-w-2xl">
@@ -133,7 +135,10 @@ const CreateBox: FC = () => {
       >
         Requirements &amp; Timing
       </SecondaryTitle>
-      {hasFillRequirements && (
+      {(sessionStorage.getItem("like") ||
+        sessionStorage.getItem("retweet") ||
+        sessionStorage.getItem("follow") ||
+        progress >= 1) && (
         <RequirementsTiming
           collapsed={progress !== 1}
           setProgress={setProgress}

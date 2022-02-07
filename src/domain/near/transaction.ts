@@ -187,11 +187,12 @@ export class NearActions {
   }
 
   static superise_update_twitter_action(
-    create_param: TwitterPoolCreateParam
+    create_param: TwitterPoolCreateParam,
+    pool_id: number,
   ): Action {
     return functionCall(
       "update_twitter_pool",
-      { param: create_param },
+      { param: create_param, pool_id: pool_id },
       NearGas.MAX_GAS,
       NearAmount.ONE_YOCTO_NEAR
     );

@@ -6,10 +6,13 @@ import { PrimaryButton } from "~components/button/Button";
 import { ParasNft } from "~domain/paras/models";
 import clsx from "classnames";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
-import { create_twitter_pool_transaction } from "~domain/superise/twitter_giveaway/methods";
+import {
+  create_twitter_pool_transaction,
+  update_twitter_pool_transaction,
+} from "~domain/superise/twitter_giveaway/methods";
 import { toNonDivisibleNumber } from "~utils/numbers";
 import { getNodeConfig } from "~domain/near/config";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 interface INFTsDisplay {
   nfts: ParasNft[];
   setNfts?: React.Dispatch<React.SetStateAction<ParasNft[]>>;
@@ -170,12 +173,10 @@ const SelectPrizesCard: FC<ISelectPrizesCard> = ({
   setNfts,
   onClickAddNFT,
   onClickAddCrypto,
-  setProgress,
 }) => {
   const hasSelected = nfts.length > 0 || cryptos.length > 0;
   const NODE_CONFIG = getNodeConfig();
   const location = useLocation();
-  const history = useHistory();
   return (
     <div className="w-full mt-2">
       {hasSelected && (
@@ -196,32 +197,37 @@ const SelectPrizesCard: FC<ISelectPrizesCard> = ({
         className="my-6"
         disabled={!hasSelected}
         onClick={() => {
+          const params = {
+            ft_prizes: cryptos?.map((crypto) => ({
+              ft: {
+                contract_id: crypto.id,
+                balance: toNonDivisibleNumber(
+                  crypto.decimals,
+                  String(crypto.amount)
+                ),
+              },
+            })),
+            nft_prizes: nfts?.map((nft) => ({
+              nft: {
+                contract_id: nft.nft.contract_id,
+                nft_id: nft.nft.token.token_id,
+              },
+            })),
+          };
           if (/^\/box\/\d+\/edit$/.test(location.pathname)) {
             // edit mode
-            history.push({
-              search: "?progress=1",
-            });
-            setProgress(1);
+            const poolId = Number(
+              location.pathname.match(/^\/box\/(\d+)\/edit$/)[1]
+            );
+            update_twitter_pool_transaction(
+              params,
+              poolId,
+              `${NODE_CONFIG.origin}/box/create-callback`
+            );
           } else {
             // create mode
             create_twitter_pool_transaction(
-              {
-                ft_prizes: cryptos?.map((crypto) => ({
-                  ft: {
-                    contract_id: crypto.id,
-                    balance: toNonDivisibleNumber(
-                      crypto.decimals,
-                      String(crypto.amount)
-                    ),
-                  },
-                })),
-                nft_prizes: nfts?.map((nft) => ({
-                  nft: {
-                    contract_id: nft.nft.contract_id,
-                    nft_id: nft.nft.token.token_id,
-                  },
-                })),
-              },
+              params,
               `${NODE_CONFIG.origin}/box/create-callback`
             );
           }
