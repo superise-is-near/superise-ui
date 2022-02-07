@@ -28,7 +28,7 @@ const MintbaseNFTsDisplay = () => {
   return (
     <section>
       <div
-        className="overflow-auto mb-4 grid place-items-center text-gray-700 font-semibold"
+        className="mb-4 overflow-auto font-semibold text-gray-700 grid place-items-center"
         style={{ height: "40vh" }}
       >
         We will support Mintbase later.
@@ -85,9 +85,9 @@ const ParasNFTsDisplay: FC<IParasNFTsDisplay> = ({
               className="flex justify-between mb-4"
             >
               <div className="flex">
-                <div className="w-12 h-12 rounded-lg overflow-hidden">
+                <div className="w-12 h-12 overflow-hidden rounded-lg">
                   <img
-                    className="w-12 h-12 object-cover"
+                    className="object-cover w-12 h-12"
                     src={nft.img_url}
                     width="48px"
                     height="48px"
@@ -116,8 +116,27 @@ const ParasNFTsDisplay: FC<IParasNFTsDisplay> = ({
               </div>
             </div>
           ))}
+        {!loading && parasNfts.length === 0 && (
+          <div className="flex flex-col items-center justify-center h-full text-center">
+            <span className="text-sm text-gray-600">
+              No NFTs found in your wallet.
+            </span>
+            <span className="text-sm text-gray-600">
+              Please add some through this link:{" "}
+              <a
+                href="https://testnet.paras.id"
+                className="underline"
+                target="_blank"
+              >
+                {" "}
+                https://testnet.paras.id
+              </a>
+            </span>
+          </div>
+        )}
       </div>
       <PrimaryButton
+        disabled={!loading && parasNfts.length === 0}
         isFull
         className="py-3"
         prefixIcon={
@@ -180,11 +199,11 @@ const NFTSelectModal: FC<INFTSelectModal> = ({
       isOpen={showNFTSelectModal}
       onRequestClose={() => setShowNFTSelectModal(false)}
     >
-      <h3 className="text-2xl font-semibold text-center mt-2">
+      <h3 className="mt-2 text-2xl font-semibold text-center">
         Select NFT Prize
       </h3>
       <div className="flex justify-center mb-8">
-        <div className="mt-6 flex justify-center p-1 rounded-full bg-gray-200">
+        <div className="flex justify-center p-1 mt-6 bg-gray-200 rounded-full">
           <div
             className={clsx(
               "w-24 h-7 rounded-full grid place-items-center text-sm text-gray-700 font-semibold cursor-pointer",

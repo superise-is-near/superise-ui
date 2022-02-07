@@ -15,7 +15,7 @@ Frontend
 
 ```
 > yarn
-> yarn start:testnet
+> yarn start:local
 ```
 
-Open the browser with: `127.0.0.1:3000`. Please use `127.0.0.1` instead of `localhost`.
+Open the browser with: `http://127.0.0.1:3000` to access the app. 
