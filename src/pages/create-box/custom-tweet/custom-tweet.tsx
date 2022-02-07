@@ -14,15 +14,8 @@ interface ICustomTweet {
   follow: boolean;
   like: boolean;
   retweet: boolean;
-  username: string;
 }
-const CustomTweet: FC<ICustomTweet> = ({
-  progress,
-  follow,
-  like,
-  retweet,
-  username,
-}) => {
+const CustomTweet: FC<ICustomTweet> = ({ progress, follow, like, retweet }) => {
   if (progress !== 2) return null;
 
   const [buttonText, setButtonText] = useState("Tweet & Launch Giveaway");
@@ -73,7 +66,7 @@ const CustomTweet: FC<ICustomTweet> = ({
 
   const requirementTextures = [];
 
-  if (follow) requirementTextures.push(`Follow @${username}`);
+  if (follow) requirementTextures.push(`Follow`);
   if (retweet) requirementTextures.push(`Retweet`);
   if (like) requirementTextures.push(`Like`);
 
@@ -91,10 +84,13 @@ ${requirementTextures
       <VerticalLine bgLight={progress <= 2} className="mr-4" />
       <div className="w-full mt-2">
         <div className="p-4 border border-gray-300 rounded-2xl">
-          <textarea className="w-full h-full border-0" rows={8}>
-            {content}
-          </textarea>
+          <textarea
+            className="w-full h-full border-0"
+            rows={8}
+            defaultValue={content}
+          />
         </div>
+
         <PrimaryButton
           loading={isLoading}
           size="large"

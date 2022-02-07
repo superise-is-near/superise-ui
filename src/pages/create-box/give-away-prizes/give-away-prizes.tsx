@@ -12,29 +12,27 @@ interface IGiveAwayPrizes {
   setProgress: React.Dispatch<React.SetStateAction<number>>;
   parasNfts: ParasNft[];
   cryptos: TokenMetadataWithAmount[];
+  setParasNfts: React.Dispatch<React.SetStateAction<ParasNft[]>>;
+  setCryptos: React.Dispatch<React.SetStateAction<TokenMetadataWithAmount[]>>;
 }
 
 const GiveAwayPrizes: FC<IGiveAwayPrizes> = ({
   collapsed,
   setProgress,
-  parasNfts: defaultParasNfts,
-  cryptos: defaultCryptos,
+  parasNfts,
+  cryptos,
+  setCryptos,
+  setParasNfts,
 }) => {
-  console.log({ defaultParasNfts, defaultCryptos });
   const [showCryptoSelectModal, setShowCryptoSelectModal] = useState(false);
   const [showNFTSelectModal, setShowNFTSelectModal] = useState(false);
 
-  const [nfts, setNfts] = useState<ParasNft[]>(defaultParasNfts);
-  const [cryptos, setCryptos] =
-    useState<TokenMetadataWithAmount[]>(defaultCryptos);
-
-  useEffect(() => {}, []);
   return (
     <section className="flex">
       <VerticalLine bgLight={!collapsed} className="mr-4" />
       {collapsed && (
         <CollapsedCard
-          nfts={nfts}
+          nfts={parasNfts}
           cryptos={cryptos}
           setProgress={setProgress}
         />
@@ -44,8 +42,8 @@ const GiveAwayPrizes: FC<IGiveAwayPrizes> = ({
           setProgress={setProgress}
           cryptos={cryptos}
           setCryptos={setCryptos}
-          nfts={nfts}
-          setNfts={setNfts}
+          nfts={parasNfts}
+          setNfts={setParasNfts}
           onClickAddNFT={() => setShowNFTSelectModal(true)}
           onClickAddCrypto={() => setShowCryptoSelectModal(true)}
         />
@@ -62,8 +60,8 @@ const GiveAwayPrizes: FC<IGiveAwayPrizes> = ({
 
       {showNFTSelectModal && (
         <NFTSelectModal
-          nfts={nfts}
-          setNfts={setNfts}
+          nfts={parasNfts}
+          setNfts={setParasNfts}
           showNFTSelectModal={showNFTSelectModal}
           setShowNFTSelectModal={setShowNFTSelectModal}
         />

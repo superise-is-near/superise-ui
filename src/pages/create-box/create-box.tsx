@@ -45,10 +45,9 @@ const CreateBox: FC = () => {
 
     try {
       const boxId = await NearTransaction.parseTxOutcome(
-        decodeURI(txHashes),
+        decodeURIComponent(txHashes).split(",").pop(),
         accountId
       );
-      console.log({ boxId });
       history.push(`/box/${boxId}/edit?progress=1`);
       setProgress(1);
     } catch (err) {
@@ -58,7 +57,6 @@ const CreateBox: FC = () => {
 
   async function resolveProgress() {
     const progress = urlsQuery.get("progress");
-
     if (progress) {
       const twitterPool: TwitterPool = await view_twitter_prize_pool(
         Number(boxId)
@@ -71,7 +69,7 @@ const CreateBox: FC = () => {
             item.nft.contract_id
           )
         )
-      ).then((value) => setParasNfts(value));
+      ).then(setParasNfts);
       Promise.all(
         twitterPool.prize_pool.ft_prizes.map((item) => {
           const foundToken =
@@ -84,21 +82,21 @@ const CreateBox: FC = () => {
             ...foundToken,
           } as any as TokenMetadataWithAmount;
         })
-      ).then((value) => setCryptos(value));
+      ).then(setCryptos);
       setProgress(parseInt(progress));
     }
   }
 
   useEffect(() => {
     resolveBoxCallback();
-    resolveProgress();
   }, []);
 
   useEffect(() => {
+    resolveProgress();
     if (progress >= 1) {
       setHasFillRequirements(true);
     }
-  }, [progress]);
+  }, [progress, tokens]);
 
   // progress 2
   const [follow, setFollow] = useState<boolean>(true);
@@ -122,6 +120,8 @@ const CreateBox: FC = () => {
         setProgress={setProgress}
         parasNfts={parasNfts}
         cryptos={cryptos}
+        setParasNfts={setParasNfts}
+        setCryptos={setCryptos}
       />
 
       {/* progress 2, select requirements */}
@@ -161,7 +161,6 @@ const CreateBox: FC = () => {
         follow={follow}
         like={like}
         retweet={retweet}
-        username={"woca"}
       />
     </main>
   );
