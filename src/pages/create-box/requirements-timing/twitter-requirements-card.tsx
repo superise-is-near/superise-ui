@@ -57,21 +57,33 @@ const TwitterRequirementsCard: FC<ITwitterRequirementsCard> = ({
     <section className="w-full mt-2">
       <SwitchCard
         checked={follow}
-        onChange={() => setFollow(!follow)}
+        onChange={() => {
+          const state = !follow;
+          setFollow(state);
+          sessionStorage.setItem("follow", state.toString());
+        }}
         className="rounded-t-2xl"
       >
         Follow Twitter account
       </SwitchCard>
       <SwitchCard
         checked={retweet}
-        onChange={() => setRetweet(!retweet)}
+        onChange={() => {
+          const state = !retweet;
+          setRetweet(state);
+          sessionStorage.setItem("retweet", state.toString());
+        }}
         className="border-t-0 border-b-0"
       >
         Retweet Tweet
       </SwitchCard>
       <SwitchCard
         checked={like}
-        onChange={() => setLike(!like)}
+        onChange={() => {
+          const state = !like;
+          setLike(state);
+          sessionStorage.setItem("like", state.toString());
+        }}
         className="rounded-b-2xl"
       >
         Like Tweet

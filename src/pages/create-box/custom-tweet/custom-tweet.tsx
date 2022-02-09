@@ -70,6 +70,7 @@ const CustomTweet: FC<ICustomTweet> = ({ progress, follow, like, retweet }) => {
   if (retweet) requirementTextures.push(`Retweet`);
   if (like) requirementTextures.push(`Like`);
 
+  const boxId = location.pathname.match(/^\/box\/(\d+)\/edit$/)[1];
   const content = `🚨 CRYPTO GIVEAWAY 🚨
 I am doing a huge giveaway
 
@@ -77,7 +78,7 @@ To enter:
 ${requirementTextures
   .map((requirementTexture, index) => `${index + 1}. ${requirementTexture}`)
   .join("\n")}
-👉Join through this link: https://usesurprise.com/box/12 
+👉Join through this link: https://usesurprise.com/box/${boxId}
   `;
   return (
     <section className="flex">

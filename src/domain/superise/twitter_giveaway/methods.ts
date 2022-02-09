@@ -44,6 +44,7 @@ export function update_twitter_pool(
 
 export async function update_twitter_pool_transaction(
   param: TwitterPoolCreateParam,
+  pool_id: number,
   callback_url: string
 ) {
   let nearTransaction = new NearTransaction();
@@ -64,7 +65,7 @@ export async function update_twitter_pool_transaction(
   });
   nearTransaction.add_action(
     config.SUPERISE_CONTRACT_ID,
-    NearActions.superise_update_twitter_action(param)
+    NearActions.superise_update_twitter_action(param, pool_id)
   );
   console.log(nearTransaction);
   await nearTransaction.execute(callback_url);
