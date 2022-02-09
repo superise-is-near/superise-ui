@@ -114,7 +114,7 @@ async function main() {
     req.session.save(() => {
       console.log({ redirect: req.session.redirect });
       // TODO: modify this to /box/edit once Steve finish the creating/editing flow
-      if (req.session.redirect.indexOf("box/create") !== -1) {
+      if (req.session.redirect.indexOf("edit") !== -1) {
         res.redirect(
           `/${req.session.redirect}?connected-twitter=${user.screen_name}}&progress=2`
         );

@@ -107,7 +107,8 @@ ${requirementTextures
           }
           onClick={() => {
             // TODO Submit
-            window.location.href = `/twitter/authenticate?redirect=box/create`;
+
+            window.location.href = `/twitter/authenticate?redirect=${location.pathname}`;
           }}
         >
           {buttonText}
