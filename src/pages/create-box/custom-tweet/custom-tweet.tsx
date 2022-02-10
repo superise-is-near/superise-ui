@@ -4,6 +4,7 @@ import VerticalLine from "../vertical-line";
 import Hor from "~assets/hor.svg";
 import { useLocation } from "react-router-dom";
 import {
+  publish_pool,
   send_tweet,
   update_twitter_pool_transaction,
   verify_requirments,
@@ -38,6 +39,10 @@ const CustomTweet: FC<ICustomTweet> = ({
 
   useEffect(() => {
     console.log(location.search);
+    if (location.search.indexOf("update-complete")) {
+      publish_pool(Number(boxId));
+      return;
+    }
     if (location.search.indexOf("connected-twitter") !== -1) {
       const fn = async () => {
         setIsLoading(true);
@@ -70,7 +75,7 @@ const CustomTweet: FC<ICustomTweet> = ({
         update_twitter_pool_transaction(
           params,
           Number(boxId),
-          `${NODE_CONFIG.origin}/box/${boxId}`
+          `${NODE_CONFIG.origin}/box/${boxId}/edit?update-complete=true`
         );
         // Fake URL for testing
         const fakeTweetURL =
