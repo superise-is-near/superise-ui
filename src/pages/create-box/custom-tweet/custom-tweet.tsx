@@ -8,6 +8,7 @@ import {
   verify_requirments,
   verify_twitter_oauth_session,
 } from "~domain/superise/twitter_giveaway/methods";
+import { getNodeConfig } from "~domain/near/config";
 
 interface ICustomTweet {
   progress: number;
@@ -65,6 +66,7 @@ const CustomTweet: FC<ICustomTweet> = ({ progress, follow, like, retweet }) => {
   }, [location.search]);
 
   const requirementTextures = [];
+  const NODE_CONFIG = getNodeConfig();
 
   if (follow) requirementTextures.push(`Follow`);
   if (retweet) requirementTextures.push(`Retweet`);
@@ -108,7 +110,7 @@ ${requirementTextures
           onClick={() => {
             // TODO Submit
 
-            window.location.href = `/twitter/authenticate?redirect=${location.pathname}`;
+            window.location.href = `/twitter/authenticate?redirect=${NODE_CONFIG.origin}${location.pathname}`;
           }}
         >
           {buttonText}

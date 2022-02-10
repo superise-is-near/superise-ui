@@ -118,7 +118,7 @@ async function main() {
       // TODO: modify this to /box/edit once Steve finish the creating/editing flow
       if (req.session.redirect.indexOf("edit") !== -1) {
         res.redirect(
-          `${config[process.env.NODE_ENV]}/${req.session.redirect}?connected-twitter=${user.screen_name}}&progress=2`
+          `${req.session.redirect}?connected-twitter=${user.screen_name}}&progress=2`
         );
         return;
       }
