@@ -5,18 +5,31 @@ import Hor from "~assets/hor.svg";
 import { useLocation } from "react-router-dom";
 import {
   send_tweet,
+  update_twitter_pool_transaction,
   verify_requirments,
   verify_twitter_oauth_session,
 } from "~domain/superise/twitter_giveaway/methods";
 import { getNodeConfig } from "~domain/near/config";
+import { toNonDivisibleNumber } from "~utils/numbers";
+import { TokenMetadataWithAmount } from "~domain/near/ft/models";
+import { ParasNft } from "~domain/paras/models";
 
 interface ICustomTweet {
   progress: number;
   follow: boolean;
   like: boolean;
   retweet: boolean;
+  cryptos: TokenMetadataWithAmount[];
+  nfts: ParasNft[];
 }
-const CustomTweet: FC<ICustomTweet> = ({ progress, follow, like, retweet }) => {
+const CustomTweet: FC<ICustomTweet> = ({
+  progress,
+  follow,
+  like,
+  retweet,
+  cryptos,
+  nfts,
+}) => {
   if (progress !== 2) return null;
 
   const [buttonText, setButtonText] = useState("Tweet & Launch Giveaway");
@@ -24,15 +37,41 @@ const CustomTweet: FC<ICustomTweet> = ({ progress, follow, like, retweet }) => {
   const location = useLocation();
 
   useEffect(() => {
+    console.log(location.search);
     if (location.search.indexOf("connected-twitter") !== -1) {
       const fn = async () => {
         setIsLoading(true);
-        const verifyResponse = await verify_twitter_oauth_session();
-        if (verifyResponse.data.status === "failed") {
-          setIsLoading(false);
-          return;
+
+        if (process.env.NODE_ENV === "production") {
+          const verifyResponse = await verify_twitter_oauth_session();
+          if (verifyResponse.data.status === "failed") {
+            setIsLoading(false);
+            return;
+          }
         }
 
+        const params = {
+          ft_prizes: cryptos?.map((crypto) => ({
+            ft: {
+              contract_id: crypto.id,
+              balance: toNonDivisibleNumber(
+                crypto.decimals,
+                String(crypto.amount)
+              ),
+            },
+          })),
+          nft_prizes: nfts?.map((nft) => ({
+            nft: {
+              contract_id: nft.nft.contract_id,
+              nft_id: nft.nft.token.token_id,
+            },
+          })),
+        };
+        update_twitter_pool_transaction(
+          params,
+          Number(boxId),
+          `${NODE_CONFIG.origin}/box/${boxId}`
+        );
         // Fake URL for testing
         const fakeTweetURL =
           "https://twitter.com/woca/status/1489889136433455110";
@@ -108,8 +147,6 @@ ${requirementTextures
             />
           }
           onClick={() => {
-            // TODO Submit
-
             window.location.href = `/twitter/authenticate?redirect=${NODE_CONFIG.origin}${location.pathname}`;
           }}
         >
