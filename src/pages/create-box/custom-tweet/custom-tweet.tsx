@@ -41,24 +41,6 @@ const CustomTweet: FC<ICustomTweet> = ({ progress, follow, like, retweet }) => {
           }
         }
 
-        const params = {
-          ft_prizes: cryptos?.map((crypto) => ({
-            ft: {
-              contract_id: crypto.id,
-              balance: toNonDivisibleNumber(
-                crypto.decimals,
-                String(crypto.amount)
-              ),
-            },
-          })),
-          nft_prizes: nfts?.map((nft) => ({
-            nft: {
-              contract_id: nft.nft.contract_id,
-              nft_id: nft.nft.token.token_id,
-            },
-          })),
-        };
-
         publish_pool(Number(boxId));
         // Fake URL for testing
         const fakeTweetURL =
