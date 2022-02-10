@@ -3,6 +3,8 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const { createProxyMiddleware } = require("http-proxy-middleware");
+const config = require("./config");
+
 require("secrets");
 
 const {
@@ -116,7 +118,7 @@ async function main() {
       // TODO: modify this to /box/edit once Steve finish the creating/editing flow
       if (req.session.redirect.indexOf("edit") !== -1) {
         res.redirect(
-          `/${req.session.redirect}?connected-twitter=${user.screen_name}}&progress=2`
+          `${config[process.env.NODE_ENV]}/${req.session.redirect}?connected-twitter=${user.screen_name}}&progress=2`
         );
         return;
       }

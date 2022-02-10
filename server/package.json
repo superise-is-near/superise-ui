@@ -7,6 +7,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon $npm_package_main",
+    "start:local": "NODE_PRODUCT=base nodemon $npm_package_main",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
