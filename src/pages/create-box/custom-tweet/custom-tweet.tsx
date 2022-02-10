@@ -20,17 +20,8 @@ interface ICustomTweet {
   follow: boolean;
   like: boolean;
   retweet: boolean;
-  cryptos: TokenMetadataWithAmount[];
-  nfts: ParasNft[];
 }
-const CustomTweet: FC<ICustomTweet> = ({
-  progress,
-  follow,
-  like,
-  retweet,
-  cryptos,
-  nfts,
-}) => {
+const CustomTweet: FC<ICustomTweet> = ({ progress, follow, like, retweet }) => {
   if (progress !== 2) return null;
 
   const [buttonText, setButtonText] = useState("Tweet & Launch Giveaway");
@@ -38,11 +29,6 @@ const CustomTweet: FC<ICustomTweet> = ({
   const location = useLocation();
 
   useEffect(() => {
-    console.log(location.search);
-    if (location.search.indexOf("update-complete")) {
-      publish_pool(Number(boxId));
-      return;
-    }
     if (location.search.indexOf("connected-twitter") !== -1) {
       const fn = async () => {
         setIsLoading(true);
@@ -72,11 +58,8 @@ const CustomTweet: FC<ICustomTweet> = ({
             },
           })),
         };
-        update_twitter_pool_transaction(
-          params,
-          Number(boxId),
-          `${NODE_CONFIG.origin}/box/${boxId}/edit?update-complete=true`
-        );
+
+        publish_pool(Number(boxId));
         // Fake URL for testing
         const fakeTweetURL =
           "https://twitter.com/woca/status/1489889136433455110";

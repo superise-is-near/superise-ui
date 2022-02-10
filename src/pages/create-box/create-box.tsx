@@ -166,8 +166,6 @@ const CreateBox: FC = () => {
         follow={follow}
         like={like}
         retweet={retweet}
-        cryptos={cryptos}
-        nfts={parasNfts}
       />
     </main>
   );

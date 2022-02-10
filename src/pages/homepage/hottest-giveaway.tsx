@@ -14,6 +14,7 @@ function HottestGiveaway() {
     <section
       id="hottest-giveaway"
       className="w-full flex flex-col items-center homepage-container"
+      style={{ paddingBottom: "48px" }}
     >
       <div className="w-13 h-13 mt-8">
         <img
