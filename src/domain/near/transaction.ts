@@ -17,7 +17,7 @@ import {
 } from "~domain/near/models";
 import { NEAR_ICON } from "~domain/near/ft/metadata";
 import { ftGetTokenMetadata } from "~domain/near/ft/methods";
-import { AccountId } from "~domain/superise/models";
+import {AccountId, PoolId} from "~domain/superise/models";
 import { STORAGE_TO_REGISTER_WITH_FT } from "~domain/near/storage/models";
 import { ftGetStorageBalance } from "~domain/near/storage/methods";
 import { SUPERISE_CONTRACT_ID } from "~domain/near/wrap-near";
@@ -87,6 +87,11 @@ export class NearTransaction {
 
   public add_action(receiver_id: string, action: Action): NearTransaction {
     this.transaction_infos.push({ receiverId: receiver_id, actions: [action] });
+    return this;
+  }
+
+  public add_actions(receiver_id: string, actions: Action[]): NearTransaction {
+    this.transaction_infos.push({ receiverId: receiver_id, actions: actions });
     return this;
   }
 
@@ -186,6 +191,15 @@ export class NearActions {
     );
   }
 
+  static superise_publish_pool(pool_id: PoolId): Action {
+    return functionCall(
+      "publish_pool",
+      {pool_id: pool_id},
+      NearGas.TGas(50),
+      NearAmount.ONE_YOCTO_NEAR
+    )
+  }
+
   static superise_update_twitter_action(
     create_param: TwitterPoolCreateParam,
     pool_id: number
@@ -193,7 +207,7 @@ export class NearActions {
     return functionCall(
       "update_twitter_pool",
       { param: create_param, pool_id: pool_id },
-      NearGas.MAX_GAS,
+      NearGas.TGas(200),
       NearAmount.ONE_YOCTO_NEAR
     );
   }
