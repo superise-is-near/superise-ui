@@ -135,9 +135,9 @@ const BoxPage = () => {
     joinPool();
   }
 
-
-  const requirements: TwitterRequirment[] =twitterPool.requirements? JSON.parse(
-    twitterPool.requirements): [];
+  const requirements: TwitterRequirment[] = twitterPool.requirements
+    ? JSON.parse(twitterPool.requirements)
+    : [];
 
   const progress = (() => {
     return (
