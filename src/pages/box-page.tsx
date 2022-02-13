@@ -44,7 +44,7 @@ const BoxPage = () => {
   const [parasNfts, setParasNfts] = useState<ParasNft[]>([]);
   const [fts, setFts] = useState<TokenMetadataWithAmount[]>([]);
 
-  console.log({ twitterPool });
+  console.log("twitter pool: \n", { twitterPool });
   useEffect(() => {
     if (!twitterPool || !tokens) return;
     Promise.all(
@@ -103,8 +103,6 @@ const BoxPage = () => {
 
   if (!twitterPool || !tokens) return <PageLoading />;
 
-  console.log({ twitterPool });
-
   async function joinPool() {
     setJoining(true);
     try {
@@ -137,11 +135,9 @@ const BoxPage = () => {
     joinPool();
   }
 
-  console.log({ twitterPool });
-
-  const requirements: TwitterRequirment[] = JSON.parse(
-    twitterPool.requirements
-  );
+  const requirements: TwitterRequirment[] = twitterPool.requirements
+    ? JSON.parse(twitterPool.requirements)
+    : [];
 
   const progress = (() => {
     return (
