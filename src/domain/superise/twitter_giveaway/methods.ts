@@ -16,7 +16,7 @@ import {
   NearTransactionInfo,
   NearTransactionInfoFactory,
 } from "~domain/near/transaction";
-import {boolean} from "mathjs";
+import { boolean } from "mathjs";
 
 const config = getConfig();
 
@@ -66,8 +66,12 @@ export async function update_twitter_pool_transaction(
     );
   });
 
-  let superise_actions = publish? [NearActions.superise_update_twitter_action(param, pool_id),NearActions.superise_publish_pool(pool_id)]
-    : [NearActions.superise_update_twitter_action(param, pool_id)]
+  let superise_actions = publish
+    ? [
+        NearActions.superise_update_twitter_action(param, pool_id),
+        NearActions.superise_publish_pool(pool_id),
+      ]
+    : [NearActions.superise_update_twitter_action(param, pool_id)];
   nearTransaction.add_actions(config.SUPERISE_CONTRACT_ID, superise_actions);
   console.log(nearTransaction);
   await nearTransaction.execute(callback_url);
