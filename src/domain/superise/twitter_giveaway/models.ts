@@ -67,7 +67,7 @@ export type TwitterPool = {
   create_time: MilliTimeStamp;
   updated_time: MilliTimeStamp;
   white_list: AccountId[];
-  requirements: string; // requirmentsValue type
+  requirements?: string; // requirmentsValue type
   // twitter_near_bind: HashMap<AccountId, TwitterAccount>,
   twitter_link: string;
   records: [];
