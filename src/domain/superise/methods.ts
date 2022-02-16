@@ -13,13 +13,17 @@ import {
 import { defaultCallbackUrl, wallet } from "~domain/near/global";
 import {
   AccountId,
-  Assets, AssetsActivity,
+  Assets,
+  AssetsActivity,
   FtAsset,
   FtPrize,
   NftAsset,
-  NftPrize, Page, PoolId,
+  NftPrize,
+  Page,
+  PoolId,
   PrizePool,
-  PrizePoolDisplay, Record,
+  PrizePoolDisplay,
+  Record,
 } from "~domain/superise/models";
 import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
 import { Account } from "near-api-js";
@@ -234,10 +238,13 @@ export function view_user_pool(
   //   });
 }
 
-export function query_user_activities(account_id: AccountId, page: Page): AssetsActivity[] {
+export function query_user_activities(
+  account_id: AccountId,
+  page: Page
+): AssetsActivity[] {
   return null;
 }
 
 export function query_prize_pool_history(pool_id: PoolId): Record[] {
-  return null
+  return null;
 }

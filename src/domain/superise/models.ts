@@ -68,7 +68,7 @@ class Account {
 
 export class Record {
   time: number;
-  prize: FtPrize | NftPrize ;
+  prize: FtPrize | NftPrize;
   receiver: AccountId;
 }
 
@@ -156,6 +156,6 @@ export class SuperiseDisplayableNftFactory {
 }
 
 export type Page = {
-  page_size: number,
-  page_number: number
-}
+  page_size: number;
+  page_number: number;
+};
