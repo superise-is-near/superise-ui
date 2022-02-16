@@ -4,6 +4,7 @@ import {
   MilliTimeStamp,
   NftPrize,
   PrizePool,
+  Record,
 } from "~domain/superise/models";
 import { boolean, number } from "mathjs";
 
@@ -70,5 +71,5 @@ export type TwitterPool = {
   requirements?: string; // requirmentsValue type
   // twitter_near_bind: HashMap<AccountId, TwitterAccount>,
   twitter_link: string;
-  records: [];
+  records: Record[];
 };
