@@ -4,7 +4,7 @@ import { nft_token, nft_token_metadata } from "~domain/near/nft/methods";
 import getConfig from "~domain/near/config";
 import { ParasNft } from "~domain/paras/models";
 import { getImgUrlFromCid } from "~domain/paras/methods";
-import {TwitterPoolDisplay} from "~domain/superise/twitter_giveaway/models";
+import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
 
 export type TokenId = string;
 export type Balance = string;
@@ -69,15 +69,15 @@ class Account {
 
 export type Record = {
   time: number;
-  ft_prize?: FtPrize ;
+  ft_prize?: FtPrize;
   nft_prize?: NftPrize;
   receiver: AccountId;
-}
+};
 
 export type AccountPrizePoolHistory = {
-  pool: TwitterPoolDisplay,
-  records: Record[]
-}
+  pool: TwitterPoolDisplay;
+  records: Record[];
+};
 
 export interface AssetsActivity {
   activity_id: number;

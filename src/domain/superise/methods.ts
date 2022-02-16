@@ -12,7 +12,8 @@ import {
 } from "~domain/near/models";
 import { defaultCallbackUrl, wallet } from "~domain/near/global";
 import {
-  AccountId, AccountPrizePoolHistory,
+  AccountId,
+  AccountPrizePoolHistory,
   Assets,
   AssetsActivity,
   FtAsset,
@@ -210,10 +211,7 @@ export function view_account_assets(account_id: string): Promise<Assets> {
 export function view_account_balance(id: string): Promise<TokenBalancesView> {
   return wallet
     .account()
-    .viewFunction(
-      config.SUPERISE_CONTRACT_ID,
-      "view_account_balance",
-      {
+    .viewFunction(config.SUPERISE_CONTRACT_ID, "view_account_balance", {
       account_id: id,
     });
 }
@@ -252,12 +250,16 @@ export function query_prize_pool_history(pool_id: PoolId): Record[] {
   return null;
 }
 
-export async function view_account_prizepool_history(account_id: AccountId): Promise<AccountPrizePoolHistory> {
-  return wallet.account()
+export async function view_account_prizepool_history(
+  account_id: AccountId
+): Promise<AccountPrizePoolHistory> {
+  return wallet
+    .account()
     .viewFunction(
       config.SUPERISE_CONTRACT_ID,
       "view_account_prizepool_history",
       {
         account_id: account_id,
-      })
+      }
+    );
 }
