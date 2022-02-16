@@ -13,13 +13,13 @@ import {
 import { defaultCallbackUrl, wallet } from "~domain/near/global";
 import {
   AccountId,
-  Assets,
+  Assets, AssetsActivity,
   FtAsset,
   FtPrize,
   NftAsset,
-  NftPrize,
+  NftPrize, Page, PoolId,
   PrizePool,
-  PrizePoolDisplay,
+  PrizePoolDisplay, Record,
 } from "~domain/superise/models";
 import { TwitterPoolDisplay } from "~domain/superise/twitter_giveaway/models";
 import { Account } from "near-api-js";
@@ -232,4 +232,12 @@ export function view_user_pool(
   //   .viewFunction(config.SUPERISE_CONTRACT_ID, "view_user_pool", {
   //     account_id,
   //   });
+}
+
+export function query_user_activities(account_id: AccountId, page: Page): AssetsActivity[] {
+  return null;
+}
+
+export function query_prize_pool_history(pool_id: PoolId): Record[] {
+  return null
 }
