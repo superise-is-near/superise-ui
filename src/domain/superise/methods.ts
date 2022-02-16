@@ -13,7 +13,6 @@ import {
 import { defaultCallbackUrl, wallet } from "~domain/near/global";
 import {
   AccountId,
-  AccountPrizePoolHistory,
   Assets,
   AssetsActivity,
   FtAsset,
@@ -248,18 +247,4 @@ export function query_user_activities(
 
 export function query_prize_pool_history(pool_id: PoolId): Record[] {
   return null;
-}
-
-export async function view_account_prizepool_history(
-  account_id: AccountId
-): Promise<AccountPrizePoolHistory> {
-  return wallet
-    .account()
-    .viewFunction(
-      config.SUPERISE_CONTRACT_ID,
-      "view_account_prizepool_history",
-      {
-        account_id: account_id,
-      }
-    );
 }
