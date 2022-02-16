@@ -3,7 +3,8 @@ import {
   FtPrize,
   MilliTimeStamp,
   NftPrize,
-  PrizePool, Record,
+  PrizePool,
+  Record,
 } from "~domain/superise/models";
 import { boolean, number } from "mathjs";
 
