@@ -105,6 +105,10 @@ const CreateBox: FC = () => {
     sessionStorage.getItem("like") === true.toString()
   );
 
+  const handleTweetSuccess = () => {
+    history.push(`/box/${boxId}`);
+  };
+
   return (
     <div className="max-w-2xl px-5 m-auto mb-6 lg:max-w-7xl">
       <main className="m-auto lg:max-w-2xl">
@@ -167,6 +171,7 @@ const CreateBox: FC = () => {
           follow={follow}
           like={like}
           retweet={retweet}
+          onSuccess={handleTweetSuccess}
         />
       </main>
     </div>

@@ -20,7 +20,7 @@ import { boolean } from "mathjs";
 
 const config = getConfig();
 
-export function publish_pool(pool_id: PoolId) {
+export async function publish_pool(pool_id: PoolId) {
   return wallet
     .account()
     .functionCall(config.SUPERISE_CONTRACT_ID, "publish_pool", {

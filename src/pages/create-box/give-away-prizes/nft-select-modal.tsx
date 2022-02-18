@@ -122,7 +122,7 @@ const ParasNFTsDisplay: FC<IParasNFTsDisplay> = ({
               No NFTs found in your wallet.
             </span>
             <span className="text-sm text-gray-600">
-              Please add some through this link:{" "}
+              Please add some by following this link:{" "}
               <a
                 href="https://testnet.paras.id"
                 className="underline"

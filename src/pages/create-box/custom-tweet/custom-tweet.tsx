@@ -20,8 +20,15 @@ interface ICustomTweet {
   follow: boolean;
   like: boolean;
   retweet: boolean;
+  onSuccess: () => void;
 }
-const CustomTweet: FC<ICustomTweet> = ({ progress, follow, like, retweet }) => {
+const CustomTweet: FC<ICustomTweet> = ({
+  progress,
+  follow,
+  like,
+  retweet,
+  onSuccess,
+}) => {
   if (progress !== 2) return null;
 
   const [buttonText, setButtonText] = useState("Tweet & Launch Giveaway");
@@ -41,7 +48,15 @@ const CustomTweet: FC<ICustomTweet> = ({ progress, follow, like, retweet }) => {
           }
         }
 
-        publish_pool(Number(boxId));
+        try {
+          await publish_pool(Number(boxId));
+        } catch (e) {
+          setIsLoading(false);
+          setButtonText("Try again");
+          return;
+        }
+        onSuccess();
+
         // Fake URL for testing
         const fakeTweetURL =
           "https://twitter.com/woca/status/1489889136433455110";
