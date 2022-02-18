@@ -87,6 +87,7 @@ async function checkTwitterFriendship({
         const parsedResult = result && JSON.parse(result);
         if (
           parsedResult &&
+          parsedResult.relationship &&
           parsedResult.relationship.target &&
           parsedResult.relationship.target.followed_by
         ) {
