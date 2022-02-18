@@ -50,21 +50,25 @@ export async function update_twitter_pool_transaction(
   publish: boolean = false
 ) {
   let nearTransaction = new NearTransaction();
-  for (let ftPrize of param.ft_prizes) {
-    let nearTransactionInfos: NearTransactionInfo[] =
-      await NearTransactionInfoFactory.superise_deposit_ft_transactions(
-        ftPrize.ft.contract_id,
-        ftPrize.ft.balance
-      );
-    nearTransaction.add_transactions(nearTransactionInfos);
+  if(param.ft_prizes!=undefined) {
+    for (let ftPrize of param.ft_prizes) {
+      let nearTransactionInfos: NearTransactionInfo[] =
+        await NearTransactionInfoFactory.superise_deposit_ft_transactions(
+          ftPrize.ft.contract_id,
+          ftPrize.ft.balance
+        );
+      nearTransaction.add_transactions(nearTransactionInfos);
+    }
   }
 
-  param.nft_prizes.forEach((e) => {
-    nearTransaction.add_action(
-      e.nft.contract_id,
-      NearActions.nft_transfer_call_action(e.nft.nft_id)
-    );
-  });
+  if(param.nft_prizes!=undefined) {
+    param.nft_prizes.forEach((e) => {
+      nearTransaction.add_action(
+        e.nft.contract_id,
+        NearActions.nft_transfer_call_action(e.nft.nft_id)
+      );
+    });
+  }
 
   let superise_actions = publish
     ? [
