@@ -127,7 +127,7 @@ const CustomTweet: FC<ICustomTweet> = ({
           return;
         }
 
-        onSuccess();
+        // onSuccess();
 
         // Real URL when deploy to server
         // Twitter will report error if we send same tweets through the API
