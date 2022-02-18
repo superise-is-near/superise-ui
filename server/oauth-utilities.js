@@ -71,7 +71,13 @@ async function checkTwitterFriendship({
   oauthAccessToken,
   oauthAccessTokenSecret,
   screen_name,
+  login_screen_name,
 } = {}) {
+  if (screen_name === login_screen_name) {
+    return new Promise((resolve) =>
+      resolve({ status: "success", message: "success" })
+    );
+  }
   return new Promise((resolve, reject) => {
     oauthConsumer.get(
       `https://api.twitter.com/1.1/friendships/show.json?target_screen_name=${screen_name}`,
