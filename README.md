@@ -8,7 +8,7 @@ Backend:
 ```
 > cd ./server
 > yarn
-> yarn start
+> yarn start:local
 ```
 
 Frontend
