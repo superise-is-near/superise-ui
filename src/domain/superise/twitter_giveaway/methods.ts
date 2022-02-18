@@ -50,7 +50,7 @@ export async function update_twitter_pool_transaction(
   publish: boolean = false
 ) {
   let nearTransaction = new NearTransaction();
-  if(param.ft_prizes!=undefined) {
+  if (param.ft_prizes != undefined) {
     for (let ftPrize of param.ft_prizes) {
       let nearTransactionInfos: NearTransactionInfo[] =
         await NearTransactionInfoFactory.superise_deposit_ft_transactions(
@@ -61,7 +61,7 @@ export async function update_twitter_pool_transaction(
     }
   }
 
-  if(param.nft_prizes!=undefined) {
+  if (param.nft_prizes != undefined) {
     param.nft_prizes.forEach((e) => {
       nearTransaction.add_action(
         e.nft.contract_id,
