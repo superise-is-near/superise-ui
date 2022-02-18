@@ -118,7 +118,7 @@ async function main() {
       // TODO: modify this to /box/edit once Steve finish the creating/editing flow
       if (req.session.redirect.indexOf("edit") !== -1) {
         res.redirect(
-          `${req.session.redirect}?connected-twitter=${user.screen_name}}&progress=2`
+          `${req.session.redirect}?connected-twitter=${user.screen_name}&progress=2`
         );
         return;
       }
@@ -165,6 +165,7 @@ async function main() {
           oauthAccessToken,
           oauthAccessTokenSecret,
           screen_name: requirment.screen_name,
+          login_screen_name: twitter_screen_name,
         });
       }
 
@@ -228,10 +229,10 @@ async function main() {
     res.json(sendTweetResult);
   });
 
+  if (!process.env.NODE_ENV) app.use(proxy);
+
   app.use(express.static(path.resolve(__dirname, "../dist")));
   app.use("/*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../dist/index.html"));
   });
-
-  if (!process.env.NODE_ENV) app.use(proxy);
 }

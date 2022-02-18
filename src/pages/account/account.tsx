@@ -58,6 +58,15 @@ const AccountPage = () => {
         text="Connect to NEAR wallet first before visiting the account page."
       />
     );
+
+  const emptyAssets = (() => {
+    const emptyNFT = nfts.length === 0;
+    const emptyFT =
+      Object.keys(ftAssets).length === 0 ||
+      !Object.keys(ftAssets).find((key) => ftAssets[key] !== "0");
+    return emptyNFT && emptyFT;
+  })();
+  console.log({ ftAssets });
   return (
     <div className="m-auto mt-5 lg:max-w-2xl">
       <WithdrawModal
@@ -98,6 +107,7 @@ const AccountPage = () => {
           onClick={() => {
             setIsWithdrawModalOpen(true);
           }}
+          disabled={emptyAssets}
         >
           Withdraw Assets
         </PrimaryButton>

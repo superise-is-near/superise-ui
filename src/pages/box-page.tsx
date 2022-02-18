@@ -28,6 +28,7 @@ import { ParasNft } from "~domain/paras/models";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
 import { toReadableNumber } from "~utils/numbers";
 import Section from "~components/section";
+import boxIcon from "~assets/box-blue.svg";
 
 const BoxPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -82,22 +83,26 @@ const BoxPage = () => {
       twitterPool.prize_pool.join_accounts.indexOf(loginAccountName) !== -1;
     if (isAlreadyJoined) {
       return (
-        <div className="mt-6">
-          <PrimaryButton disabled size="large" isFull>
-            You have joined
-          </PrimaryButton>
+        <div className="flex items-center mt-4">
+          <img src={boxIcon} />
+          <div className="ml-4 text-base text-gray-600">
+            You are taking part
+          </div>
         </div>
       );
     }
     return (
-      <PrimaryButton
-        isFull
-        onClick={handleClickJoin}
-        loading={joining}
-        size="large"
-      >
-        Join Giveaway
-      </PrimaryButton>
+      <>
+        <Spacer h="16px" />
+        <PrimaryButton
+          isFull
+          onClick={handleClickJoin}
+          loading={joining}
+          size="large"
+        >
+          Join Giveaway
+        </PrimaryButton>
+      </>
     );
   }, [twitterPool?.prize_pool?.join_accounts, joining]);
 
@@ -174,7 +179,7 @@ const BoxPage = () => {
       <Spacer h="48px" />
       <Section>
         <div style={{ maxHeight: "359px" }}>
-          <TwitterCard url="https://twitter.com/0xSabri/status/1487348695859445761" />
+          <TwitterCard url={twitterPool.twitter_link} />
         </div>
       </Section>
       <Spacer h="16px" />
@@ -196,7 +201,6 @@ const BoxPage = () => {
 
         <Spacer h="24px" />
         <ProgressBar percentage={progress} />
-        <Spacer h="16px" />
         {JoinButton}
       </Section>
 
