@@ -3,12 +3,12 @@ import { useHistory } from "react-router-dom";
 import { PrimaryButton } from "~components/button/Button";
 import VerticalLine from "../vertical-line";
 import CollapsedCard from "./CollapsedCard";
-import RevealTime from "./reveal-time";
+import RevealTime, { RevealTimeProps } from "./reveal-time";
 import TwitterRequirementsCard, {
   ITwitterRequirementsCard,
 } from "./twitter-requirements-card";
 
-interface IRequirements extends ITwitterRequirementsCard {
+interface IRequirements extends ITwitterRequirementsCard, RevealTimeProps {
   progress: number;
   collapsed: boolean;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
@@ -24,6 +24,10 @@ const RequirementsTiming: FC<IRequirements> = ({
   setFollow,
   setLike,
   setRetweet,
+  endDate,
+  setEndDate,
+  endHour,
+  setEndHour,
 }) => {
   const history = useHistory();
   return (
@@ -39,7 +43,7 @@ const RequirementsTiming: FC<IRequirements> = ({
       )}
       {!collapsed && (
         <div className="w-full">
-          <h3 className="mt-4 mb-3 text-xs text-gray-700 font-semibold">
+          <h3 className="mt-4 mb-3 text-xs font-semibold text-gray-700">
             REQUIREMENTS
           </h3>
           <TwitterRequirementsCard
@@ -51,11 +55,15 @@ const RequirementsTiming: FC<IRequirements> = ({
             setRetweet={setRetweet}
           />
 
-          <h3 className="mt-8 mb-3 text-xs text-gray-700 font-semibold">
+          <h3 className="mt-8 mb-3 text-xs font-semibold text-gray-700">
             REVEAL TIME
           </h3>
-          <RevealTime />
-
+          <RevealTime
+            endDate={endDate}
+            setEndDate={setEndDate}
+            endHour={endHour}
+            setEndHour={setEndHour}
+          />
           <PrimaryButton
             size="large"
             className="my-6"

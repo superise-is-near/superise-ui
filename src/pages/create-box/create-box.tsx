@@ -105,6 +105,13 @@ const CreateBox: FC = () => {
     sessionStorage.getItem("like") === true.toString()
   );
 
+  const [endDate, setEndDate] = useState<string>(
+    sessionStorage.getItem("endDate") || ""
+  );
+  const [endHour, setEndHour] = useState<string>(
+    sessionStorage.getItem("endHour") || ""
+  );
+
   const handleTweetSuccess = () => {
     history.push(`/box/${boxId}`);
   };
@@ -154,6 +161,10 @@ const CreateBox: FC = () => {
             setRetweet={setRetweet}
             like={like}
             setLike={setLike}
+            endDate={endDate}
+            setEndDate={setEndDate}
+            endHour={endHour}
+            setEndHour={setEndHour}
           />
         )}
 
@@ -172,6 +183,9 @@ const CreateBox: FC = () => {
           like={like}
           retweet={retweet}
           onSuccess={handleTweetSuccess}
+          endDate={endDate}
+          endHour={endHour}
+          pool_id={boxId}
         />
       </main>
     </div>

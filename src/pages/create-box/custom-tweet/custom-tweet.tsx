@@ -14,25 +14,65 @@ import { getNodeConfig } from "~domain/near/config";
 import { toNonDivisibleNumber } from "~utils/numbers";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
 import { ParasNft } from "~domain/paras/models";
+import { RequirmentType } from "~domain/superise/twitter_giveaway/models";
+import { useQuery } from "~state/urls";
+import moment from "moment";
+
+const getRequirementsJSONString = (
+  follow: boolean,
+  retweet: boolean,
+  like: boolean,
+  screen_name: string,
+  tweet_link: string
+) => {
+  const requirments = [];
+  if (follow) {
+    requirments.push({
+      requirment_type: RequirmentType.TwitterFollow,
+      screen_name,
+    });
+  }
+  if (retweet) {
+    requirments.push({
+      requirment_type: RequirmentType.TwitterRetweet,
+      tweet_link,
+    });
+  }
+  if (like) {
+    requirments.push({
+      requirment_type: RequirmentType.TwitterLike,
+      tweet_link,
+    });
+  }
+  return requirments;
+};
 
 interface ICustomTweet {
   progress: number;
   follow: boolean;
   like: boolean;
   retweet: boolean;
+  endDate: string;
+  endHour: string;
   onSuccess: () => void;
+  pool_id: string;
 }
+
 const CustomTweet: FC<ICustomTweet> = ({
   progress,
   follow,
   like,
   retweet,
   onSuccess,
+  endDate,
+  endHour,
+  pool_id,
 }) => {
   if (progress !== 2) return null;
 
   const [buttonText, setButtonText] = useState("Tweet & Launch Giveaway");
   const [isLoading, setIsLoading] = useState(false);
+  const urlsQuery = useQuery();
   const location = useLocation();
 
   useEffect(() => {
@@ -48,22 +88,46 @@ const CustomTweet: FC<ICustomTweet> = ({
           }
         }
 
-        try {
-          await publish_pool(Number(boxId));
-        } catch (e) {
-          setIsLoading(false);
-          setButtonText("Try again");
-          return;
-        }
-        onSuccess();
-
         // Fake URL for testing
-        const fakeTweetURL =
+        const twitter_link =
           "https://twitter.com/woca/status/1489889136433455110";
+
         // successfully send tweet and get the tweetURL(fakeTweetURL):
         // 1. update the twitter pool with the new twitterURL
         // 2. publish the twitter pool
         // 3. display the success UI: https://www.figma.com/file/Cpxx63iKEwfBVSmAYdqD84
+        const screen_name = urlsQuery.get("connected-twitter");
+        const requirments = getRequirementsJSONString(
+          follow,
+          retweet,
+          like,
+          screen_name,
+          twitter_link
+        );
+        const end_time = moment(endDate + " " + endHour).valueOf();
+        console.log({ requirments, screen_name, end_time });
+
+        try {
+          // await publish_pool(Number(boxId));
+
+          await update_twitter_pool_transaction(
+            {
+              requirements: JSON.stringify(requirments),
+              end_time,
+              twitter_link,
+            },
+            Number(pool_id),
+            `${NODE_CONFIG.origin}/box/${pool_id}`,
+            true
+          );
+        } catch (e) {
+          console.log({ e });
+          setIsLoading(false);
+          setButtonText("Try again");
+          return;
+        }
+
+        onSuccess();
 
         // Real URL when deploy to server
         // Twitter will report error if we send same tweets through the API
