@@ -1,5 +1,5 @@
-## Surprise
-Surprise is a tool to manage social meida giveaways. It's built on top of the NEAR protocol.
+## Superise
+Superise is a tool to manage social meida giveaways. It's built on top of the NEAR protocol.
 
 ## Start the project
 

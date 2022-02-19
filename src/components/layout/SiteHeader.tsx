@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import TextLogo from "./TextLogo";
-import Logo from "~components/icons/logo";
-import { Near } from "~components/icons/Near";
-import { Link, useHistory, useLocation } from "react-router-dom";
-import { REF_FARM_CONTRACT_ID, wallet } from "~services/near";
+import React from "react";
+import Logo from "~assets/logo.svg";
+import { Link, useHistory } from "react-router-dom";
+import { wallet } from "~services/near";
 import { PrimaryButton } from "~components/button/Button";
 import getConfig from "~domain/near/config";
 
@@ -45,9 +43,13 @@ const Header = () => {
     <div className="flex items-center justify-between py-6">
       <Link to="/">
         <div className="flex items-center">
-          <Logo />
-          <div className="m-2" />
-          <TextLogo />
+          <img
+            src={Logo}
+            alt="logo"
+            width="auto"
+            height="36px"
+            loading="lazy"
+          />
         </div>
       </Link>
       {/*<PrimaryButton color="red" suffixIcon={<FaArrowDown />}>Connect to NEAR</PrimaryButton> */}
