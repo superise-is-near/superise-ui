@@ -51,16 +51,16 @@ function HottestGiveaway() {
                 try {
                   JSON.parse(requirements).forEach(
                     (requirement: {
-                      requirement_type:
+                      requirment_type:
                         | "twitter_follow"
                         | "twitter_retweet"
                         | "twitter_like";
                     }) => {
-                      if (requirement?.requirement_type === "twitter_follow")
+                      if (requirement?.requirment_type === "twitter_follow")
                         follow = true;
-                      if (requirement?.requirement_type === "twitter_retweet")
+                      if (requirement?.requirment_type === "twitter_retweet")
                         retweet = true;
-                      if (requirement?.requirement_type === "twitter_like")
+                      if (requirement?.requirment_type === "twitter_like")
                         like = true;
                     }
                   );
