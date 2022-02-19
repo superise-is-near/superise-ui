@@ -141,7 +141,7 @@ const CreateBox: FC = () => {
         {/* progress 2, select requirements */}
         <SecondaryTitle
           select={progress >= 1}
-          className="mt-12"
+          className="mt-4"
           icon={Clock}
           deepIcon={DeepClock}
         >
@@ -171,7 +171,7 @@ const CreateBox: FC = () => {
         {/* progress 3, send tweet */}
         <SecondaryTitle
           select={progress === 2}
-          className="mt-12"
+          className="mt-4"
           icon={Hor}
           deepIcon={DeepHor}
         >
