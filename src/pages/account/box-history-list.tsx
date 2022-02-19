@@ -15,7 +15,6 @@ const BoxHistoryList = () => {
       setAccountPrizePoolHistory
     );
   }, []);
-  console.log(accountPrizePoolHistory);
   return (
     <div className="grid grid-col-1 gap-4">
       {accountPrizePoolHistory.map((history) => {
@@ -43,7 +42,14 @@ const BoxHistoryList = () => {
         })();
 
         return (
-          <Link to={`/box/${id}`} key={id}>
+          <Link
+            to={
+              boxStatus === "PENDING"
+                ? `/box/${id}/edit?progress=1`
+                : `/box/${id}`
+            }
+            key={id}
+          >
             <div key={id} className="flex items-center">
               <div className="w-12 h-12 bg-gray-300 rounded-lg"></div>
               <section className="flex flex-col ml-4">
