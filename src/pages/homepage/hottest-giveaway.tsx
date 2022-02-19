@@ -31,7 +31,7 @@ function HottestGiveaway() {
         style={{ marginTop: "70px" }}
       >
         {prizes
-          .filter((prize) => prize.status === "ONGOING")
+          .filter((prize) => prize.status !== "PENDING")
           .map(({ cover, name, id, prize_type, requirements, end_time }) => (
             <GiveawayCard
               key={id}
