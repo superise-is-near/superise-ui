@@ -6,14 +6,14 @@ const configs = {
   },
 
   testnet: {
-    host: "http://testnet.usesurprise.com",
-    twitter_callback_url: "http://testnet.usesurprise.com/twitter-callback",
+    host: "http://testnet.superise.xyz",
+    twitter_callback_url: "http://testnet.superise.xyz/twitter-callback",
     port: 3000,
   },
 
   mainnet: {
-    host: "http://usesurprise.com",
-    twitter_callback_url: "http://usesurprise.com/twitter-callback",
+    host: "http://superise.com",
+    twitter_callback_url: "http://superise.com/twitter-callback",
     port: 4000,
   },
 };

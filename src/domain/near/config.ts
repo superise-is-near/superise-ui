@@ -84,11 +84,11 @@ export function getNodeConfig(env: string = process.env.NODE_ENV) {
       };
     case "testnet":
       return {
-        origin: "http://testnet.usesurprise.com",
+        origin: "http://testnet.superise.xyz",
       };
     case "mainnet":
       return {
-        origin: "http://usesurprise.com",
+        origin: "http://superise.xyz",
       };
   }
 }
