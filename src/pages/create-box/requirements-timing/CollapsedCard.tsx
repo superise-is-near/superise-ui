@@ -40,7 +40,7 @@ const CollapsedCard: FC<ICollapsedCard> = ({
   const history = useHistory();
   return (
     <section className="w-full mt-2">
-      <div className="p-4 flex justify-between border border-gray-300 rounded-2xl">
+      <div className="p-4 flex justify-between border border-gray-300 rounded-2xl bg-white">
         <div className="text-gray-600">
           {generateTitle({ follow, like, retweet })}
         </div>

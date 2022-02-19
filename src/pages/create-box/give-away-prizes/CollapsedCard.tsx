@@ -13,7 +13,7 @@ const CollapsedCard: FC<ICollapsedCard> = ({ nfts, cryptos, setProgress }) => {
   const history = useHistory();
   return (
     <section className="w-full mt-2">
-      <div className="p-4 flex justify-between border border-gray-300 rounded-2xl">
+      <div className="p-4 flex justify-between border border-gray-300 rounded-2xl bg-white">
         <div className="text-gray-600">
           {`${nfts.length} NFT${nfts.length > 1 ? "s" : ""} & ${
             cryptos.length

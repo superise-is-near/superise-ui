@@ -174,7 +174,7 @@ ${requirementTextures
     <section className="flex">
       <VerticalLine bgLight={progress <= 2} className="mr-4" />
       <div className="w-full mt-2">
-        <div className="p-4 border border-gray-300 rounded-2xl">
+        <div className="p-4 border border-gray-300 rounded-2xl bg-white">
           <textarea
             className="w-full h-full border-0"
             rows={8}
