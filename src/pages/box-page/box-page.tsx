@@ -3,7 +3,6 @@ import { useLocation, useParams } from "react-router-dom";
 import { useTwitterPool } from "~state/prize";
 import PageLoading from "~components/page-loading";
 import { useWhitelistTokens } from "~state/token";
-import Footer from "~components/layout/footer";
 import TwitterCard from "~components/twitter-card";
 import Spacer from "~components/spacer";
 import ProgressBar from "~components/progress-bar";
@@ -24,14 +23,15 @@ import dayjs from "dayjs";
 import { useEndtimer } from "~components/prize/prize-pool-card";
 import { AssetsDisplay } from "~pages/create-box/give-away-prizes/select-prizes-card";
 import { TwitterPool } from "~domain/superise/twitter_giveaway/models";
-import { ParasNft } from "~domain/paras/models";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
 import { convertAmountToNumber, toReadableNumber } from "~utils/numbers";
 import Section from "~components/section";
 import boxIcon from "~assets/box-blue.svg";
 import Confetti from "react-confetti";
-import { Record } from "~domain/superise/models";
+import { NftAsset, Record } from "~domain/superise/models";
 import { getTokenSymbol } from "~domain/near/ft/methods";
+import { ParasNft } from "~domain/paras/models";
+import NFTResult from "./nft-result-content";
 
 const BoxPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -220,9 +220,6 @@ const BoxPage = () => {
           <Section>
             <div className="-mx-4 -my-4">
               {twitterPool.records.map((item: Record, idx: number) => {
-                const ftAmount = convertAmountToNumber(
-                  item.ft_prize.ft.balance
-                );
                 const joinedText =
                   item.receiver === loginAccountName ? (
                     <span className="inline-block px-2 ml-1 text-sm text-white bg-gray-900 rounded">
@@ -231,18 +228,31 @@ const BoxPage = () => {
                   ) : (
                     ""
                   );
+                let prizeContent;
+                if (item.ft_prize) {
+                  const ftAmount = convertAmountToNumber(
+                    item.ft_prize.ft.balance
+                  );
+                  prizeContent = (
+                    <div className="text-sm font-semibold text-gray-900">
+                      {ftAmount}{" "}
+                      {getTokenSymbol(tokens, item.ft_prize.ft.contract_id)}
+                    </div>
+                  );
+                }
+                if (item.nft_prize) {
+                  prizeContent = <NFTResult nftAsset={item.nft_prize.nft} />;
+                }
+
                 return (
                   <div
-                    className="flex justify-between p-4 border-b border-gray-300 last:border-0"
+                    className="flex items-center justify-between p-4 border-b border-gray-300 last:border-0"
                     key={idx}
                   >
                     <div className="text-gray-900">
                       {item.receiver} {joinedText}
                     </div>
-                    <div className="text-sm font-semibold text-gray-900">
-                      {ftAmount}{" "}
-                      {getTokenSymbol(tokens, item.ft_prize.ft.contract_id)}
-                    </div>
+                    <div>{prizeContent}</div>
                   </div>
                 );
               })}
