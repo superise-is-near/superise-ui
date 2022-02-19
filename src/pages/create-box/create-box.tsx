@@ -145,7 +145,7 @@ const CreateBox: FC = () => {
           icon={Clock}
           deepIcon={DeepClock}
         >
-          Requirements &amp; Timing
+          REQUIREMENTS &amp; TIMING
         </SecondaryTitle>
         {(sessionStorage.getItem("like") ||
           sessionStorage.getItem("retweet") ||
