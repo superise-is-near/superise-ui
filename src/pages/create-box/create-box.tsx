@@ -117,7 +117,7 @@ const CreateBox: FC = () => {
   };
 
   return (
-    <div className="max-w-2xl px-5 m-auto mb-6 lg:max-w-7xl">
+    <div className="max-w-2xl px-5 m-auto lg:max-w-7xl mb-40">
       <main className="m-auto lg:max-w-2xl">
         <h1 className="text-5xl font-bold">Create Giveaway</h1>
         {/* progress 1, select prize */}

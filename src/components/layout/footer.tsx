@@ -1,26 +1,38 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import Logo from "~assets/logo.svg";
 
 export default () => {
   return (
-    <div className="mt-6 text-gray-500 grid grid-cols-2">
-      <span style={{ fontFamily: "Racing Sans One" }}>Superise</span>
-      <div className="flex flex-col items-end">
-        <div className="grid grid-col-1 gap-2">
-          <a
-            href="https://sixth-motion-b7e.notion.site/Surprise-Roadmap-813c17e1bd994f5c811eb5d5d076f00f"
-            className="text-sm font-semibold underline"
-            target="_blank"
-          >
-            Roadmap
-          </a>
-          <a
-            href="https://twitter.com/superise_"
-            target="_blank"
-            className="font-semibold underline"
-          >
-            Twitter @superise_
-          </a>
+    <div className="mt-6 text-gray-500 flex justify-between">
+      <Link to="/">
+        <div className="flex items-center">
+          <img
+            src={Logo}
+            alt="logo"
+            width="auto"
+            height="36px"
+            loading="lazy"
+          />
         </div>
+      </Link>
+      <div className="flex items-end">
+        <a href="mailto:contact@superise.xyz" target="_blank">
+          <div className="ml-4 font-bold cursor-pointer hover:underline">
+            CONTACT US
+          </div>
+        </a>
+        <a href="https://twitter.com/superise_" target="_blank">
+          <div className="ml-4 font-bold cursor-pointer hover:underline">
+            TWITTER
+          </div>
+        </a>
+
+        <a href="https://discord.gg/pPDXrKV6" target="_blank">
+          <div className="ml-4 font-bold cursor-pointer hover:underline">
+            DISCORD
+          </div>
+        </a>
       </div>
     </div>
   );

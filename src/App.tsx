@@ -6,6 +6,7 @@ import AccountPage from "./pages/account";
 import BoxPage from "~pages/box-page";
 import Modal from "react-modal";
 import SiteHeader from "~components/layout/SiteHeader";
+import Footer from "~components/layout/footer";
 import CreateBox from "~pages/create-box";
 import HomePage from "~pages/homepage";
 
@@ -48,6 +49,9 @@ function App() {
         <Route path="/box/:id" component={BoxPage} />
         <Route path="/" component={HomePage} />
       </Switch>
+      <div className="max-w-2xl px-5 m-auto mb-6 lg:max-w-7xl">
+        <Footer />
+      </div>
     </Router>
   );
 }
