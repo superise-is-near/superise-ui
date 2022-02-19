@@ -8,14 +8,14 @@ import { NavLink } from "react-router-dom";
 function MiddleHero() {
   return (
     <div
-      className="w-full flex justify-center"
+      className="flex justify-center w-full"
       style={{ background: "#1E293B" }}
     >
       <section
         id="started"
         className="flex flex-col items-center homepage-container"
       >
-        <div className="w-13 h-13 mt-8">
+        <div className="mt-8 w-13 h-13">
           <img
             className="w-13 h-13"
             width="52px"
@@ -24,49 +24,10 @@ function MiddleHero() {
             alt="lighting"
           />
         </div>
-        <h2 className="mt-2 text-white text-4xl sm:text-5xl font-bold text-center">
+        <h2 className="mt-2 text-4xl font-bold text-center text-white sm:text-5xl">
           Supercharged & Automated Giveaways
         </h2>
-        <div className="flex mt-8">
-          <NavLink to="/box/create">
-            <button
-              className="flex items-center py-2 px-4 mr-9"
-              style={{ background: "#3C38EB", borderRadius: "46px" }}
-            >
-              <div className="mr-2 w-6 h-6">
-                <img
-                  className="w-6 h-6"
-                  width="24px"
-                  height="24px"
-                  src={Clothes}
-                  alt="clothes"
-                />
-              </div>
-              <div className="text-white text-xs font-semibold">CREATE</div>
-            </button>
-          </NavLink>
-          <a href="/#hottest-giveaway">
-            <button
-              className="flex items-center py-2 px-4"
-              style={{
-                background: "rgba(255, 255, 255, 0.25)",
-                borderRadius: "46px",
-              }}
-            >
-              <div className="mr-2 w-6 h-6">
-                <img
-                  width="24px"
-                  height="24px"
-                  className="w-6 h-6"
-                  src={BookCheckFill}
-                  alt="book check fill"
-                />
-              </div>
-              <div className="text-white text-xs font-semibold">Join</div>
-            </button>
-          </a>
-        </div>
-        <div className="mt-4" style={{ width: "577px", height: "415px" }}>
+        <div className="mt-6" style={{ width: "577px", height: "415px" }}>
           <img
             style={{ width: "577px", height: "415px" }}
             src={MobileImage}
