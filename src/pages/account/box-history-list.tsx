@@ -6,56 +6,7 @@ import { wallet } from "~services/near";
 import { view_account_prizepool_history } from "~domain/superise/methods";
 import { AccountPrizePoolHistory, Record } from "~domain/superise/models";
 
-export const fakePools = [
-  {
-    name: "Twitter Pool",
-    describe: "Twitter Pool",
-    cover: "https://baidu.com",
-    prize_pool: { id: 1 },
-    status: "PENDING",
-    end_time: 16,
-    create_time: 14,
-    updated_time: 15,
-    white_list: ["demo.near"],
-    requirements: "",
-    twitter_link: "https://twitter.com",
-    records: [],
-  },
-  {
-    name: "Twitter Pool",
-    describe: "Twitter Pool",
-    cover: "https://baidu.com",
-    prize_pool: { id: 2 },
-    status: "ONGOING",
-    end_time: 16,
-    create_time: 14,
-    updated_time: 15,
-    white_list: ["demo.near"],
-    requirements: "",
-    twitter_link: "https://twitter.com",
-    records: [],
-  },
-  {
-    name: "Twitter Pool",
-    describe: "Twitter Pool",
-    cover: "https://baidu.com",
-    prize_pool: { id: 3 },
-    status: "FINISHED",
-    end_time: 16,
-    create_time: 14,
-    updated_time: 15,
-    white_list: ["demo.near"],
-    requirements: "",
-    twitter_link: "https://twitter.com",
-    records: [],
-  },
-];
-
-interface IBoxHistoryList {
-  pools?: TwitterPool[];
-}
-
-const BoxHistoryList: FC<IBoxHistoryList> = () => {
+const BoxHistoryList = () => {
   const [accountPrizePoolHistory, setAccountPrizePoolHistory] = useState<
     AccountPrizePoolHistory[]
   >([]);
@@ -67,9 +18,9 @@ const BoxHistoryList: FC<IBoxHistoryList> = () => {
   console.log(accountPrizePoolHistory);
   return (
     <div className="grid grid-col-1 gap-4">
-      {fakePools.map((twitterPool) => {
-        const { id } = twitterPool.prize_pool;
-        const { status: boxStatus } = twitterPool;
+      {accountPrizePoolHistory.map((history) => {
+        const { id } = history.pool;
+        const { status: boxStatus } = history.pool;
         const { boxStatusText, boxStatusColor } = (() => {
           let boxStatusText;
           let boxStatusColor;
