@@ -1,7 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { TwitterPool } from "~domain/superise/twitter_giveaway/models";
 import arrowRightIcon from "~assets/arrow-right.svg";
+import { wallet } from "~services/near";
+import { view_account_prizepool_history } from "~domain/superise/methods";
+import { AccountPrizePoolHistory, Record } from "~domain/superise/models";
 
 export const fakePools = [
   {
@@ -53,6 +56,15 @@ interface IBoxHistoryList {
 }
 
 const BoxHistoryList: FC<IBoxHistoryList> = () => {
+  const [accountPrizePoolHistory, setAccountPrizePoolHistory] = useState<
+    AccountPrizePoolHistory[]
+  >([]);
+  useEffect(() => {
+    view_account_prizepool_history(wallet.getAccountId()).then(
+      setAccountPrizePoolHistory
+    );
+  }, []);
+  console.log(accountPrizePoolHistory);
   return (
     <div className="grid grid-col-1 gap-4">
       {fakePools.map((twitterPool) => {

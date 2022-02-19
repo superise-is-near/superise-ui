@@ -4,16 +4,13 @@ import { PrimaryButton } from "~components/button/Button";
 import { useFtAssets, useWhitelistTokens } from "~state/token";
 import { useAccountHistory } from "~state/prize";
 import RequestSigninModal from "~components/modal/request-signin-modal";
-import { nft_tokens_for_owner_in_paras } from "~domain/paras/methods";
 import { ParasNft } from "~domain/paras/models";
 import SecondaryTitle from "~pages/create-box/secondary-title";
 import Clothes from "~/assets/clothes.svg";
 import Spacer from "~components/spacer";
 import Section from "~components/section";
 import BoxHistoryList from "./box-history-list";
-import ActivityList from "./assets-activity";
 import basketIcon from "~/assets/basket.svg";
-import bookIcon from "~/assets/book-open.svg";
 import outIcon from "~/assets/out.svg";
 import { TokenBalancesView } from "~domain/near/ft/models";
 import WithdrawModal from "./withdraw-modal";
@@ -21,12 +18,8 @@ import AssetsList from "./assets-list";
 import {
   view_account_assets,
   withdraw_assets_transaction,
-  withdraw_ft_transaction,
-  withdraw_nft,
 } from "~domain/superise/methods";
 import { nft_token } from "~domain/near/nft/methods";
-import { NftAsset } from "~domain/superise/models";
-import { getNodeConfig } from "~domain/near/config";
 
 const AccountPage = () => {
   let [isSigningOut, setIsSigningOut] = useState(false);
@@ -66,7 +59,6 @@ const AccountPage = () => {
       !Object.keys(ftAssets).find((key) => ftAssets[key] !== "0");
     return emptyNFT && emptyFT;
   })();
-  console.log({ ftAssets });
   return (
     <div className="m-auto mt-5 lg:max-w-2xl">
       <WithdrawModal
@@ -121,7 +113,7 @@ const AccountPage = () => {
         <BoxHistoryList />
       </Section>
 
-      <SecondaryTitle icon={bookIcon} select className="mt-8">
+      {/* <SecondaryTitle icon={bookIcon} select className="mt-8">
         ACTIVITY
       </SecondaryTitle>
       <Spacer h="16px" />
@@ -129,7 +121,7 @@ const AccountPage = () => {
         <div className="-mx-4 -my-4">
           <ActivityList loginAccount={wallet.getAccountId()} />
         </div>
-      </Section>
+      </Section> */}
 
       <Spacer h="48px" />
       <PrimaryButton

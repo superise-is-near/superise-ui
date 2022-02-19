@@ -105,7 +105,6 @@ const CustomTweet: FC<ICustomTweet> = ({
           twitter_link
         );
         const end_time = moment(endDate + " " + endHour).valueOf();
-        console.log({ requirments, screen_name, end_time });
 
         try {
           // await publish_pool(Number(boxId));
@@ -121,7 +120,6 @@ const CustomTweet: FC<ICustomTweet> = ({
             true
           );
         } catch (e) {
-          console.log({ e });
           setIsLoading(false);
           setButtonText("Try again");
           return;
@@ -148,7 +146,7 @@ const CustomTweet: FC<ICustomTweet> = ({
         // console.log({ twitterURL })
       };
       fn().catch((e) => {
-        console.log({ e });
+        throw e;
       });
     }
   }, [location.search]);

@@ -22,9 +22,7 @@ export default function WithdrawModal(props: ReactModal.Props) {
   ).ref;
   const max = `${selectedTokenBlanceOnNear}`;
 
-  const handleWithdraw = () => {
-    console.log({ selectedToken, amount });
-  };
+  const handleWithdraw = () => {};
 
   return (
     <Modal {...props} title="Withdraw tokens">

@@ -77,7 +77,6 @@ export async function update_twitter_pool_transaction(
       ]
     : [NearActions.superise_update_twitter_action(param, pool_id)];
   nearTransaction.add_actions(config.SUPERISE_CONTRACT_ID, superise_actions);
-  console.log(nearTransaction);
   await nearTransaction.execute(callback_url);
 }
 
@@ -105,7 +104,6 @@ export async function create_twitter_pool_transaction(
     config.SUPERISE_CONTRACT_ID,
     NearActions.superise_create_twitter_action(param)
   );
-  console.log(nearTransaction);
   await nearTransaction.execute(callback_url);
 }
 

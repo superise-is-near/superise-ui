@@ -252,7 +252,7 @@ export function query_prize_pool_history(pool_id: PoolId): Record[] {
 
 export async function view_account_prizepool_history(
   account_id: AccountId
-): Promise<AccountPrizePoolHistory> {
+): Promise<AccountPrizePoolHistory[]> {
   return wallet
     .account()
     .viewFunction(

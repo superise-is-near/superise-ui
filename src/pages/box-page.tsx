@@ -45,7 +45,6 @@ const BoxPage = () => {
   const [parasNfts, setParasNfts] = useState<ParasNft[]>([]);
   const [fts, setFts] = useState<TokenMetadataWithAmount[]>([]);
 
-  console.log("twitter pool: \n", { twitterPool });
   useEffect(() => {
     if (!twitterPool || !tokens) return;
     Promise.all(
@@ -112,10 +111,8 @@ const BoxPage = () => {
     setJoining(true);
     try {
       const res = await join_twitter_pool(twitterPool.prize_pool.id);
-      console.log({ res });
     } catch (e) {
       // TODO: read the join_pool return value to determine if it's successfully joined
-      console.log({ e });
       setJoining(false);
       return;
     }
@@ -209,7 +206,6 @@ const BoxPage = () => {
         <h3 className="text-base font-semibold leading-6">Prizes</h3>
       </div>
       <AssetsDisplay nfts={parasNfts} cryptos={fts} readonly />
-      {console.log(twitterPool.prize_pool)}
 
       <Spacer h="32px" />
       <div className="flex items-center justify-between">

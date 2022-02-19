@@ -36,7 +36,6 @@ export default function PrizepoolDetail(props: {
   tokens: TokenMetadata[];
 }) {
   const { pool, tokens } = props;
-  console.log({ pool });
   const { timeLabel, countdownText, dateText, timeText, fontClass } =
     useEndtimer(pool.end_time, pool.finish);
   // let prize = convertAmountToNumber(pool.ticket_price);
@@ -84,16 +83,13 @@ export default function PrizepoolDetail(props: {
       }))
     ).then((value) => setFts(value));
   }, []);
-  console.log({ pool });
 
   const joinPool = async () => {
     setJoining(true);
     try {
       const res = await join_twitter_pool(pool.prize_pool.id);
-      console.log({ res });
     } catch (e) {
       // TODO: read the join_pool return value to determine if it's successfully joined
-      console.log({ e });
       setJoining(false);
       return;
     }
