@@ -8,7 +8,11 @@ import {
 import { wallet } from "~domain/near/global";
 import getConfig from "~domain/near/config";
 import { FinalExecutionOutcome } from "near-api-js/src/providers/index";
-import {defaultGasAmount, FunctionCallOptions, NearGas} from "~domain/near/models";
+import {
+  defaultGasAmount,
+  FunctionCallOptions,
+  NearGas,
+} from "~domain/near/models";
 import { PoolId } from "~domain/superise/models";
 import {
   NearActions,
@@ -130,7 +134,7 @@ export function join_twitter_pool(
     .functionCall(
       config.SUPERISE_CONTRACT_ID,
       "join_twitter_pool",
-      {pool_id: pool_id},
+      { pool_id: pool_id },
       NearGas.TGas(10)
     );
 }
