@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { TwitterPool } from "~domain/superise/twitter_giveaway/models";
 import arrowRightIcon from "~assets/arrow-right.svg";
+import BoxDefaultImage from "~assets/box-default-image.png";
 import { wallet } from "~services/near";
 import { view_account_prizepool_history } from "~domain/superise/methods";
 import { AccountPrizePoolHistory, Record } from "~domain/superise/models";
@@ -51,7 +51,16 @@ const BoxHistoryList = () => {
             key={id}
           >
             <div key={id} className="flex items-center">
-              <div className="w-12 h-12 bg-gray-300 rounded-lg"></div>
+              <div className="w-12 h-12 bg-gray-300 rounded-lg overflow-hidden">
+                <img
+                  src={BoxDefaultImage}
+                  className="w-12 h-12"
+                  width="48px"
+                  height="48px"
+                  alt="preview image"
+                  loading="lazy"
+                />
+              </div>
               <section className="flex flex-col ml-4">
                 <span className="text-base font-normal text-gray-600 leading-6">
                   Giveaway #{id}
