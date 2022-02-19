@@ -74,6 +74,13 @@ const BoxPage = () => {
     if (location.search.indexOf("show_requirements_modal=1") !== -1) {
       setShowRequirementsModal(true);
     }
+    if (location.search.indexOf("show-success-info=1") !== -1) {
+      sessionStorage.removeItem("like");
+      sessionStorage.removeItem("retweet");
+      sessionStorage.removeItem("follow");
+      sessionStorage.removeItem("endDate");
+      sessionStorage.removeItem("endHour");
+    }
   }, [location.search]);
 
   const JoinButton = useMemo(() => {

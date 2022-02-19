@@ -107,8 +107,6 @@ const CustomTweet: FC<ICustomTweet> = ({
         const end_time = moment(endDate + " " + endHour).valueOf();
 
         try {
-          // await publish_pool(Number(boxId));
-
           await update_twitter_pool_transaction(
             {
               requirements: JSON.stringify(requirments),
@@ -116,7 +114,7 @@ const CustomTweet: FC<ICustomTweet> = ({
               twitter_link,
             },
             Number(pool_id),
-            `${NODE_CONFIG.origin}/box/${pool_id}`,
+            `${NODE_CONFIG.origin}/box/${pool_id}?show-success-info=1`,
             true
           );
         } catch (e) {
