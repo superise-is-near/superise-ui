@@ -380,9 +380,6 @@ const BoxPage = () => {
         <span className="font-semibold text-gray-700">CREATED BY</span>
         <span className="text-gray-500">liaa.near</span>
       </div>
-
-      {/*<PrizePoolDetail pool={prizePool} tokens={tokens} /> */}
-      <Footer />
     </div>
   );
 };
