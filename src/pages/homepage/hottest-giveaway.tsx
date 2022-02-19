@@ -34,6 +34,7 @@ function HottestGiveaway() {
           .filter((prize) => prize.status === "ONGOING")
           .map(({ cover, name, id, prize_type, requirements, end_time }) => (
             <GiveawayCard
+              key={id}
               image={cover}
               title={name}
               prizeType={
