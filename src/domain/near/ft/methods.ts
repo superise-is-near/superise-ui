@@ -100,3 +100,13 @@ export const getDepositableBalance = async (
     return "";
   }
 };
+
+export const getTokenSymbol = (
+  tokens: TokenMetadata[] = [],
+  id: string = ""
+) => {
+  let symbolText = id;
+  const foundToken = tokens.find((item) => item.id === id);
+  if (foundToken) symbolText = foundToken.symbol;
+  return symbolText;
+};

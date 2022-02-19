@@ -157,3 +157,7 @@ export const toInternationalCurrencySystem = (
     ? (Math.abs(Number(labelValue)) / 1.0e3).toFixed(percent || 2) + "K"
     : Math.abs(Number(labelValue)).toFixed(percent || 2);
 };
+
+export function convertAmountToNumber(amount: string): number {
+  return Number(toReadableNumber(24, amount));
+}

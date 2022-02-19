@@ -26,9 +26,12 @@ import { AssetsDisplay } from "~pages/create-box/give-away-prizes/select-prizes-
 import { TwitterPool } from "~domain/superise/twitter_giveaway/models";
 import { ParasNft } from "~domain/paras/models";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
-import { toReadableNumber } from "~utils/numbers";
+import { convertAmountToNumber, toReadableNumber } from "~utils/numbers";
 import Section from "~components/section";
 import boxIcon from "~assets/box-blue.svg";
+import Confetti from "react-confetti";
+import { Record } from "~domain/superise/models";
+import { getTokenSymbol } from "~domain/near/ft/methods";
 
 const BoxPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -84,7 +87,7 @@ const BoxPage = () => {
   }, [location.search]);
 
   const JoinButton = useMemo(() => {
-    if (!twitterPool) return;
+    if (!twitterPool || twitterPool.status !== "ONGOING") return;
     const isAlreadyJoined =
       twitterPool.prize_pool.join_accounts.indexOf(loginAccountName) !== -1;
     if (isAlreadyJoined) {
@@ -208,17 +211,58 @@ const BoxPage = () => {
         {JoinButton}
       </Section>
 
-      <Spacer h="32px" />
-      <div className="flex items-center justify-between">
-        <h3 className="text-base font-semibold leading-6">Prizes</h3>
-      </div>
-      <AssetsDisplay nfts={parasNfts} cryptos={fts} readonly />
+      {twitterPool.status === "FINISHED" && (
+        <>
+          <Confetti recycle={false} numberOfPieces={300} />
+          <Spacer h="32px" />
+          <h3 className="text-base font-semibold leading-6">WINNERS</h3>
+          <Spacer h="16px" />
+          <Section>
+            <div className="-mx-4 -my-4">
+              {twitterPool.records.map((item: Record, idx: number) => {
+                const ftAmount = convertAmountToNumber(
+                  item.ft_prize.ft.balance
+                );
+                const joinedText =
+                  item.receiver === loginAccountName ? (
+                    <span className="inline-block px-2 ml-1 text-sm text-white bg-gray-900 rounded">
+                      You
+                    </span>
+                  ) : (
+                    ""
+                  );
+                return (
+                  <div
+                    className="flex justify-between p-4 border-b border-gray-300 last:border-0"
+                    key={idx}
+                  >
+                    <div className="text-gray-900">
+                      {item.receiver} {joinedText}
+                    </div>
+                    <div className="text-sm font-semibold text-gray-900">
+                      {ftAmount}{" "}
+                      {getTokenSymbol(tokens, item.ft_prize.ft.contract_id)}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </Section>
+        </>
+      )}
 
       <Spacer h="32px" />
       <div className="flex items-center justify-between">
+        <h3 className="text-base font-semibold leading-6">PRIZES</h3>
+      </div>
+      <Spacer h="16px" />
+      <AssetsDisplay nfts={parasNfts} cryptos={fts} readonly />
+
+      <Spacer h="16px" />
+      <div className="flex items-center justify-between">
         <h3 className="text-base font-semibold leading-6">REQUIREMENTS</h3>
       </div>
-      <Spacer h={"12px"} />
+      <Spacer h={"16px"} />
       <Section>
         <div className="-mx-4 -my-4">
           {requirements.map((item, index) => {
@@ -228,7 +272,7 @@ const BoxPage = () => {
               case RequirmentType.TwitterFollow: {
                 const typedRequirement = item as TwitterFollowRequirment;
                 content = (
-                  <div className="px-4 py-4 text-base font-normal text-gray-600 border-b border-gray-300 leading-6 last:border-0">
+                  <div>
                     Follow{" "}
                     <a
                       className="underline"
@@ -244,7 +288,7 @@ const BoxPage = () => {
               case RequirmentType.TwitterLike: {
                 const typedRequirement = item as TwitterLikeRequirment;
                 content = (
-                  <div className="px-4 py-4 text-base font-normal text-gray-600 border-b border-gray-300 leading-6 last:border-0">
+                  <div>
                     Like{" "}
                     <a
                       className="underline"
@@ -261,7 +305,7 @@ const BoxPage = () => {
               case RequirmentType.TwitterRetweet: {
                 const typedRequirement = item as TwitterRetweetRequirment;
                 content = (
-                  <div className="px-4 py-4 text-base font-normal text-gray-600 border-b border-gray-300 leading-6 last:border-0">
+                  <div>
                     Retweet{" "}
                     <a
                       className="underline"
@@ -275,7 +319,14 @@ const BoxPage = () => {
                 break;
               }
             }
-            return <div key={index}>{content}</div>;
+            return (
+              <div
+                key={index}
+                className="px-4 py-4 text-base font-normal text-gray-600 border-b border-gray-300 leading-6 last:border-0"
+              >
+                {content}
+              </div>
+            );
           })}
         </div>
       </Section>
@@ -287,15 +338,19 @@ const BoxPage = () => {
           {twitterPool.prize_pool.join_accounts.length} TOTAL
         </span>
       </div>
-      <Spacer h={"12px"} />
+      <Spacer h={"16px"} />
       <Section>
         {twitterPool.prize_pool.join_accounts.length === 0 ? (
           <div className="flex flex-col items-center ">
-            <span className="text-base font-normal text-gray-500 leading-6">
-              Be the first to join!
-            </span>
-            <Spacer h="16px" />
-            {JoinButton}
+            {twitterPool.status === "ONGOING" ? (
+              <span className="text-base font-normal text-gray-500 leading-6">
+                Be the first to join!
+              </span>
+            ) : (
+              <span className="text-base font-normal text-gray-500 leading-6">
+                No participants.
+              </span>
+            )}
           </div>
         ) : (
           <ul className="-mx-4 -my-4">
