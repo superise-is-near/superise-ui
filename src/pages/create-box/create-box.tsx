@@ -21,8 +21,17 @@ import { nft_token } from "~domain/near/nft/methods";
 import { toReadableNumber } from "~utils/numbers";
 import { TokenMetadataWithAmount } from "~domain/near/ft/models";
 import { view_twitter_prize_pool } from "~domain/superise/twitter_giveaway/methods";
+import RequestSigninModal from "~components/modal/request-signin-modal";
 
 const CreateBox: FC = () => {
+  if (!wallet.isSignedIn()) {
+    return (
+      <RequestSigninModal
+        isOpen
+        text="Connect to NEAR wallet first before creating a box."
+      />
+    );
+  }
   const [progress, setProgress] = useState(0);
 
   const urlsQuery = useQuery();
@@ -117,7 +126,7 @@ const CreateBox: FC = () => {
   };
 
   return (
-    <div className="max-w-2xl px-5 m-auto lg:max-w-7xl mb-40">
+    <div className="max-w-2xl px-5 m-auto mb-40 lg:max-w-7xl">
       <main className="m-auto lg:max-w-2xl">
         <h1 className="text-5xl font-bold">Create Giveaway</h1>
         {/* progress 1, select prize */}
