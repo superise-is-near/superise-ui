@@ -42,57 +42,62 @@ export default function RequirementsModal(props: {
   );
   const [buttonText, setButtonText] = useState("Connect to Twitter");
 
-  useEffect(async () => {
-    const toRequirmentDisplay = (
-      item: RequirementInputValue
-    ): TwitterRequirmentDisplay => {
-      return {
-        ...item,
-        id: nanoid(),
-      } as any as TwitterRequirmentDisplay;
-    };
-    const displayRequirments = props.requirementsValue.map(toRequirmentDisplay);
-    setRequirments(displayRequirments);
+  useEffect(() => {
+    (async () => {
+      const toRequirmentDisplay = (
+        item: RequirementInputValue
+      ): TwitterRequirmentDisplay => {
+        return {
+          ...item,
+          id: nanoid(),
+        } as any as TwitterRequirmentDisplay;
+      };
+      const displayRequirments =
+        props.requirementsValue.map(toRequirmentDisplay);
+      setRequirments(displayRequirments);
 
-    if (location.search.indexOf("connected-twitter") !== -1) {
-      setIsLoading(true);
-      const response = await verify_requirments(displayRequirments);
-      setIsLoading(false);
-      if (response.data.invalidate_twitter_session) {
-        history.replace(location.pathname);
-        return;
-      }
-      const {
-        data: { verifyResults, addWhiteListSuccess },
-      } = response;
-      if (verifyResults) {
-        const updatedRequirments = displayRequirments.map((requirementItem) => {
-          const foundVerifyResult = verifyResults.find(
-            (result) => result.id === requirementItem.id
-          );
-          return {
-            ...requirementItem,
-            status: foundVerifyResult.status,
-            message: foundVerifyResult.message,
-          };
-        });
-        setRequirments(updatedRequirments);
-      }
-      const allSuccessed = verifyResults.reduce((acc, current) => {
-        if (acc === false) return false;
-        return current.status === "success";
-      }, true);
-      if (allSuccessed && addWhiteListSuccess) {
-        setButtonText("All done, joining...");
-        setTimeout(() => {
-          props.onSuccess();
-          props.onRequestClose();
+      if (location.search.indexOf("connected-twitter") !== -1) {
+        setIsLoading(true);
+        const response = await verify_requirments(displayRequirments);
+        setIsLoading(false);
+        if (response.data.invalidate_twitter_session) {
           history.replace(location.pathname);
-        }, 2000);
-      } else {
-        setButtonText("Try again");
+          return;
+        }
+        const {
+          data: { verifyResults, addWhiteListSuccess },
+        } = response;
+        if (verifyResults) {
+          const updatedRequirments = displayRequirments.map(
+            (requirementItem) => {
+              const foundVerifyResult = verifyResults.find(
+                (result) => result.id === requirementItem.id
+              );
+              return {
+                ...requirementItem,
+                status: foundVerifyResult.status,
+                message: foundVerifyResult.message,
+              };
+            }
+          );
+          setRequirments(updatedRequirments);
+        }
+        const allSuccessed = verifyResults.reduce((acc, current) => {
+          if (acc === false) return false;
+          return current.status === "success";
+        }, true);
+        if (allSuccessed && addWhiteListSuccess) {
+          setButtonText("All done, joining...");
+          setTimeout(() => {
+            props.onSuccess();
+            props.onRequestClose();
+            history.replace(location.pathname);
+          }, 2000);
+        } else {
+          setButtonText("Try again");
+        }
       }
-    }
+    })();
   }, [location.search]);
 
   const failedRequirement = requirments.find(
@@ -112,7 +117,7 @@ export default function RequirementsModal(props: {
           <p>finish the tasks to join the giveaway!</p>
         </div>
         <div className="mt-8 grid grid-cols-1 gap-2">
-          {requirments.map((item) => {
+          {requirments.map((item, index) => {
             const { requirment_type } = item;
             let content;
             switch (requirment_type) {
@@ -167,12 +172,11 @@ export default function RequirementsModal(props: {
               }
             }
             return (
-              <div className="flex items-center px-2 py-3">
+              <div className="flex items-center px-2 py-3" key={index}>
                 <Checkbox checked={item.status === "success"} />
                 <div className="ml-2">{content}</div>
               </div>
             );
-            return content;
           })}
         </div>
         {failedRequirement && (
@@ -184,8 +188,6 @@ export default function RequirementsModal(props: {
           <PrimaryButton
             size="large"
             loading={isLoading}
-            loadingText="Verifying"
-            bg="#3b82f6"
             isFull
             onClick={() => {
               window.location.href = `/twitter/authenticate?near_account=${props.accountName}&pool_id=${props.pool_id}`;

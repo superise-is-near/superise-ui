@@ -214,7 +214,7 @@ const BoxPage = () => {
       <Spacer h={"12px"} />
       <Section>
         <div className="-mx-4 -my-4">
-          {requirements.map((item) => {
+          {requirements.map((item, index) => {
             const { requirment_type } = item;
             let content;
             switch (requirment_type) {
@@ -268,7 +268,7 @@ const BoxPage = () => {
                 break;
               }
             }
-            return content;
+            return <div key={index}>{content}</div>;
           })}
         </div>
       </Section>
@@ -292,13 +292,18 @@ const BoxPage = () => {
           </div>
         ) : (
           <ul className="-mx-4 -my-4">
-            {twitterPool.prize_pool.join_accounts.slice(0, 3).map((item) => {
-              return (
-                <li className="px-4 py-4 text-base font-normal text-gray-600 border-b border-gray-300 leading-6 last:border-b-0">
-                  {item}
-                </li>
-              );
-            })}
+            {twitterPool.prize_pool.join_accounts
+              .slice(0, 3)
+              .map((item, index) => {
+                return (
+                  <li
+                    key={index}
+                    className="px-4 py-4 text-base font-normal text-gray-600 border-b border-gray-300 leading-6 last:border-b-0"
+                  >
+                    {item}
+                  </li>
+                );
+              })}
             {twitterPool.prize_pool.join_accounts.length > 3 && (
               <li className="px-4 py-4 text-base font-normal text-gray-400 text-gray-600 leading-6">
                 +{twitterPool.prize_pool.join_accounts.length - 3} more
