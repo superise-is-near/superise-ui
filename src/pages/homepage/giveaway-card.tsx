@@ -23,7 +23,7 @@ const GiveawayCard: FC<IGiveAwayCard> = ({
 }) => {
   return (
     <section className="relative">
-      <div className="absolute top-0 w-25 h-25 rounded-xl overflow-hidden">
+      <div className="absolute top-0 w-25 h-25 left-6 rounded-xl overflow-hidden">
         <img
           className="w-25 h-25"
           src={image || BoxDefaultImage}
