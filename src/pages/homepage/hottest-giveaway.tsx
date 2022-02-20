@@ -33,9 +33,9 @@ function HottestGiveaway() {
 
       {unFinishedPools.length > 0 && (
         <>
-          <h1 className="mt-8 text-lg home-page-giveaway-cards">
+          <h2 className="mt-8 text-lg font-semibold home-page-giveaway-cards">
             Ongoing giveaways
-          </h1>
+          </h2>
           <div className="mt-6 mb-4 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-12 home-page-giveaway-cards">
             {unFinishedPools
               .filter((prize) => prize.status !== "PENDING")
@@ -43,6 +43,7 @@ function HottestGiveaway() {
                 ({ cover, name, id, prize_type, requirements, end_time }) => (
                   <GiveawayCard
                     key={id}
+                    id={id}
                     image={cover}
                     title={name}
                     prizeType={
@@ -100,9 +101,9 @@ function HottestGiveaway() {
 
       {finishedPools && (
         <>
-          <h1 className="mt-8 text-lg home-page-giveaway-cards">
+          <h2 className="mt-8 text-lg font-semibold home-page-giveaway-cards">
             Finished giveaways
-          </h1>
+          </h2>
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-12 home-page-giveaway-cards">
             {finishedPools
               .filter((prize) => prize.status !== "PENDING")
@@ -110,6 +111,7 @@ function HottestGiveaway() {
                 ({ cover, name, id, prize_type, requirements, end_time }) => (
                   <GiveawayCard
                     key={id}
+                    id={id}
                     image={cover}
                     title={name}
                     prizeType={

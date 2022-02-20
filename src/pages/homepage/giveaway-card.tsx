@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 import BoxDefaultImage from "~assets/box-default-image.png";
 
 interface IGiveAwayCard {
+  id: number;
   image: string;
   title: string;
   prizeType: string;
@@ -14,6 +15,7 @@ interface IGiveAwayCard {
   detailLink: string;
 }
 const GiveawayCard: FC<IGiveAwayCard> = ({
+  id,
   image,
   title,
   prizeType,
@@ -48,7 +50,7 @@ const GiveawayCard: FC<IGiveAwayCard> = ({
             />
           </div>
           <div>
-            <h5>{title || "Giveaway box"}</h5>
+            <h5>{(title || "Giveaway box").concat(` #${id}`)}</h5>
             <p className="mt-1 text-sm text-gray-400">{prizeType}</p>
           </div>
         </div>
