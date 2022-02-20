@@ -27,12 +27,9 @@ function MiddleHero() {
         <h2 className="mt-2 text-4xl font-bold text-center text-white sm:text-5xl">
           Supercharged & Automated Giveaways
         </h2>
-        <div className="mt-6" style={{ width: "577px", height: "415px" }}>
+        <div className="mt-6">
           <img
-            style={{ width: "577px", height: "415px" }}
             src={MobileImage}
-            width="577px"
-            height="415px"
             alt="mobile image"
           />
         </div>
