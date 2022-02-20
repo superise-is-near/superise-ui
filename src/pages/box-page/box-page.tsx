@@ -83,6 +83,7 @@ const BoxPage = () => {
       sessionStorage.removeItem("follow");
       sessionStorage.removeItem("endDate");
       sessionStorage.removeItem("endHour");
+      sessionStorage.removeItem("tweet");
     }
   }, [location.search]);
 

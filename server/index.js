@@ -215,6 +215,17 @@ async function main() {
   });
 
   app.post("/send-tweet", async (req, res) => {
+    // Don't acutally send out tweet when debuging in localhost env
+    // We will use an existing tweet for local testing: https://twitter.com/superise_/status/1495298953641816069
+    if (!process.env.NODE_ENV) {
+      res.json({
+        status: "success",
+        message: "success",
+        tweet_id: "1495298953641816069",
+        screen_name: "superise_",
+      });
+      return;
+    }
     const { oauthAccessToken, oauthAccessTokenSecret } = req.session;
     const { content } = req.body;
     if (!oauthAccessToken || !oauthAccessTokenSecret) {
