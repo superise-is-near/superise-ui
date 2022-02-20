@@ -16,7 +16,7 @@ function HomeHero() {
       <img src={heroImage} className="pt-4 mt-12" />
 
       <div className="flex mt-8">
-        <a href="https://github.com/surprise-is-near" target="_blank">
+        <a href="https://github.com/superise-is-near" target="_blank">
           <div className="flex flex-col items-center mr-10 text-sm font-semibold text-center text-gray-700">
             <div className="w-6 h-6 mb-2 overflow-hidden">
               <img
