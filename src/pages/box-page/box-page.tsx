@@ -42,8 +42,10 @@ const BoxPage = () => {
   const twitterPool: TwitterPool = useTwitterPool(Number(id));
   const loginAccountName = wallet.getAccountId();
   const [joining, setJoining] = useState<boolean>(false);
-  const { timeLabel, countdownText, dateText, timeText, fontClass } =
-    useEndtimer((twitterPool || {}).end_time, (twitterPool || {}).status);
+  const { timeLabel, countdownText, dateText, timeText } = useEndtimer(
+    (twitterPool || {}).end_time,
+    (twitterPool || {}).status
+  );
 
   const [parasNfts, setParasNfts] = useState<ParasNft[]>([]);
   const [fts, setFts] = useState<TokenMetadataWithAmount[]>([]);
@@ -389,7 +391,9 @@ const BoxPage = () => {
       <Spacer h="32px" />
       <div className="flex flex-col items-center">
         <span className="font-semibold text-gray-700">CREATED BY</span>
-        <span className="text-gray-500">liaa.near</span>
+        <span className="text-gray-500">
+          {twitterPool.prize_pool.creator_id}
+        </span>
       </div>
     </div>
   );
