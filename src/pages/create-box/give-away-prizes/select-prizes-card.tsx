@@ -128,8 +128,8 @@ const AddNFTOrCryptoCard: FC<IAddNFTOrCryptoCard> = ({
     <>
       <div className="flex justify-between p-4 bg-white border border-gray-300 rounded-t-2xl">
         <div>
-          <div>{hasSelected && "Add another "}NFT</div>
-          <div className="mt-1 text-sm text-gray-400">Paras or Mintbase</div>
+          <div>{hasSelected && "Add another "}Add NFT</div>
+          <div className="mt-1 text-sm text-gray-400">from Paras or Mintbase</div>
         </div>
         <div className="grid place-items-center">
           <img
@@ -146,8 +146,8 @@ const AddNFTOrCryptoCard: FC<IAddNFTOrCryptoCard> = ({
       </div>
       <div className="flex justify-between p-4 bg-white border border-t-0 border-gray-300 rounded-b-2xl">
         <div>
-          <div>{hasSelected && "Add more "}Crypto</div>
-          <div className="mt-1 text-sm text-gray-400">NEAR or OCTA</div>
+          <div>{hasSelected && "Add more "}Add Crypto</div>
+          <div className="mt-1 text-sm text-gray-400">NEAR or OCT</div>
         </div>
         <div className="grid place-items-center">
           <img
