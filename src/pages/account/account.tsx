@@ -60,7 +60,7 @@ const AccountPage = () => {
     return emptyNFT && emptyFT;
   })();
   return (
-    <div className="m-auto mt-5 lg:max-w-2xl">
+    <div className="px-5 m-auto mt-5 lg:max-w-2xl">
       <WithdrawModal
         isOpen={isWithdrawModalOpen}
         nfts={nfts}

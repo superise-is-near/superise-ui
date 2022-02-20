@@ -162,7 +162,7 @@ const BoxPage = () => {
   })();
 
   return (
-    <div className="m-auto lg:max-w-2xl">
+    <div className="px-5 m-auto lg:max-w-2xl">
       {showLoginModal && (
         <RequestSigninModal
           isOpen={showLoginModal}
