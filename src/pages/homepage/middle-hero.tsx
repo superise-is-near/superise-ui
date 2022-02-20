@@ -28,10 +28,7 @@ function MiddleHero() {
           Supercharged & Automated Giveaways
         </h2>
         <div className="mt-6">
-          <img
-            src={MobileImage}
-            alt="mobile image"
-          />
+          <img src={MobileImage} alt="mobile image" />
         </div>
       </section>
     </div>
