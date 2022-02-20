@@ -129,7 +129,9 @@ const AddNFTOrCryptoCard: FC<IAddNFTOrCryptoCard> = ({
       <div className="flex justify-between p-4 bg-white border border-gray-300 rounded-t-2xl">
         <div>
           <div>{hasSelected && "Add another "}Add NFT</div>
-          <div className="mt-1 text-sm text-gray-400">from Paras or Mintbase</div>
+          <div className="mt-1 text-sm text-gray-400">
+            from Paras or Mintbase
+          </div>
         </div>
         <div className="grid place-items-center">
           <img
