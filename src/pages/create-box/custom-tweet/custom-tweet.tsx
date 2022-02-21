@@ -159,7 +159,7 @@ To enter:
 ${requirementTextures
   .map((requirementTexture, index) => `${index + 1}. ${requirementTexture}`)
   .join("\n")}
-👉Join through this link: http://testnet.superise.xyz/box/${boxId}
+👉Join through this link: https://testnet.superise.xyz/box/${boxId}
   `
   );
 
