@@ -17,6 +17,7 @@ import { ParasNft } from "~domain/paras/models";
 import { RequirmentType } from "~domain/superise/twitter_giveaway/models";
 import { useQuery } from "~state/urls";
 import moment from "moment";
+import tapToEditIcon from "~assets/tap-to-edit.svg";
 
 const getRequirementsJSONString = (
   follow: boolean,
@@ -177,6 +178,9 @@ ${requirementTextures
               sessionStorage.setItem("tweet", value);
             }}
           />
+        </div>
+        <div className="mt-2">
+          <img src={tapToEditIcon} />
         </div>
 
         <PrimaryButton
