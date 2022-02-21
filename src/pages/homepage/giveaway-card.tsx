@@ -25,9 +25,9 @@ const GiveawayCard: FC<IGiveAwayCard> = ({
 }) => {
   return (
     <section className="relative">
-      <div className="absolute top-0 w-25 h-25 left-6 rounded-xl overflow-hidden">
+      <div className="absolute top-0 overflow-hidden shadow-lg w-25 h-25 left-6 rounded-xl">
         <img
-          className="w-25 h-25"
+          className="w-md w-25 h-25"
           src={image || BoxDefaultImage}
           alt={image || title}
           width="100px"
@@ -35,10 +35,10 @@ const GiveawayCard: FC<IGiveAwayCard> = ({
         />
       </div>
       <div
-        className="bg-white px-4 pb-4 rounded-2xl border-gray-300 border"
+        className="px-4 pb-4 bg-white border border-gray-300 rounded-2xl"
         style={{ marginTop: "50px", paddingTop: "50px" }}
       >
-        <div className="mt-8 flex">
+        <div className="flex mt-8">
           <div className="w-6 h-6 mr-4">
             <img
               style={{ width: "24px", height: "24px" }}
@@ -55,7 +55,7 @@ const GiveawayCard: FC<IGiveAwayCard> = ({
           </div>
         </div>
 
-        <div className="mt-4 flex">
+        <div className="flex mt-4">
           <div className="w-6 h-6 mr-4">
             <img
               style={{ width: "24px", height: "24px" }}

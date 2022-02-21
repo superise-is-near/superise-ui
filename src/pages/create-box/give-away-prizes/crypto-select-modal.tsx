@@ -51,7 +51,7 @@ const CryptoSelectModal: FC<ICryptoSelectModal> = ({
       isOpen={showCryptoSelectModal}
       onRequestClose={() => setShowCryptoSelectModal(false)}
     >
-      <h3 className="text-2xl font-semibold text-center my-2">
+      <h3 className="my-2 text-2xl font-semibold text-center">
         Select Crypto Prize
       </h3>
       <p
@@ -62,11 +62,26 @@ const CryptoSelectModal: FC<ICryptoSelectModal> = ({
       >
         Available:
         {` ${selectTokenAccracy2Decimal} ${selectToken.symbol}`}
+        <p className="text-sm text-center text-gray-400">
+          {selectTokenAccracy2Decimal === "0" && (
+            <>
+              You don't have enough assets, please swap assets by following this
+              link:{" "}
+              <a
+                className="underline"
+                href="https://testnet.ref.finance/"
+                target="_blank"
+              >
+                https://testnet.ref.finance/
+              </a>
+            </>
+          )}
+        </p>
       </p>
-      <div className="mb-8 border rounded-2xl border-gray-300 p-4 flex justify-between focus-within:border-indigo-600">
+      <div className="flex justify-between p-4 mb-8 border border-gray-300 rounded-2xl focus-within:border-indigo-600">
         <input
           type="text"
-          className="border-0 p-0 m-0"
+          className="p-0 m-0 border-0"
           onChange={(e) => setInputBalance(e.target.value)}
           placeholder={`Amount of ${selectToken.symbol}`}
         />
@@ -74,7 +89,7 @@ const CryptoSelectModal: FC<ICryptoSelectModal> = ({
           tokens={tokens}
           selected={
             <div
-              className="rounded-full overflow-hidden"
+              className="overflow-hidden rounded-full"
               style={{ width: "25px", height: "25px" }}
             >
               <img
