@@ -131,7 +131,7 @@ export class NearActions {
     return functionCall(
       "withdraw_ft",
       {
-        contract_id: contract_id,
+        token_id: contract_id,
         amount: amount,
       },
       NearGas.TGas(50),
