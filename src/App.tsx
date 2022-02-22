@@ -42,6 +42,7 @@ function App() {
         <title>Superise</title>
         <link rel="canonical" href={window.location.href} />
         <meta property="og:url" content={window.location.href} />
+        <meta property="og:type" content="website" />
         <meta
           property="og:title"
           content="Superise: Crypto &amp; NFT giveaways like it's 2077. "
