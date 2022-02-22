@@ -54,10 +54,9 @@ function App() {
           property="og:image"
           content="https://testnet.superise.xyz/hero-image.4acbe8a5.png"
         />
-        <meta
-          name="twitter:card"
-          content="Superise: Crypto &amp; NFT giveaways like it's 2077. "
-        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@superise" />
+        <meta name="twitter:creator" content="@superise_team" />
         <meta
           name="twitter:title"
           content="Superise: Crypto &amp; NFT giveaways like it's 2077. "
