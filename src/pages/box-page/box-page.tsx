@@ -47,6 +47,10 @@ const BoxPage = () => {
     (twitterPool || {}).status
   );
 
+  const [showMoreParticipants, setShowMoreParticipants] = useState<boolean>(
+    false
+  );
+
   const [parasNfts, setParasNfts] = useState<ParasNft[]>([]);
   const [fts, setFts] = useState<TokenMetadataWithAmount[]>([]);
 
@@ -368,7 +372,7 @@ const BoxPage = () => {
         ) : (
           <ul className="-mx-4 -my-4">
             {twitterPool.prize_pool.join_accounts
-              .slice(0, 3)
+              .slice(0, !showMoreParticipants ? 3 : Infinity)
               .map((item, index) => {
                 return (
                   <li
@@ -379,8 +383,12 @@ const BoxPage = () => {
                   </li>
                 );
               })}
-            {twitterPool.prize_pool.join_accounts.length > 3 && (
-              <li className="px-4 py-4 text-base font-normal text-gray-400 text-gray-600 leading-6">
+            {!showMoreParticipants && twitterPool.prize_pool.join_accounts.length > 3 && (
+              <li
+                onClick={() => {
+                  setShowMoreParticipants(true);
+                }}
+                className="px-4 py-4 text-base font-normal text-gray-400 text-gray-600 cursor-pointer leading-6">
                 +{twitterPool.prize_pool.join_accounts.length - 3} more
               </li>
             )}
